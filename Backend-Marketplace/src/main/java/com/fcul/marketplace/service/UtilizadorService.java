@@ -1,0 +1,111 @@
+package com.fcul.marketplace.service;
+
+import com.fcul.marketplace.dto.UtilizadorDTO;
+import com.fcul.marketplace.model.Consumidor;
+import com.fcul.marketplace.model.Fornecedor;
+import com.fcul.marketplace.model.Transporte;
+import com.fcul.marketplace.model.Utilizador;
+import com.fcul.marketplace.repository.ConsumidorRepository;
+import com.fcul.marketplace.repository.FornecedorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityNotFoundException;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class UtilizadorService {
+
+    @Autowired
+    FornecedorRepository fornecedorRepository;
+
+    @Autowired
+    ConsumidorRepository consumidorRepository;
+
+    //============================GET=============================
+
+    public List<Fornecedor> getFornecedores() {
+        return fornecedorRepository.findAll();
+    }
+
+    public Fornecedor getFornecedorByID(Integer id){
+        return fornecedorRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    }
+
+    /* public Consumidor getFornecedorByLocal(Integer id){
+        return null;
+    }*/
+
+    public List<Consumidor> getConsumidores() {
+        return consumidorRepository.findAll();
+    }
+
+    public Consumidor getConsumidorByID(Integer id){
+        return consumidorRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    }
+
+    /* public Consumidor getConsumidorByLocal(Integer id){
+        return null;
+    }*/
+
+    //===========================INSERT===========================
+
+    public Consumidor addConsumidor(Consumidor consumidor){ return consumidorRepository.save(consumidor); }
+
+    public Fornecedor addFornecedor(Fornecedor fornecedor){
+        return fornecedorRepository.save(fornecedor);
+    }
+
+    //===========================UPDATE===========================
+    public Consumidor updateConsumidor(Integer id, Consumidor consumidor) {
+
+        Consumidor consumidorBD = consumidorRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        consumidorBD.setTelemovel(consumidor.getTelemovel());
+        consumidorBD.setContinente(consumidor.getContinente());
+        consumidorBD.setCoordenadas(consumidor.getCoordenadas());
+        consumidorBD.setDistrito(consumidor.getDistrito());
+        consumidorBD.setIdFiscal(consumidor.getIdFiscal());
+        consumidorBD.setMorada(consumidor.getMorada());
+        consumidorBD.setFreguesia(consumidor.getFreguesia());
+        consumidorBD.setPais(consumidor.getPais());
+        consumidorBD.setMunicipio(consumidor.getMunicipio());
+        consumidorBD.setNome(consumidor.getNome());
+        return consumidorRepository.save(consumidorBD);
+    }
+
+    public Fornecedor updateFornecedor(Integer id, Fornecedor fornecedor) {
+        Fornecedor fornecedorBD = fornecedorRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        fornecedorBD.setTelemovel(fornecedor.getTelemovel());
+        fornecedorBD.setContinente(fornecedor.getContinente());
+        fornecedorBD.setCoordenadas(fornecedor.getCoordenadas());
+        fornecedorBD.setDistrito(fornecedor.getDistrito());
+        fornecedorBD.setIdFiscal(fornecedor.getIdFiscal());
+        fornecedorBD.setMorada(fornecedor.getMorada());
+        fornecedorBD.setFreguesia(fornecedor.getFreguesia());
+        fornecedorBD.setPais(fornecedor.getPais());
+        fornecedorBD.setMunicipio(fornecedor.getMunicipio());
+        fornecedorBD.setNome(fornecedor.getNome());
+        return fornecedorRepository.save(fornecedorBD);
+    }
+
+    //===========================DELETE===========================
+
+    public void deleteConsumidor(Integer id){
+        consumidorRepository.deleteById(id);
+    }
+
+    public void deleteConsumidorBatch(List<Integer> ids){
+        consumidorRepository.deleteAllByIdInBatch(ids);
+    }
+
+    public void deleteFornecedor(Integer id){
+        consumidorRepository.deleteById(id);
+    }
+
+    public void deleteFornecedorBatch(List<Integer> ids){
+        fornecedorRepository.deleteAllByIdInBatch(ids);
+    }
+
+
+}
