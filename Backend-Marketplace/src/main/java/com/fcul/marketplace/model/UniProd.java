@@ -3,23 +3,25 @@ package com.fcul.marketplace.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 @Entity
+@Table(name = "UnidadeProducao")
 @Data
-public class UnidadeProducao {
+public class UniProd {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idUnidade;
 
-    private String regiao;
+    private String nomeUniProd;
 
-    @ManyToMany
-    private List<Fornecedor> fornecedores;
+    @ManyToOne
+    @JoinColumn(name = "fornecedorId")
+    private Fornecedor fornecedor;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "uniProds")
     private List<Produto> produtos;
 
 }

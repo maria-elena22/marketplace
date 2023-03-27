@@ -1,8 +1,5 @@
 package com.fcul.marketplace.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonRawValue;
 import lombok.Data;
 
 import javax.persistence.*;

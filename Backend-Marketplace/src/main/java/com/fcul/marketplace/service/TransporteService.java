@@ -1,9 +1,8 @@
 package com.fcul.marketplace.service;
 
-import com.fcul.marketplace.model.Categoria;
 import com.fcul.marketplace.model.Fornecedor;
 import com.fcul.marketplace.model.Transporte;
-import com.fcul.marketplace.repository.FornecedorRepository;
+import com.fcul.marketplace.model.enums.EstadoTransporte;
 import com.fcul.marketplace.repository.TransporteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,27 +16,40 @@ public class TransporteService {
     @Autowired
     TransporteRepository transporteRepository;
 
+    @Autowired
+    UtilizadorService utilizadorService;
+
     //============================GET=============================
 
-    public List<Transporte> getTransportes() {
-        return transporteRepository.findAll();
-    }
-
-    public Transporte getTransporteById(Integer id){
+    public Transporte getTransporteById(Integer id) {
         return transporteRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
-    /*public List<Transporte> getTransportesFornecedor(Integer idFornecedor){
-        return transporteRepository.findByFornecedorId(idFornecedor);
-    }*/
+    public List<Transporte> getTransportesFornecedor(Integer idFornecedor, EstadoTransporte estadoTransporte, Integer page, Integer size, String sortKey, Sort.Direction sortDir) {
+        Pageable pageable = PageableUtils.getDefaultPageable(page, size, sortDir, sortKey);
+
+        return transporteRepository.findByFornecedorIdUtilizador(idFornecedor, estadoTransporte, pageable).getContent();
+
+    }
 
     //===========================INSERT===========================
 
-    public Transporte addTransporte(Transporte transporte) {
-        return transporteRepository.save(transporte);
+    @Transactional
+    public Transporte addTransporte(Transporte transporte, Integer idFornecedor) {
+        Fornecedor fornecedor = utilizadorService.getFornecedorByID(idFornecedor);
+        //TODO
+        //transporte.setFornecedor(fornecedor);
+        transporte = transporteRepository.save(transporte);
+        return transporte;
     }
-
     //===========================UPDATE===========================
+
+    public Transporte updateTransporte(Integer idTransporte, Transporte transporte) {
+        Transporte transporteBD = transporteRepository.findById(idTransporte).orElseThrow(EntityNotFoundException::new);
+        transporteBD.setEstadoTransporte(transporte.getEstadoTransporte());
+        transporteBD.setMatricula(transporte.getMatricula());
+        return transporteRepository.save(transporteBD);
+    }
 
     //===========================DELETE===========================
 
@@ -45,8 +57,9 @@ public class TransporteService {
         transporteRepository.deleteById(id);
     }
 
-    public void deleteTransporteBatch(List<Integer> ids){
+    public void deleteTransporteBatch(List<Integer> ids) {
         transporteRepository.deleteAllByIdInBatch(ids);
     }
+
 
 }

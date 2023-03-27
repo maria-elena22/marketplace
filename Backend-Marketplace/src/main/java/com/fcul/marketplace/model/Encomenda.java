@@ -1,7 +1,6 @@
 package com.fcul.marketplace.model;
 
 import com.fcul.marketplace.model.enums.EstadoEncomenda;
-import com.fcul.marketplace.model.enums.Pagamento;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -16,23 +15,19 @@ public class Encomenda {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idEncomenda;
 
-    private Integer quantidade;
-
     private Double preco;
-
-    private Date dataEntrega;
 
     private EstadoEncomenda estadoEncomenda;
 
-    private Pagamento tipoPagamento;
+    private Date dataEncomenda;
 
     @ManyToOne
+    @JoinColumn(name = "consumidor_id")
     private Consumidor consumidor;
 
-    @ManyToMany
-    private List<Fornecedor> fornecedores;
+    @OneToMany(mappedBy = "encomenda", cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<SubEncomenda> subEncomendas;
 
-    @OneToMany
-    private List<Produto> produtos;
+
 
 }

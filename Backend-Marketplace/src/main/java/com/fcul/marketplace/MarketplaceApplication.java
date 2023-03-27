@@ -8,14 +8,14 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class MarketplaceApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(MarketplaceApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(MarketplaceApplication.class, args);
+    }
 
-	@Bean
-	public ModelMapper getModelMapper(){
-		return new ModelMapper();
-	}
+    @Bean
+    public ModelMapper getModelMapper() {
+        return new ModelMapper();
+    }
 
 
 }

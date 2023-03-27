@@ -1,6 +1,10 @@
 package com.fcul.marketplace.dto;
 
+import com.fcul.marketplace.model.utils.Coordinate;
+import com.fcul.marketplace.model.enums.Continente;
 import lombok.Data;
+
+import java.util.Locale;
 
 @Data
 public class UtilizadorDTO {
@@ -23,7 +27,7 @@ public class UtilizadorDTO {
 
     private String distrito;
 
-    private String pais;
+    private Locale.IsoCountryCode pais;
 
-    private String continente;
+    private Continente continente;
 }

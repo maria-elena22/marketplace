@@ -3,11 +3,9 @@ package com.fcul.marketplace.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.util.List;
+import java.util.Locale;
 
 @MappedSuperclass
 @Data

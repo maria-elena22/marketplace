@@ -1,7 +1,6 @@
 package com.fcul.marketplace.model;
 
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -11,7 +10,8 @@ import java.util.List;
 @Data
 public class Categoria {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idCategoria;
 
     private String nomeCategoria;
@@ -21,6 +21,6 @@ public class Categoria {
             inverseJoinColumns = @JoinColumn(name = "id_propriedade"))
     private List<Propriedade> propriedades;
 
-    @OneToMany(mappedBy = "categoria")
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SubCategoria> subCategorias;
 }

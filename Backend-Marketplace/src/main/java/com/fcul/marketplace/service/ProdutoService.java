@@ -1,15 +1,16 @@
 package com.fcul.marketplace.service;
 
-import com.fcul.marketplace.model.Encomenda;
-import com.fcul.marketplace.model.Fornecedor;
-import com.fcul.marketplace.model.Produto;
+import com.fcul.marketplace.exceptions.MissingPropertiesException;
+import com.fcul.marketplace.exceptions.TooMuchPropertiesException;
+import com.fcul.marketplace.model.*;
 import com.fcul.marketplace.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.sql.Date;
-import java.util.List;
+import javax.transaction.Transactional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ProdutoService {
@@ -17,46 +18,145 @@ public class ProdutoService {
     @Autowired
     ProdutoRepository produtoRepository;
 
+    @Autowired
+    EncomendaService encomendaService;
+
+    @Autowired
+    UniProdService uniProdService;
+
+    @Autowired
+    UtilizadorService utilizadorService;
+
+    @Autowired
+    CategoriaService categoriaService;
+
     //============================GET=============================
 
     public List<Produto> getProdutos() {
         return produtoRepository.findAll();
     }
 
-    public Produto getProdutoByID(Integer id){
+    public Produto getProdutoByID(Integer id) {
         return produtoRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
-    public List<Produto> getProdutosByCategoria(Integer categoriaId){
+    public List<Produto> getProdutosByCategoria(Integer categoriaId) {
         return produtoRepository.findByCategoria(categoriaId);
     }
 
-    public List<Produto> getProdutosBySubCategoria(Integer subCategoriaId){
+    public List<Produto> getProdutosBySubCategoria(Integer subCategoriaId) {
         return produtoRepository.findBySubCategoria(subCategoriaId);
     }
 
-    public List<Produto> getProdutosByNome(String nome){
+    public List<Produto> getProdutosByNome(String nome) {
         return produtoRepository.findByNomeContaining(nome);
     }
 
     public List<Produto> getProdutosFiltro(String nome, Double precoMin, Double precoMax, Integer idCategoria) {
-        return produtoRepository.getFilteredProducts(nome,precoMax,precoMin,idCategoria);
+        return produtoRepository.getFilteredProducts(nome, precoMax, precoMin, idCategoria);
+    }
+
+//    public List<Produto> getProdutosByFornecedor(Integer idFornecedor) {
+//        return produtoRepository.findByFornecedorIdUtilizador(idFornecedor);
+//    }
+
+    public List<Produto> getProdutosByEncomenda(Integer idEncomenda) {
+//        Encomenda encomenda = encomendaService.getEncomendaByID(idEncomenda);
+//        Set<Produto> produtos = new HashSet<>();
+//        encomenda.getItens().stream().forEach(item -> produtos.add(item.getProduto()));
+//        return new ArrayList<>(produtos);
+        //TODO
+        return null;
+    }
+
+    public List<Produto> getProdutosByUniProd(Integer idUnidade) {
+        UniProd uniProd = uniProdService.getUniProdByID(idUnidade);
+        return uniProd.getProdutos();
     }
 
     //===========================INSERT===========================
 
-    public Produto addProduto(Produto produto) { return produtoRepository.save(produto); }
+    @Transactional
+    public Produto addProduto(Produto produto, List<Integer> uniProdsIds,
+                              List<Integer> subCategoriasIds, Map<Integer, String> propriedades) throws MissingPropertiesException, TooMuchPropertiesException {
+
+        List<SubCategoria> subCategorias = subCategoriasIds.stream().map(i -> categoriaService.getSubCategoriaByID(i)).collect(Collectors.toList());
+        produto.setSubCategorias(subCategorias);
+
+        List<UniProd> uniProds = uniProdsIds.stream().map(j -> uniProdService.getUniProdByID(j)).collect(Collectors.toList());
+        produto.setUniProds(uniProds);
+
+        Map<Propriedade, String> propriedadeMap = convertPropriedadesMap(propriedades);
+        produto.setPropriedades(propriedadeMap);
+
+        verifyProdutoPropriedades(produto);
+
+
+        return produtoRepository.save(produto);
+    }
 
 
     //===========================UPDATE===========================
     //update produto
 
     //===========================DELETE===========================
-    public void deleteProduto(Integer id){
+    public void deleteProduto(Integer id) {
         produtoRepository.deleteById(id);
     }
 
-    public void deleteProdutoBatch(List<Integer> ids){
+    public void deleteProdutoBatch(List<Integer> ids) {
         produtoRepository.deleteAllByIdInBatch(ids);
+    }
+
+
+    //===========================AUX===========================
+
+    private Collection<Propriedade> getAllPropriedadesFromSubCategoriasAux(List<SubCategoria> subCategorias) {
+        Set<Propriedade> propriedadeSet = new HashSet<>();
+        subCategorias.stream().forEach(subCategoria -> propriedadeSet.addAll(subCategoria.getCategoria().getPropriedades()));
+        return propriedadeSet;
+    }
+
+    private Map<Propriedade, String> convertPropriedadesMap(Map<Integer, String> propriedadesIntMap) {
+        Map<Propriedade, String> propriedadeMap = new HashMap<>();
+        propriedadesIntMap.entrySet().stream().forEach(entry -> {
+            Propriedade prop = categoriaService.getPropriedadeByID(entry.getKey());
+            propriedadeMap.put(prop, entry.getValue());
+        });
+        return propriedadeMap;
+
+    }
+
+
+    private void verifyProdutoPropriedades(Produto produto) throws MissingPropertiesException, TooMuchPropertiesException {
+
+        //Propriedades existentes no objecto
+        Map<Propriedade, String> propriedades = produto.getPropriedades();
+
+        //Propriedades q deve ter
+        Collection<Propriedade> propriedadesToVerify = getAllPropriedadesFromSubCategoriasAux(produto.getSubCategorias());
+
+        List<Propriedade> exceedingProperties = new ArrayList<>();
+
+        propriedades.entrySet().forEach(entry -> {
+
+
+            if (!propriedadesToVerify.contains(entry.getKey())) {
+                //Esta propriedade esta a mais
+                exceedingProperties.add(entry.getKey());
+            } else {
+                propriedadesToVerify.remove(entry.getKey());
+            }
+
+        });
+
+        if (!propriedadesToVerify.isEmpty()) {
+            //Existem propriedades em falta no objeto
+            throw new MissingPropertiesException("As propriedades" + propriedadesToVerify + " encontram-se em falta");
+        }
+        if (!exceedingProperties.isEmpty()) {
+            //Existem propriedades a mais no objeto
+            throw new TooMuchPropertiesException("As propriedades" + exceedingProperties + " encontram-se a mais");
+        }
     }
 }

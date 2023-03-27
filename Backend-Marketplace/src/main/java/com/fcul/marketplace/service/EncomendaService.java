@@ -19,9 +19,11 @@ public class EncomendaService {
 
     //============================GET=============================
 
-    public List<Encomenda> getEncomendas() { return encomendaRepository.findAll(); }
+    public List<Encomenda> getEncomendas() {
+        return encomendaRepository.findAll();
+    }
 
-    public Encomenda getEncomendaByID(Integer id){
+    public Encomenda getEncomendaByID(Integer id) {
         return encomendaRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
@@ -43,16 +45,96 @@ public class EncomendaService {
 
     //===========================UPDATE===========================
 
-    //update estado encomenda
-    //update data entrega
+
+    public Encomenda cancelEncomenda(Integer idEncomenda) throws EncomendaAlreadyCancelledException,EncomendaCannotBeCancelledException{
+
+        Encomenda encomenda = this.getEncomendaByID(idEncomenda);
+        if(encomenda.getEstadoEncomenda().equals(EstadoEncomenda.CANCELADO)){
+            throw new EncomendaAlreadyCancelledException("Esta encomenda ja se encontra cancelada");
+        }
+        if(encomenda.getEstadoEncomenda().equals(EstadoEncomenda.A_PROCESSAR)){
+            throw new EncomendaCannotBeCancelledException("Esta encomenda ja nao pode ser cancelada");
+
+        }
+
+        encomenda.setEstadoEncomenda(EstadoEncomenda.CANCELADO);
+
+        return encomendaRepository.save(encomenda);
+
+
+
+    }
 
     //===========================DELETE===========================
 
-    public void deleteEncomenda(Integer id){
+    public void deleteEncomenda(Integer id) {
         encomendaRepository.deleteById(id);
     }
 
-    public void deleteEncomendaBatch(List<Integer> ids){
+    public void deleteEncomendaBatch(List<Integer> ids) {
         encomendaRepository.deleteAllByIdInBatch(ids);
+    }
+
+    private Encomenda getSubEncomendas(Encomenda encomenda,List<Item> items){
+        //uma lista de produtos por fornecedor
+        //TODO
+        /*List<List<Item>> ItemsByFornecedor = this.splitByFornecedor(items);
+
+        List<SubEncomenda> subEncomendas = new ArrayList<>();
+
+
+        for(List<Item> listaItensPerFornecedor : ItemsByFornecedor){
+            SubEncomenda subencomenda = new SubEncomenda();
+
+            subencomenda.setDataEncomenda(encomenda.getDataEncomenda());
+            subencomenda.setEstadoEncomenda(encomenda.getEstadoEncomenda());
+            //subencomenda.setConsumidor(encomenda.getConsumidor());
+            subencomenda.setPreco(listaItensPerFornecedor.stream().mapToDouble(item -> item.getProduto().getPreco()).reduce(0,Double::sum));
+            subencomenda.setItems(listaItensPerFornecedor);
+            //encomendas.add(subencomenda);
+        }
+
+        encomenda.setSubEncomendas(subEncomendas);*/
+        return encomenda;
+    }
+
+    public Map<Fornecedor,List<Item>> splitByFornecedor(List<SimpleItemDTO> itens) {
+
+        Map<Fornecedor,List<Item>> itensPorFornecedor = new HashMap<>();
+
+        for(SimpleItemDTO simpleItemDTO : itens){
+
+            Fornecedor fornecedor = utilizadorService.getFornecedorByID(simpleItemDTO.getFornecedorId());
+            Produto produto = produtoService.getProdutoByID(simpleItemDTO.getProdutoId());
+
+
+            if(!itensPorFornecedor.containsKey(fornecedor)) {
+                itensPorFornecedor.put(fornecedor, new ArrayList<>());
+            }
+
+            Item item = new Item();
+            item.setProduto(produto);
+            item.setEntregue(false);
+            item.setQuantidade(simpleItemDTO.getQuantidade());
+
+            itensPorFornecedor.get(fornecedor).add(item);
+
+
+
+
+
+
+        }
+
+        return itensPorFornecedor;
+
+
+
+    }
+
+
+    public void setItemAsEntregue(Item item) {
+        //todo
+        item = null;
     }
 }

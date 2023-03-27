@@ -1,7 +1,6 @@
 package com.fcul.marketplace.model;
 
 import com.fcul.marketplace.model.enums.EstadoTransporte;
-import com.fcul.marketplace.model.enums.Pagamento;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,7 +18,7 @@ public class Transporte {
 
     private EstadoTransporte estadoTransporte;
 
-    @OneToMany
+    @OneToMany(mappedBy = "transporte", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Viagem> viagens;
 
     @ManyToOne

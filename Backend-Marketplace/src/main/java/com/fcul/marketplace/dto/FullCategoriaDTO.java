@@ -5,8 +5,11 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class CategoriaPropriedadesDTO extends CategoriaDTO{
+public class FullCategoriaDTO extends CategoriaDTO {
 
     private List<PropriedadeDTO> propriedadesList;
+
+    private List<SubCategoriaDTO> subCategoriaList;
+
 
 }

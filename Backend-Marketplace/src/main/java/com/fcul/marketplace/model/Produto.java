@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Data
@@ -14,7 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Produto {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idProduto;
 
     private String nome;

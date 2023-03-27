@@ -1,10 +1,7 @@
 package com.fcul.marketplace.service;
 
-import com.fcul.marketplace.dto.UtilizadorDTO;
 import com.fcul.marketplace.model.Consumidor;
 import com.fcul.marketplace.model.Fornecedor;
-import com.fcul.marketplace.model.Transporte;
-import com.fcul.marketplace.model.Utilizador;
 import com.fcul.marketplace.repository.ConsumidorRepository;
 import com.fcul.marketplace.repository.FornecedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UtilizadorService {
@@ -29,7 +25,7 @@ public class UtilizadorService {
         return fornecedorRepository.findAll();
     }
 
-    public Fornecedor getFornecedorByID(Integer id){
+    public Fornecedor getFornecedorByID(Integer id) {
         return fornecedorRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
@@ -41,7 +37,7 @@ public class UtilizadorService {
         return consumidorRepository.findAll();
     }
 
-    public Consumidor getConsumidorByID(Integer id){
+    public Consumidor getConsumidorByID(Integer id) {
         return consumidorRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
@@ -51,9 +47,11 @@ public class UtilizadorService {
 
     //===========================INSERT===========================
 
-    public Consumidor addConsumidor(Consumidor consumidor){ return consumidorRepository.save(consumidor); }
+    public Consumidor addConsumidor(Consumidor consumidor) {
+        return consumidorRepository.save(consumidor);
+    }
 
-    public Fornecedor addFornecedor(Fornecedor fornecedor){
+    public Fornecedor addFornecedor(Fornecedor fornecedor) {
         return fornecedorRepository.save(fornecedor);
     }
 
@@ -91,19 +89,19 @@ public class UtilizadorService {
 
     //===========================DELETE===========================
 
-    public void deleteConsumidor(Integer id){
+    public void deleteConsumidor(Integer id) {
         consumidorRepository.deleteById(id);
     }
 
-    public void deleteConsumidorBatch(List<Integer> ids){
+    public void deleteConsumidorBatch(List<Integer> ids) {
         consumidorRepository.deleteAllByIdInBatch(ids);
     }
 
-    public void deleteFornecedor(Integer id){
-        consumidorRepository.deleteById(id);
+    public void deleteFornecedor(Integer id) {
+        fornecedorRepository.deleteById(id);
     }
 
-    public void deleteFornecedorBatch(List<Integer> ids){
+    public void deleteFornecedorBatch(List<Integer> ids) {
         fornecedorRepository.deleteAllByIdInBatch(ids);
     }
 

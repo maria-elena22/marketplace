@@ -1,7 +1,6 @@
 package com.fcul.marketplace.service;
 
 import com.fcul.marketplace.model.Categoria;
-import com.fcul.marketplace.model.Encomenda;
 import com.fcul.marketplace.model.Propriedade;
 import com.fcul.marketplace.model.SubCategoria;
 import com.fcul.marketplace.repository.CategoriaRepository;
@@ -35,16 +34,16 @@ public class CategoriaService {
         return categoriaRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
-    public List<SubCategoria> getSubcategorias(){
-        return subCategoriaRepository.findAll();
+    public List<SubCategoria> getSubcategorias(Integer idCategoria) {
+        return subCategoriaRepository.findByCategoriaIdCategoria(idCategoria);
     }
 
-    public List<SubCategoria> getSubcategoriasByCategoria(Integer categoriaId){
+    public List<SubCategoria> getSubcategoriasByCategoria(Integer categoriaId) {
         Categoria categoria = categoriaRepository.findById(categoriaId).orElseThrow(EntityNotFoundException::new);
         return categoria.getSubCategorias();
     }
 
-    public SubCategoria getSubCategoriaByID(Integer id){
+    public SubCategoria getSubCategoriaByID(Integer id) {
         return subCategoriaRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
@@ -52,11 +51,11 @@ public class CategoriaService {
         return propriedadeRepository.findAll();
     }
 
-    public Propriedade getPropriedadeByID(Integer id){
+    public Propriedade getPropriedadeByID(Integer id) {
         return propriedadeRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
-    public List<Propriedade> getPropriedadesByCategoria(Integer categoriaId){
+    public List<Propriedade> getPropriedadesByCategoria(Integer categoriaId) {
         Categoria categoria = categoriaRepository.findById(categoriaId).orElseThrow(EntityNotFoundException::new);
         return categoria.getPropriedades();
     }
@@ -67,11 +66,15 @@ public class CategoriaService {
         return categoriaRepository.save(categoria);
     }
 
-    public SubCategoria addSubCategoria(SubCategoria subCategoria){
-        return subCategoriaRepository.save(subCategoria);
+    public SubCategoria addSubCategoria(SubCategoria subCategoria, Integer idCategoria) {
+        Categoria categoria = categoriaRepository.findById(idCategoria).orElseThrow(EntityNotFoundException::new);
+        subCategoria.setCategoria(categoria);
+        subCategoria = subCategoriaRepository.save(subCategoria);
+        return subCategoria;
+
     }
 
-    public Categoria addPropriedade(Integer categoriaId, Propriedade propriedade){
+    public Categoria addPropriedade(Integer categoriaId, Propriedade propriedade) {
         Categoria categoria = categoriaRepository.findById(categoriaId).orElseThrow(EntityNotFoundException::new);
         propriedade = propriedadeRepository.save(propriedade);
         categoria.getPropriedades().add(propriedade);
@@ -96,7 +99,9 @@ public class CategoriaService {
     }
 
     public SubCategoria updateSubcategoria(Integer id, SubCategoria subCategoria) {
-        return null;
+        SubCategoria subCategoriaBD = subCategoriaRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        subCategoriaBD.setNomeSubCategoria(subCategoria.getNomeSubCategoria());
+        return subCategoriaRepository.save(subCategoriaBD);
     }
 
     public Categoria addExistingPropriedadeToCategoria(Integer categoriaId, Integer propriedadeId) {
@@ -108,21 +113,27 @@ public class CategoriaService {
 
      //===========================DELETE===========================
 
-    public void deleteCategoria(Integer id){ categoriaRepository.deleteById(id); }
+    public void deleteCategoria(Integer id) {
+        categoriaRepository.deleteById(id);
+    }
 
-    public void deleteCategoriaBatch(List<Integer> ids){
+    public void deleteCategoriaBatch(List<Integer> ids) {
         categoriaRepository.deleteAllByIdInBatch(ids);
     }
 
-    public void deleteSubCategoria(Integer id){ subCategoriaRepository.deleteById(id); }
+    public void deleteSubCategoria(Integer id) {
+        subCategoriaRepository.deleteById(id);
+    }
 
-    public void deleteSubCategoriaBatch(List<Integer> ids){
+    public void deleteSubCategoriaBatch(List<Integer> ids) {
         subCategoriaRepository.deleteAllByIdInBatch(ids);
     }
 
-    public void deletePropriedade(Integer id){ propriedadeRepository.deleteById(id); }
+    public void deletePropriedade(Integer id) {
+        propriedadeRepository.deleteById(id);
+    }
 
-    public void deletePropriedadeBatch(List<Integer> ids){
+    public void deletePropriedadeBatch(List<Integer> ids) {
         propriedadeRepository.deleteAllByIdInBatch(ids);
     }
 

@@ -12,21 +12,19 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class Fornecedor extends Utilizador{
+@DiscriminatorValue("Fornecedor")
+public class Fornecedor extends Utilizador {
 
-    @OneToMany
-    private List<Transporte> transportes;
+    @OneToMany(mappedBy = "fornecedor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UniProd> unidadesProducao;
 
-    @ManyToMany
-    private List<UnidadeProducao> unidadesProducao;
-
-    public Fornecedor(){
+    public Fornecedor() {
         super();
     }
 
-    public Fornecedor(Integer idFiscal, String nome, Integer telemovel, String coordenadas,
+    public Fornecedor(Integer idFiscal, String nome, Integer telemovel, Coordinate coordenadas,
                       String morada, String freguesia, String municipio, String distrito,
-                      String pais, String continente){
-        super(null,idFiscal,nome,telemovel,coordenadas,morada,freguesia,municipio,distrito,pais,continente);
+                      Locale.IsoCountryCode pais, Continente continente) {
+        super(null, idFiscal, nome, telemovel, coordenadas, morada, freguesia, municipio, distrito, pais, continente);
     }
 }
