@@ -17,7 +17,7 @@ public class UtilizadorDTO {
 
     private Integer telemovel;
 
-    private String coordenadas;
+    private Coordinate coordenadas;
 
     private String morada;
 

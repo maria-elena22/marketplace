@@ -62,4 +62,8 @@ public class ViagemService {
     }
 
 
+    public List<Viagem> getViagensByTransporte(Integer idTransporte, Integer page, Integer size, String sortKey, Sort.Direction sortDir) {
+        Pageable pageable = PageableUtils.getDefaultPageable(page, size, sortDir, sortKey);
+        return viagemRepository.findByTransporteIdTransporte(idTransporte, pageable).getContent();
+    }
 }

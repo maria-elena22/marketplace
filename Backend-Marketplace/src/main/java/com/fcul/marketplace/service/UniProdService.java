@@ -52,7 +52,13 @@ public class UniProdService {
 
     //===========================UPDATE===========================//
 
-    //===========================DELETE===========================
+    public UniProd updateUniProd(Integer idUniProd, UniProd uniProd) {
+        UniProd uniProdBD = uniProdRepository.findById(idUniProd).orElseThrow(EntityNotFoundException::new);
+        uniProdBD.setNomeUniProd(uniProd.getNomeUniProd());
+        return uniProdRepository.save(uniProdBD);
+    }
+
+    //===========================DELETE===========================//
 
     public void deleteUniProd(Integer id) {
         uniProdRepository.deleteById(id);

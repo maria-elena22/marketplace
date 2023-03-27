@@ -24,4 +24,16 @@ public class UniProd {
     @ManyToMany(mappedBy = "uniProds")
     private List<Produto> produtos;
 
+    @OneToMany(mappedBy = "unidadeDeProducao", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transporte> transportes;
+
+
+
+    @ElementCollection
+    @MapKeyColumn(name = "produto")
+    @Column(name = "stock")
+    @CollectionTable(name = "stock", joinColumns = {@JoinColumn(name = "unidade_producao_id",
+            referencedColumnName = "idUnidade")})
+    private Map<Produto, Integer> produtoStockInteger;
+
 }

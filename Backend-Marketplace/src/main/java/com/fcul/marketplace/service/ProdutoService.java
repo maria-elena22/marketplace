@@ -97,7 +97,47 @@ public class ProdutoService {
 
 
     //===========================UPDATE===========================
-    //update produto
+    public Produto updateProduto(Integer id, Produto produto) {
+        Produto produtoBD = produtoRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        produtoBD.setNome(produto.getNome());
+        produtoBD.setVatValue(produto.getVatValue());
+        produtoBD.setPreco(produto.getPreco());
+        produtoBD.setDataProducao(produto.getDataProducao());
+        return produtoRepository.save(produtoBD);
+    }
+
+    public Produto addUniProds(Integer produtoId, List<Integer> uniProdsIds) {
+        List<UniProd> uniProds = uniProdsIds.stream().map(id -> uniProdService.getUniProdByID(id)).collect(Collectors.toList());
+        Produto produto = this.getProdutoByID(produtoId);
+        produto.getUniProds().addAll(uniProds);
+        return produtoRepository.save(produto);
+    }
+
+    public Produto removeUniProds(Integer produtoId, List<Integer> uniProdsIds) {
+        List<UniProd> uniProds = uniProdsIds.stream().map(id -> uniProdService.getUniProdByID(id)).collect(Collectors.toList());
+        Produto produto = this.getProdutoByID(produtoId);
+        produto.getUniProds().removeAll(uniProds);
+        return produtoRepository.save(produto);
+    }
+
+    public Produto addSubCategorias(Integer produtoId, List<Integer> subCategoriasIds, Map<Integer, String> propriedades) throws MissingPropertiesException, TooMuchPropertiesException {
+        Produto produto = this.getProdutoByID(produtoId);
+        List<SubCategoria> subCategorias = subCategoriasIds.stream().map(id -> categoriaService.getSubCategoriaByID(id)).collect(Collectors.toList());
+        Map<Propriedade, String> propriedadeMap = convertPropriedadesMap(propriedades);
+        produto.getSubCategorias().addAll(subCategorias);
+        produto.getPropriedades().putAll(propriedadeMap);
+        verifyProdutoPropriedades(produto);
+        return produtoRepository.save(produto);
+    }
+
+    public Produto removeSubCategorias(Integer produtoId, List<Integer> subCategoriasIds) {
+        Produto produto = this.getProdutoByID(produtoId);
+        List<SubCategoria> subCategorias = subCategoriasIds.stream().map(id -> categoriaService.getSubCategoriaByID(id)).collect(Collectors.toList());
+        Collection<Propriedade> propriedades = getAllPropriedadesFromSubCategoriasAux(subCategorias);
+        produto.getPropriedades().remove(propriedades);
+        produto.getSubCategorias().removeAll(subCategorias);
+        return produtoRepository.save(produto);
+    }
 
     //===========================DELETE===========================
     public void deleteProduto(Integer id) {

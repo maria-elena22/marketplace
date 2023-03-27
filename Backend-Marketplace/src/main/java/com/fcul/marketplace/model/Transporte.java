@@ -22,5 +22,6 @@ public class Transporte {
     private List<Viagem> viagens;
 
     @ManyToOne
-    private Fornecedor fornecedor;
+    @JoinColumn(name = "uniProd")
+    private UniProd unidadeDeProducao;
 }

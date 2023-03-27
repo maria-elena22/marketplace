@@ -15,7 +15,10 @@ public class SubCategoria {
     private String nomeSubCategoria;
 
     @ManyToOne
-    @JoinColumn(name="categoriaId")
+    @JoinColumn(name = "fornecedor_id")
+    private Fornecedor fornecedor;
+
+    @ManyToOne
     private Categoria categoria;
 
 }

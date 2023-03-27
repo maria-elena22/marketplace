@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -90,7 +91,7 @@ public class CategoriaControllerAPI {
                                                 @RequestParam(required = false) String sortKey,
                                                 @RequestParam(required = false) Sort.Direction sortDir) {
 
-        List<Propriedade> propriedades = categoriaService.getPropriedades();
+        List<Propriedade> propriedades = categoriaService.getPropriedades(nomePropriedade, page, size, sortKey, sortDir);
         List<PropriedadeDTO> propriedadeDTOS = propriedades.stream()
                 .map(propriedade -> modelMapper.map(propriedade, PropriedadeDTO.class)).collect(Collectors.toList());
 

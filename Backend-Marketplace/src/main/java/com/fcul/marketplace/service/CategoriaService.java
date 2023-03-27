@@ -6,10 +6,14 @@ import com.fcul.marketplace.model.SubCategoria;
 import com.fcul.marketplace.repository.CategoriaRepository;
 import com.fcul.marketplace.repository.PropriedadeRepository;
 import com.fcul.marketplace.repository.SubCategoriaRepository;
+import com.fcul.marketplace.repository.utils.PageableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,11 +30,16 @@ public class CategoriaService {
 
     //============================GET=============================
 
-    public List<Categoria> getCategorias() {
-        return categoriaRepository.findAll();
+    public List<Categoria> getCategorias(String nomeCategoria, Integer page
+            , Integer size, String sortKey, Sort.Direction sortDir) {
+        Pageable pageable = PageableUtils.getDefaultPageable(page, size, sortDir, sortKey);
+
+        return categoriaRepository.findByOpt(nomeCategoria, pageable).getContent();
+
     }
 
-    public Categoria getCategoriaByID(Integer id){
+
+    public Categoria getCategoriaByID(Integer id) {
         return categoriaRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
@@ -45,6 +54,13 @@ public class CategoriaService {
 
     public SubCategoria getSubCategoriaByID(Integer id) {
         return subCategoriaRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    }
+
+    public List<Propriedade> getPropriedades(String nomePropriedade, Integer page, Integer size, String sortKey, Sort.Direction sortDir) {
+
+        Pageable pageable = PageableUtils.getDefaultPageable(page, size, sortDir, sortKey);
+
+        return propriedadeRepository.findByOpt(nomePropriedade, pageable).getContent();
     }
 
     public List<Propriedade> getPropriedades() {
@@ -62,7 +78,8 @@ public class CategoriaService {
 
     //===========================INSERT===========================
 
-    public Categoria addCategoria(Categoria categoria){
+    public Categoria addCategoria(Categoria categoria) {
+        categoria.setSubCategorias(new ArrayList<>());
         return categoriaRepository.save(categoria);
     }
 
@@ -111,7 +128,14 @@ public class CategoriaService {
         return categoriaRepository.save(categoria);
     }
 
-     //===========================DELETE===========================
+    public Categoria removeExistingPropriedadeFromCategoria(Integer categoriaId, Integer propriedadeId) {
+        Propriedade propriedade = propriedadeRepository.findById(propriedadeId).orElseThrow(EntityNotFoundException::new);
+        Categoria categoria = categoriaRepository.findById(categoriaId).orElseThrow(EntityNotFoundException::new);
+        categoria.getPropriedades().remove(propriedade);
+        return categoriaRepository.save(categoria);
+    }
+
+    //===========================DELETE===========================
 
     public void deleteCategoria(Integer id) {
         categoriaRepository.deleteById(id);
