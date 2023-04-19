@@ -12,6 +12,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RegisterComponent } from './register/register.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { CestoComponent } from './cesto/cesto.component';
+import { AdminConsumidorComponent } from './admin-consumidor/admin-consumidor.component';
+import { ConsumidorHistoricoComponent } from './consumidor-historico/consumidor-historico.component';
+import { DetalhesEncomendaConsumidorComponent } from './detalhes-encomenda-consumidor/detalhes-encomenda-consumidor.component';
+import { PerfilConsumidorComponent } from './perfil-consumidor/perfil-consumidor.component';
+import { AdminFornecedorComponent } from './admin-fornecedor/admin-fornecedor.component';
+import { TransportesComponent } from './transportes/transportes.component';
+import { PagamentoComponent } from './pagamento/pagamento.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 
 const appRoutes: Routes = [
@@ -21,7 +29,14 @@ const appRoutes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'cesto', component: CestoComponent },
-  
+  { path: 'admin-consumidor', component: AdminConsumidorComponent},
+  { path: 'admin-fornecedor', component: AdminFornecedorComponent },
+  { path: 'consumidor-historico', component: ConsumidorHistoricoComponent},
+  { path: 'detalhes-encomenda-consumidor', component: DetalhesEncomendaConsumidorComponent},
+  { path: 'perfil-consumidor', component: PerfilConsumidorComponent},
+  { path: 'transportes', component: TransportesComponent },  
+  { path: 'pagamento', component: PagamentoComponent },
+  { path: 'welcome', component: WelcomeComponent }
 ];
 
 @NgModule({
@@ -43,6 +58,14 @@ const appRoutes: Routes = [
     RegisterComponent,
     ForgotPasswordComponent,
     CestoComponent,
+    AdminConsumidorComponent,
+    ConsumidorHistoricoComponent,
+    DetalhesEncomendaConsumidorComponent,
+    PerfilConsumidorComponent,
+    AdminFornecedorComponent,
+    TransportesComponent,
+    PagamentoComponent,
+    WelcomeComponent
   ],
   bootstrap: [ AppComponent ]
 })

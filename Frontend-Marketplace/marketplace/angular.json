@@ -29,7 +29,9 @@
               "src/styles.css",
               "src/sb-admin-2.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/javascript.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -60,6 +62,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "your-application-name:build"
+          },
           "configurations": {
             "production": {
               "browserTarget": "marketplace:build:production"
@@ -92,7 +97,9 @@
               "src/styles.css",
               "src/sb-admin-2.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/javascript.js"
+            ]
           }
         }
       }

@@ -17,21 +17,23 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Vamos às compras?</h1>
                                 </div>
-                                <form class="user">
+                                <form class="user" method="post">
                                     <div class="form-group">
+                                        <label for="email">Email:</label>
                                         <input type="email" class="form-control form-control-user"
                                             id="exampleInputEmail" aria-describedby="emailHelp"
-                                            placeholder="E-mail">
+                                            placeholder="E-mail" required>
                                     </div>
                                     <div class="form-group">
+                                        <label for="pass">Palavra-Passe:</label>
                                         <input type="password" class="form-control form-control-user"
-                                            id="exampleInputPassword" placeholder="Palavra-passe">
+                                            id="exampleInputPassword" placeholder="Palavra-passe" required>
                                     </div>
-                                    <a href="admin_consumidor.html" class="btn btn-primary btn-user btn-block">
+                                    <a href="/admin-consumidor" class="btn btn-primary btn-user btn-block">
                                         Entrar
                                     </a>
                                     <hr>
-                                    <a href="admin_consumidor.html" class="btn btn-google btn-user btn-block">
+                                    <a href="/admin-consumidor" class="btn btn-google btn-user btn-block">
                                         <i class="fab fa-google fa-fw"></i> Entrar com o Google
                                     </a>
                                 </form>

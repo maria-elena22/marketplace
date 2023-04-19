@@ -1,0 +1,233 @@
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLogin"
+                    aria-expanded="true" aria-controls="collapseLogin">
+                    <span class="mr-2 d-none d-lg-inline text-white" style="font-size: 18px;"><i class="bi bi-person"
+                            style="font-size: 20px;"></i> Catarina Nunes</span>
+                </a>
+                <div id="collapseLogin" class="collapse" aria-labelledby="collapseLogin"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="dropdown-item" href="/perfil-consumidor">
+                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Perfil
+                        </a>
+                        <div class="collapse-divider"></div>
+                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400" ></i>
+                            Terminar sessão
+                        </a>
+                        <div class="collapse-divider"></div>
+                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal1" style="color:red">
+                            <i class="fas fa-trash fa-sm fa-fw mr-2 text-gray-400" ></i>
+                            Eliminar conta
+                        </a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="/admin-consumidor">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Nav Item - Tables -->
+            <li class="nav-item active">
+                <a class="nav-link" href="/consumidor-historico">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Encomendas</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Begin Page Content -->
+
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800 mt-4">Histórico de Encomendas</h1>
+            
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4 mt-4">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Número</th>
+                                            <th>Data</th>
+                                            <th>Hora de entrega</th>
+                                            <th>Total</th>
+                                            <th>Estado da Encomenda</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Número</th>
+                                            <th>Data</th>
+                                            <th>Hora de entrega</th>
+                                            <th>Total</th>
+                                            <th>Estado da Encomenda</th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <tr>
+                                            <td>0005</td>
+                                            <td>17-03-2023</td>
+                                            <td>12:00-22:00</td>
+                                            <td>61,99€</td>
+                                            <td><div class="badge bg-warning text-white" style="top: 0.5rem; right: 0.5rem">PAGAMENTO</div></td>
+                                            <th><a href="/detalhes-encomenda-consumidor"><i class="fas fa-arrow-right"></i></a></th>
+                                        </tr>
+                                        <tr>
+                                            <td>0004</td>
+                                            <td>22-02-2023</td>
+                                            <td>08:00-13:00</td>
+                                            <td>23€</td>
+                                            <td><div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">EM DISTRIBUIÇÃO</div></td>
+                                            <th><a href="/detalhes-encomenda-consumidor"><i class="fas fa-arrow-right"></i></a></th>
+                                        </tr>
+                                        <tr>
+                                            <td>0003</td>
+                                            <td>16-12-2022</td>
+                                            <td>16:00-22:00</td>
+                                            <td>180,21€</td>
+                                            <td><div class="badge bg-success text-white" style="top: 0.5rem; right: 0.5rem">ENTREGUE</div></td>
+                                            <th><a href="/detalhes-encomenda-consumidor"><i class="fas fa-arrow-right"></i></a></th>
+                                        </tr>
+                                        <tr>
+                                            <td>0002</td>
+                                            <td>6-12-2022</td>
+                                            <td>16:00-22:00</td>
+                                            <td>47,56€</td>
+                                            <td><div class="badge bg-success text-white" style="top: 0.5rem; right: 0.5rem">ENTREGUE</div></td>
+                                            <th><a href="/detalhes-encomenda-consumidor"><i class="fas fa-arrow-right"></i></a></th>
+                                        </tr>
+                                        <tr>
+                                            <td>0001</td>
+                                            <td>6-12-2022</td>
+                                            <td>16:00-22:00</td>
+                                            <td>100,99€</td>
+                                            <td><div class="badge bg-danger text-white" style="top: 0.5rem; right: 0.5rem">CANCELADA</div></td>
+                                            <th><a href="/detalhes-encomenda-consumidor"><i class="fas fa-arrow-right"></i></a></th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+    
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Quer terminar sessão?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Selecione "Terminar sessão" se pretende sair.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-danger" href="/login">Terminar sessão</a>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- eliminar conta Modal-->
+    <div class="modal fade" id="logoutModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tem a certeza que quer eliminar esta conta?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Se selecionar "Eliminar", não será possível recuperar a sua conta.</div>
+                <i class="fas fa-trash fa-sm fa-fw mr-2 d-inline-block mx-auto text-gray-800" ></i>
+                <br>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-danger" href="/login">Eliminar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/chart-area-demo.js"></script>
+    <script src="js/demo/chart-pie-demo.js"></script>
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>

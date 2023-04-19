@@ -100,7 +100,7 @@ public class UtilizadorService {
     }
 
     public void deleteFornecedor(Integer id){
-        consumidorRepository.deleteById(id);
+        fornecedorRepository.deleteById(id);
     }
 
     public void deleteFornecedorBatch(List<Integer> ids){

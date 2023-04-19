@@ -2808,7 +2808,7 @@ textarea.form-control-lg {
   border-bottom-right-radius: 0;
 }
 .input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
-  margin-left: px;
+  margin-left: -1px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
@@ -3932,10 +3932,13 @@ textarea.form-control-lg {
 }
 
 .nav {
-  display: flex;
+  display: grid;
+  grid-template-columns: 500px 500px;
   flex-wrap: wrap;
   padding-left: 0;
   margin-bottom: 0;
+  margin-right: 0;
+  margin-left: 0;
   list-style: none;
 }
 
@@ -11304,5 +11307,4 @@ textarea.form-control-lg {
   #titulo_card {
     color: #2487ce !important;
   }
-
 }
