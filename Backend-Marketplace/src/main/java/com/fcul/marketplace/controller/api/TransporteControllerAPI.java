@@ -1,6 +1,10 @@
 package com.fcul.marketplace.controller.api;
 
-import com.fcul.marketplace.dto.TransporteDTO;
+import com.fcul.marketplace.config.security.SecurityUtils;
+import com.fcul.marketplace.dto.transporte.TransporteDTO;
+import com.fcul.marketplace.dto.transporte.TransporteInputDTO;
+import com.fcul.marketplace.exceptions.ForbiddenActionException;
+import com.fcul.marketplace.exceptions.JWTTokenMissingException;
 import com.fcul.marketplace.model.Transporte;
 import com.fcul.marketplace.model.enums.EstadoTransporte;
 import com.fcul.marketplace.service.TransporteService;
@@ -9,11 +13,13 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 import java.util.stream.Collectors;
 

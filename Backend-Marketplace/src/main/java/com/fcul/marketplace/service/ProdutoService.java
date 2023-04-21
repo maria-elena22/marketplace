@@ -2,7 +2,10 @@ package com.fcul.marketplace.service;
 
 import com.fcul.marketplace.exceptions.MissingPropertiesException;
 import com.fcul.marketplace.exceptions.TooMuchPropertiesException;
-import com.fcul.marketplace.model.*;
+import com.fcul.marketplace.model.Produto;
+import com.fcul.marketplace.model.Propriedade;
+import com.fcul.marketplace.model.SubCategoria;
+import com.fcul.marketplace.model.UniProd;
 import com.fcul.marketplace.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

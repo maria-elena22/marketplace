@@ -17,6 +17,4 @@ public class FullEncomendaDTO {
 
     private EstadoEncomenda estadoEncomenda;
 
-    private List<ItemDTO> itemsList;
-
 }

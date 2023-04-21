@@ -3,8 +3,6 @@ package com.fcul.marketplace.model.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.text.MessageFormat;
-
 @AllArgsConstructor
 @Getter
 public enum TipoNotificacao {

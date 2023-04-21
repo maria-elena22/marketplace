@@ -18,12 +18,15 @@ public class NotificacaoService {
     @Autowired
     NotificacaoRepository notificacaoRepository;
 
-    public List<Notificacao> getNotificacoes(Integer userId){
-         List<Notificacao> notificacaos = notificacaoRepository.findByUtilizadorIdUtilizadorAndEntregueFalse(userId);
+    @Autowired
+    UtilizadorService utilizadorService;
 
-         notificacaos.forEach(notificacao -> notificacao.setEntregue(true));
-         notificacaoRepository.saveAll(notificacaos);
-         return notificacaos;
+    public List<Notificacao> getNotificacoes(String userEmail){
+        Utilizador utilizador = utilizadorService.getUtilizadorByEmail(userEmail);
+        List<Notificacao> notificacaos = notificacaoRepository.findByDestinatarioIdUtilizadorAndEntregueFalse(utilizador.getIdUtilizador());
+        notificacaos.forEach(notificacao -> notificacao.setEntregue(true));
+        notificacaoRepository.saveAll(notificacaos);
+        return notificacaos;
     }
 
 
@@ -51,7 +54,8 @@ public class NotificacaoService {
 
     }
 
-    public void generateChegadaEncomendaNotificacao(Item item) {
+    public void generateChegadaEncomendaNotificacao(String emailFornecedor, Item item) {
+        Fornecedor issuer = utilizadorService.findFornecedorByEmail(emailFornecedor);
 
         Notificacao notificacao = new Notificacao();
         notificacao.setTipoNotificacao(TipoNotificacao.CHEGADA_IMINENTE);

@@ -1,7 +1,5 @@
 package com.fcul.marketplace;
 
-import com.fcul.marketplace.model.*;
-import com.fcul.marketplace.model.enums.EstadoTransporte;
 import com.fcul.marketplace.repository.*;
 import com.fcul.marketplace.service.CategoriaService;
 import com.fcul.marketplace.service.TransporteService;

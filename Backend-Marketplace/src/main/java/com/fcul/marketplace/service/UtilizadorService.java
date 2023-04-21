@@ -4,6 +4,7 @@ import com.fcul.marketplace.model.Consumidor;
 import com.fcul.marketplace.model.Fornecedor;
 import com.fcul.marketplace.repository.ConsumidorRepository;
 import com.fcul.marketplace.repository.FornecedorRepository;
+import com.fcul.marketplace.repository.UtilizadorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,9 @@ public class UtilizadorService {
 
     @Autowired
     ConsumidorRepository consumidorRepository;
+
+    @Autowired
+    UtilizadorRepository utilizadorRepository;
 
     //============================GET=============================
 
@@ -56,9 +60,8 @@ public class UtilizadorService {
     }
 
     //===========================UPDATE===========================
-    public Consumidor updateConsumidor(Integer id, Consumidor consumidor) {
-
-        Consumidor consumidorBD = consumidorRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    public Consumidor updateConsumidor(String email, Consumidor consumidor) {
+        Consumidor consumidorBD = findConsumidorByEmail(email);
         consumidorBD.setTelemovel(consumidor.getTelemovel());
         consumidorBD.setContinente(consumidor.getContinente());
         consumidorBD.setCoordenadas(consumidor.getCoordenadas());
@@ -93,17 +96,8 @@ public class UtilizadorService {
         consumidorRepository.deleteById(id);
     }
 
-    public void deleteConsumidorBatch(List<Integer> ids) {
-        consumidorRepository.deleteAllByIdInBatch(ids);
-    }
-
     public void deleteFornecedor(Integer id) {
         fornecedorRepository.deleteById(id);
     }
-
-    public void deleteFornecedorBatch(List<Integer> ids) {
-        fornecedorRepository.deleteAllByIdInBatch(ids);
-    }
-
 
 }

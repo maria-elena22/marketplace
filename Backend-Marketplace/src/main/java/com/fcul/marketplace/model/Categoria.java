@@ -16,6 +16,8 @@ public class Categoria {
 
     private String nomeCategoria;
 
+
+
     @ManyToMany()
     @JoinTable(joinColumns = @JoinColumn(name = "id_categoria"),
             inverseJoinColumns = @JoinColumn(name = "id_propriedade"))
@@ -24,3 +26,4 @@ public class Categoria {
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SubCategoria> subCategorias;
 }
+

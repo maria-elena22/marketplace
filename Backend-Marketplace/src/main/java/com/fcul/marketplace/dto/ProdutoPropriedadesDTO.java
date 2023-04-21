@@ -2,7 +2,6 @@ package com.fcul.marketplace.dto;
 
 import lombok.Data;
 
-import java.sql.Date;
 import java.util.Map;
 
 @Data

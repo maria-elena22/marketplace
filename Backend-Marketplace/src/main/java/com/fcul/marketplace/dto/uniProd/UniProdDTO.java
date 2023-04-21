@@ -1,4 +1,4 @@
-package com.fcul.marketplace.dto;
+package com.fcul.marketplace.dto.uniProd;
 
 import lombok.Data;
 

@@ -1,6 +1,6 @@
 package com.fcul.marketplace.dto.encomenda;
 
-import com.fcul.marketplace.model.Item;
+import com.fcul.marketplace.utils.ChargeRequest;
 import lombok.Data;
 
 import java.sql.Date;

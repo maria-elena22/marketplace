@@ -2,7 +2,7 @@ package com.fcul.marketplace.model;
 
 
 import lombok.Data;
-
+import javax.validation.constraints.Min;
 import javax.persistence.*;
 
 @Entity

@@ -1,6 +1,10 @@
-package com.fcul.marketplace.configuration;
+package com.fcul.marketplace.config;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fcul.marketplace.exceptions.BadCredentialsException;
+import com.fcul.marketplace.exceptions.ForbiddenActionException;
+import com.fcul.marketplace.exceptions.JWTTokenMissingException;
+import com.fcul.marketplace.exceptions.SignUpException;
 import lombok.Data;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,9 +31,16 @@ public class ExceptionConfiguration extends ResponseEntityExceptionHandler {
     };
 
     private static final Class[] CONFLICT_EXCEPTIONS = {
+            SignUpException.class
     };
 
     private static final Class[] BAD_REQUEST_EXCEPTIONS = {
+    };
+
+    private static final Class[] FORBIDEN_EXCEPTION = {
+            JWTTokenMissingException.class,
+            BadCredentialsException.class,
+            ForbiddenActionException.class
     };
 
 
@@ -40,6 +51,8 @@ public class ExceptionConfiguration extends ResponseEntityExceptionHandler {
         List<Class> notFound = Arrays.asList(NOT_FOUND_EXCEPTIONS);
         List<Class> conflict = Arrays.asList(CONFLICT_EXCEPTIONS);
         List<Class> badRequest = Arrays.asList(BAD_REQUEST_EXCEPTIONS);
+        List<Class> forbidden = Arrays.asList(FORBIDEN_EXCEPTION);
+
 
         HttpStatus status;
         if (notFound.contains(exception.getClass())) {
@@ -48,6 +61,8 @@ public class ExceptionConfiguration extends ResponseEntityExceptionHandler {
             status = HttpStatus.CONFLICT;
         } else if (badRequest.contains(exception.getClass())) {
             status = HttpStatus.BAD_REQUEST;
+        } else if (forbidden.contains(exception.getClass())) {
+            status = HttpStatus.FORBIDDEN;
         } else {
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }

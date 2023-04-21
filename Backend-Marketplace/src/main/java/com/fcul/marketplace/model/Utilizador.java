@@ -1,6 +1,7 @@
 package com.fcul.marketplace.model;
 
 import com.fcul.marketplace.model.enums.Continente;
+import com.fcul.marketplace.model.enums.Pais;
 import com.fcul.marketplace.model.utils.Coordinate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +28,11 @@ public class Utilizador {
 
     private String nome;
 
+    @NotBlank
+    @Unique(message = "O email já se encontra no sistema",parameterName="email",className = "Utilizador")
+    private String email;
+
+
     private Integer telemovel;
 
     @Embedded
@@ -44,7 +50,9 @@ public class Utilizador {
 
     private String distrito;
 
-    private Locale.IsoCountryCode pais;
+    private Pais pais;
 
     private Continente continente;
+
+    private boolean active;
 }

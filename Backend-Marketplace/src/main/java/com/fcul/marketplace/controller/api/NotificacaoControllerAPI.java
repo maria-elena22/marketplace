@@ -1,23 +1,16 @@
 package com.fcul.marketplace.controller.api;
 
+import com.fcul.marketplace.config.security.SecurityUtils;
 import com.fcul.marketplace.dto.NotificacaoDTO;
-import com.fcul.marketplace.dto.ViagemDTO;
-import com.fcul.marketplace.model.Encomenda;
+import com.fcul.marketplace.exceptions.JWTTokenMissingException;
 import com.fcul.marketplace.model.Item;
 import com.fcul.marketplace.model.Notificacao;
-import com.fcul.marketplace.model.Viagem;
-import com.fcul.marketplace.model.enums.TipoNotificacao;
 import com.fcul.marketplace.service.EncomendaService;
 import com.fcul.marketplace.service.NotificacaoService;
-import com.fcul.marketplace.service.ViagemService;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

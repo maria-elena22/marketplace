@@ -1,6 +1,7 @@
 package com.fcul.marketplace.model;
 
 import com.fcul.marketplace.model.enums.Continente;
+import com.fcul.marketplace.model.enums.Pais;
 import com.fcul.marketplace.model.utils.Coordinate;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,9 +26,9 @@ public class Fornecedor extends Utilizador {
         super();
     }
 
-    public Fornecedor(Integer idFiscal, String nome, Integer telemovel, Coordinate coordenadas,
+    public Fornecedor(Integer idFiscal, String nome, String email, Integer telemovel, Coordinate coordenadas,
                       String morada, String freguesia, String municipio, String distrito,
-                      Locale.IsoCountryCode pais, Continente continente) {
-        super(null, idFiscal, nome, telemovel, coordenadas, morada, freguesia, municipio, distrito, pais, continente);
+                      Pais pais, Continente continente, boolean active) {
+        super(null, idFiscal, nome, email, telemovel, coordenadas, morada, freguesia, municipio, distrito, pais, continente,active);
     }
 }

@@ -1,9 +1,6 @@
 package com.fcul.marketplace.controller.api;
 
-import com.fcul.marketplace.dto.CategoriaDTO;
-import com.fcul.marketplace.dto.FullCategoriaDTO;
-import com.fcul.marketplace.dto.PropriedadeDTO;
-import com.fcul.marketplace.dto.SubCategoriaDTO;
+import com.fcul.marketplace.dto.categoria.*;
 import com.fcul.marketplace.model.Categoria;
 import com.fcul.marketplace.model.Propriedade;
 import com.fcul.marketplace.model.SubCategoria;
@@ -13,11 +10,13 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -121,7 +120,9 @@ public class CategoriaControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
-    public CategoriaDTO insertCategoria(@RequestBody CategoriaDTO categoriaDTO) {
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
+    public CategoriaDTO insertCategoria(@RequestBody CategoriaInputDTO categoriaDTO) {
 
         Categoria categoria = modelMapper.map(categoriaDTO, Categoria.class);
 
@@ -136,7 +137,9 @@ public class CategoriaControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
-    public FullCategoriaDTO insertPropriedade(@PathVariable Integer categoriaId, @RequestBody PropriedadeDTO propriedadeDTO) {
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
+    public FullCategoriaDTO insertPropriedade(@PathVariable Integer categoriaId, @RequestBody PropriedadeInputDTO propriedadeDTO) {
 
         Propriedade propriedade = modelMapper.map(propriedadeDTO, Propriedade.class);
 
@@ -151,8 +154,10 @@ public class CategoriaControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
-    public SubCategoriaDTO insertSubCategoria(@PathVariable Integer categoriaId, @RequestBody SubCategoriaDTO subCategoriaDTO) {
-        return modelMapper.map(categoriaService.addSubCategoria(modelMapper.map(subCategoriaDTO, SubCategoria.class), categoriaId), SubCategoriaDTO.class);
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
+    public FullCategoriaDTO insertSubCategoria(@PathVariable Integer categoriaId, @RequestBody SubCategoriaInputDTO subCategoriaDTO) {
+        return modelMapper.map(categoriaService.addSubCategoria(modelMapper.map(subCategoriaDTO, SubCategoria.class), categoriaId), FullCategoriaDTO.class);
     }
 
     //===========================UPDATE===========================
@@ -166,7 +171,9 @@ public class CategoriaControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
-    public CategoriaDTO updateCategoria(@PathVariable Integer categoriaId, @RequestBody CategoriaDTO categoriaDTO) {
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
+    public CategoriaDTO updateCategoria(@PathVariable Integer categoriaId, @RequestBody CategoriaInputDTO categoriaDTO) {
         Categoria categoria = categoriaService.updateCategoria(categoriaId, modelMapper.map(categoriaDTO, Categoria.class));
         return modelMapper.map(categoria, CategoriaDTO.class);
     }
@@ -179,7 +186,9 @@ public class CategoriaControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
-    public PropriedadeDTO updatePropriedade(@PathVariable Integer propriedadeId, @RequestBody PropriedadeDTO propriedadeDTO) {
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
+    public PropriedadeDTO updatePropriedade(@PathVariable Integer propriedadeId, @RequestBody PropriedadeInputDTO propriedadeDTO) {
         Propriedade propriedade = categoriaService.updatePropriedade(propriedadeId, modelMapper.map(propriedadeDTO, Propriedade.class));
         return modelMapper.map(propriedade, PropriedadeDTO.class);
     }
@@ -194,6 +203,8 @@ public class CategoriaControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
     public FullCategoriaDTO addPropriedadeExistenteACategoria(@PathVariable Integer categoriaId, @PathVariable Integer propriedadeId) {
         return modelMapper.map(categoriaService.addExistingPropriedadeToCategoria(categoriaId, propriedadeId), FullCategoriaDTO.class);
     }
@@ -208,6 +219,8 @@ public class CategoriaControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
     public FullCategoriaDTO removePropriedadeExistenteDeCategoria(@PathVariable Integer categoriaId, @PathVariable Integer propriedadeId) {
         return modelMapper.map(categoriaService.removeExistingPropriedadeFromCategoria(categoriaId, propriedadeId), FullCategoriaDTO.class);
     }
@@ -221,7 +234,9 @@ public class CategoriaControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
-    public SubCategoriaDTO updateSubCategoria(@PathVariable Integer subcategoriaId, @RequestBody SubCategoriaDTO subCategoriaDTO) {
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
+    public FullCategoriaDTO updateSubCategoria(@PathVariable Integer subcategoriaId, @RequestBody SubCategoriaInputDTO subCategoriaDTO) {
         SubCategoria subCategoria = modelMapper.map(subCategoriaDTO, SubCategoria.class);
         return modelMapper.map(categoriaService.updateSubcategoria(subcategoriaId, subCategoria), SubCategoriaDTO.class);
     }
@@ -229,42 +244,43 @@ public class CategoriaControllerAPI {
     //===========================DELETE===========================
 
 
-    @DeleteMapping("/propriedade/{propriedadeId}")
-    @Operation(summary = "deletePropriedade",
-            description = "Apaga a Propriedade com o ID indicado da BD")
-    @Parameters(value = {
-            @Parameter(name = "propriedadeId", description = "ID da Propriedade a apagar")})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
-    })
-    public void deletePropriedade(@PathVariable Integer propriedadeId) {
-        categoriaService.deletePropriedade(propriedadeId);
-    }
-
-    @DeleteMapping("/{categoriaId}")
-    @Operation(summary = "deleteCategoria",
-            description = "Apaga a Categoria com o ID indicado da BD")
-    @Parameters(value = {
-            @Parameter(name = "categoriaId", description = "ID da Categoria a apagar")})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
-    })
-    public void deleteCategoria(@PathVariable Integer categoriaId) {
-        categoriaService.deleteCategoria(categoriaId);
-    }
-
-
-    @DeleteMapping("/subcategoria/{subcategoriaId}")
-    @Operation(summary = "deleteSubCategoria",
-            description = "Apaga a SubCategoria com o ID indicado da BD")
-    @Parameters(value = {
-            @Parameter(name = "subcategoriaId", description = "ID da SubCategoria a apagar")})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
-    })
-    public void deleteSubCategoria(@PathVariable Integer subcategoriaId) {
-        categoriaService.deleteSubCategoria(subcategoriaId);
-    }
+//    @DeleteMapping("/propriedade/{propriedadeId}")
+//    @Operation(summary = "deletePropriedade",
+//            description = "Apaga a Propriedade com o ID indicado da BD")
+//    @Parameters(value = {
+//            @Parameter(name = "propriedadeId", description = "ID da Propriedade a apagar")})
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
+//    })
+//
+//    public void deletePropriedade(@PathVariable Integer propriedadeId) {
+//        categoriaService.deletePropriedade(propriedadeId);
+//    }
+//
+//    @DeleteMapping("/{categoriaId}")
+//    @Operation(summary = "deleteCategoria",
+//            description = "Apaga a Categoria com o ID indicado da BD")
+//    @Parameters(value = {
+//            @Parameter(name = "categoriaId", description = "ID da Categoria a apagar")})
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
+//    })
+//    public void deleteCategoria(@PathVariable Integer categoriaId) {
+//        categoriaService.deleteCategoria(categoriaId);
+//    }
+//
+//
+//    @DeleteMapping("/subcategoria/{subcategoriaId}")
+//    @Operation(summary = "deleteSubCategoria",
+//            description = "Apaga a SubCategoria com o ID indicado da BD")
+//    @Parameters(value = {
+//            @Parameter(name = "subcategoriaId", description = "ID da SubCategoria a apagar")})
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
+//    })
+//    public void deleteSubCategoria(@PathVariable Integer subcategoriaId) {
+//        categoriaService.deleteSubCategoria(subcategoriaId);
+//    }
 
 
 }

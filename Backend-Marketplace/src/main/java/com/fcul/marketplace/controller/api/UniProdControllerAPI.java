@@ -78,8 +78,6 @@ public class UniProdControllerAPI {
     @PostMapping("/{idFornecedor}")
     @Operation(summary = "insertUniProd",
             description = "Adiciona uma nova Unidade de Produção à BD, associada ao Fornecedor com o ID indicado")
-    @Parameters(value = {
-            @Parameter(name = "idFornecedor", description = "ID do Fornecedor")})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })

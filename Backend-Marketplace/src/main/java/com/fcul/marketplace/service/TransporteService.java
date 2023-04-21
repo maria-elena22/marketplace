@@ -62,9 +62,4 @@ public class TransporteService {
 
     }
 
-    public void deleteTransporteBatch(List<Integer> ids) {
-        transporteRepository.deleteAllByIdInBatch(ids);
-    }
-
-
 }

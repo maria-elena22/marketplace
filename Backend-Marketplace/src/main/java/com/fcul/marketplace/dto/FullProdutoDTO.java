@@ -1,6 +1,8 @@
 package com.fcul.marketplace.dto;
 
-import com.fcul.marketplace.model.UniProd;
+import com.fcul.marketplace.dto.categoria.PropriedadeDTO;
+import com.fcul.marketplace.dto.categoria.SubCategoriaDTO;
+import com.fcul.marketplace.dto.uniProd.UniProdDTO;
 import lombok.Data;
 
 import java.sql.Date;

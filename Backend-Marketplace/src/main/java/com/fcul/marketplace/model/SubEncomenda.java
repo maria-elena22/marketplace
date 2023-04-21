@@ -27,4 +27,8 @@ public class SubEncomenda {
 
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Item> items;
+
+    @ManyToOne
+    @JoinColumn(name = "encomenda_id")
+    private Encomenda encomenda;
 }

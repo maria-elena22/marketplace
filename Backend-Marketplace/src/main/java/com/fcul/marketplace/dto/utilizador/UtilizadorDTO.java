@@ -1,7 +1,8 @@
-package com.fcul.marketplace.dto;
+package com.fcul.marketplace.dto.utilizador;
 
-import com.fcul.marketplace.model.utils.Coordinate;
 import com.fcul.marketplace.model.enums.Continente;
+import com.fcul.marketplace.model.enums.Pais;
+import com.fcul.marketplace.model.utils.Coordinate;
 import lombok.Data;
 
 import java.util.Locale;
@@ -21,13 +22,17 @@ public class UtilizadorDTO {
 
     private String morada;
 
+    private String email;
+
     private String freguesia;
 
     private String municipio;
 
     private String distrito;
 
-    private Locale.IsoCountryCode pais;
+    private Pais pais;
 
     private Continente continente;
+
+    private boolean active;
 }

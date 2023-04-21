@@ -3,26 +3,42 @@ package com.fcul.marketplace.service;
 import com.fcul.marketplace.dto.encomenda.SimpleItemDTO;
 import com.fcul.marketplace.exceptions.EncomendaAlreadyCancelledException;
 import com.fcul.marketplace.exceptions.EncomendaCannotBeCancelledException;
-import com.fcul.marketplace.exceptions.ErroCalculoDoPrecoEnviadoException;
+import com.fcul.marketplace.exceptions.ForbiddenActionException;
 import com.fcul.marketplace.model.*;
 import com.fcul.marketplace.model.enums.EstadoEncomenda;
-import com.fcul.marketplace.model.enums.TipoNotificacao;
 import com.fcul.marketplace.repository.EncomendaRepository;
 import com.fcul.marketplace.repository.ItemRepository;
-import net.bytebuddy.build.Plugin;
+import com.fcul.marketplace.repository.SubEncomendaRepository;
+import com.fcul.marketplace.repository.utils.PageableUtils;
+import com.fcul.marketplace.utils.ChargeRequest;
+import com.stripe.Stripe;
+import com.stripe.exception.AuthenticationException;
+import com.stripe.exception.InvalidRequestException;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Charge;
+import com.stripe.model.Token;
+import com.stripe.param.ChargeCreateParams;
+import com.stripe.param.TokenCreateParams;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class EncomendaService {
 
     @Autowired
     EncomendaRepository encomendaRepository;
+
+    @Autowired
+    SubEncomendaRepository subEncomendaRepository;
 
     @Autowired
     UtilizadorService utilizadorService;
@@ -38,22 +54,24 @@ public class EncomendaService {
 
     //============================GET=============================
 
-    public List<Encomenda> getEncomendas() {
-        return encomendaRepository.findAll();
+    public List<Encomenda> getEncomendas(String emailFromAuthHeader, Double precoMin, Double precoMax, Date dataMin, Date dataMax, EstadoEncomenda estadoEncomenda, Integer page, Integer size, String sortKey, Sort.Direction sortDir) {
+
+       Consumidor consumidor =  utilizadorService.findConsumidorByEmail(emailFromAuthHeader);
+        Pageable pageable = PageableUtils.getDefaultPageable(page, size, sortDir, sortKey);
+
+        return encomendaRepository.findAllOpt(consumidor.getIdUtilizador(),precoMin,precoMax,dataMin,dataMax,estadoEncomenda,pageable);
+
     }
 
-    public Encomenda getEncomendaByID(Integer id) {
-        return encomendaRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    public List<SubEncomenda> getSubEncomendasByFornecedorEmail(String email) {
+
+        return subEncomendaRepository.findByFornecedorEmail(email);
+
     }
 
-    public List<Encomenda> getEncomendasByConsumidor(Integer idConsumidor, Integer page, Integer size, String sortKey, Sort.Direction sortDir) {
-        //TODO
-        return null;
-    }
+    public List<SubEncomenda> getSubEncomendasByConsumidorEmail(String email) {
 
-    public List<Encomenda> getEncomendasByFornecedor(Integer fornecedorId, Integer page, Integer size, String sortKey, Sort.Direction sortDir) {
-        //TODO
-        return null;
+        return subEncomendaRepository.findByEncomendaConsumidorEmail(email);
     }
 
     //===========================INSERT===========================
@@ -66,7 +84,6 @@ public class EncomendaService {
 //        Double precoCal = itensByFornecedor.values().stream().mapToDouble(item->item.getProduto().getPreco()).reduce(Double::sum).getAsDouble();
 //        if(precoCal != encomenda.getPreco()){
 //            throw new ErroCalculoDoPrecoEnviadoException();
-//            //TODO throw error
 //        }
 
         //TODO verificacao do pagamento
@@ -99,7 +116,7 @@ public class EncomendaService {
             throw new EncomendaAlreadyCancelledException("Esta encomenda ja se encontra cancelada");
         }
         if(encomenda.getEstadoEncomenda().equals(EstadoEncomenda.A_PROCESSAR)){
-            throw new EncomendaCannotBeCancelledException("Esta encomenda ja nao pode ser cancelada");
+            throw new EncomendaCannotBeCancelledException("Esta encomenda já não pode ser cancelada");
 
         }
 
@@ -117,9 +134,6 @@ public class EncomendaService {
         encomendaRepository.deleteById(id);
     }
 
-    public void deleteEncomendaBatch(List<Integer> ids) {
-        encomendaRepository.deleteAllByIdInBatch(ids);
-    }
 
     private Encomenda getSubEncomendas(Encomenda encomenda,List<Item> items){
         //uma lista de produtos por fornecedor
@@ -164,11 +178,6 @@ public class EncomendaService {
             item.setQuantidade(simpleItemDTO.getQuantidade());
 
             itensPorFornecedor.get(fornecedor).add(item);
-
-
-
-
-
 
         }
 

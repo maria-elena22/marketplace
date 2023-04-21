@@ -26,7 +26,32 @@ public class UtilizadorControllerAPI {
     @Autowired
     ModelMapper modelMapper;
 
+    @Autowired
+    SecurityUtils securityUtils;
+
     //============================GET=============================
+
+    @Operation(summary = "getLogin",
+            description = "Faz o login do utilizador devolvendo o seu token")
+    @Parameters(value = {
+            @Parameter(name = "email", description = "Email do utilizador"),
+            @Parameter(name = "password", description = "Password do utilizador")
+    })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
+    })
+    @GetMapping("login")
+    public String login(@RequestParam String email, @RequestParam String password) throws BadCredentialsException {
+
+        String token = null;
+        try {
+            token = securityUtils.generateToken(email, password);
+        } catch (Auth0Exception e) {
+            throw new BadCredentialsException("Wrong email or password");
+        }
+
+        return token;
+    }
 
     @GetMapping("/consumidor")
     @Operation(summary = "getConsumidores",
@@ -125,8 +150,6 @@ public class UtilizadorControllerAPI {
     @PutMapping("/fornecedor/{idFornecedor}")
     @Operation(summary = "updateFornecedor",
             description = "Atualiza os dados de um Fornecedor")
-    @Parameters(value = {
-            @Parameter(name = "idFornecedor", description = "ID do Fornecedor a atualizar")})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
@@ -136,11 +159,67 @@ public class UtilizadorControllerAPI {
         return modelMapper.map(fornecedor, UtilizadorDTO.class);
     }
 
+    @PutMapping("/consumidor/deactivate/{idConsumidor}")
+    @Operation(summary = "deactivateConsumidor",
+            description = "Desativa o Consumidor com o ID indicado")
+    @Parameters(value = {
+            @Parameter(name = "idConsumidor", description = "ID do Consumidor a desativar")})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
+    })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"ADMIN"})
+    public void deactivateConsumidor(@PathVariable Integer idConsumidor) {
+        utilizadorService.deactivateConsumidor(idConsumidor);
+    }
+
+    @PutMapping("/fornecedor/deactivate/{idFornecedor}")
+    @Operation(summary = "deactivateFornecedor",
+            description = "Desativa o Fornecedor com o ID indicado")
+    @Parameters(value = {
+            @Parameter(name = "idFornecedor", description = "ID do Fornecedor a desativar")})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
+    })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"ADMIN"})
+    public void deactivateFornecedor(@PathVariable Integer idFornecedor) {
+        utilizadorService.deactivateFornecedor(idFornecedor);
+    }
+    @PutMapping("/consumidor/activate/{idConsumidor}")
+    @Operation(summary = "activateConsumidor",
+            description = "Ativa o Consumidor com o ID indicado")
+    @Parameters(value = {
+            @Parameter(name = "idConsumidor", description = "ID do Consumidor a ativar")})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
+    })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"ADMIN"})
+    public void activateConsumidor(@PathVariable Integer idConsumidor) {
+        utilizadorService.activateConsumidor(idConsumidor);
+    }
+
+    @PutMapping("/fornecedor/activate/{idFornecedor}")
+    @Operation(summary = "activateFornecedor",
+            description = "Ativa o Fornecedor com o ID indicado")
+    @Parameters(value = {
+            @Parameter(name = "idFornecedor", description = "ID do Fornecedor a ativar")})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
+    })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"ADMIN"})
+    public void activateFornecedor(@PathVariable Integer idFornecedor) {
+        utilizadorService.activateFornecedor(idFornecedor);
+    }
+
+
     //===========================DELETE===========================
 
     @DeleteMapping("/consumidor/{idConsumidor}")
     @Operation(summary = "deleteConsumidor",
-            description = "Apaga o Consumidor com o ID indicado da BD")
+            description = "Apaga o Consumidor com o ID indicado")
     @Parameters(value = {
             @Parameter(name = "idConsumidor", description = "ID do Consumidor a apagar")})
     @ApiResponses(value = {
@@ -152,7 +231,7 @@ public class UtilizadorControllerAPI {
 
     @DeleteMapping("/fornecedor/{idFornecedor}")
     @Operation(summary = "deleteFornecedor",
-            description = "Apaga o Fornecedor com o ID indicado da BD")
+            description = "Apaga o Fornecedor com o ID indicado")
     @Parameters(value = {
             @Parameter(name = "idFornecedor", description = "ID do Fornecedor a apagar")})
     @ApiResponses(value = {

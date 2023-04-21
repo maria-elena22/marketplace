@@ -66,7 +66,7 @@ public class ProdutoControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
-    public List<ProdutoDTO> getProdutos(@RequestParam(required = false) Integer subcategoriaId,
+    public List<FullProdutoDTO> getProdutos(@RequestParam(required = false) Integer subcategoriaId,
                                         @RequestParam(required = false) Integer categoriaId,
                                         @RequestParam(required = false) Integer unidadeId,
                                         @RequestParam(required = false) String nomeProduto,
@@ -80,10 +80,11 @@ public class ProdutoControllerAPI {
 
         //TODO
         List<Produto> produtos = produtoService.getProdutos();
-        List<ProdutoDTO> produtoDTOS = produtos.stream()
-                .map(produto -> modelMapper.map(produto, ProdutoDTO.class)).collect(Collectors.toList());
+        List<FullProdutoDTO> produtoDTOS = produtos.stream()
+                .map(produto -> modelMapper.map(produto, FullProdutoDTO.class)).collect(Collectors.toList());
         return produtoDTOS;
     }
+
 
     @GetMapping("/encomenda/{idEncomenda}")
     @Operation(summary = "getProdutosByEncomenda",
@@ -95,6 +96,23 @@ public class ProdutoControllerAPI {
     })
     public List<ProdutoDTO> getProdutosByEncomenda(@PathVariable Integer idEncomenda) {
         List<Produto> produtos = produtoService.getProdutosByEncomenda(idEncomenda);
+        List<ProdutoDTO> produtoDTOS = produtos.stream()
+                .map(produto -> modelMapper.map(produto, ProdutoDTO.class)).collect(Collectors.toList());
+        return produtoDTOS;
+    }
+
+    @GetMapping("/subencomenda/{idEncomenda}")
+    @Operation(summary = "getProdutosByEncomenda",
+            description = "Devolve todos os Produtos da Encomenda com o ID indicado")
+    @Parameters(value = {
+            @Parameter(name = "idEncomenda", description = "ID da Encomenda")})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
+    })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
+    public List<ProdutoDTO> getProdutosBySubEncomenda(@PathVariable Integer idSubEncomenda) {
+        List<Produto> produtos = produtoService.getProdutosByEncomenda(idSubEncomenda); //TODO getProdutosBySubEncomenda
         List<ProdutoDTO> produtoDTOS = produtos.stream()
                 .map(produto -> modelMapper.map(produto, ProdutoDTO.class)).collect(Collectors.toList());
         return produtoDTOS;

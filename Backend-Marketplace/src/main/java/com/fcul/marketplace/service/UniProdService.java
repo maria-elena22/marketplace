@@ -41,6 +41,9 @@ public class UniProdService {
         return uniProds;
     }
 
+    public UniProd getUniProdByID(Integer idUnidade) {
+        return uniProdRepository.findById(idUnidade).orElseThrow(EntityNotFoundException::new);
+    }
 
     //===========================INSERT===========================//
 
