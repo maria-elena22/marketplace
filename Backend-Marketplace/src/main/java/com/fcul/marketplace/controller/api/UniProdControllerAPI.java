@@ -1,7 +1,10 @@
 package com.fcul.marketplace.controller.api;
 
-
-import com.fcul.marketplace.dto.UniProdDTO;
+import com.fcul.marketplace.config.security.SecurityUtils;
+import com.fcul.marketplace.dto.uniProd.UniProdDTO;
+import com.fcul.marketplace.dto.uniProd.UniProdInputDTO;
+import com.fcul.marketplace.exceptions.ForbiddenActionException;
+import com.fcul.marketplace.exceptions.JWTTokenMissingException;
 import com.fcul.marketplace.model.UniProd;
 import com.fcul.marketplace.service.UniProdService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,11 +12,13 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,21 +32,10 @@ public class UniProdControllerAPI {
     @Autowired
     ModelMapper modelMapper;
 
+    @Autowired
+    SecurityUtils securityUtils;
+
     //============================GET=============================
-
-    @GetMapping("/{idUniProd}")
-    @Operation(summary = "getUniProdByID",
-            description = "Devolve a Unidade de Produção com o ID indicado")
-    @Parameters(value = {
-            @Parameter(name = "idUniProd", description = "ID da Unidade")})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
-    })
-    public UniProdDTO getUniProdByID(@PathVariable Integer idUniProd) {
-
-        UniProd uniProd = uniProdService.getUniProdByID(idUniProd);
-        return modelMapper.map(uniProd, UniProdDTO.class);
-    }
 
     @GetMapping
     @Operation(summary = "getUniProds",
@@ -57,16 +51,18 @@ public class UniProdControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
     public List<UniProdDTO> getUniProds(
-            @RequestParam(required = false) Integer fornecedorId,
+            @Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
             @RequestParam(required = false) String nomeUniProd,
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) String sortKey,
             @RequestParam(required = false) Sort.Direction sortDir
-    ) {
+    ) throws JWTTokenMissingException {
 
-        List<UniProd> uniProds = uniProdService.getUniProds(fornecedorId, nomeUniProd, page, size, sortKey, sortDir);
+        List<UniProd> uniProds = uniProdService.getUniProds(securityUtils.getEmailFromAuthHeader(authorizationHeader), nomeUniProd, page, size, sortKey, sortDir);
         List<UniProdDTO> uniProdDTOS = uniProds.stream()
                 .map(uniProd -> modelMapper.map(uniProd, UniProdDTO.class)).collect(Collectors.toList());
         return uniProdDTOS;
@@ -75,15 +71,18 @@ public class UniProdControllerAPI {
 
     //===========================INSERT===========================
 
-    @PostMapping("/{idFornecedor}")
+    @PostMapping()
     @Operation(summary = "insertUniProd",
             description = "Adiciona uma nova Unidade de Produção à BD, associada ao Fornecedor com o ID indicado")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
-    public UniProdDTO insertUniProd(@RequestBody UniProdDTO uniProdDTO, @PathVariable Integer idFornecedor) {
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
+    public UniProdDTO insertUniProd(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader
+            ,@RequestBody UniProdInputDTO uniProdDTO) throws JWTTokenMissingException{
         UniProd uniProd = modelMapper.map(uniProdDTO, UniProd.class);
-        return modelMapper.map(uniProdService.addUniProd(idFornecedor, uniProd), UniProdDTO.class);
+        return modelMapper.map(uniProdService.addUniProd(securityUtils.getEmailFromAuthHeader(authorizationHeader), uniProd), UniProdDTO.class);
     }
 
     //===========================UPDATE===========================
@@ -96,9 +95,12 @@ public class UniProdControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
-    public UniProdDTO updateUniProd(@PathVariable Integer idUniProd, @RequestBody UniProdDTO uniProdDTO) {
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
+    public UniProdDTO updateUniProd(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
+                                    @PathVariable Integer idUniProd, @RequestBody UniProdInputDTO uniProdDTO) throws JWTTokenMissingException,ForbiddenActionException{
         UniProd uniProd = modelMapper.map(uniProdDTO, UniProd.class);
-        return modelMapper.map(uniProdService.updateUniProd(idUniProd, uniProd), UniProdDTO.class);
+        return modelMapper.map(uniProdService.updateUniProd(securityUtils.getEmailFromAuthHeader(authorizationHeader),idUniProd, uniProd), UniProdDTO.class);
     }
 
     //===========================DELETE===========================
@@ -111,19 +113,10 @@ public class UniProdControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
-    public void deleteUniProd(@PathVariable Integer idUniProd) {
-        uniProdService.deleteUniProd(idUniProd);
-    }
-
-    @DeleteMapping()
-    @Operation(summary = "deleUniProdBatch",
-            description = "Apaga as Unidades de Produção com os IDs indicados da BD")
-    @Parameters(value = {
-            @Parameter(name = "ids", description = "IDs das Unidades a apagar")})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
-    })
-    public void deleUniProdBatch(@RequestParam List<Integer> ids) {
-        uniProdService.deleteUniProdBatch(ids);
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
+    public void deleteUniProd(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
+                              @PathVariable Integer idUniProd) throws JWTTokenMissingException, ForbiddenActionException {
+        uniProdService.deleteUniProd(securityUtils.getEmailFromAuthHeader(authorizationHeader),idUniProd);
     }
 }

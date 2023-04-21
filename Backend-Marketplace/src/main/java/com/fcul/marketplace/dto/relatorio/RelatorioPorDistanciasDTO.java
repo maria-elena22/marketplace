@@ -8,7 +8,5 @@ import java.util.Map;
 public class RelatorioPorDistanciasDTO {
 
 
-    //Key Representa a gama de distancia(em km)
-    //Value representa a quantidade de encomendas registadas com distancia ate a gama {key}
-    Map<Integer, Integer> GamaDistanciasQuantidadeEncomendasMap;
+    Map<String, Integer> GamaDistanciasQuantidadeEncomendasMap;
 }

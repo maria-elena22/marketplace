@@ -83,11 +83,12 @@ public class CategoriaService {
         return categoriaRepository.save(categoria);
     }
 
-    public SubCategoria addSubCategoria(SubCategoria subCategoria, Integer idCategoria) {
+    public Categoria addSubCategoria(SubCategoria subCategoria, Integer idCategoria) {
         Categoria categoria = categoriaRepository.findById(idCategoria).orElseThrow(EntityNotFoundException::new);
         subCategoria.setCategoria(categoria);
         subCategoria = subCategoriaRepository.save(subCategoria);
-        return subCategoria;
+
+        return subCategoria.getCategoria();
 
     }
 
@@ -115,10 +116,11 @@ public class CategoriaService {
 
     }
 
-    public SubCategoria updateSubcategoria(Integer id, SubCategoria subCategoria) {
+    public Categoria updateSubcategoria(Integer id, SubCategoria subCategoria) {
         SubCategoria subCategoriaBD = subCategoriaRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         subCategoriaBD.setNomeSubCategoria(subCategoria.getNomeSubCategoria());
-        return subCategoriaRepository.save(subCategoriaBD);
+        subCategoriaBD = subCategoriaRepository.save(subCategoriaBD);
+        return subCategoriaBD.getCategoria();
     }
 
     public Categoria addExistingPropriedadeToCategoria(Integer categoriaId, Integer propriedadeId) {

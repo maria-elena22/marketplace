@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.remoting.jaxws.JaxWsSoapFaultException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
@@ -33,26 +34,16 @@ public class TransporteControllerAPI {
     @Autowired
     ModelMapper modelMapper;
 
-    //============================GET=============================
+    @Autowired
+    SecurityUtils securityUtils;
 
-    @GetMapping("/{idTransporte}")
-    @Operation(summary = "getTransporteByID",
-            description = "Devolve o transporte com o ID indicado")
-    @Parameters(value = {
-            @Parameter(name = "idTransporte", description = "ID do Transporte")})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
-    })
-    public TransporteDTO getTransporteByID(@PathVariable Integer idTransporte) {
-        Transporte transporte = transporteService.getTransporteById(idTransporte);
-        return modelMapper.map(transporte, TransporteDTO.class);
-    }
+    //============================GET=============================
 
     @GetMapping("/fornecedor/{idFornecedor}")
     @Operation(summary = "getTransportesFornecedor",
             description = "Devolve os transportes do fornecedor com o ID indicado, podendo os resultados serem filtrados por estado do transporte")
     @Parameters(value = {
-            @Parameter(name = "idFornecedor", description = "ID do Fornecedor"),
+            @Parameter(name = "idUniProd", description = "ID da Unidade De Producao"),
             @Parameter(name = "estadoTransporte", description = "Filtrar resultados por transportes com o estado indicado"),
             @Parameter(name = "page", description = "A pagina requerida"),
             @Parameter(name = "size", description = "A dimensao das paginas"),
@@ -62,14 +53,17 @@ public class TransporteControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
-    public List<TransporteDTO> getTransportesFornecedor(@PathVariable Integer idFornecedor,
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
+    public List<TransporteDTO> getTransportesFornecedor(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
+                                                        @RequestParam(required = false) Integer unidadeProducaoId,
                                                         @RequestParam(required = false) EstadoTransporte estadoTransporte,
                                                         @RequestParam(required = false) Integer page,
                                                         @RequestParam(required = false) Integer size,
                                                         @RequestParam(required = false) String sortKey,
-                                                        @RequestParam(required = false) Sort.Direction sortDir) {
-
-        List<Transporte> transportes = transporteService.getTransportesFornecedor(idFornecedor, estadoTransporte, page, size, sortKey, sortDir);
+                                                        @RequestParam(required = false) Sort.Direction sortDir) throws JWTTokenMissingException, ForbiddenActionException {
+        List<Transporte> transportes = transporteService.getTransportesFornecedor(securityUtils.getEmailFromAuthHeader(authorizationHeader)
+                ,unidadeProducaoId,estadoTransporte, page, size, sortKey, sortDir);
         List<TransporteDTO> transporteDTOS = transportes.stream()
                 .map(transporte -> modelMapper.map(transporte, TransporteDTO.class)).collect(Collectors.toList());
         return transporteDTOS;
@@ -77,7 +71,7 @@ public class TransporteControllerAPI {
 
     //===========================INSERT===========================
 
-    @PostMapping("/{idFornecedor}")
+    @PostMapping("{uniProdId}")
     @Operation(summary = "insertTransporte",
             description = "Adiciona um novo Transporte à BD, associado ao Fornecedor com o ID indicado")
     @Parameters(value = {
@@ -85,9 +79,14 @@ public class TransporteControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
-    public TransporteDTO insertTransporte(@RequestBody TransporteDTO transporteDTO, @PathVariable Integer idFornecedor) {
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
+    public TransporteDTO insertTransporte(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
+                                          @PathVariable Integer uniProdId,
+                                          @RequestBody TransporteInputDTO transporteDTO) throws JWTTokenMissingException,ForbiddenActionException{
         Transporte transporte = modelMapper.map(transporteDTO, Transporte.class);
-        return modelMapper.map(transporteService.addTransporte(transporte, idFornecedor), TransporteDTO.class);
+        return modelMapper.map(transporteService.addTransporte(securityUtils.getEmailFromAuthHeader(authorizationHeader),
+                uniProdId,transporte), TransporteDTO.class);
     }
 
     //===========================UPDATE===========================
@@ -100,9 +99,13 @@ public class TransporteControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
-    public TransporteDTO updateTransporte(@PathVariable Integer idTransporte, @RequestBody TransporteDTO transporteDTO) {
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
+    public TransporteDTO updateTransporte(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
+                                          @PathVariable Integer idTransporte,
+                                          @RequestBody TransporteInputDTO transporteDTO) throws JWTTokenMissingException,ForbiddenActionException{
         Transporte transporte = modelMapper.map(transporteDTO, Transporte.class);
-        return modelMapper.map(transporteService.updateTransporte(idTransporte, transporte), TransporteDTO.class);
+        return modelMapper.map(transporteService.updateTransporte(securityUtils.getEmailFromAuthHeader(authorizationHeader),idTransporte, transporte), TransporteDTO.class);
     }
 
     //===========================DELETE===========================
@@ -115,19 +118,11 @@ public class TransporteControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
-    public void deleteTransporte(@PathVariable Integer idTransporte) {
-        transporteService.deleteTransporte(idTransporte);
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
+    public void deleteTransporte(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
+                                 @PathVariable Integer idTransporte) throws JWTTokenMissingException,ForbiddenActionException{
+        transporteService.deleteTransporte(securityUtils.getEmailFromAuthHeader(authorizationHeader),idTransporte);
     }
 
-    @DeleteMapping()
-    @Operation(summary = "deleteTransportes",
-            description = "Apaga os Transportes com os IDs indicados da BD")
-    @Parameters(value = {
-            @Parameter(name = "ids", description = "IDs dos Transporte a apagar")})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
-    })
-    public void deleteTransportes(@RequestParam List<Integer> ids) {
-        transporteService.deleteTransporteBatch(ids);
-    }
 }

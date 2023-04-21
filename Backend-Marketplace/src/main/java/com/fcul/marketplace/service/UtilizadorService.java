@@ -1,7 +1,9 @@
 package com.fcul.marketplace.service;
 
+import com.fcul.marketplace.config.security.SecurityUtils;
 import com.fcul.marketplace.model.Consumidor;
 import com.fcul.marketplace.model.Fornecedor;
+import com.fcul.marketplace.model.Utilizador;
 import com.fcul.marketplace.repository.ConsumidorRepository;
 import com.fcul.marketplace.repository.FornecedorRepository;
 import com.fcul.marketplace.repository.UtilizadorRepository;
@@ -33,10 +35,6 @@ public class UtilizadorService {
         return fornecedorRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
-    /* public Consumidor getFornecedorByLocal(Integer id){
-        return null;
-    }*/
-
     public List<Consumidor> getConsumidores() {
         return consumidorRepository.findAll();
     }
@@ -45,17 +43,27 @@ public class UtilizadorService {
         return consumidorRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
-    /* public Consumidor getConsumidorByLocal(Integer id){
-        return null;
-    }*/
+    public Consumidor findConsumidorByEmail(String email) {
+        return consumidorRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);
+    }
+    public Fornecedor findFornecedorByEmail(String email) {
+        return fornecedorRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);
+    }
+
+    public Utilizador getUtilizadorByEmail(String userEmail) {
+        return utilizadorRepository.findByEmail(userEmail).orElseThrow(EntityNotFoundException::new);
+    }
 
     //===========================INSERT===========================
 
     public Consumidor addConsumidor(Consumidor consumidor) {
+        consumidor.setActive(true);
+
         return consumidorRepository.save(consumidor);
     }
 
     public Fornecedor addFornecedor(Fornecedor fornecedor) {
+        fornecedor.setActive(true);
         return fornecedorRepository.save(fornecedor);
     }
 
@@ -75,8 +83,10 @@ public class UtilizadorService {
         return consumidorRepository.save(consumidorBD);
     }
 
-    public Fornecedor updateFornecedor(Integer id, Fornecedor fornecedor) {
-        Fornecedor fornecedorBD = fornecedorRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+
+
+    public Fornecedor updateFornecedor(String email, Fornecedor fornecedor) {
+        Fornecedor fornecedorBD = findFornecedorByEmail(email);
         fornecedorBD.setTelemovel(fornecedor.getTelemovel());
         fornecedorBD.setContinente(fornecedor.getContinente());
         fornecedorBD.setCoordenadas(fornecedor.getCoordenadas());
@@ -99,5 +109,27 @@ public class UtilizadorService {
     public void deleteFornecedor(Integer id) {
         fornecedorRepository.deleteById(id);
     }
+
+    public Fornecedor deactivateFornecedor(Integer idFornecedor) {
+        Fornecedor fornecedor = getFornecedorByID(idFornecedor);
+        fornecedor.setActive(false);
+        return fornecedorRepository.save(fornecedor);
+    }
+    public Consumidor deactivateConsumidor(Integer idConsumidor) {
+        Consumidor consumidor =getConsumidorByID(idConsumidor);
+        consumidor.setActive(false);
+        return consumidorRepository.save(consumidor);
+    }
+    public Fornecedor activateFornecedor(Integer idFornecedor) {
+        Fornecedor fornecedor = getFornecedorByID(idFornecedor);
+        fornecedor.setActive(true);
+        return fornecedorRepository.save(fornecedor);
+    }
+    public Consumidor activateConsumidor(Integer idConsumidor) {
+        Consumidor consumidor = getConsumidorByID(idConsumidor);
+        consumidor.setActive(true);
+        return consumidorRepository.save(consumidor);
+    }
+
 
 }

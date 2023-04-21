@@ -3,6 +3,7 @@ package com.fcul.marketplace.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ public class UniProd {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idUnidade;
 
+    @NotBlank
     private String nomeUniProd;
 
     @ManyToOne

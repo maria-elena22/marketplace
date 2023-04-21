@@ -63,6 +63,23 @@ public class EncomendaService {
 
     }
 
+    public List<SubEncomenda> getAllSubEncomendas() {
+        return subEncomendaRepository.findAll();
+    }
+
+    public List<SubEncomenda> getSubEncomendas(String emailFromAuthHeader,String role, Double precoMin, Double precoMax, Date dataMin, Date dataMax, EstadoEncomenda estadoEncomenda, Integer page, Integer size, String sortKey, Sort.Direction sortDir) {
+        List<SubEncomenda> subEncomendas;
+        Pageable pageable = PageableUtils.getDefaultPageable(page, size, sortDir, sortKey);
+        if(role=="CONSUMIDOR") {
+            Consumidor consumidor =  utilizadorService.findConsumidorByEmail(emailFromAuthHeader);
+            subEncomendas = subEncomendaRepository.findAllOpt(consumidor.getIdUtilizador(), null, precoMin, precoMax, dataMin, dataMax, estadoEncomenda, pageable);
+        }else{
+            Fornecedor fornecedor =  utilizadorService.findFornecedorByEmail(emailFromAuthHeader);
+            subEncomendas = subEncomendaRepository.findAllOpt(null, fornecedor.getIdUtilizador(), precoMin, precoMax, dataMin, dataMax, estadoEncomenda, pageable);
+        }
+        return subEncomendas;
+    }
+
     public List<SubEncomenda> getSubEncomendasByFornecedorEmail(String email) {
 
         return subEncomendaRepository.findByFornecedorEmail(email);
@@ -86,6 +103,26 @@ public class EncomendaService {
 //            throw new ErroCalculoDoPrecoEnviadoException();
 //        }
 
+
+        /* TokenCreateParams params = TokenCreateParams.builder()
+                .setCard(TokenCreateParams.Card.builder()
+                        .setNumber("4242424242424242")
+                        .setExpMonth(12)
+                        .setExpYear(2022)
+                        .setCvc("123")
+                        .build())
+                .build();
+
+        Token token = Token.create(params);
+
+        ChargeCreateParams params = ChargeCreateParams.builder()
+                .setAmount(1000) // amount in cents
+                .setCurrency("usd")
+                .setDescription("Example charge")
+                .setSource(token.getId())
+                .build();
+
+        Charge charge = Charge.create(params);*/
         //TODO verificacao do pagamento
 
         Consumidor consumidor = utilizadorService.getConsumidorByID(idConsumidor);
@@ -95,13 +132,13 @@ public class EncomendaService {
 
         //Criacao das Notificacoes
 
-        for(Encomenda subencomenda : encomendas){
-
-            subencomenda = encomendaRepository.save(encomenda);
-            Notificacao notificacao = new Notificacao();
-            notificacaoService.insertNotificacao(encomenda,TipoNotificacao.NOVA_ENCOMENDA
-                    ,"Nova encomenda do consumidor" +  encomenda.getConsumidor().getNome(),encomenda.getConsumidor());
-        }
+//        for(Encomenda subencomenda : encomendas){
+//
+//            subencomenda = encomendaRepository.save(encomenda);
+//            Notificacao notificacao = new Notificacao();
+//            notificacaoService.insertNotificacao(encomenda,TipoNotificacao.NOVA_ENCOMENDA
+//                    ,"Nova encomenda do consumidor" +  encomenda.getConsumidor().getNome(),encomenda.getConsumidor());
+//        }
 
         return encomendas;
     }
@@ -109,11 +146,18 @@ public class EncomendaService {
     //===========================UPDATE===========================
 
 
-    public Encomenda cancelEncomenda(Integer idEncomenda) throws EncomendaAlreadyCancelledException,EncomendaCannotBeCancelledException{
+    public Encomenda cancelEncomenda(String emailConsumidor, Integer idEncomenda) throws EncomendaAlreadyCancelledException,EncomendaCannotBeCancelledException, ForbiddenActionException{
 
-        Encomenda encomenda = this.getEncomendaByID(idEncomenda);
-        if(encomenda.getEstadoEncomenda().equals(EstadoEncomenda.CANCELADO)){
-            throw new EncomendaAlreadyCancelledException("Esta encomenda ja se encontra cancelada");
+        Consumidor consumidor = utilizadorService.findConsumidorByEmail(emailConsumidor);
+
+
+        Encomenda encomenda = encomendaRepository.findById(idEncomenda).orElseThrow(EntityNotFoundException::new);
+        if(consumidor.getIdUtilizador()!= encomenda.getConsumidor().getIdUtilizador()){
+            throw new ForbiddenActionException("Não pode cancelar encomenda");
+        }
+
+            if(encomenda.getEstadoEncomenda().equals(EstadoEncomenda.CANCELADO)){
+            throw new EncomendaAlreadyCancelledException("Esta encomenda já se encontra cancelada");
         }
         if(encomenda.getEstadoEncomenda().equals(EstadoEncomenda.A_PROCESSAR)){
             throw new EncomendaCannotBeCancelledException("Esta encomenda já não pode ser cancelada");
@@ -192,4 +236,15 @@ public class EncomendaService {
         //todo
         item = null;
     }
+
+    private Charge charge(ChargeRequest chargeRequest) throws StripeException {
+        Map<String, Object> chargeParams = new HashMap<>();
+        chargeParams.put("amount", chargeRequest.getAmount());
+        chargeParams.put("currency", chargeRequest.getCurrency());
+        chargeParams.put("description", chargeRequest.getDescription());
+        chargeParams.put("source", chargeRequest.getStripeToken());
+        return Charge.create(chargeParams);
+    }
+
+
 }

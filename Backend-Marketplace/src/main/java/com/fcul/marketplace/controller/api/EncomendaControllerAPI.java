@@ -1,13 +1,16 @@
 package com.fcul.marketplace.controller.api;
 
+import com.fcul.marketplace.config.security.SecurityUtils;
 import com.fcul.marketplace.dto.encomenda.CompraDTO;
 import com.fcul.marketplace.dto.encomenda.EncomendaDTO;
 import com.fcul.marketplace.dto.encomenda.FullEncomendaDTO;
+import com.fcul.marketplace.dto.encomenda.FullSubEncomendaDTO;
 import com.fcul.marketplace.exceptions.EncomendaAlreadyCancelledException;
 import com.fcul.marketplace.exceptions.EncomendaCannotBeCancelledException;
 import com.fcul.marketplace.exceptions.ForbiddenActionException;
 import com.fcul.marketplace.exceptions.JWTTokenMissingException;
 import com.fcul.marketplace.model.Encomenda;
+import com.fcul.marketplace.model.SubEncomenda;
 import com.fcul.marketplace.model.enums.EstadoEncomenda;
 import com.fcul.marketplace.service.EncomendaService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,20 +41,10 @@ public class EncomendaControllerAPI {
     @Autowired
     ModelMapper modelMapper;
 
-    //============================GET=============================
+    @Autowired
+    SecurityUtils securityUtils;
 
-    @GetMapping("/{encomendaId}")
-    @Operation(summary = "getEncomendaByID",
-            description = "Devolve a Encomenda com o ID indicado")
-    @Parameters(value = {
-            @Parameter(name = "encomendaId", description = "ID da Encomenda")})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
-    })
-    public EncomendaDTO getEncomendaByID(@PathVariable Integer encomendaId) {
-        Encomenda encomenda = encomendaService.getEncomendaByID(encomendaId);
-        return modelMapper.map(encomenda, EncomendaDTO.class);
-    }
+    //============================GET=============================
 
     @GetMapping
     @Operation(summary = "getEncomendas",
@@ -140,7 +133,10 @@ public class EncomendaControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
-    public FullEncomendaDTO insertEncomenda(@RequestBody CompraDTO compraDTO, @PathVariable Integer idConsumidor) {
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"CONSUMIDOR"})
+    public FullEncomendaDTO insertEncomenda(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader, @RequestBody CompraDTO compraDTO) {
+
 
         Encomenda encomenda = new Encomenda();
         encomenda.setPreco(compraDTO.getPreco());
@@ -160,9 +156,11 @@ public class EncomendaControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
-    public EncomendaDTO cancelEncomenda(@PathVariable Integer idEncomenda) throws EncomendaAlreadyCancelledException, EncomendaCannotBeCancelledException {
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"CONSUMIDOR"})
+    public EncomendaDTO cancelEncomenda(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader, @PathVariable Integer idEncomenda) throws EncomendaAlreadyCancelledException, EncomendaCannotBeCancelledException, JWTTokenMissingException, ForbiddenActionException {
 
-        return modelMapper.map(encomendaService.cancelEncomenda(idEncomenda), EncomendaDTO.class);
+        return modelMapper.map(encomendaService.cancelEncomenda(securityUtils.getEmailFromAuthHeader(authorizationHeader),idEncomenda), EncomendaDTO.class);
     }
 
 }

@@ -13,5 +13,7 @@ public class CompraDTO {
 
     private Date dataEncomenda;
 
+    private ChargeRequest chargeRequest;
+
     List<SimpleItemDTO> items;
 }

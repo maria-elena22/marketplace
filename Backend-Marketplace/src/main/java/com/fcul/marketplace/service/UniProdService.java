@@ -1,5 +1,6 @@
 package com.fcul.marketplace.service;
 
+import com.fcul.marketplace.exceptions.ForbiddenActionException;
 import com.fcul.marketplace.model.Fornecedor;
 import com.fcul.marketplace.model.UniProd;
 import com.fcul.marketplace.repository.UniProdRepository;
@@ -23,20 +24,13 @@ public class UniProdService {
 
     //============================GET=============================//
 
-    public UniProd getUniProdByID(Integer id) {
-        return uniProdRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-    }
-
-    public List<UniProd> getUniProdsFornecedor(Integer idFornecedor) {
-        return uniProdRepository.findByFornecedorIdUtilizador(idFornecedor);
-    }
-
-    public List<UniProd> getUniProds(Integer fornecedorId, String nomeUniProd, Integer page,
+    public List<UniProd> getUniProds(String fornecedorEmail, String nomeUniProd, Integer page,
                                      Integer size, String sortKey, Sort.Direction sortDir) {
+        Fornecedor fornecedor= utilizadorService.findFornecedorByEmail(fornecedorEmail);
 
         Pageable pageable = PageableUtils.getDefaultPageable(page, size, sortDir, sortKey);
 
-        List<UniProd> uniProds = uniProdRepository.findByOpt(fornecedorId, nomeUniProd, pageable).getContent();
+        List<UniProd> uniProds = uniProdRepository.findByOpt(fornecedor.getIdUtilizador(), nomeUniProd, pageable).getContent();
 
         return uniProds;
     }
@@ -47,28 +41,37 @@ public class UniProdService {
 
     //===========================INSERT===========================//
 
-    public UniProd addUniProd(Integer fornecedorId, UniProd uniProd) {
-        Fornecedor fornecedor = utilizadorService.getFornecedorByID(fornecedorId);
+    public UniProd addUniProd(String fornecedorEmail, UniProd uniProd) {
+        Fornecedor fornecedor= utilizadorService.findFornecedorByEmail(fornecedorEmail);
+
         uniProd.setFornecedor(fornecedor);
         return uniProdRepository.save(uniProd);
     }
 
     //===========================UPDATE===========================//
 
-    public UniProd updateUniProd(Integer idUniProd, UniProd uniProd) {
+    public UniProd updateUniProd(String fornecedorEmail,Integer idUniProd, UniProd uniProd) throws ForbiddenActionException{
+        Fornecedor fornecedor= utilizadorService.findFornecedorByEmail(fornecedorEmail);
         UniProd uniProdBD = uniProdRepository.findById(idUniProd).orElseThrow(EntityNotFoundException::new);
+
+        if(uniProdBD.getFornecedor().getIdUtilizador()!= fornecedor.getIdUtilizador()){
+            throw new ForbiddenActionException("Você não é o dono desta unidade de produção");
+        }
+
         uniProdBD.setNomeUniProd(uniProd.getNomeUniProd());
         return uniProdRepository.save(uniProdBD);
     }
 
     //===========================DELETE===========================//
 
-    public void deleteUniProd(Integer id) {
-        uniProdRepository.deleteById(id);
-    }
+    public void deleteUniProd(String fornecedorEmail,Integer idUniProd) throws ForbiddenActionException{
+        Fornecedor fornecedor= utilizadorService.findFornecedorByEmail(fornecedorEmail);
+        UniProd uniProdBD = uniProdRepository.findById(idUniProd).orElseThrow(EntityNotFoundException::new);
+        if(uniProdBD.getFornecedor().getIdUtilizador()!= fornecedor.getIdUtilizador()){
+            throw new ForbiddenActionException("Você não é o dono desta unidade de produção");
+        }
 
-    public void deleteUniProdBatch(List<Integer> ids) {
-        uniProdRepository.deleteAllByIdInBatch(ids);
+        uniProdRepository.deleteById(idUniProd);
     }
 
 

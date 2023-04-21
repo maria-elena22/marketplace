@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,21 +30,32 @@ public class NotificacaoControllerAPI {
     @Autowired
     ModelMapper modelMapper;
 
-    @GetMapping("/{userId}")
-    public List<NotificacaoDTO> getNotificacoes(@PathVariable Integer userId){
-        List<Notificacao> notificacoes = notificacaoService.getNotificacoes(userId);
+    @Autowired
+    SecurityUtils securityUtils;
+
+    @GetMapping()
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR","CONSUMIDOR"})
+    public List<NotificacaoDTO> getNotificacoes(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader) throws JWTTokenMissingException {
+        List<Notificacao> notificacoes = notificacaoService.getNotificacoes(securityUtils.getEmailFromAuthHeader(authorizationHeader));
         return notificacoes.stream().map(notificacao -> modelMapper.map(notificacao,NotificacaoDTO.class)).collect(Collectors.toList());
     }
 
-    @PutMapping("/{encomendaId}")
-    public void generateSaidaTransporteNotificacao(List<Item> itens){
-        notificacaoService.generateSaidaTransporteNotificacao(itens);
+    @PostMapping("/saida")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
+    public void generateSaidaTransporteNotificacao(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
+                                                   @RequestBody List<Item> itens) throws JWTTokenMissingException{
+        notificacaoService.generateSaidaTransporteNotificacao(securityUtils.getEmailFromAuthHeader(authorizationHeader),itens);
     }
 
 
-    @PutMapping("/{encomendaId}")
-    public void generateChegadaEncomendaNotificacao(Item item){
-        notificacaoService.generateChegadaEncomendaNotificacao(item);
+    @PostMapping("/chegada")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
+    public void generateChegadaItemNotificacao(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
+                                                    @RequestBody Item item) throws JWTTokenMissingException{
+        notificacaoService.generateChegadaEncomendaNotificacao(securityUtils.getEmailFromAuthHeader(authorizationHeader),item);
         encomendaService.setItemAsEntregue(item);
     }
 

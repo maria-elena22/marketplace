@@ -13,12 +13,14 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -33,19 +35,6 @@ public class ProdutoControllerAPI {
     ModelMapper modelMapper;
 
     //============================GET=============================
-
-
-    @GetMapping("/{produtoId}")
-    @Operation(summary = "getProdutoById",
-            description = "Devolve o Produto com o ID indicado")
-    @Parameters(value = {
-            @Parameter(name = "produtoId", description = "ID do Produto")})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
-    })
-    public FullProdutoDTO getProdutoById(@PathVariable Integer produtoId) {
-        return modelMapper.map(produtoService.getProdutoByID(produtoId), FullProdutoDTO.class);
-    }
 
     @GetMapping()
     @Operation(summary = "getProdutos",
@@ -94,6 +83,8 @@ public class ProdutoControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"CONSUMIDOR"})
     public List<ProdutoDTO> getProdutosByEncomenda(@PathVariable Integer idEncomenda) {
         List<Produto> produtos = produtoService.getProdutosByEncomenda(idEncomenda);
         List<ProdutoDTO> produtoDTOS = produtos.stream()
@@ -130,6 +121,8 @@ public class ProdutoControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"CONSUMIDOR"})
     public FullProdutoDTO insertProduto(@RequestBody ProdutoPropriedadesDTO produtoPropriedadesDTO,
                                     @RequestParam List<Integer> uniProdsIds,
                                     @RequestParam List<Integer> subCategoriasIds)
@@ -148,6 +141,8 @@ public class ProdutoControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"CONSUMIDOR"})
     public ProdutoDTO updateProduto(@PathVariable Integer id, @RequestBody ProdutoDTO produtoDTO) {
         Produto produto = produtoService.updateProduto(id, modelMapper.map(produtoDTO, Produto.class));
         return modelMapper.map(produto, ProdutoDTO.class);

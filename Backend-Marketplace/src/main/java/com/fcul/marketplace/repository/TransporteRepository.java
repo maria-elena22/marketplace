@@ -4,6 +4,7 @@ import com.fcul.marketplace.model.Transporte;
 import com.fcul.marketplace.model.enums.EstadoTransporte;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -11,9 +12,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TransporteRepository extends JpaRepository<Transporte, Integer> {
 
+    @Query("SELECT t FROM Transporte t where" +
+            "(t.unidadeDeProducao.idUnidade = :idUniProd) and" +
+            "(:estadoTransporte is null or t.estadoTransporte =:estadoTransporte)")
+    Page<Transporte> findByUniProdId(Integer idUniProd, EstadoTransporte estadoTransporte, Pageable pageable);
 
     @Query("SELECT t FROM Transporte t where" +
-            "(t.fornecedor.idUtilizador = :idFornecedor) and" +
+            "(t.unidadeDeProducao.fornecedor.idUtilizador = :idUtilizador) and" +
             "(:estadoTransporte is null or t.estadoTransporte =:estadoTransporte)")
-    Page<Transporte> findByFornecedorIdUtilizador(Integer idFornecedor, EstadoTransporte estadoTransporte, Pageable pageable);
+    Page<Transporte> findByFornecedorId(Integer idUtilizador, EstadoTransporte estadoTransporte, Pageable pageable);
 }

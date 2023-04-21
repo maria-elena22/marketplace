@@ -97,6 +97,8 @@ public class CategoriaControllerAPI {
         return propriedadeDTOS;
     }
 
+
+    //TODO REVER COM O FRONTEND SE E ALGUMA VEZ CHAMADO
     @GetMapping("/{idCategoria}/subcategoria")
     @Operation(summary = "getSubCategorias",
             description = "Devolve todas as Subcategorias da Categoria com o ID indicado")
@@ -238,11 +240,10 @@ public class CategoriaControllerAPI {
     @RolesAllowed({"FORNECEDOR"})
     public FullCategoriaDTO updateSubCategoria(@PathVariable Integer subcategoriaId, @RequestBody SubCategoriaInputDTO subCategoriaDTO) {
         SubCategoria subCategoria = modelMapper.map(subCategoriaDTO, SubCategoria.class);
-        return modelMapper.map(categoriaService.updateSubcategoria(subcategoriaId, subCategoria), SubCategoriaDTO.class);
+        return modelMapper.map(categoriaService.updateSubcategoria(subcategoriaId, subCategoria), FullCategoriaDTO.class);
     }
 
     //===========================DELETE===========================
-
 
 //    @DeleteMapping("/propriedade/{propriedadeId}")
 //    @Operation(summary = "deletePropriedade",

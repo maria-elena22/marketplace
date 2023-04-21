@@ -1,6 +1,13 @@
 package com.fcul.marketplace.controller.api;
 
-import com.fcul.marketplace.dto.UtilizadorDTO;
+import com.auth0.exception.Auth0Exception;
+import com.fcul.marketplace.config.security.SecurityUtils;
+import com.fcul.marketplace.dto.utilizador.SignUpDTO;
+import com.fcul.marketplace.dto.utilizador.UtilizadorDTO;
+import com.fcul.marketplace.dto.utilizador.UtilizadorInputDTO;
+import com.fcul.marketplace.exceptions.BadCredentialsException;
+import com.fcul.marketplace.exceptions.JWTTokenMissingException;
+import com.fcul.marketplace.exceptions.SignUpException;
 import com.fcul.marketplace.model.Consumidor;
 import com.fcul.marketplace.model.Fornecedor;
 import com.fcul.marketplace.service.UtilizadorService;
@@ -9,10 +16,12 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,6 +68,8 @@ public class UtilizadorControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"ADMIN"})
     public List<UtilizadorDTO> getConsumidores() {
 
         List<Consumidor> consumidores = utilizadorService.getConsumidores();
@@ -73,6 +84,8 @@ public class UtilizadorControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"ADMIN"})
     public List<UtilizadorDTO> getFornecedores() {
 
         List<Fornecedor> fornecedores = utilizadorService.getFornecedores();
@@ -89,6 +102,8 @@ public class UtilizadorControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"ADMIN"})
     public UtilizadorDTO getConsumidorByID(@PathVariable Integer idConsumidor) {
         return modelMapper.map(utilizadorService.getConsumidorByID(idConsumidor), UtilizadorDTO.class);
     }
@@ -101,39 +116,49 @@ public class UtilizadorControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"ADMIN"})
     public UtilizadorDTO getFornecedorByID(@PathVariable Integer idFornecedor) {
         return modelMapper.map(utilizadorService.getFornecedorByID(idFornecedor), UtilizadorDTO.class);
     }
 
     //===========================INSERT===========================
 
-    @PostMapping("/consumidor")
+    @PostMapping("/register/consumidor")
     @Operation(summary = "insertConsumidor",
             description = "Adiciona um novo Consumidor à BD")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
-    public UtilizadorDTO insertConsumidor(@RequestBody UtilizadorDTO utilizadorDTO) {
-        Consumidor consumidor = modelMapper.map(utilizadorDTO, Consumidor.class);
+    public String insertConsumidor(@RequestBody SignUpDTO signupDTO) throws Auth0Exception, SignUpException {
+
+        securityUtils.registerUser(signupDTO.getEmail(), signupDTO.getPassword(), "ROLE_CONSUMIDOR");
+        String token = securityUtils.generateToken(signupDTO.getEmail(), signupDTO.getPassword());
+
+        Consumidor consumidor = modelMapper.map(signupDTO, Consumidor.class);
         consumidor = utilizadorService.addConsumidor(consumidor);
-        return modelMapper.map(consumidor, UtilizadorDTO.class);
+        return token;
     }
 
-    @PostMapping("/fornecedor")
+    @PostMapping("/register/fornecedor")
     @Operation(summary = "insertFornecedor",
             description = "Adiciona um novo Fornecedor à BD")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
-    public UtilizadorDTO insertFornecedor(@RequestBody UtilizadorDTO utilizadorDTO) {
-        Fornecedor fornecedor = modelMapper.map(utilizadorDTO, Fornecedor.class);
+    public String insertFornecedor(@RequestBody SignUpDTO signupDTO) throws Auth0Exception, SignUpException {
+
+        securityUtils.registerUser(signupDTO.getEmail(), signupDTO.getPassword(), "ROLE_FORNECEDOR");
+        String token = securityUtils.generateToken(signupDTO.getEmail(), signupDTO.getPassword());
+
+        Fornecedor fornecedor = modelMapper.map(signupDTO, Fornecedor.class);
         fornecedor = utilizadorService.addFornecedor(fornecedor);
-        return modelMapper.map(fornecedor, UtilizadorDTO.class);
+        return token;
     }
 
     //===========================UPDATE===========================
 
-    @PutMapping("/consumidor/{idConsumidor}")
+    @PutMapping("/consumidor")
     @Operation(summary = "updateConsumidor",
             description = "Atualiza os dados de um Consumidor")
     @Parameters(value = {
@@ -141,21 +166,27 @@ public class UtilizadorControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
-    public UtilizadorDTO updateConsumidor(@PathVariable Integer idConsumidor, @RequestBody UtilizadorDTO utilizadorDTO) {
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"CONSUMIDOR"})
+    public UtilizadorDTO updateConsumidor(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
+                                          @RequestBody UtilizadorInputDTO utilizadorDTO) throws JWTTokenMissingException{
         Consumidor consumidor = modelMapper.map(utilizadorDTO, Consumidor.class);
-        consumidor = utilizadorService.updateConsumidor(idConsumidor, consumidor);
+        consumidor = utilizadorService.updateConsumidor(securityUtils.getEmailFromAuthHeader(authorizationHeader), consumidor);
         return modelMapper.map(consumidor, UtilizadorDTO.class);
     }
 
-    @PutMapping("/fornecedor/{idFornecedor}")
+    @PutMapping("/fornecedor")
     @Operation(summary = "updateFornecedor",
             description = "Atualiza os dados de um Fornecedor")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
-    public UtilizadorDTO updateFornecedor(@PathVariable Integer idFornecedor, @RequestBody UtilizadorDTO utilizadorDTO) {
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
+    public UtilizadorDTO updateFornecedor(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
+                                          @RequestBody UtilizadorInputDTO utilizadorDTO) throws JWTTokenMissingException{
         Fornecedor fornecedor = modelMapper.map(utilizadorDTO, Fornecedor.class);
-        fornecedor = utilizadorService.updateFornecedor(idFornecedor, fornecedor);
+        fornecedor = utilizadorService.updateFornecedor(securityUtils.getEmailFromAuthHeader(authorizationHeader), fornecedor);
         return modelMapper.map(fornecedor, UtilizadorDTO.class);
     }
 
@@ -225,6 +256,8 @@ public class UtilizadorControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"CONSUMIDOR"})
     public void deleteConsumidor(@PathVariable Integer idConsumidor) {
         utilizadorService.deleteConsumidor(idConsumidor);
     }
@@ -237,33 +270,11 @@ public class UtilizadorControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
     public void deleteFornecedor(@PathVariable Integer idFornecedor) {
         utilizadorService.deleteFornecedor(idFornecedor);
     }
-
-    @DeleteMapping("/consumidor")
-    @Operation(summary = "deleteConsumidorBatch",
-            description = "Apaga os Consumidores com os IDs indicados da BD")
-    @Parameters(value = {
-            @Parameter(name = "ids", description = "IDs dos Consumidores a apagar")})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
-    })
-    public void deleteConsumidorBatch(@RequestParam List<Integer> ids) {
-        utilizadorService.deleteConsumidorBatch(ids);
-    }
-
-    @DeleteMapping("/fornecedor")
-    @Operation(summary = "deleteFornecedorBatch",
-            description = "Apaga os Fornecedores com os IDs indicados da BD")
-    @Parameters(value = {
-            @Parameter(name = "ids", description = "IDs dos Fornecedores a apagar")})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
-    })
-    public void deleteFornecedorBatch(@RequestParam List<Integer> ids) {
-        utilizadorService.deleteFornecedorBatch(ids);
-    }
-
+    
 
 }

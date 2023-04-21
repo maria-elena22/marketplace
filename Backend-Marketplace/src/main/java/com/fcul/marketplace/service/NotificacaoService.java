@@ -1,16 +1,13 @@
 package com.fcul.marketplace.service;
 
-import com.fcul.marketplace.model.Consumidor;
-import com.fcul.marketplace.model.Encomenda;
-import com.fcul.marketplace.model.Item;
-import com.fcul.marketplace.model.Notificacao;
+import com.fcul.marketplace.model.*;
 import com.fcul.marketplace.model.enums.TipoNotificacao;
 import com.fcul.marketplace.repository.NotificacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class NotificacaoService {
@@ -31,26 +28,29 @@ public class NotificacaoService {
 
 
     @Transactional
-    public Notificacao insertNotificacao(Encomenda encomenda, TipoNotificacao tipoNotificacao, String message, Consumidor consumidor) {
-        Notificacao notificacao = new Notificacao(null,message,encomenda,tipoNotificacao,consumidor,false);
+    public Notificacao insertNotificacao(SubEncomenda subEncomenda, TipoNotificacao tipoNotificacao, String message, Utilizador receiver,Utilizador issuer) {
+        Notificacao notificacao = new Notificacao(null,message,subEncomenda,tipoNotificacao,issuer,receiver,false);
         return notificacaoRepository.save(notificacao);
     }
 
-    public void generateSaidaTransporteNotificacao(List<Item> items) {
+
+
+
+    public void generateSaidaTransporteNotificacao(String emailFornecedor, List<Item> items) {
+        Fornecedor issuer = utilizadorService.findFornecedorByEmail(emailFornecedor);
 
         for(Item item:items){
-
             Notificacao notificacao = new Notificacao();
+            notificacao.setIdNotificacao(null);
+            notificacao.setRemetente(issuer);
+            notificacao.setDestinatario(item.getSubEncomenda().getEncomenda().getConsumidor());
+            notificacao.setSubEncomenda(item.getSubEncomenda());
             notificacao.setTipoNotificacao(TipoNotificacao.SAIDA_UNI_PROD);
-            //TODO
-//            Encomenda encomenda = item.getEncomenda();
-//            notificacao.setEncomenda(encomenda);
-//            notificacao.setMensagem("O transporte do fornecedor " + item.getFornecedor().getNome()
-//                     + " acabou de sair com o item " + item.getProduto().getNome() +
-//                    " da sua encomenda"+ encomenda.getIdEncomenda()+ " !");
+            notificacao.setMensagem("O transporte do fornecedor " + issuer.getNome() + "acabou de sair com: " +
+                    item.getQuantidade() + "x - " + item.getProduto().getNome() );
             notificacaoRepository.save(notificacao);
-
         }
+
 
     }
 
@@ -58,14 +58,13 @@ public class NotificacaoService {
         Fornecedor issuer = utilizadorService.findFornecedorByEmail(emailFornecedor);
 
         Notificacao notificacao = new Notificacao();
+        notificacao.setIdNotificacao(null);
+        notificacao.setRemetente(issuer);
+        notificacao.setDestinatario(item.getSubEncomenda().getEncomenda().getConsumidor());
+        notificacao.setSubEncomenda(item.getSubEncomenda());
         notificacao.setTipoNotificacao(TipoNotificacao.CHEGADA_IMINENTE);
-        //TODO
-//        Encomenda encomenda = item.getEncomenda();
-//        notificacao.setUtilizador(encomenda.getConsumidor());
-//        notificacao.setEncomenda(encomenda);
-//        notificacao.setMensagem("A sua encomenda " + encomenda.getIdEncomenda() + " do fornecedor " +
-//                item.getFornecedor().getNome() + " está prestes a chegar!");
-
+        notificacao.setMensagem("O transporte do fornecedor " + issuer.getNome() + "esta preste a chegar com: " +
+                item.getQuantidade() + "x - " + item.getProduto().getNome() );
         notificacaoRepository.save(notificacao);
     }
 }

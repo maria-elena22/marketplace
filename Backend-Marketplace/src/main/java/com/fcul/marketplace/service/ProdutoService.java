@@ -22,9 +22,6 @@ public class ProdutoService {
     ProdutoRepository produtoRepository;
 
     @Autowired
-    EncomendaService encomendaService;
-
-    @Autowired
     UniProdService uniProdService;
 
     @Autowired

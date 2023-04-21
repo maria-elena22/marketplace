@@ -19,6 +19,7 @@ public class Item {
     @ManyToOne
     private Produto produto;
 
+    @Min(value=0,message="Quantidade nao pode ser negativa")
     private Integer quantidade;
 
     private Boolean entregue = false;
