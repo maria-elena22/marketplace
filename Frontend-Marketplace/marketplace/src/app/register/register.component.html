@@ -16,7 +16,7 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Vamos criar uma conta?</h1>
                                     </div>
-                                    <form class="user" action="/login" method="post">
+                                    <form class="user" method="post">
                                         <div class="form-group row">
                                             <div class="col-sm">    
                                                 <p class="d-inline-block">Quer se inscrever como: &nbsp;</p> 
@@ -29,8 +29,12 @@
                                         </div>
                                         <div id = "camposConsumidor" class="form-group row">
                                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                                <label for="name">Nome:</label>
-                                                <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="Nome" required>
+                                                <label  for="name">Nome:</label>
+                                                <input type="text" class="form-control form-control-user" id="nomeConsumidor" placeholder="Nome" required>
+                                            </div>
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <label  for="idFiscal">Id Fiscal:</label>
+                                                <input type="text" class="form-control form-control-user" id="idFiscalConsumidor" placeholder="Id Fiscal" required>
                                             </div>
                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <label for="tlmv">Telemovel:</label>
@@ -41,7 +45,11 @@
                                         <div id = "camposFornecedor" class="form-group row">
                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <label for="nameForn">Nome Fornecedor:</label>
-                                                <input type="text" class="form-control form-control-user" id="exampleNameFornecedor" placeholder="Nome Fornecedor" required>
+                                                <input type="text" class="form-control form-control-user" id="nomeFornecedor" placeholder="Nome Fornecedor" required>
+                                            </div>
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <label  for="idFiscal">Id Fiscal:</label>
+                                                <input type="text" class="form-control form-control-user" id="idFiscalFornecedor" placeholder="Id Fiscal" required>
                                             </div>
                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <label for="contacto">Contacto:</label>
@@ -89,7 +97,7 @@
                                                 <input type="password" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Repetir Palavra-passe" required>
                                             </div>
                                         </div>
-                                        <input type="submit"  class="btn btn-primary btn-user btn-block" value="Criar Conta!" id ="submitBtn">
+                                        <input type="submit" (click)="createUser()" class="btn btn-primary btn-user btn-block" value="Criar Conta!" id ="submitBtn">
                                         
                                         <a href="" class="btn btn-google btn-user btn-block">
                                             <i class="fab fa-google fa-fw"></i> Registar com o Google

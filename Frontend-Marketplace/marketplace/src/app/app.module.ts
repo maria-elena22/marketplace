@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { MatFormFieldModule } from '@angular/material/form-field'; // <-- import this
+import { ReactiveFormsModule } from '@angular/forms'; // import ReactiveFormsModule
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -20,6 +22,10 @@ import { AdminFornecedorComponent } from './admin-fornecedor/admin-fornecedor.co
 import { TransportesComponent } from './transportes/transportes.component';
 import { PagamentoComponent } from './pagamento/pagamento.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { TerminarSessaoComponent } from './terminar-sessao/terminar-sessao.component';
+import { EliminarContaComponent } from './eliminar-conta/eliminar-conta.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 const appRoutes: Routes = [
@@ -43,12 +49,15 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     FormsModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
     HttpClientModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only
     ),
-    NgbModule
+    NgbModule,
+    BrowserAnimationsModule
   ],
   declarations: [
     AppComponent,
@@ -65,7 +74,10 @@ const appRoutes: Routes = [
     AdminFornecedorComponent,
     TransportesComponent,
     PagamentoComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    SidebarComponent,
+    TerminarSessaoComponent,
+    EliminarContaComponent
   ],
   bootstrap: [ AppComponent ]
 })

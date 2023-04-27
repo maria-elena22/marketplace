@@ -9,10 +9,10 @@ export class ConsumidorService{
 
     }
     //cria um consumidor na base de dados
-    createConsumidor(consumidores: {name: string, id: number}){
-        console.log(consumidores);
+    createConsumidor(consumidor: {idFiscal:String ,nome:String}){
+        // console.log(consumidor);
         const headers = new HttpHeaders();
-        this.http.post<{name:string}>('', consumidores, {headers: headers})
+        this.http.post<{name:string}>('http://localhost:8080/api/utilizador/consumidor', consumidor, {headers: headers})
         .subscribe((res) => {
             console.log(res);
         });

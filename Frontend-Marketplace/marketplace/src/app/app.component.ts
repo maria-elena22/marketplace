@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ProdutosService } from './service/produtos.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -13,8 +12,8 @@ import { Observable } from 'rxjs';
 
 export class AppComponent implements OnInit{
   title = 'marketplace';
-
-  products = this.getProdutos();
+  
+  // products: this.getCategorias();
 
   constructor(private http: HttpClient, private produtosService: ProdutosService){
 
@@ -23,9 +22,9 @@ export class AppComponent implements OnInit{
   ngOnInit(): void {
   }
 
-  getProdutos(){
+  getCategorias(){
     console.log("success");
-    this.produtosService.getProdutos();
+    return this.produtosService.getCategorias();
   }
 
 }

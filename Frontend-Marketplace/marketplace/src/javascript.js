@@ -1,21 +1,14 @@
-function welcome() {
-    document.querySelector(".element").classList.add('show');
-    setTimeout(function () {
-        window.location.href = '/admin-consumidor';
-    }, 1000);
-}
-
 function register() {
     document.getElementById("camposFornecedor").style.display = "none";
 
     document.getElementById("submitBtn").addEventListener("click", function () {
         let value = document.getElementById("filtraSelect").value;
 
-        if (value === "consumidor") {
-            window.location.href = '/welcome';
-        } else if (value === "fornecedor") {
-            window.location.href = '/admin-fornecedor';
-        }
+        // if (value === "consumidor") {
+        //     window.location.href = '/welcome';
+        // } else if (value === "fornecedor") {
+        //     window.location.href = '/admin-fornecedor';
+        // }
     });
 
     document.getElementById("filtraSelect").addEventListener("change", function () {
@@ -31,4 +24,5 @@ function register() {
             document.getElementById("camposFornecedor").style.display = "none";
         }
     });
+
 }

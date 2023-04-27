@@ -1,0 +1,16 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* .element {
+    opacity: 0;
+    transition: opacity 1s ease-in; 
+    text-align: center;
+} */
+
+.element.show {
+    opacity: 1;
+}
