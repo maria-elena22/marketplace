@@ -1,11 +1,13 @@
 package com.fcul.marketplace.controller.api;
 
 import com.auth0.exception.Auth0Exception;
+import com.fcul.marketplace.config.security.AuthAPIConfig;
 import com.fcul.marketplace.config.security.SecurityUtils;
 import com.fcul.marketplace.dto.utilizador.SignUpDTO;
 import com.fcul.marketplace.dto.utilizador.UtilizadorDTO;
 import com.fcul.marketplace.dto.utilizador.UtilizadorInputDTO;
 import com.fcul.marketplace.exceptions.BadCredentialsException;
+import com.fcul.marketplace.exceptions.InactiveAccountException;
 import com.fcul.marketplace.exceptions.JWTTokenMissingException;
 import com.fcul.marketplace.exceptions.SignUpException;
 import com.fcul.marketplace.model.Consumidor;
@@ -38,6 +40,9 @@ public class UtilizadorControllerAPI {
     @Autowired
     SecurityUtils securityUtils;
 
+    @Autowired
+    AuthAPIConfig authAPIConfig;
+
     //============================GET=============================
 
     @Operation(summary = "getLogin",
@@ -50,13 +55,23 @@ public class UtilizadorControllerAPI {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
     @GetMapping("login")
-    public String login(@RequestParam String email, @RequestParam String password) throws BadCredentialsException {
+    public String login(@RequestParam String email, @RequestParam String password) throws BadCredentialsException, InactiveAccountException {
 
-        String token = null;
+
+        String token;
         try {
             token = securityUtils.generateToken(email, password);
         } catch (Auth0Exception e) {
             throw new BadCredentialsException("Wrong email or password");
+        }
+
+
+        try {
+            if (!securityUtils.getRoleFromAuthHeader("Bearer " + token).equals("ADMIN")) {
+                utilizadorService.verifyAccount(email);
+            }
+        } catch (JWTTokenMissingException e) {
+            throw new RuntimeException(e);
         }
 
         return token;
@@ -73,9 +88,8 @@ public class UtilizadorControllerAPI {
     public List<UtilizadorDTO> getConsumidores() {
 
         List<Consumidor> consumidores = utilizadorService.getConsumidores();
-        List<UtilizadorDTO> utilizadorDTOS = consumidores
+        return consumidores
                 .stream().map(consumidor -> modelMapper.map(consumidor, UtilizadorDTO.class)).collect(Collectors.toList());
-        return utilizadorDTOS;
     }
 
     @GetMapping("/fornecedor")
@@ -89,9 +103,8 @@ public class UtilizadorControllerAPI {
     public List<UtilizadorDTO> getFornecedores() {
 
         List<Fornecedor> fornecedores = utilizadorService.getFornecedores();
-        List<UtilizadorDTO> utilizadorDTOS = fornecedores
+        return fornecedores
                 .stream().map(fornecedor -> modelMapper.map(fornecedor, UtilizadorDTO.class)).collect(Collectors.toList());
-        return utilizadorDTOS;
     }
 
     @GetMapping("/consumidor/{idConsumidor}")
@@ -122,6 +135,18 @@ public class UtilizadorControllerAPI {
         return modelMapper.map(utilizadorService.getFornecedorByID(idFornecedor), UtilizadorDTO.class);
     }
 
+    @GetMapping("/utilizador")
+    @Operation(summary = "getDetalhesUtilizador",
+            description = "Devolve os Detalhes do Utilizador")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
+    })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"CONSUMIDOR", "FORNECEDOR"})
+    public UtilizadorDTO getDetalhesUtilizador(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader) throws JWTTokenMissingException {
+        return modelMapper.map(utilizadorService.getUtilizadorByEmail(securityUtils.getEmailFromAuthHeader(authorizationHeader)), UtilizadorDTO.class);
+    }
+
     //===========================INSERT===========================
 
     @PostMapping("/register/consumidor")
@@ -132,12 +157,17 @@ public class UtilizadorControllerAPI {
     })
     public String insertConsumidor(@RequestBody SignUpDTO signupDTO) throws Auth0Exception, SignUpException {
 
-        securityUtils.registerUser(signupDTO.getEmail(), signupDTO.getPassword(), "ROLE_CONSUMIDOR");
-        String token = securityUtils.generateToken(signupDTO.getEmail(), signupDTO.getPassword());
-
         Consumidor consumidor = modelMapper.map(signupDTO, Consumidor.class);
         consumidor = utilizadorService.addConsumidor(consumidor);
-        return token;
+
+        try {
+            securityUtils.registerUser(signupDTO.getEmail(), signupDTO.getPassword(), "ROLE_CONSUMIDOR");
+        } catch (Auth0Exception | SignUpException e1) {
+            utilizadorService.deleteConsumidor(consumidor.getIdUtilizador());
+            throw e1;
+        }
+
+        return securityUtils.generateToken(signupDTO.getEmail(), signupDTO.getPassword());
     }
 
     @PostMapping("/register/fornecedor")
@@ -148,12 +178,17 @@ public class UtilizadorControllerAPI {
     })
     public String insertFornecedor(@RequestBody SignUpDTO signupDTO) throws Auth0Exception, SignUpException {
 
-        securityUtils.registerUser(signupDTO.getEmail(), signupDTO.getPassword(), "ROLE_FORNECEDOR");
-        String token = securityUtils.generateToken(signupDTO.getEmail(), signupDTO.getPassword());
-
         Fornecedor fornecedor = modelMapper.map(signupDTO, Fornecedor.class);
         fornecedor = utilizadorService.addFornecedor(fornecedor);
-        return token;
+
+        try {
+            securityUtils.registerUser(signupDTO.getEmail(), signupDTO.getPassword(), "ROLE_FORNECEDOR");
+        } catch (Auth0Exception | SignUpException e1) {
+            utilizadorService.deleteFornecedor(fornecedor.getIdUtilizador());
+            throw e1;
+        }
+
+        return securityUtils.generateToken(signupDTO.getEmail(), signupDTO.getPassword());
     }
 
     //===========================UPDATE===========================
@@ -169,7 +204,7 @@ public class UtilizadorControllerAPI {
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"CONSUMIDOR"})
     public UtilizadorDTO updateConsumidor(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
-                                          @RequestBody UtilizadorInputDTO utilizadorDTO) throws JWTTokenMissingException{
+                                          @RequestBody UtilizadorInputDTO utilizadorDTO) throws JWTTokenMissingException {
         Consumidor consumidor = modelMapper.map(utilizadorDTO, Consumidor.class);
         consumidor = utilizadorService.updateConsumidor(securityUtils.getEmailFromAuthHeader(authorizationHeader), consumidor);
         return modelMapper.map(consumidor, UtilizadorDTO.class);
@@ -184,7 +219,7 @@ public class UtilizadorControllerAPI {
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
     public UtilizadorDTO updateFornecedor(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
-                                          @RequestBody UtilizadorInputDTO utilizadorDTO) throws JWTTokenMissingException{
+                                          @RequestBody UtilizadorInputDTO utilizadorDTO) throws JWTTokenMissingException {
         Fornecedor fornecedor = modelMapper.map(utilizadorDTO, Fornecedor.class);
         fornecedor = utilizadorService.updateFornecedor(securityUtils.getEmailFromAuthHeader(authorizationHeader), fornecedor);
         return modelMapper.map(fornecedor, UtilizadorDTO.class);
@@ -217,6 +252,7 @@ public class UtilizadorControllerAPI {
     public void deactivateFornecedor(@PathVariable Integer idFornecedor) {
         utilizadorService.deactivateFornecedor(idFornecedor);
     }
+
     @PutMapping("/consumidor/activate/{idConsumidor}")
     @Operation(summary = "activateConsumidor",
             description = "Ativa o Consumidor com o ID indicado")
@@ -248,33 +284,19 @@ public class UtilizadorControllerAPI {
 
     //===========================DELETE===========================
 
-    @DeleteMapping("/consumidor/{idConsumidor}")
-    @Operation(summary = "deleteConsumidor",
-            description = "Apaga o Consumidor com o ID indicado")
-    @Parameters(value = {
-            @Parameter(name = "idConsumidor", description = "ID do Consumidor a apagar")})
+    @DeleteMapping("")
+    @Operation(summary = "deleteUtilizador",
+            description = "Apaga o Utilizador com o ID indicado")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
     @SecurityRequirement(name = "Bearer Authentication")
-    @RolesAllowed({"CONSUMIDOR"})
-    public void deleteConsumidor(@PathVariable Integer idConsumidor) {
-        utilizadorService.deleteConsumidor(idConsumidor);
+    @RolesAllowed({"CONSUMIDOR", "FORNECEDOR"})
+    public void deleteUtilizador(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader) throws JWTTokenMissingException, Auth0Exception {
+        String email = securityUtils.getEmailFromAuthHeader(authorizationHeader);
+        utilizadorService.deleteUtilizadorByEmail(email);
+        securityUtils.deleteUser(authorizationHeader);
     }
 
-    @DeleteMapping("/fornecedor/{idFornecedor}")
-    @Operation(summary = "deleteFornecedor",
-            description = "Apaga o Fornecedor com o ID indicado")
-    @Parameters(value = {
-            @Parameter(name = "idFornecedor", description = "ID do Fornecedor a apagar")})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
-    })
-    @SecurityRequirement(name = "Bearer Authentication")
-    @RolesAllowed({"FORNECEDOR"})
-    public void deleteFornecedor(@PathVariable Integer idFornecedor) {
-        utilizadorService.deleteFornecedor(idFornecedor);
-    }
-    
 
 }

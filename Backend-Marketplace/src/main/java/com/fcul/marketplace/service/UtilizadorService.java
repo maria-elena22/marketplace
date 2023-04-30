@@ -1,6 +1,6 @@
 package com.fcul.marketplace.service;
 
-import com.fcul.marketplace.config.security.SecurityUtils;
+import com.fcul.marketplace.exceptions.InactiveAccountException;
 import com.fcul.marketplace.model.Consumidor;
 import com.fcul.marketplace.model.Fornecedor;
 import com.fcul.marketplace.model.Utilizador;
@@ -46,6 +46,7 @@ public class UtilizadorService {
     public Consumidor findConsumidorByEmail(String email) {
         return consumidorRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);
     }
+
     public Fornecedor findFornecedorByEmail(String email) {
         return fornecedorRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);
     }
@@ -84,7 +85,6 @@ public class UtilizadorService {
     }
 
 
-
     public Fornecedor updateFornecedor(String email, Fornecedor fornecedor) {
         Fornecedor fornecedorBD = findFornecedorByEmail(email);
         fornecedorBD.setTelemovel(fornecedor.getTelemovel());
@@ -115,20 +115,36 @@ public class UtilizadorService {
         fornecedor.setActive(false);
         return fornecedorRepository.save(fornecedor);
     }
+
     public Consumidor deactivateConsumidor(Integer idConsumidor) {
-        Consumidor consumidor =getConsumidorByID(idConsumidor);
+        Consumidor consumidor = getConsumidorByID(idConsumidor);
         consumidor.setActive(false);
         return consumidorRepository.save(consumidor);
     }
+
     public Fornecedor activateFornecedor(Integer idFornecedor) {
         Fornecedor fornecedor = getFornecedorByID(idFornecedor);
         fornecedor.setActive(true);
         return fornecedorRepository.save(fornecedor);
     }
+
     public Consumidor activateConsumidor(Integer idConsumidor) {
         Consumidor consumidor = getConsumidorByID(idConsumidor);
         consumidor.setActive(true);
         return consumidorRepository.save(consumidor);
+    }
+
+    public void verifyAccount(String email) throws InactiveAccountException {
+
+        Utilizador utilizador = getUtilizadorByEmail(email);
+        if (!utilizador.isActive()) {
+            throw new InactiveAccountException("A sua conta está inativa");
+        }
+    }
+
+    public void deleteUtilizadorByEmail(String email) {
+        utilizadorRepository.deleteById(getUtilizadorByEmail(email).getIdUtilizador());
+
     }
 
 

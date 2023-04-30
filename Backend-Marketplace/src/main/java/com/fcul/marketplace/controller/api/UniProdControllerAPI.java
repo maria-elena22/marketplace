@@ -63,9 +63,8 @@ public class UniProdControllerAPI {
     ) throws JWTTokenMissingException {
 
         List<UniProd> uniProds = uniProdService.getUniProds(securityUtils.getEmailFromAuthHeader(authorizationHeader), nomeUniProd, page, size, sortKey, sortDir);
-        List<UniProdDTO> uniProdDTOS = uniProds.stream()
+        return uniProds.stream()
                 .map(uniProd -> modelMapper.map(uniProd, UniProdDTO.class)).collect(Collectors.toList());
-        return uniProdDTOS;
     }
 
 
@@ -80,7 +79,7 @@ public class UniProdControllerAPI {
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
     public UniProdDTO insertUniProd(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader
-            ,@RequestBody UniProdInputDTO uniProdDTO) throws JWTTokenMissingException{
+            , @RequestBody UniProdInputDTO uniProdDTO) throws JWTTokenMissingException {
         UniProd uniProd = modelMapper.map(uniProdDTO, UniProd.class);
         return modelMapper.map(uniProdService.addUniProd(securityUtils.getEmailFromAuthHeader(authorizationHeader), uniProd), UniProdDTO.class);
     }
@@ -98,10 +97,11 @@ public class UniProdControllerAPI {
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
     public UniProdDTO updateUniProd(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
-                                    @PathVariable Integer idUniProd, @RequestBody UniProdInputDTO uniProdDTO) throws JWTTokenMissingException,ForbiddenActionException{
+                                    @PathVariable Integer idUniProd, @RequestBody UniProdInputDTO uniProdDTO) throws JWTTokenMissingException, ForbiddenActionException {
         UniProd uniProd = modelMapper.map(uniProdDTO, UniProd.class);
-        return modelMapper.map(uniProdService.updateUniProd(securityUtils.getEmailFromAuthHeader(authorizationHeader),idUniProd, uniProd), UniProdDTO.class);
+        return modelMapper.map(uniProdService.updateUniProd(securityUtils.getEmailFromAuthHeader(authorizationHeader), idUniProd, uniProd), UniProdDTO.class);
     }
+
 
     //===========================DELETE===========================
 
@@ -117,6 +117,6 @@ public class UniProdControllerAPI {
     @RolesAllowed({"FORNECEDOR"})
     public void deleteUniProd(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                               @PathVariable Integer idUniProd) throws JWTTokenMissingException, ForbiddenActionException {
-        uniProdService.deleteUniProd(securityUtils.getEmailFromAuthHeader(authorizationHeader),idUniProd);
+        uniProdService.deleteUniProd(securityUtils.getEmailFromAuthHeader(authorizationHeader), idUniProd);
     }
 }

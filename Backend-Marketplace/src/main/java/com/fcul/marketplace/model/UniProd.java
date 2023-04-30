@@ -4,8 +4,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Entity
 @Table(name = "UnidadeProducao")
@@ -23,19 +23,19 @@ public class UniProd {
     @JoinColumn(name = "fornecedorId")
     private Fornecedor fornecedor;
 
-    @ManyToMany(mappedBy = "uniProds")
+    @ManyToMany(mappedBy = "uniProds", cascade = CascadeType.PERSIST)
     private List<Produto> produtos;
 
     @OneToMany(mappedBy = "unidadeDeProducao", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transporte> transportes;
 
-
-
     @ElementCollection
-    @MapKeyColumn(name = "produto")
-    @Column(name = "stock")
-    @CollectionTable(name = "stock", joinColumns = {@JoinColumn(name = "unidade_producao_id",
-            referencedColumnName = "idUnidade")})
-    private Map<Produto, Integer> produtoStockInteger;
+    private List<Stock> stocks;
 
+    public void addStock(Stock stock1) {
+        if (stocks == null) {
+            stocks = new ArrayList<>();
+        }
+        stocks.add(stock1);
+    }
 }

@@ -25,10 +25,10 @@ public class SubEncomenda {
 
     private Date dataEncomenda;
 
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Item> items;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "encomenda_id")
     private Encomenda encomenda;
 }

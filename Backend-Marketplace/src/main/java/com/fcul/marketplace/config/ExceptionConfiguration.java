@@ -1,10 +1,7 @@
 package com.fcul.marketplace.config;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fcul.marketplace.exceptions.BadCredentialsException;
-import com.fcul.marketplace.exceptions.ForbiddenActionException;
-import com.fcul.marketplace.exceptions.JWTTokenMissingException;
-import com.fcul.marketplace.exceptions.SignUpException;
+import com.fcul.marketplace.exceptions.*;
 import lombok.Data;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,7 +28,12 @@ public class ExceptionConfiguration extends ResponseEntityExceptionHandler {
     };
 
     private static final Class[] CONFLICT_EXCEPTIONS = {
-            SignUpException.class
+            SignUpException.class,
+            UniProdNotOwnedByFornecedor.class,
+            ForbiddenActionException.class,
+            PaymentFailedException.class,
+            EncomendaAlreadyCancelledException.class,
+            EncomendaCannotBeCancelledException.class
     };
 
     private static final Class[] BAD_REQUEST_EXCEPTIONS = {
@@ -40,7 +42,8 @@ public class ExceptionConfiguration extends ResponseEntityExceptionHandler {
     private static final Class[] FORBIDEN_EXCEPTION = {
             JWTTokenMissingException.class,
             BadCredentialsException.class,
-            ForbiddenActionException.class
+            ForbiddenActionException.class,
+            InactiveAccountException.class
     };
 
 

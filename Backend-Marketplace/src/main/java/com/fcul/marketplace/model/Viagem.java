@@ -25,7 +25,7 @@ public class Viagem {
     @ManyToOne
     private Transporte transporte;
 
-    @OneToMany
-    private List<Item> items;
+    @OneToMany(mappedBy = "viagem")
+    private List<SubItem> subItems;
 
 }

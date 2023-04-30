@@ -52,10 +52,9 @@ public class CategoriaControllerAPI {
                                                 @RequestParam(required = false) Sort.Direction sortDir) {
 
         List<Categoria> categorias = categoriaService.getCategorias(nomeCategoria, page, size, sortKey, sortDir);
-        List<FullCategoriaDTO> categoriaPropriedadesDTOS = categorias.stream()
-                .map(categoria -> modelMapper.map(categoria, FullCategoriaDTO.class)).collect(Collectors.toList());
 
-        return categoriaPropriedadesDTOS;
+        return categorias.stream()
+                .map(categoria -> modelMapper.map(categoria, FullCategoriaDTO.class)).collect(Collectors.toList());
     }
 
     @GetMapping("/{idCategoria}")
@@ -91,27 +90,9 @@ public class CategoriaControllerAPI {
                                                 @RequestParam(required = false) Sort.Direction sortDir) {
 
         List<Propriedade> propriedades = categoriaService.getPropriedades(nomePropriedade, page, size, sortKey, sortDir);
-        List<PropriedadeDTO> propriedadeDTOS = propriedades.stream()
+
+        return propriedades.stream()
                 .map(propriedade -> modelMapper.map(propriedade, PropriedadeDTO.class)).collect(Collectors.toList());
-
-        return propriedadeDTOS;
-    }
-
-
-    //TODO REVER COM O FRONTEND SE E ALGUMA VEZ CHAMADO
-    @GetMapping("/{idCategoria}/subcategoria")
-    @Operation(summary = "getSubCategorias",
-            description = "Devolve todas as Subcategorias da Categoria com o ID indicado")
-    @Parameters(value = {
-            @Parameter(name = "idCategoria", description = "ID da Categoria")})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
-    })
-    public List<SubCategoriaDTO> getSubCategorias(@PathVariable Integer idCategoria) {
-        List<SubCategoria> subCategorias = categoriaService.getSubcategorias(idCategoria);
-        List<SubCategoriaDTO> subCategoriaDTOS = subCategorias.stream()
-                .map(subCategoria -> modelMapper.map(subCategoria, SubCategoriaDTO.class)).collect(Collectors.toList());
-        return subCategoriaDTOS;
     }
 
     //===========================INSERT===========================
@@ -144,8 +125,8 @@ public class CategoriaControllerAPI {
     public FullCategoriaDTO insertPropriedade(@PathVariable Integer categoriaId, @RequestBody PropriedadeInputDTO propriedadeDTO) {
 
         Propriedade propriedade = modelMapper.map(propriedadeDTO, Propriedade.class);
-
-        return modelMapper.map(categoriaService.addPropriedade(categoriaId, propriedade), FullCategoriaDTO.class);
+        categoriaService.addPropriedade(categoriaId, propriedade);
+        return this.getCategoria(categoriaId);
     }
 
     @PostMapping("/{categoriaId}/subcategoria")
@@ -158,8 +139,10 @@ public class CategoriaControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
-    public FullCategoriaDTO insertSubCategoria(@PathVariable Integer categoriaId, @RequestBody SubCategoriaInputDTO subCategoriaDTO) {
-        return modelMapper.map(categoriaService.addSubCategoria(modelMapper.map(subCategoriaDTO, SubCategoria.class), categoriaId), FullCategoriaDTO.class);
+    public FullCategoriaDTO insertSubCategoria(@PathVariable Integer categoriaId,
+                                               @RequestParam(required = false) Integer subCategoriaId,
+                                               @RequestBody SubCategoriaInputDTO subCategoriaDTO) {
+        return modelMapper.map(categoriaService.addSubCategoria(modelMapper.map(subCategoriaDTO, SubCategoria.class), subCategoriaId, categoriaId).getCategoria(), FullCategoriaDTO.class);
     }
 
     //===========================UPDATE===========================

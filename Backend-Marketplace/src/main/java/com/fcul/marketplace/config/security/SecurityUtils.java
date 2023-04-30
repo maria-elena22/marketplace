@@ -1,6 +1,7 @@
 package com.fcul.marketplace.config.security;
 
 import com.auth0.client.auth.AuthAPI;
+import com.auth0.client.mgmt.ManagementAPI;
 import com.auth0.exception.APIException;
 import com.auth0.exception.Auth0Exception;
 import com.auth0.json.auth.CreatedUser;
@@ -23,11 +24,10 @@ import java.util.Map;
 @Configuration
 public class SecurityUtils {
 
-    @Autowired
-    AuthAPI authAPI;
-
     @Value("${auth0.client-secret}")
     public String secret;
+    @Autowired
+    AuthAPI authAPI;
 
     public DecodedJWT verifyToken(String token) {
         JWTVerifier verifier = JWT.require(getAlgorithm()).build();
@@ -55,7 +55,7 @@ public class SecurityUtils {
     }
 
     public CreatedUser registerUser(String email, String password, String role) throws SignUpException, Auth0Exception {
-        SignUpRequest signUpRequest =authAPI.signUp(email,password.toCharArray(),"Username-Password-Authentication");
+        SignUpRequest signUpRequest = authAPI.signUp(email, password.toCharArray(), "Username-Password-Authentication");
 
         signUpRequest.setCustomFields(Map.of("role", role));
 
@@ -64,10 +64,10 @@ public class SecurityUtils {
         try {
             createdUserResponse = signUpRequest.execute();
         } catch (APIException e) {
-            if(e.getError().equals("invalid_password")){
+            if (e.getError().equals("invalid_password")) {
                 throw new SignUpException("Password too weak");
             }
-            if(e.getError().equals("invalid_signup")){
+            if (e.getError().equals("invalid_signup")) {
                 throw new SignUpException("Email already registered");
             }
         }
@@ -76,14 +76,27 @@ public class SecurityUtils {
     }
 
 
-    public String getEmailFromAuthHeader(String authorizationHeader) throws JWTTokenMissingException{
+    public String getEmailFromAuthHeader(String authorizationHeader) throws JWTTokenMissingException {
         String token = getToken(authorizationHeader);
         return verifyToken(token).getClaim("email").asString();
     }
 
-    public String getRoleFromAuthHeader(String authorizationHeader) throws JWTTokenMissingException{
+    public String getRoleFromAuthHeader(String authorizationHeader) throws JWTTokenMissingException {
         String token = getToken(authorizationHeader);
         return verifyToken(token).getClaim("role").asString().substring(5);
     }
+
+    public String getTokenUserId(String authorizationHeader) throws JWTTokenMissingException {
+        String token = getToken(authorizationHeader);
+        return verifyToken(token).getClaim("sub").asString();
+    }
+
+    public void deleteUser(String authorizationHeader) throws Auth0Exception, JWTTokenMissingException {
+        ManagementAPI managementAPI = MyManagementAPI.getInstance().getManagementAPI();
+        String userID = getTokenUserId(authorizationHeader);
+        managementAPI.users().delete(userID).execute();
+    }
+
+
 }
 

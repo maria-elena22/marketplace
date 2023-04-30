@@ -17,4 +17,7 @@ public class FullEncomendaDTO {
 
     private EstadoEncomenda estadoEncomenda;
 
+    private List<SimpleSubEncomendaDTO> subEncomendas;
+
+
 }

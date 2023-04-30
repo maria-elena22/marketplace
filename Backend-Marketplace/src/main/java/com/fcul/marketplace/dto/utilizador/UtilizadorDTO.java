@@ -5,8 +5,6 @@ import com.fcul.marketplace.model.enums.Pais;
 import com.fcul.marketplace.model.utils.Coordinate;
 import lombok.Data;
 
-import java.util.Locale;
-
 @Data
 public class UtilizadorDTO {
 

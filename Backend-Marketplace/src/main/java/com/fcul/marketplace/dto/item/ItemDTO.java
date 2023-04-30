@@ -1,15 +1,14 @@
-package com.fcul.marketplace.dto.encomenda;
+package com.fcul.marketplace.dto.item;
 
 import lombok.Data;
 
 @Data
-public class SimpleItemDTO {
+public class ItemDTO {
 
     private Integer idItem;
 
     private Integer produtoId;
 
-    private Integer fornecedorId;
-
     private Integer quantidade;
+
 }

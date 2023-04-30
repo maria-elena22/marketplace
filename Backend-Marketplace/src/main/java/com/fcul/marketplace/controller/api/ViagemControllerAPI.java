@@ -1,6 +1,10 @@
 package com.fcul.marketplace.controller.api;
 
+import com.fcul.marketplace.config.security.SecurityUtils;
 import com.fcul.marketplace.dto.ViagemDTO;
+import com.fcul.marketplace.dto.ViagemInputDTO;
+import com.fcul.marketplace.exceptions.ForbiddenActionException;
+import com.fcul.marketplace.exceptions.JWTTokenMissingException;
 import com.fcul.marketplace.model.Viagem;
 import com.fcul.marketplace.service.ViagemService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,11 +12,13 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +31,9 @@ public class ViagemControllerAPI {
 
     @Autowired
     ModelMapper modelMapper;
+
+    @Autowired
+    SecurityUtils securityUtils;
 
     //============================GET=============================
 
@@ -53,70 +62,34 @@ public class ViagemControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
     public List<ViagemDTO> getViagensTransporte(@PathVariable Integer idTransporte,
+                                                @Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                                 @RequestParam(required = false) Integer page,
                                                 @RequestParam(required = false) Integer size,
                                                 @RequestParam(required = false) String sortKey,
-                                                @RequestParam(required = false) Sort.Direction sortDir) {
+                                                @RequestParam(required = false) Sort.Direction sortDir) throws JWTTokenMissingException, ForbiddenActionException {
 
-        List<Viagem> viagens = viagemService.getViagensByTransporte(idTransporte, page, size, sortKey, sortDir);
-        List<ViagemDTO> viagemDTOS = viagens.stream()
+        List<Viagem> viagens = viagemService.getViagensByTransporte(securityUtils.getEmailFromAuthHeader(authorizationHeader), idTransporte, page, size, sortKey, sortDir);
+        return viagens.stream()
                 .map(viagem -> modelMapper.map(viagem, ViagemDTO.class)).collect(Collectors.toList());
-        return viagemDTOS;
     }
 
     //===========================INSERT===========================
 
-    @PostMapping("/{idTransporte}")
+    @PostMapping()
     @Operation(summary = "insertViagem",
-            description = "Adiciona uma nova Viagem à BD associada ao Transporte com o ID indicado")
-    @Parameters(value =
-            {@Parameter(name = "idTransporte", description = "Transporte associado à Viagem")})
+            description = "Adiciona uma nova Viagem")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
-    public ViagemDTO insertViagem(@RequestBody ViagemDTO viagemDTO, @PathVariable Integer idTransporte) {
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
+    public ViagemDTO insertViagem(@RequestBody ViagemInputDTO viagemDTO,
+                                  @Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader) throws JWTTokenMissingException, ForbiddenActionException {
         Viagem viagem = modelMapper.map(viagemDTO, Viagem.class);
-        return modelMapper.map(viagemService.addViagem(viagem, idTransporte), ViagemDTO.class);
-    }
-
-    //===========================UPDATE===========================
-    @PutMapping("/{idViagem}")
-    @Operation(summary = "updateViagem",
-            description = "Atualiza os dados de uma Viagem")
-    @Parameters(value = {
-            @Parameter(name = "idViagem", description = "ID da Viagem a atualizar")})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
-    })
-    public ViagemDTO updateViagem(@PathVariable Integer idViagem, @RequestBody ViagemDTO viagemDTO) {
-        Viagem viagem = modelMapper.map(viagemDTO, Viagem.class);
-        return modelMapper.map(viagemService.updateViagem(idViagem, viagem), ViagemDTO.class);
-    }
-    //===========================DELETE===========================
-
-    @DeleteMapping("/{idViagem}")
-    @Operation(summary = "deleteViagem",
-            description = "Apaga a Viagem com o ID indicado da BD")
-    @Parameters(value = {
-            @Parameter(name = "idViagem", description = "ID da Viagem a apagar")})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
-    })
-    public void deleteViagem(@PathVariable Integer idViagem) {
-        viagemService.deleteViagem(idViagem);
-    }
-
-    @DeleteMapping()
-    @Operation(summary = "deleteViagemBatch",
-            description = "Apaga as Viagens com os IDs indicados da BD")
-    @Parameters(value = {
-            @Parameter(name = "ids", description = "IDs das Viagens a apagar")})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
-    })
-    public void deleteViagemBatch(@RequestParam List<Integer> ids) {
-        viagemService.deleteViagemBatch(ids);
+        return modelMapper.map(viagemService.addViagem(securityUtils.getEmailFromAuthHeader(authorizationHeader), viagem), ViagemDTO.class);
     }
 
 }

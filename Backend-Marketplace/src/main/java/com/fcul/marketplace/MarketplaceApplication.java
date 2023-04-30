@@ -1,6 +1,5 @@
 package com.fcul.marketplace;
 
-import com.auth0.client.auth.AuthAPI;
 import com.stripe.Stripe;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
@@ -24,8 +23,6 @@ public class MarketplaceApplication {
         return new Stripe() {
         };
     }
-
-
 
 
 }

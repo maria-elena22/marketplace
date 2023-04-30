@@ -17,7 +17,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.remoting.jaxws.JaxWsSoapFaultException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
@@ -39,7 +38,7 @@ public class TransporteControllerAPI {
 
     //============================GET=============================
 
-    @GetMapping("/fornecedor/{idFornecedor}")
+    @GetMapping()
     @Operation(summary = "getTransportesFornecedor",
             description = "Devolve os transportes do fornecedor com o ID indicado, podendo os resultados serem filtrados por estado do transporte")
     @Parameters(value = {
@@ -63,10 +62,9 @@ public class TransporteControllerAPI {
                                                         @RequestParam(required = false) String sortKey,
                                                         @RequestParam(required = false) Sort.Direction sortDir) throws JWTTokenMissingException, ForbiddenActionException {
         List<Transporte> transportes = transporteService.getTransportesFornecedor(securityUtils.getEmailFromAuthHeader(authorizationHeader)
-                ,unidadeProducaoId,estadoTransporte, page, size, sortKey, sortDir);
-        List<TransporteDTO> transporteDTOS = transportes.stream()
+                , unidadeProducaoId, estadoTransporte, page, size, sortKey, sortDir);
+        return transportes.stream()
                 .map(transporte -> modelMapper.map(transporte, TransporteDTO.class)).collect(Collectors.toList());
-        return transporteDTOS;
     }
 
     //===========================INSERT===========================
@@ -74,8 +72,6 @@ public class TransporteControllerAPI {
     @PostMapping("{uniProdId}")
     @Operation(summary = "insertTransporte",
             description = "Adiciona um novo Transporte à BD, associado ao Fornecedor com o ID indicado")
-    @Parameters(value = {
-            @Parameter(name = "idFornecedor", description = "Fornecedor a associar ao Transporte")})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
@@ -83,10 +79,10 @@ public class TransporteControllerAPI {
     @RolesAllowed({"FORNECEDOR"})
     public TransporteDTO insertTransporte(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                           @PathVariable Integer uniProdId,
-                                          @RequestBody TransporteInputDTO transporteDTO) throws JWTTokenMissingException,ForbiddenActionException{
+                                          @RequestBody TransporteInputDTO transporteDTO) throws JWTTokenMissingException, ForbiddenActionException {
         Transporte transporte = modelMapper.map(transporteDTO, Transporte.class);
         return modelMapper.map(transporteService.addTransporte(securityUtils.getEmailFromAuthHeader(authorizationHeader),
-                uniProdId,transporte), TransporteDTO.class);
+                uniProdId, transporte), TransporteDTO.class);
     }
 
     //===========================UPDATE===========================
@@ -103,9 +99,9 @@ public class TransporteControllerAPI {
     @RolesAllowed({"FORNECEDOR"})
     public TransporteDTO updateTransporte(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                           @PathVariable Integer idTransporte,
-                                          @RequestBody TransporteInputDTO transporteDTO) throws JWTTokenMissingException,ForbiddenActionException{
+                                          @RequestBody TransporteInputDTO transporteDTO) throws JWTTokenMissingException, ForbiddenActionException {
         Transporte transporte = modelMapper.map(transporteDTO, Transporte.class);
-        return modelMapper.map(transporteService.updateTransporte(securityUtils.getEmailFromAuthHeader(authorizationHeader),idTransporte, transporte), TransporteDTO.class);
+        return modelMapper.map(transporteService.updateTransporte(securityUtils.getEmailFromAuthHeader(authorizationHeader), idTransporte, transporte), TransporteDTO.class);
     }
 
     //===========================DELETE===========================
@@ -121,8 +117,8 @@ public class TransporteControllerAPI {
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
     public void deleteTransporte(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
-                                 @PathVariable Integer idTransporte) throws JWTTokenMissingException,ForbiddenActionException{
-        transporteService.deleteTransporte(securityUtils.getEmailFromAuthHeader(authorizationHeader),idTransporte);
+                                 @PathVariable Integer idTransporte) throws JWTTokenMissingException, ForbiddenActionException {
+        transporteService.deleteTransporte(securityUtils.getEmailFromAuthHeader(authorizationHeader), idTransporte);
     }
 
 }

@@ -9,7 +9,7 @@ public class FullCategoriaDTO extends CategoriaDTO {
 
     private List<PropriedadeDTO> propriedadesList;
 
-    private List<SubCategoriaDTO> subCategoriaList;
+    private List<SimpleSubCategoriaDTO> subCategoriaList;
 
 
 }

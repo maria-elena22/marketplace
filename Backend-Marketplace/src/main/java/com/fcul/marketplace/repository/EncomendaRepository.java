@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface EncomendaRepository extends JpaRepository<Encomenda, Integer> {
     @Query("SELECT e FROM Encomenda e " +
-            "WHERE (:idConsumidor IS NULL OR e.consumidor.idUtilizador = :idConsumidor) " +
+            "WHERE ( e.consumidor.idUtilizador = :idConsumidor) " +
             "AND (:precoMin IS NULL OR e.preco >= :precoMin) " +
             "AND (:precoMax IS NULL OR e.preco <= :precoMax) " +
             "AND (:dataMin IS NULL OR e.dataEncomenda >= :dataMin) " +

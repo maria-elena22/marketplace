@@ -12,7 +12,7 @@ public enum TipoNotificacao {
 
     SAIDA_UNI_PROD,
 
-    NOVA_ENCOMENDA;
+    NOVA_ENCOMENDA
 
 }
 

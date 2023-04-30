@@ -11,7 +11,6 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.List;
-import java.util.Locale;
 
 @Entity
 @Getter
@@ -29,6 +28,6 @@ public class Fornecedor extends Utilizador {
     public Fornecedor(Integer idFiscal, String nome, String email, Integer telemovel, Coordinate coordenadas,
                       String morada, String freguesia, String municipio, String distrito,
                       Pais pais, Continente continente, boolean active) {
-        super(null, idFiscal, nome, email, telemovel, coordenadas, morada, freguesia, municipio, distrito, pais, continente,active);
+        super(null, idFiscal, nome, email, telemovel, coordenadas, morada, freguesia, municipio, distrito, pais, continente, active);
     }
 }

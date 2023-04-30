@@ -83,20 +83,21 @@ public class CategoriaService {
         return categoriaRepository.save(categoria);
     }
 
-    public Categoria addSubCategoria(SubCategoria subCategoria, Integer idCategoria) {
+    public SubCategoria addSubCategoria(SubCategoria subCategoria, Integer subCategoriaPaiId, Integer idCategoria) {
         Categoria categoria = categoriaRepository.findById(idCategoria).orElseThrow(EntityNotFoundException::new);
         subCategoria.setCategoria(categoria);
-        subCategoria = subCategoriaRepository.save(subCategoria);
-
-        return subCategoria.getCategoria();
+        if (subCategoriaPaiId != null) {
+            subCategoria.setSubCategoriaPai(getSubCategoriaByID(subCategoriaPaiId));
+        }
+        return subCategoriaRepository.save(subCategoria);
 
     }
 
-    public Categoria addPropriedade(Integer categoriaId, Propriedade propriedade) {
+    public Propriedade addPropriedade(Integer categoriaId, Propriedade propriedade) {
         Categoria categoria = categoriaRepository.findById(categoriaId).orElseThrow(EntityNotFoundException::new);
+        propriedade.addCategoria(categoria);
         propriedade = propriedadeRepository.save(propriedade);
-        categoria.getPropriedades().add(propriedade);
-        return categoriaRepository.save(categoria);
+        return propriedade;
     }
 
     //===========================UPDATE===========================

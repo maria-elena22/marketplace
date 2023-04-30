@@ -3,6 +3,7 @@ package com.fcul.marketplace.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -16,5 +17,11 @@ public class SubCategoria {
 
     @ManyToOne
     private Categoria categoria;
+
+    @ManyToOne
+    private SubCategoria subCategoriaPai;
+
+    @OneToMany(mappedBy = "subCategoriaPai")
+    private List<SubCategoria> subCategoriasFilhos;
 
 }

@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Locale;
 
 
 @Entity
@@ -27,14 +26,14 @@ public class Utilizador {
     private Integer idUtilizador;
 
     @Column(unique = true)
-    @Unique(message = "O id fiscal já se encontra no sistema",parameterName="idFiscal",className = "Utilizador")
+    @Unique(message = "O id fiscal já se encontra no sistema", parameterName = "idFiscal", className = "Utilizador")
     private Integer idFiscal;
 
     @NotBlank
     private String nome;
 
     @NotBlank
-    @Unique(message = "O email já se encontra no sistema",parameterName="email",className = "Utilizador")
+    @Unique(message = "O email já se encontra no sistema", parameterName = "email", className = "Utilizador")
     private String email;
 
 

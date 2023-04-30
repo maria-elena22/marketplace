@@ -1,7 +1,6 @@
 package com.fcul.marketplace.config.security.filter;
 
 
-
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fcul.marketplace.config.security.SecurityUtils;
 import com.fcul.marketplace.exceptions.JWTTokenMissingException;
@@ -15,7 +14,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -37,7 +35,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
             DecodedJWT decodedJWT = securityUtils.verifyToken(token);
             String username = decodedJWT.getSubject();
             String role = decodedJWT.getClaim("role").asString();
-            List<SimpleGrantedAuthority> simpleGrantedAuthorities = Arrays.asList(new SimpleGrantedAuthority(role));
+            List<SimpleGrantedAuthority> simpleGrantedAuthorities = List.of(new SimpleGrantedAuthority(role));
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, null, simpleGrantedAuthorities);
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             filterChain.doFilter(request, response);

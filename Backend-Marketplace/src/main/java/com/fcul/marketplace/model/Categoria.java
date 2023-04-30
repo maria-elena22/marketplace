@@ -21,10 +21,7 @@ public class Categoria {
     private String nomeCategoria;
 
 
-
-    @ManyToMany()
-    @JoinTable(joinColumns = @JoinColumn(name = "id_categoria"),
-            inverseJoinColumns = @JoinColumn(name = "id_propriedade"))
+    @ManyToMany(mappedBy = "categorias")
     private List<Propriedade> propriedades;
 
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true)

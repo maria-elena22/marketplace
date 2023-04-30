@@ -5,7 +5,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.util.List;
@@ -18,7 +17,7 @@ public class Encomenda {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idEncomenda;
 
-    @Min(value=0,message = "O preço tem de ser positivo")
+    @Min(value = 0, message = "O preço tem de ser positivo")
     private Double preco;
 
     @NotNull(message = "O estado da encomenda é obrigatório ")
@@ -31,7 +30,7 @@ public class Encomenda {
     @JoinColumn(name = "consumidor_id")
     private Consumidor consumidor;
 
-    @OneToMany(mappedBy = "encomenda", cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "encomenda", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SubEncomenda> subEncomendas;
 
 }

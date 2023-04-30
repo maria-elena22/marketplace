@@ -1,5 +1,6 @@
 package com.fcul.marketplace.service;
 
+import com.fcul.marketplace.exceptions.ForbiddenActionException;
 import com.fcul.marketplace.model.*;
 import com.fcul.marketplace.model.enums.TipoNotificacao;
 import com.fcul.marketplace.repository.NotificacaoRepository;
@@ -7,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class NotificacaoService {
@@ -18,7 +20,13 @@ public class NotificacaoService {
     @Autowired
     UtilizadorService utilizadorService;
 
-    public List<Notificacao> getNotificacoes(String userEmail){
+    @Autowired
+    EncomendaService encomendaService;
+
+    @Autowired
+    ViagemService viagemService;
+
+    public List<Notificacao> getNotificacoes(String userEmail) {
         Utilizador utilizador = utilizadorService.getUtilizadorByEmail(userEmail);
         List<Notificacao> notificacaos = notificacaoRepository.findByDestinatarioIdUtilizadorAndEntregueFalse(utilizador.getIdUtilizador());
         notificacaos.forEach(notificacao -> notificacao.setEntregue(true));
@@ -28,43 +36,65 @@ public class NotificacaoService {
 
 
     @Transactional
-    public Notificacao insertNotificacao(SubEncomenda subEncomenda, TipoNotificacao tipoNotificacao, String message, Utilizador receiver,Utilizador issuer) {
-        Notificacao notificacao = new Notificacao(null,message,subEncomenda,tipoNotificacao,issuer,receiver,false);
+    public Notificacao insertNotificacao(SubEncomenda subEncomenda, TipoNotificacao tipoNotificacao, String message, Utilizador receiver, Utilizador issuer) {
+        Notificacao notificacao = new Notificacao(null, message, subEncomenda, tipoNotificacao, issuer, receiver, false);
         return notificacaoRepository.save(notificacao);
     }
 
-
-
-
-    public void generateSaidaTransporteNotificacao(String emailFornecedor, List<Item> items) {
+    @Transactional
+    public List<Notificacao> generateSaidaTransporteNotificacao(String emailFornecedor, List<SubItem> subItems) throws ForbiddenActionException {
         Fornecedor issuer = utilizadorService.findFornecedorByEmail(emailFornecedor);
-
-        for(Item item:items){
-            Notificacao notificacao = new Notificacao();
-            notificacao.setIdNotificacao(null);
-            notificacao.setRemetente(issuer);
-            notificacao.setDestinatario(item.getSubEncomenda().getEncomenda().getConsumidor());
-            notificacao.setSubEncomenda(item.getSubEncomenda());
-            notificacao.setTipoNotificacao(TipoNotificacao.SAIDA_UNI_PROD);
-            notificacao.setMensagem("O transporte do fornecedor " + issuer.getNome() + "acabou de sair com: " +
-                    item.getQuantidade() + "x - " + item.getProduto().getNome() );
-            notificacaoRepository.save(notificacao);
+        for (SubItem subItem : subItems) {
+            verifyFornecedorSubItem(issuer, subItem);
         }
+        List<Notificacao> notificacoes = new ArrayList<>();
 
+        for (SubItem subItem : subItems) {
+            Item item = subItem.getItem();
+            SubEncomenda subEncomenda = item.getSubEncomenda();
+            TipoNotificacao tipoNotificacao = TipoNotificacao.SAIDA_UNI_PROD;
+            String message = "O transporte do fornecedor " + issuer.getNome() + " acabou de sair com: " +
+                    subItem.getQuantidade() + "x - " + item.getProduto().getNome();
+            Consumidor receiver = subEncomenda.getEncomenda().getConsumidor();
 
+            viagemService.iniciaViagem(subItem.getViagem());
+
+            Notificacao notificacao = insertNotificacao(subEncomenda, tipoNotificacao, message, receiver, issuer);
+            notificacoes.add(notificacao);
+            encomendaService.setSubEncomendaEmDistribuicao(subEncomenda);
+        }
+        return notificacoes;
     }
 
-    public void generateChegadaEncomendaNotificacao(String emailFornecedor, Item item) {
-        Fornecedor issuer = utilizadorService.findFornecedorByEmail(emailFornecedor);
+    public Notificacao generateChegadaEncomendaNotificacao(String emailFornecedor, SubItem subItem) throws ForbiddenActionException {
 
-        Notificacao notificacao = new Notificacao();
-        notificacao.setIdNotificacao(null);
-        notificacao.setRemetente(issuer);
-        notificacao.setDestinatario(item.getSubEncomenda().getEncomenda().getConsumidor());
-        notificacao.setSubEncomenda(item.getSubEncomenda());
-        notificacao.setTipoNotificacao(TipoNotificacao.CHEGADA_IMINENTE);
-        notificacao.setMensagem("O transporte do fornecedor " + issuer.getNome() + "esta preste a chegar com: " +
-                item.getQuantidade() + "x - " + item.getProduto().getNome() );
-        notificacaoRepository.save(notificacao);
+        Fornecedor issuer = utilizadorService.findFornecedorByEmail(emailFornecedor);
+        verifyFornecedorSubItem(issuer, subItem);
+
+        Item item = subItem.getItem();
+        SubEncomenda subEncomenda = item.getSubEncomenda();
+        TipoNotificacao tipoNotificacao = TipoNotificacao.CHEGADA_IMINENTE;
+        String message = "O transporte do fornecedor " + issuer.getNome() + " está a chegar com: " +
+                item.getQuantidade() + "x - " + item.getProduto().getNome();
+        Consumidor receiver = subEncomenda.getEncomenda().getConsumidor();
+
+        Notificacao notificacao = insertNotificacao(subEncomenda, tipoNotificacao, message, receiver, issuer);
+        encomendaService.setSubItemAsEntregue(subItem);
+        viagemService.terminaViagem(subItem.getViagem());
+
+        return notificacao;
+    }
+
+    private void verifyFornecedorSubItem(Fornecedor fornecedor, SubItem subItem) throws ForbiddenActionException {
+        if (!subItem.getItem().getSubEncomenda().getFornecedor().equals(fornecedor)) {
+            throw new ForbiddenActionException("O sub item " + subItem.getIdSubItem() + " - " +
+                    subItem.getItem().getProduto().getNome() + " não é seu");
+        }
+
+        if (subItem.getEntregue()) {
+            throw new ForbiddenActionException("O sub item " + subItem.getIdSubItem() + " - " +
+                    subItem.getItem().getProduto().getNome() + " já foi entregue");
+        }
+
     }
 }

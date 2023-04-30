@@ -86,7 +86,7 @@ public enum Pais {
     INDONESIA("Indonesia"),
     IRAN("Iran"),
     IRAQ("Iraq"),
-    REPUBLIC_OF_IRELAND("Republic of Ireland"),
+    IRELAND("Ireland"), //85
     ISRAEL("Israel"),
     ITALY("Italy"),
     IVORY_COAST("Ivory Coast"),
@@ -150,7 +150,7 @@ public enum Pais {
     PERU("Peru"),
     PHILIPPINES("Philippines"),
     POLAND("Poland"),
-    PORTUGAL("Portugal"),
+    PORTUGAL("Portugal"), //149
     PRUSSIA("Prussia"),
     QATAR("Qatar"),
     ROMANIA("Romania"),
@@ -204,7 +204,7 @@ public enum Pais {
     ZAMBIA("Zambia"),
     ZIMBABWE("Zimbabwe");
 
-    private String country;
+    private final String country;
 
     Pais(String country) {
         this.country = country;

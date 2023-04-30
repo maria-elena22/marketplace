@@ -20,17 +20,29 @@ public class RelatorioService {
     @Autowired
     EncomendaService encomendaService;
 
+    private static String getInterval(double element) {
+        if (element < 10) {
+            return "<10";
+        } else if (element >= 10 && element <= 100) {
+            return "10-100";
+        } else if (element > 100 && element <= 1000) {
+            return "100-1000";
+        } else {
+            return ">1000";
+        }
+    }
+
     public RelatorioPorZonasDTO generateRelatorioZonas(String emailFromAuthHeader, String roleFromAuthHeader) {
         List<Utilizador> utilizadores;
-        if (roleFromAuthHeader == "ADMIN") {
+        if (roleFromAuthHeader.equals("ADMIN")) {
             List<SubEncomenda> subEncomendas = encomendaService.getAllSubEncomendas();
-            utilizadores = subEncomendas.stream().map(subEncomenda -> subEncomenda.getFornecedor()).collect(Collectors.toList());
-        } else if (roleFromAuthHeader == "FORNECEDOR") {
+            utilizadores = subEncomendas.stream().map(SubEncomenda::getFornecedor).collect(Collectors.toList());
+        } else if (roleFromAuthHeader.equals("FORNECEDOR")) {
             List<SubEncomenda> subEncomendas = encomendaService.getSubEncomendasByFornecedorEmail(emailFromAuthHeader);
             utilizadores = subEncomendas.stream().map(subEncomenda -> subEncomenda.getEncomenda().getConsumidor()).collect(Collectors.toList());
         } else {
             List<SubEncomenda> subEncomendas = encomendaService.getSubEncomendasByConsumidorEmail(emailFromAuthHeader);
-            utilizadores = subEncomendas.stream().map(subEncomenda -> subEncomenda.getFornecedor()).collect(Collectors.toList());
+            utilizadores = subEncomendas.stream().map(SubEncomenda::getFornecedor).collect(Collectors.toList());
         }
 
         RelatorioPorZonasDTO relatorioPorZonasDTO = new RelatorioPorZonasDTO();
@@ -52,15 +64,17 @@ public class RelatorioService {
     public RelatorioPorDistanciasDTO generateRelatorioDistancias(String emailFromAuthHeader, String roleFromAuthHeader) {
         List<SubEncomenda> subEncomendas;
         Map<Integer, Integer> distanciasQuantidadeMap = new HashMap<>();
-        if (roleFromAuthHeader == "ADMIN") {
+        if (roleFromAuthHeader.equals("ADMIN")) {
             subEncomendas = encomendaService.getAllSubEncomendas();
-        } else if (roleFromAuthHeader == "FORNECEDOR") {
+        } else if (roleFromAuthHeader.equals("FORNECEDOR")) {
             subEncomendas = encomendaService.getSubEncomendasByFornecedorEmail(emailFromAuthHeader);
         } else {
             subEncomendas = encomendaService.getSubEncomendasByConsumidorEmail(emailFromAuthHeader);
         }
 
+
         RelatorioPorDistanciasDTO relatorioPorDistanciasDTO = new RelatorioPorDistanciasDTO();
+        relatorioPorDistanciasDTO.setGamaDistanciasQuantidadeEncomendasMap(new HashMap<>());
 
         for (SubEncomenda subEncomenda : subEncomendas) {
             Coordinate coordenadasFornecedor = subEncomenda.getFornecedor().getCoordenadas();
@@ -73,18 +87,6 @@ public class RelatorioService {
         }
 
         return relatorioPorDistanciasDTO;
-    }
-
-    private static String getInterval(double element) {
-        if (element < 10) {
-            return "<10";
-        } else if (element >= 10 && element <= 100) {
-            return "10-100";
-        } else if (element > 100 && element <= 1000) {
-            return "100-1000";
-        } else {
-            return ">1000";
-        }
     }
 
 }

@@ -11,8 +11,12 @@ import java.lang.annotation.*;
 public @interface Unique {
 
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
+
     String message() default "Duplicate value";
+
     String parameterName() default "";
+
     String className() default "";
 }

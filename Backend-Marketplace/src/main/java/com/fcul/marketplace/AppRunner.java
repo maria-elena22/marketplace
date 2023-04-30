@@ -1,5 +1,8 @@
 package com.fcul.marketplace;
 
+import com.fcul.marketplace.model.Categoria;
+import com.fcul.marketplace.model.Propriedade;
+import com.fcul.marketplace.model.SubCategoria;
 import com.fcul.marketplace.repository.*;
 import com.fcul.marketplace.service.CategoriaService;
 import com.fcul.marketplace.service.TransporteService;
@@ -9,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class AppRunner implements ApplicationRunner {
@@ -41,7 +46,7 @@ public class AppRunner implements ApplicationRunner {
     private SubCategoriaRepository subCategoriaRepository;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
 
 //        transporteRepository.deleteAll();
 //        fornecedorRepository.deleteAll();
@@ -100,6 +105,37 @@ public class AppRunner implements ApplicationRunner {
 //
 //        categoria = categoriaService.addCategoria(categoria);
 //        subCategoria = categoriaService.addSubCategoria(subCategoria, categoria.getIdCategoria());
+
+        List<Categoria> categoriaList = categoriaService.getCategorias(null, null, null, null, null);
+        if (categoriaList.isEmpty()) {
+            Categoria categoria = new Categoria();
+            categoria.setNomeCategoria("Mercearia");
+            categoria = categoriaService.addCategoria(categoria);
+
+            Propriedade propriedade = new Propriedade();
+            propriedade.setNomePropriedade("Prazo de validade");
+            categoriaService.addPropriedade(categoria.getIdCategoria(), propriedade);
+
+            SubCategoria subCategoria = new SubCategoria();
+            subCategoria.setNomeSubCategoria("Horticulas");
+            subCategoria.setCategoria(categoria);
+            subCategoria.setSubCategoriaPai(null);
+            subCategoria = categoriaService.addSubCategoria(subCategoria, null, categoria.getIdCategoria());
+
+            SubCategoria subCategoria1 = new SubCategoria();
+            subCategoria1.setNomeSubCategoria("Fruta");
+            subCategoria1.setCategoria(categoria);
+            subCategoria1.setSubCategoriaPai(null);
+            subCategoria1 = categoriaService.addSubCategoria(subCategoria1, null, categoria.getIdCategoria());
+
+            SubCategoria subCategoria2 = new SubCategoria();
+            subCategoria2.setNomeSubCategoria("Nacionais");
+            subCategoria2 = categoriaService.addSubCategoria(subCategoria2, subCategoria.getIdSubCategoria(), categoria.getIdCategoria());
+
+            SubCategoria subCategoria3 = new SubCategoria();
+            subCategoria3.setNomeSubCategoria("Nacionais");
+            subCategoria3 = categoriaService.addSubCategoria(subCategoria3, subCategoria1.getIdSubCategoria(), categoria.getIdCategoria());
+        }
 
     }
 

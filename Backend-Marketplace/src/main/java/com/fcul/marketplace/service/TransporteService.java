@@ -36,28 +36,28 @@ public class TransporteService {
 
     public List<Transporte> getTransportesFornecedor(String emailFornecedor, Integer uniProdId, EstadoTransporte estadoTransporte,
                                                      Integer page, Integer size, String sortKey, Sort.Direction sortDir)
-                                                    throws ForbiddenActionException{
+            throws ForbiddenActionException {
         Fornecedor fornecedor = utilizadorService.findFornecedorByEmail(emailFornecedor);
         Pageable pageable = PageableUtils.getDefaultPageable(page, size, sortDir, sortKey);
-        if(uniProdId!=null) {
+        if (uniProdId != null) {
             UniProd uniProd = uniProdService.getUniProdByID(uniProdId);
-            if (uniProd.getFornecedor().getIdUtilizador() != fornecedor.getIdUtilizador()) {
+            if (!uniProd.getFornecedor().getIdUtilizador().equals(fornecedor.getIdUtilizador())) {
                 throw new ForbiddenActionException("Você não pode ver os transportes desta Unidade de Produção");
             }
 
             return transporteRepository.findByUniProdId(uniProdId, estadoTransporte, pageable).getContent();
-        }else{
-            return transporteRepository.findByFornecedorId(fornecedor.getIdUtilizador(),estadoTransporte, pageable).getContent();
+        } else {
+            return transporteRepository.findByFornecedorId(fornecedor.getIdUtilizador(), estadoTransporte, pageable).getContent();
         }
     }
 
     //===========================INSERT===========================
 
     @Transactional
-    public Transporte addTransporte( String fornecedorEmail,Integer idUniProd,Transporte transporte) throws ForbiddenActionException{
+    public Transporte addTransporte(String fornecedorEmail, Integer idUniProd, Transporte transporte) throws ForbiddenActionException {
         Fornecedor fornecedor = utilizadorService.findFornecedorByEmail(fornecedorEmail);
         UniProd uniProd = uniProdService.getUniProdByID(idUniProd);
-        if(uniProd.getFornecedor().getIdUtilizador()!= fornecedor.getIdUtilizador()){
+        if (!uniProd.getFornecedor().getIdUtilizador().equals(fornecedor.getIdUtilizador())) {
             throw new ForbiddenActionException("Você não pode adicionar transportes nesta Unidade de Produção");
         }
         transporte.setUnidadeDeProducao(uniProd);
@@ -66,10 +66,10 @@ public class TransporteService {
     }
     //===========================UPDATE===========================
 
-    public Transporte updateTransporte(String fornecedorEmail,Integer transporteId, Transporte transporte) throws ForbiddenActionException{
+    public Transporte updateTransporte(String fornecedorEmail, Integer transporteId, Transporte transporte) throws ForbiddenActionException {
         Fornecedor fornecedor = utilizadorService.findFornecedorByEmail(fornecedorEmail);
         Transporte transporteBD = transporteRepository.findById(transporteId).orElseThrow(EntityNotFoundException::new);
-        if(transporteBD.getUnidadeDeProducao().getFornecedor().getIdUtilizador()!= fornecedor.getIdUtilizador()){
+        if (!transporteBD.getUnidadeDeProducao().getFornecedor().getIdUtilizador().equals(fornecedor.getIdUtilizador())) {
             throw new ForbiddenActionException("Você não pode atualizar transportes nesta Unidade de Produção");
         }
         transporteBD.setEstadoTransporte(transporte.getEstadoTransporte());
@@ -79,10 +79,10 @@ public class TransporteService {
 
     //===========================DELETE===========================
 
-    public void deleteTransporte(String fornecedorEmail,Integer transporteId) throws ForbiddenActionException {
+    public void deleteTransporte(String fornecedorEmail, Integer transporteId) throws ForbiddenActionException {
         Fornecedor fornecedor = utilizadorService.findFornecedorByEmail(fornecedorEmail);
         Transporte transporteBD = transporteRepository.findById(transporteId).orElseThrow(EntityNotFoundException::new);
-        if(transporteBD.getUnidadeDeProducao().getFornecedor().getIdUtilizador()!= fornecedor.getIdUtilizador()){
+        if (!transporteBD.getUnidadeDeProducao().getFornecedor().getIdUtilizador().equals(fornecedor.getIdUtilizador())) {
             throw new ForbiddenActionException("Você não pode apagar este transporte");
         }
         transporteRepository.deleteById(transporteId);
