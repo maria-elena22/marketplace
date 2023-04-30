@@ -17,6 +17,8 @@ public class ProdutoFornecedorDTO {
 
     private String nome;
 
+    private String descricao;
+
     private IVA iva;
 
     private List<SubCategoriaDTO> subCategorias;

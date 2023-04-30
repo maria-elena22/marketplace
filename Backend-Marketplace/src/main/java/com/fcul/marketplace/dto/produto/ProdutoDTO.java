@@ -8,6 +8,8 @@ public class ProdutoDTO {
 
     private String nome;
 
+    private String descricao;
+
     private IVA iva;
 
 }

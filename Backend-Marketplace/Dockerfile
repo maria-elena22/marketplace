@@ -10,16 +10,8 @@ COPY . /app
 # Set the environment variable for the application
 ENV APP_NAME marketplace
 
-# Define the Maven arguments as variables
-ARG MAVEN_THREADS=8
-ARG MAVEN_PROFILE=prod
-ARG MAVEN_SKIP_TESTS=true
-ARG DATABASE_URL=jdbc:postgresql://35.188.58.205:5000/postgres
-ARG DATABASE_USERNAME=postgres
-ARG DATABASE_PASSWORD=mysecretpassword
-
 # Build the application using Maven with the extracted variables
-RUN ./mvnw -T ${MAVEN_THREADS} clean package -Dspring.active.profiles=${MAVEN_PROFILE} -DskipTests=${MAVEN_SKIP_TESTS} -Dspring.datasource.url=${DATABASE_URL} -Dspring.datasource.username=${DATABASE_USERNAME} -Dspring.datasource.password=${DATABASE_PASSWORD}
+RUN ./mvnw -T 8 clean package -Dspring.profiles.active=prod
 
 # Expose port 8080 for the application
 EXPOSE 8080

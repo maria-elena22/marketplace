@@ -1,6 +1,7 @@
 package com.fcul.marketplace;
 
 import com.fcul.marketplace.model.Categoria;
+import com.fcul.marketplace.model.Propriedade;
 import com.fcul.marketplace.model.SubCategoria;
 import com.fcul.marketplace.repository.CategoriaRepository;
 import com.fcul.marketplace.repository.FornecedorRepository;
@@ -230,6 +231,37 @@ public class AppRunner implements ApplicationRunner {
 
             applyFunctionToTree(appNode,null,null);
 
+
+            Categoria categoria = categoriaService.getCategorias("Mercearia",null,null,null,null).get(0);
+            Categoria categoria2 = categoriaService.getCategorias("Peixaria",null,null,null,null).get(0);
+            Categoria categoria3 = categoriaService.getCategorias("Talho",null,null,null,null).get(0);
+            Categoria categoria4 = categoriaService.getCategorias("Congelados",null,null,null,null).get(0);
+            Categoria categoria5 = categoriaService.getCategorias("Limpeza",null,null,null,null).get(0);
+            Categoria categoria6 = categoriaService.getCategorias("Eletrodomésticos",null,null,null,null).get(0);
+
+
+            Propriedade propriedade = new Propriedade();
+            propriedade.setNomePropriedade("Prazo de validade");
+
+            Propriedade propriedade2 = new Propriedade();
+            propriedade2.setNomePropriedade("Contem gluten");
+
+            Propriedade propriedade3 = new Propriedade();
+            propriedade3.setNomePropriedade("Indice energetico");
+
+            Propriedade propriedade4 = new Propriedade();
+            propriedade4.setNomePropriedade("Conselhos de utilização");
+
+            categoriaService.addPropriedade(categoria.getIdCategoria(),propriedade);
+            categoriaService.addPropriedade(categoria.getIdCategoria(),propriedade2);
+            categoriaService.addPropriedade(categoria2.getIdCategoria(),propriedade);
+            categoriaService.addPropriedade(categoria3.getIdCategoria(),propriedade);
+
+
+            categoriaService.addPropriedade(categoria4.getIdCategoria(),propriedade);
+            categoriaService.addPropriedade(categoria5.getIdCategoria(),propriedade4);
+
+            categoriaService.addPropriedade(categoria6.getIdCategoria(),propriedade3);
         }
 
     }

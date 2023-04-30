@@ -26,6 +26,8 @@ public class Produto {
 
     private String nome;
 
+    private String descricao;
+
     @Enumerated(EnumType.STRING)
     private IVA iva;
 
@@ -75,6 +77,7 @@ public class Produto {
     public FullProdutoDTO convert(ModelMapper modelMapper) {
         FullProdutoDTO fullProdutoDTO = new FullProdutoDTO();
         fullProdutoDTO.setNome(this.getNome());
+        fullProdutoDTO.setDescricao(this.getDescricao());
         fullProdutoDTO.setIva(this.getIva());
         fullProdutoDTO.setIdProduto(this.getIdProduto());
         fullProdutoDTO.setSubCategorias(this.getSubCategorias().stream().map(subCategoria -> modelMapper.map(subCategoria, SubCategoriaDTO.class)).toList());

@@ -17,6 +17,8 @@ public class FullProdutoDTO {
 
     private String nome;
 
+    private String descricao;
+
     private IVA iva;
 
     private List<ProdutoUniProdDTO> uniProds;

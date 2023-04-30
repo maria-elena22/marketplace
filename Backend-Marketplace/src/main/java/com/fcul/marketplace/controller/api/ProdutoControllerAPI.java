@@ -72,13 +72,14 @@ public class ProdutoControllerAPI {
                                                   @RequestParam(required = false) Double precoMin,
                                                   @RequestParam(required = false) Double precoMax,
                                                   @RequestParam(required = false) IVA iva,
+                                                  @RequestParam(required = false) String descricao,
                                                   @RequestParam(required = false) Integer page,
                                                   @RequestParam(required = false) Integer size,
                                                   @RequestParam(required = false) String sortKey,
                                                   @RequestParam(required = false) Sort.Direction sortDir) {
 
         List<Produto> produtos = produtoService.getProdutos(propriedadeId, subcategoriaId, categoriaId, unidadeId, nomeProduto
-                , precoMax, precoMin, iva, page, size, sortDir, sortKey);
+                , precoMax, precoMin, iva, descricao,page, size, sortDir, sortKey);
         return produtos.stream()
                 .map(produto -> modelMapper.map(produto, ProdutoConsumidorDTO.class)).collect(Collectors.toList());
     }
@@ -114,6 +115,7 @@ public class ProdutoControllerAPI {
                                                             @RequestParam(required = false) Double precoMin,
                                                             @RequestParam(required = false) Double precoMax,
                                                             @RequestParam(required = false) IVA iva,
+                                                            @RequestParam(required = false) String descricao,
                                                             @RequestParam(required = false) Integer page,
                                                             @RequestParam(required = false) Integer size,
                                                             @RequestParam(required = false) String sortKey,
@@ -121,7 +123,7 @@ public class ProdutoControllerAPI {
 
         String emailFornecedor = securityUtils.getEmailFromAuthHeader(authorizationHeader);
         List<Produto> produtos = produtoService.getProdutosFornecedor(emailFornecedor, propriedadeId, subcategoriaId, categoriaId, unidadeId, nomeProduto
-                , precoMax, precoMin, iva, page, size, sortDir, sortKey);
+                , precoMax, precoMin, iva,descricao, page, size, sortDir, sortKey);
 
         List<ProdutoFornecedorDTO> produtoDTOS = new ArrayList<>();
         for (Produto produto : produtos) {

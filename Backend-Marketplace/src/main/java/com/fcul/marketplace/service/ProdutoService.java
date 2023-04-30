@@ -41,20 +41,20 @@ public class ProdutoService {
 
 
 
-    public List<Produto> getProdutos(Integer propriedadeId, Integer subcategoriaId, Integer categoriaId, Integer unidadeId, String nomeProduto, Double precoMax, Double precoMin, IVA iva, Integer page, Integer size, Sort.Direction sortDir, String sortKey) {
+    public List<Produto> getProdutos(Integer propriedadeId, Integer subcategoriaId, Integer categoriaId, Integer unidadeId, String nomeProduto, Double precoMax, Double precoMin, IVA iva,String descricao, Integer page, Integer size, Sort.Direction sortDir, String sortKey) {
 
 
         Pageable pageable = PageableUtils.getDefaultPageable(page, size, sortDir, sortKey);
 
-        return produtoRepository.findByOpt(null, propriedadeId, categoriaId, unidadeId, nomeProduto, subcategoriaId, precoMin, precoMax, iva, pageable).getContent();
+        return produtoRepository.findByOpt(null, propriedadeId, categoriaId, unidadeId, nomeProduto, subcategoriaId, precoMin, precoMax, iva, descricao,pageable).getContent();
     }
 
-    public List<Produto> getProdutosFornecedor(String emailFornecedor, Integer propriedadeId, Integer subcategoriaId, Integer categoriaId, Integer unidadeId, String nomeProduto, Double precoMax, Double precoMin, IVA iva, Integer page, Integer size, Sort.Direction sortDir, String sortKey) {
+    public List<Produto> getProdutosFornecedor(String emailFornecedor, Integer propriedadeId, Integer subcategoriaId, Integer categoriaId, Integer unidadeId, String nomeProduto, Double precoMax, Double precoMin, IVA iva,String descricao ,Integer page, Integer size, Sort.Direction sortDir, String sortKey) {
         Fornecedor fornecedor = utilizadorService.findFornecedorByEmail(emailFornecedor);
 
         Pageable pageable = PageableUtils.getDefaultPageable(page, size, sortDir, sortKey);
 
-        return produtoRepository.findByOpt(fornecedor.getIdUtilizador(), propriedadeId, categoriaId, unidadeId, nomeProduto, subcategoriaId, precoMin, precoMax, iva, pageable).getContent();
+        return produtoRepository.findByOpt(fornecedor.getIdUtilizador(), propriedadeId, categoriaId, unidadeId, nomeProduto, subcategoriaId, precoMin, precoMax, iva, descricao ,pageable).getContent();
     }
 
     public Produto getProdutoByID(Integer id) {
@@ -104,6 +104,7 @@ public class ProdutoService {
 
         produtoBD.setNome(produtoPrecoDTO.getProdutoDTO().getNome());
         produtoBD.setIva(produtoPrecoDTO.getProdutoDTO().getIva());
+        produtoBD.setDescricao(produtoPrecoDTO.getProdutoDTO().getDescricao());
 
         Optional<ProdutoFornecedorInfo> produtoFornecedorInfo = produtoBD.getPrecoFornecedores().stream()
                 .filter(precoFornecedor -> precoFornecedor.getFornecedor().equals(fornecedor)).findFirst();
