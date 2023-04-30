@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -23,7 +24,7 @@ public class SubEncomenda {
 
     private EstadoEncomenda estadoEncomenda;
 
-    private Date dataEncomenda;
+    private Timestamp dataEncomenda;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Item> items;

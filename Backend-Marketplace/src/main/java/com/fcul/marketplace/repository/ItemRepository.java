@@ -12,11 +12,13 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 
     @Query("SELECT i FROM Item i " +
             "JOIN i.produto p " +
+            "JOIN i.subEncomenda s " +
             "JOIN p.uniProds up " +
             "JOIN up.fornecedor f " +
             "JOIN up.transportes t " +
             "WHERE i.entregue = false " +
             "AND f.idUtilizador = :idFornecedor " +
+            "AND s.fornecedor = :idFornecedor " +
             "AND t.idTransporte = :idTransporte ")
     Page<Item> findByOpt(Integer idFornecedor, Integer idTransporte, Pageable pageable);
 

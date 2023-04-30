@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -150,7 +151,7 @@ public class EncomendaControllerAPI {
             itemInfoDTO.setIdItem(item.getIdItem());
             itemInfoDTO.setQuantidade(item.getQuantidade());
             itemInfoDTO.setProdutoNome(item.getProduto().getNome());
-            itemInfoDTO.setQuantidadeEntregue(entry.getValue().get(0));
+            itemInfoDTO.setQuantidadeDespachada(entry.getValue().get(0));
             itemInfoDTO.setQuantidadeStock(entry.getValue().get(1));
             itemInfoDTOS.add(itemInfoDTO);
         }
@@ -222,6 +223,13 @@ public class EncomendaControllerAPI {
     //===========================INSERT===========================
 
     @PostMapping("/confirm/{encomendaId}")
+    @Operation(summary = "confirmPayment",
+            description = "Confirma o pagamento da encomenda com o ID indicado")
+    @Parameters(value =
+            {@Parameter(name = "encomendaId", description = "ID da Encomenda a pagar")})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
+    })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"CONSUMIDOR"})
     public FullEncomendaDTO confirmPayment(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
@@ -249,7 +257,9 @@ public class EncomendaControllerAPI {
 
         Encomenda encomenda = new Encomenda();
         encomenda.setPreco(compraDTO.getPreco());
-        encomenda.setDataEncomenda(compraDTO.getDataEncomenda());
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        encomenda.setDataEncomenda(timestamp);
         return encomendaService.addEncomenda(encomenda, securityUtils.getEmailFromAuthHeader(authorizationHeader), compraDTO.getItems());
     }
 

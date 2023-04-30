@@ -11,5 +11,4 @@ public class CompraDTO {
 
     List<SimpleItemDTO> items;
     private Double preco;
-    private Date dataEncomenda;
 }

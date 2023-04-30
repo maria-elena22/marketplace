@@ -162,6 +162,7 @@ public class EncomendaService {
 
         verifyConsumidorEncomenda(consumidor, encomenda);
 
+        //TODO
 
 
 //        Stripe.apiKey = "sk_test_51Mtx6JEkGiTSvCsfPldmY7bLNtcBmCcskcxZhq8RGWv2E0C03AruqNkHbCd8e2doaaJSxwYTbFpQSHwc5UbrvDkz00mjkgUsn0";
@@ -224,14 +225,18 @@ public class EncomendaService {
         if (!consumidor.getIdUtilizador().equals(encomenda.getConsumidor().getIdUtilizador())) {
             throw new ForbiddenActionException("Não pode cancelar encomenda");
         }
-        if (encomenda.getEstadoEncomenda().equals(EstadoEncomenda.CANCELADO)) {
+        if (encomenda.getEstadoEncomenda().equals(EstadoEncomenda.CANCELADA)) {
             throw new EncomendaAlreadyCancelledException("Esta encomenda já se encontra cancelada");
         }
-        if (encomenda.getEstadoEncomenda().equals(EstadoEncomenda.A_PROCESSAR)) {
+        if (    encomenda.getEstadoEncomenda().equals(EstadoEncomenda.A_PROCESSAR) ||
+                encomenda.getEstadoEncomenda().equals(EstadoEncomenda.ENTREGUE) ||
+                encomenda.getEstadoEncomenda().equals(EstadoEncomenda.EM_DISTRIBUICAO) ||
+                encomenda.getEstadoEncomenda().equals(EstadoEncomenda.PROCESSADA)) {
             throw new EncomendaCannotBeCancelledException("Esta encomenda já não pode ser cancelada");
         }
 
-        encomenda.setEstadoEncomenda(EstadoEncomenda.CANCELADO);
+        encomenda.setEstadoEncomenda(EstadoEncomenda.CANCELADA);
+        encomenda.getSubEncomendas().forEach(subEncomenda -> subEncomenda.setEstadoEncomenda(EstadoEncomenda.CANCELADA));
         return encomendaRepository.save(encomenda);
 
 
@@ -315,7 +320,7 @@ public class EncomendaService {
             subencomenda.setItems(par.getValue());
             subencomenda.setFornecedor(par.getKey());
             subencomenda.setPreco(par.getValue().stream().mapToDouble(
-                    item -> getPrecoItem(par.getKey().getIdUtilizador(), item)).reduce(0, Double::sum));
+                    item -> getPrecoItem(par.getKey().getIdUtilizador(), item)*item.getQuantidade()).reduce(0, Double::sum));
             subEncomendas.add(subencomenda);
         }
 

@@ -2,6 +2,7 @@ package com.fcul.marketplace.service;
 
 import com.fcul.marketplace.exceptions.ForbiddenActionException;
 import com.fcul.marketplace.model.*;
+import com.fcul.marketplace.model.enums.EstadoTransporte;
 import com.fcul.marketplace.model.enums.EstadoViagem;
 import com.fcul.marketplace.repository.ItemRepository;
 import com.fcul.marketplace.repository.SubItemRepository;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,8 +79,8 @@ public class ViagemService {
         viagem.setDataFim(null);
         viagem.setDataInicio(null);
         alteraStock(subItems, uniProd);
-
-        return viagemRepository.save(viagem);
+        viagem = viagemRepository.save(viagem);
+        return viagem;
     }
 
     public void verificaStockSubItens(List<SubItem> subItems, UniProd uniProd) throws ForbiddenActionException {
@@ -120,13 +122,19 @@ public class ViagemService {
     }
 
     public List<SubItem> handleSubItens(List<SubItem> subItems, Viagem viagem) {
+        //nova lista
+        List<SubItem> subItemsBD = new ArrayList<>();
         for (SubItem subItem : subItems) {
             Item item = itemRepository.findById(subItem.getItem().getIdItem()).orElseThrow(EntityNotFoundException::new);
-            subItem.setItem(item);
-            subItem.setViagem(viagem);
-            subItem = subItemRepository.save(subItem);
+
+            SubItem subItemBD = new SubItem();
+            subItemBD.setViagem(viagem);
+            subItemBD.setItem(item);
+            subItemBD.setQuantidade(subItem.getQuantidade());
+
+            subItemsBD.add(subItemRepository.save(subItemBD));
         }
-        return subItems;
+        return subItemsBD;
     }
 
     public void verificaFornecedorItems(List<SubItem> subItems, Fornecedor fornecedor) throws ForbiddenActionException {
@@ -143,26 +151,15 @@ public class ViagemService {
 
     }
 
-    //===========================UPDATE===========================
-    public Viagem updateViagem(Integer idViagem, Viagem viagem) {
-        Viagem viagemBD = viagemRepository.findById(idViagem).orElseThrow(EntityNotFoundException::new);
-        viagemBD.setDataInicio(viagem.getDataInicio());
-        viagemBD.setDataFim(viagem.getDataFim());
-        return viagemRepository.save(viagemBD);
-    }
-    //===========================DELETE===========================
-
-    public void deleteViagem(Integer id) {
-        viagemRepository.deleteById(id);
-    }
 
     //============================AUX=============================
     public void iniciaViagem(Viagem viagem) {
         if (viagem.getDataInicio() == null) {
-            viagem.setEstadoViagem(EstadoViagem.INCICIADA);
+            viagem.setEstadoViagem(EstadoViagem.INICIADA);
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             viagem.setDataInicio(timestamp);
         }
+        viagem.getTransporte().setEstadoTransporte(EstadoTransporte.EM_ENTREGA);
         viagemRepository.save(viagem);
     }
 
@@ -171,6 +168,13 @@ public class ViagemService {
             viagem.setEstadoViagem(EstadoViagem.FINALIZADA);
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             viagem.setDataFim(timestamp);
+
+
+            Transporte transporte = viagem.getTransporte();
+            if (transporte.getViagens().stream().noneMatch(viagemT -> viagemT.getEstadoViagem().equals(EstadoViagem.INICIADA))){
+                viagem.getTransporte().setEstadoTransporte(EstadoTransporte.DISPONIVEL);
+
+            }
             viagemRepository.save(viagem);
         }
 

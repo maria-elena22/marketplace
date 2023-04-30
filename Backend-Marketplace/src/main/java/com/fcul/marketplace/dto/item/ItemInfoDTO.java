@@ -11,7 +11,7 @@ public class ItemInfoDTO {
 
     private Integer quantidade;
 
-    private Integer quantidadeEntregue;
+    private Integer quantidadeDespachada;
 
     private Integer quantidadeStock;
 

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface SubItemRepository extends JpaRepository<SubItem, Integer> {
 
 
-    @Query("SELECT s FROM SubItem s " +
+    @Query("SELECT DISTINCT s FROM SubItem s " +
             "JOIN s.item i " +
             "JOIN i.produto p " +
             "JOIN p.uniProds up " +

@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -24,7 +25,7 @@ public class Encomenda {
     private EstadoEncomenda estadoEncomenda;
 
     @NotNull(message = "A data da encomenda é obrigatória ")
-    private Date dataEncomenda;
+    private Timestamp dataEncomenda;
 
     @ManyToOne
     @JoinColumn(name = "consumidor_id")
