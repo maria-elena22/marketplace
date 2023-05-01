@@ -24,7 +24,7 @@ public class Categoria {
     @ManyToMany(mappedBy = "categorias")
     private List<Propriedade> propriedades;
 
-    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
     private List<SubCategoria> subCategorias;
 }
 

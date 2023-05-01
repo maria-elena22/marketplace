@@ -3,23 +3,15 @@ package com.fcul.marketplace;
 import com.fcul.marketplace.model.Categoria;
 import com.fcul.marketplace.model.Propriedade;
 import com.fcul.marketplace.model.SubCategoria;
-import com.fcul.marketplace.repository.CategoriaRepository;
-import com.fcul.marketplace.repository.FornecedorRepository;
-import com.fcul.marketplace.repository.SubCategoriaRepository;
-import com.fcul.marketplace.repository.TransporteRepository;
-import com.fcul.marketplace.repository.UniProdRepository;
 import com.fcul.marketplace.service.CategoriaService;
-import com.fcul.marketplace.service.TransporteService;
-import com.fcul.marketplace.service.UniProdService;
-import com.fcul.marketplace.service.UtilizadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.Enumeration;
 import java.util.List;
-import javax.swing.tree.DefaultMutableTreeNode;
 
 @Component
 public class AppRunner implements ApplicationRunner {

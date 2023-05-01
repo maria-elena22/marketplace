@@ -225,8 +225,6 @@ public class EncomendaControllerAPI {
     @PostMapping("/confirm/{encomendaId}")
     @Operation(summary = "confirmPayment",
             description = "Confirma o pagamento da encomenda com o ID indicado")
-    @Parameters(value =
-            {@Parameter(name = "encomendaId", description = "ID da Encomenda a pagar")})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
@@ -244,8 +242,6 @@ public class EncomendaControllerAPI {
     @PostMapping("/{idConsumidor}")
     @Operation(summary = "insertEncomenda",
             description = "Adiciona uma nova Encomenda à BD, associada ao Consumidor com o ID indicado")
-    @Parameters(value =
-            {@Parameter(name = "idConsumidor", description = "Consumidor associado à Encomenda")})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })

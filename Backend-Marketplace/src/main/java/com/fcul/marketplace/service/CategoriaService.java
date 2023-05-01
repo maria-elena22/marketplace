@@ -34,7 +34,7 @@ public class CategoriaService {
             , Integer size, String sortKey, Sort.Direction sortDir) {
         Pageable pageable = PageableUtils.getDefaultPageable(page, size, sortDir, sortKey);
 
-        return categoriaRepository.findByOpt(nomeCategoria, pageable).getContent();
+        return categoriaRepository.findByOpt(nomeCategoria,pageable).getContent().stream().peek(categoria -> categoria.setSubCategorias(categoria.getSubCategorias().stream().filter(subCategoria -> subCategoria.getSubCategoriaPai() == null).toList())).toList();
 
     }
 

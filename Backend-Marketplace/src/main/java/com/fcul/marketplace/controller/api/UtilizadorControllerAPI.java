@@ -196,8 +196,6 @@ public class UtilizadorControllerAPI {
     @PutMapping("/consumidor")
     @Operation(summary = "updateConsumidor",
             description = "Atualiza os dados de um Consumidor")
-    @Parameters(value = {
-            @Parameter(name = "idConsumidor", description = "ID do Consumidor a atualizar")})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })

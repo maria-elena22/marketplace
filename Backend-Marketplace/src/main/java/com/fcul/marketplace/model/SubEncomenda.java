@@ -4,7 +4,6 @@ import com.fcul.marketplace.model.enums.EstadoEncomenda;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
