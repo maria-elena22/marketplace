@@ -22,17 +22,15 @@ export class RegisterComponent {
     console.log("success");
     const input = document.getElementById('filtraSelect') as HTMLInputElement;
     // console.log(input.value);
+    
+    const nome = document.getElementById('nome') as HTMLInputElement;
+    // console.log(nome.value)
+    const idFiscal = document.getElementById('idFiscal') as HTMLInputElement;
+    // console.log(idFiscal.value)
+
     if(input.value === "consumidor"){
-      const nome = document.getElementById('nomeConsumidor') as HTMLInputElement;
-      console.log(nome.value)
-      const idFiscal = document.getElementById('idFiscalConsumidor') as HTMLInputElement;
-      console.log(idFiscal.value)
       this.createConsumidor(idFiscal.value, nome.value);
     }else{
-      const nome = document.getElementById('nomeFornecedor') as HTMLInputElement;
-      console.log(nome.value)
-      const idFiscal = document.getElementById('idFiscalFornecedor') as HTMLInputElement;
-      console.log(idFiscal.value)
       this.createFornecedor(idFiscal.value, nome.value);
     }
   }
@@ -47,6 +45,5 @@ export class RegisterComponent {
     console.log("Vamos criar um fornecedor");
     this.fornecedoresService.createFornecedor({idFiscal, nome});
     this.router.navigate(['/admin-fornecedor']);
-    // this.fornecedoresService.createFornecedor();
   }
 }
