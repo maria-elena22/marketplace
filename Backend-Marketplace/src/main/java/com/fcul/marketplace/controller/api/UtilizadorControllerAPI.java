@@ -24,7 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -55,7 +57,7 @@ public class UtilizadorControllerAPI {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
     @GetMapping("login")
-    public String login(@RequestParam String email, @RequestParam String password) throws BadCredentialsException, InactiveAccountException {
+    public Map<String, String> login(@RequestParam String email, @RequestParam String password) throws BadCredentialsException, InactiveAccountException {
 
 
         String token;
@@ -74,7 +76,9 @@ public class UtilizadorControllerAPI {
             throw new RuntimeException(e);
         }
 
-        return token;
+        Map<String,String> map =  new HashMap<>();
+        map.put("token",token);
+        return map;
     }
 
     @GetMapping("/consumidor")
@@ -155,7 +159,7 @@ public class UtilizadorControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
-    public String insertConsumidor(@RequestBody SignUpDTO signupDTO) throws Auth0Exception, SignUpException {
+    public Map<String, String> insertConsumidor(@RequestBody SignUpDTO signupDTO) throws Auth0Exception, SignUpException {
 
         Consumidor consumidor = modelMapper.map(signupDTO, Consumidor.class);
         consumidor = utilizadorService.addConsumidor(consumidor);
@@ -167,7 +171,10 @@ public class UtilizadorControllerAPI {
             throw e1;
         }
 
-        return securityUtils.generateToken(signupDTO.getEmail(), signupDTO.getPassword());
+        String token = securityUtils.generateToken(signupDTO.getEmail(), signupDTO.getPassword());
+        Map<String,String> map =  new HashMap<>();
+        map.put("token",token);
+        return map;
     }
 
     @PostMapping("/register/fornecedor")
@@ -176,7 +183,7 @@ public class UtilizadorControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
-    public String insertFornecedor(@RequestBody SignUpDTO signupDTO) throws Auth0Exception, SignUpException {
+    public Map<String, String> insertFornecedor(@RequestBody SignUpDTO signupDTO) throws Auth0Exception, SignUpException {
 
         Fornecedor fornecedor = modelMapper.map(signupDTO, Fornecedor.class);
         fornecedor = utilizadorService.addFornecedor(fornecedor);
@@ -188,7 +195,10 @@ public class UtilizadorControllerAPI {
             throw e1;
         }
 
-        return securityUtils.generateToken(signupDTO.getEmail(), signupDTO.getPassword());
+        String token = securityUtils.generateToken(signupDTO.getEmail(), signupDTO.getPassword());
+        Map<String,String> map =  new HashMap<>();
+        map.put("token",token);
+        return map;
     }
 
     //===========================UPDATE===========================
