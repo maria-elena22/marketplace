@@ -53,6 +53,7 @@ public class UniProdControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public List<UniProdDTO> getUniProds(
             @Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
             @RequestParam(required = false) String nomeUniProd,
@@ -78,6 +79,7 @@ public class UniProdControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public UniProdDTO insertUniProd(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader
             , @RequestBody UniProdInputDTO uniProdDTO) throws JWTTokenMissingException {
         UniProd uniProd = modelMapper.map(uniProdDTO, UniProd.class);
@@ -96,6 +98,7 @@ public class UniProdControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public UniProdDTO updateUniProd(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                     @PathVariable Integer idUniProd, @RequestBody UniProdInputDTO uniProdDTO) throws JWTTokenMissingException, ForbiddenActionException {
         UniProd uniProd = modelMapper.map(uniProdDTO, UniProd.class);
@@ -115,6 +118,7 @@ public class UniProdControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public void deleteUniProd(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                               @PathVariable Integer idUniProd) throws JWTTokenMissingException, ForbiddenActionException {
         uniProdService.deleteUniProd(securityUtils.getEmailFromAuthHeader(authorizationHeader), idUniProd);

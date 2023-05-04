@@ -54,6 +54,7 @@ public class TransporteControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public List<TransporteDTO> getTransportesFornecedor(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                                         @RequestParam(required = false) Integer unidadeProducaoId,
                                                         @RequestParam(required = false) EstadoTransporte estadoTransporte,
@@ -77,6 +78,7 @@ public class TransporteControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public TransporteDTO insertTransporte(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                           @PathVariable Integer uniProdId,
                                           @RequestBody TransporteInputDTO transporteDTO) throws JWTTokenMissingException, ForbiddenActionException {
@@ -97,6 +99,7 @@ public class TransporteControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public TransporteDTO updateTransporte(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                           @PathVariable Integer idTransporte,
                                           @RequestBody TransporteInputDTO transporteDTO) throws JWTTokenMissingException, ForbiddenActionException {
@@ -116,6 +119,7 @@ public class TransporteControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public void deleteTransporte(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                  @PathVariable Integer idTransporte) throws JWTTokenMissingException, ForbiddenActionException {
         transporteService.deleteTransporte(securityUtils.getEmailFromAuthHeader(authorizationHeader), idTransporte);

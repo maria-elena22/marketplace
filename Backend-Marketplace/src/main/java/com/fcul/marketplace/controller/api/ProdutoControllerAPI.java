@@ -64,6 +64,7 @@ public class ProdutoControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
+    @CrossOrigin("*")
     public List<ProdutoConsumidorDTO> getProdutos(@RequestParam(required = false) Integer propriedadeId,
                                                   @RequestParam(required = false) Integer subcategoriaId,
                                                   @RequestParam(required = false) Integer categoriaId,
@@ -106,6 +107,7 @@ public class ProdutoControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public List<ProdutoFornecedorDTO> getProdutosFornecedor(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                                             @RequestParam(required = false) Integer propriedadeId,
                                                             @RequestParam(required = false) Integer subcategoriaId,
@@ -170,6 +172,7 @@ public class ProdutoControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public FullProdutoDTO insertProduto(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                         @RequestBody ProdutoPropriedadesDTO produtoPropriedadesDTO,
                                         @RequestParam List<Integer> uniProdsIds,
@@ -196,6 +199,7 @@ public class ProdutoControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public ProdutoDTO updateProduto(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                     @PathVariable Integer idProduto,
                                     @RequestBody ProdutoPrecoDTO produtoPrecoDTO) throws JWTTokenMissingException, ForbiddenActionException {
@@ -213,6 +217,7 @@ public class ProdutoControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public void removeProduto(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                               @PathVariable Integer idProduto) throws JWTTokenMissingException, ForbiddenActionException {
         produtoService.removeProduto(securityUtils.getEmailFromAuthHeader(authorizationHeader), idProduto);
@@ -231,6 +236,7 @@ public class ProdutoControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public FullProdutoDTO addUniProds(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                       @PathVariable Integer produtoId,
                                       @RequestParam List<Integer> uniProdsIds,
@@ -251,6 +257,7 @@ public class ProdutoControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public FullProdutoDTO removeUniProds(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                          @PathVariable Integer produtoId,
                                          @RequestParam List<Integer> uniProdsIds) throws JWTTokenMissingException, ForbiddenActionException {
@@ -273,6 +280,7 @@ public class ProdutoControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public FullProdutoDTO addSubCategorias(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                            @PathVariable Integer produtoId,
                                            @RequestParam List<Integer> subCategoriasIds,
@@ -296,6 +304,7 @@ public class ProdutoControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public FullProdutoDTO removeSubCategorias(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                               @PathVariable Integer produtoId, @RequestParam List<Integer> subCategoriasIds)
             throws JWTTokenMissingException, ForbiddenActionException {
@@ -318,6 +327,7 @@ public class ProdutoControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public FullProdutoDTO updateUniProdStock(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                                    @RequestParam Integer idUniProd, @RequestParam Integer stock, @PathVariable Integer produtoId) throws JWTTokenMissingException, ForbiddenActionException {
         String emailFornecedor = securityUtils.getEmailFromAuthHeader(authorizationHeader);

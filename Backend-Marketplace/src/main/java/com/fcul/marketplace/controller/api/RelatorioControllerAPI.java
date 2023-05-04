@@ -12,10 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 
@@ -42,6 +39,7 @@ public class RelatorioControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR", "ADMIN", "CONSUMIDOR"})
+    @CrossOrigin("*")
     public RelatorioPorZonasDTO getRelatorioPorZonas(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader) throws JWTTokenMissingException {
 
         return relatorioService.generateRelatorioZonas(securityUtils.getEmailFromAuthHeader(authorizationHeader), securityUtils.getRoleFromAuthHeader(authorizationHeader));
@@ -55,6 +53,7 @@ public class RelatorioControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR", "ADMIN", "CONSUMIDOR"})
+    @CrossOrigin("*")
     public RelatorioPorDistanciasDTO getRelatorioPorDistancias(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader) throws JWTTokenMissingException {
         return relatorioService.generateRelatorioDistancias(securityUtils.getEmailFromAuthHeader(authorizationHeader),
                 securityUtils.getRoleFromAuthHeader(authorizationHeader));

@@ -45,6 +45,7 @@ public class CategoriaControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
+    @CrossOrigin("*")
     public List<FullCategoriaDTO> getCategorias(@RequestParam(required = false) String nomeCategoria,
                                                 @RequestParam(required = false) Integer page,
                                                 @RequestParam(required = false) Integer size,
@@ -65,6 +66,7 @@ public class CategoriaControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
+    @CrossOrigin("*")
     public FullCategoriaDTO getCategoria(@PathVariable Integer idCategoria) {
 
         return modelMapper.map(categoriaService.getCategoriaByID(idCategoria), FullCategoriaDTO.class);
@@ -83,6 +85,7 @@ public class CategoriaControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
+    @CrossOrigin("*")
     public List<PropriedadeDTO> getPropriedades(@RequestParam(required = false) String nomePropriedade,
                                                 @RequestParam(required = false) Integer page,
                                                 @RequestParam(required = false) Integer size,
@@ -105,6 +108,7 @@ public class CategoriaControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public CategoriaDTO insertCategoria(@RequestBody CategoriaInputDTO categoriaDTO) {
 
         Categoria categoria = modelMapper.map(categoriaDTO, Categoria.class);
@@ -122,6 +126,7 @@ public class CategoriaControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public FullCategoriaDTO insertPropriedade(@PathVariable Integer categoriaId, @RequestBody PropriedadeInputDTO propriedadeDTO) {
 
         Propriedade propriedade = modelMapper.map(propriedadeDTO, Propriedade.class);
@@ -139,6 +144,7 @@ public class CategoriaControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public FullCategoriaDTO insertSubCategoria(@PathVariable Integer categoriaId,
                                                @RequestParam(required = false) Integer subCategoriaId,
                                                @RequestBody SubCategoriaInputDTO subCategoriaDTO) {
@@ -158,6 +164,7 @@ public class CategoriaControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public CategoriaDTO updateCategoria(@PathVariable Integer categoriaId, @RequestBody CategoriaInputDTO categoriaDTO) {
         Categoria categoria = categoriaService.updateCategoria(categoriaId, modelMapper.map(categoriaDTO, Categoria.class));
         return modelMapper.map(categoria, CategoriaDTO.class);
@@ -173,6 +180,7 @@ public class CategoriaControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public PropriedadeDTO updatePropriedade(@PathVariable Integer propriedadeId, @RequestBody PropriedadeInputDTO propriedadeDTO) {
         Propriedade propriedade = categoriaService.updatePropriedade(propriedadeId, modelMapper.map(propriedadeDTO, Propriedade.class));
         return modelMapper.map(propriedade, PropriedadeDTO.class);
@@ -190,6 +198,7 @@ public class CategoriaControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public FullCategoriaDTO addPropriedadeExistenteACategoria(@PathVariable Integer categoriaId, @PathVariable Integer propriedadeId) {
         return modelMapper.map(categoriaService.addExistingPropriedadeToCategoria(categoriaId, propriedadeId), FullCategoriaDTO.class);
     }
@@ -206,6 +215,7 @@ public class CategoriaControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public FullCategoriaDTO removePropriedadeExistenteDeCategoria(@PathVariable Integer categoriaId, @PathVariable Integer propriedadeId) {
         return modelMapper.map(categoriaService.removeExistingPropriedadeFromCategoria(categoriaId, propriedadeId), FullCategoriaDTO.class);
     }
@@ -221,6 +231,7 @@ public class CategoriaControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public FullCategoriaDTO updateSubCategoria(@PathVariable Integer subcategoriaId, @RequestBody SubCategoriaInputDTO subCategoriaDTO) {
         SubCategoria subCategoria = modelMapper.map(subCategoriaDTO, SubCategoria.class);
         return modelMapper.map(categoriaService.updateSubcategoria(subcategoriaId, subCategoria), FullCategoriaDTO.class);

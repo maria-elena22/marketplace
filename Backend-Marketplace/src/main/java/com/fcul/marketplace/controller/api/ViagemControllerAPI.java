@@ -45,6 +45,7 @@ public class ViagemControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
+    @CrossOrigin("*")
     public ViagemDTO getViagemByID(@PathVariable Integer idViagem) {
         Viagem viagem = viagemService.getViagemByID(idViagem);
         return modelMapper.map(viagem, ViagemDTO.class);
@@ -64,6 +65,7 @@ public class ViagemControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public List<ViagemDTO> getViagensTransporte(@PathVariable Integer idTransporte,
                                                 @Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                                 @RequestParam(required = false) Integer page,
@@ -86,6 +88,7 @@ public class ViagemControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public ViagemDTO insertViagem(@RequestBody ViagemInputDTO viagemDTO,
                                   @Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader) throws JWTTokenMissingException, ForbiddenActionException {
         Viagem viagem = modelMapper.map(viagemDTO, Viagem.class);

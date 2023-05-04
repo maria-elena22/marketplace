@@ -57,6 +57,7 @@ public class UtilizadorControllerAPI {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
     @GetMapping("login")
+    @CrossOrigin("*")
     public Map<String, String> login(@RequestParam String email, @RequestParam String password) throws BadCredentialsException, InactiveAccountException {
 
 
@@ -89,6 +90,7 @@ public class UtilizadorControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"ADMIN"})
+    @CrossOrigin("*")
     public List<UtilizadorDTO> getConsumidores() {
 
         List<Consumidor> consumidores = utilizadorService.getConsumidores();
@@ -104,6 +106,7 @@ public class UtilizadorControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"ADMIN"})
+    @CrossOrigin("*")
     public List<UtilizadorDTO> getFornecedores() {
 
         List<Fornecedor> fornecedores = utilizadorService.getFornecedores();
@@ -121,6 +124,7 @@ public class UtilizadorControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"ADMIN"})
+    @CrossOrigin("*")
     public UtilizadorDTO getConsumidorByID(@PathVariable Integer idConsumidor) {
         return modelMapper.map(utilizadorService.getConsumidorByID(idConsumidor), UtilizadorDTO.class);
     }
@@ -135,6 +139,7 @@ public class UtilizadorControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"ADMIN"})
+    @CrossOrigin("*")
     public UtilizadorDTO getFornecedorByID(@PathVariable Integer idFornecedor) {
         return modelMapper.map(utilizadorService.getFornecedorByID(idFornecedor), UtilizadorDTO.class);
     }
@@ -147,6 +152,7 @@ public class UtilizadorControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"CONSUMIDOR", "FORNECEDOR"})
+    @CrossOrigin("*")
     public UtilizadorDTO getDetalhesUtilizador(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader) throws JWTTokenMissingException {
         return modelMapper.map(utilizadorService.getUtilizadorByEmail(securityUtils.getEmailFromAuthHeader(authorizationHeader)), UtilizadorDTO.class);
     }
@@ -159,6 +165,7 @@ public class UtilizadorControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
+    @CrossOrigin("*")
     public Map<String, String> insertConsumidor(@RequestBody SignUpDTO signupDTO) throws Auth0Exception, SignUpException {
 
         Consumidor consumidor = modelMapper.map(signupDTO, Consumidor.class);
@@ -183,6 +190,7 @@ public class UtilizadorControllerAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
+    @CrossOrigin("*")
     public Map<String, String> insertFornecedor(@RequestBody SignUpDTO signupDTO) throws Auth0Exception, SignUpException {
 
         Fornecedor fornecedor = modelMapper.map(signupDTO, Fornecedor.class);
@@ -211,6 +219,7 @@ public class UtilizadorControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"CONSUMIDOR"})
+    @CrossOrigin("*")
     public UtilizadorDTO updateConsumidor(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                           @RequestBody UtilizadorInputDTO utilizadorDTO) throws JWTTokenMissingException {
         Consumidor consumidor = modelMapper.map(utilizadorDTO, Consumidor.class);
@@ -226,6 +235,7 @@ public class UtilizadorControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public UtilizadorDTO updateFornecedor(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                           @RequestBody UtilizadorInputDTO utilizadorDTO) throws JWTTokenMissingException {
         Fornecedor fornecedor = modelMapper.map(utilizadorDTO, Fornecedor.class);
@@ -243,6 +253,7 @@ public class UtilizadorControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"ADMIN"})
+    @CrossOrigin("*")
     public void deactivateConsumidor(@PathVariable Integer idConsumidor) {
         utilizadorService.deactivateConsumidor(idConsumidor);
     }
@@ -257,6 +268,7 @@ public class UtilizadorControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"ADMIN"})
+    @CrossOrigin("*")
     public void deactivateFornecedor(@PathVariable Integer idFornecedor) {
         utilizadorService.deactivateFornecedor(idFornecedor);
     }
@@ -271,6 +283,7 @@ public class UtilizadorControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"ADMIN"})
+    @CrossOrigin("*")
     public void activateConsumidor(@PathVariable Integer idConsumidor) {
         utilizadorService.activateConsumidor(idConsumidor);
     }
@@ -285,6 +298,7 @@ public class UtilizadorControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"ADMIN"})
+    @CrossOrigin("*")
     public void activateFornecedor(@PathVariable Integer idFornecedor) {
         utilizadorService.activateFornecedor(idFornecedor);
     }
@@ -300,6 +314,7 @@ public class UtilizadorControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"CONSUMIDOR", "FORNECEDOR"})
+    @CrossOrigin("*")
     public void deleteUtilizador(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader) throws JWTTokenMissingException, Auth0Exception {
         String email = securityUtils.getEmailFromAuthHeader(authorizationHeader);
         utilizadorService.deleteUtilizadorByEmail(email);

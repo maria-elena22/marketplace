@@ -37,6 +37,7 @@ public class NotificacaoControllerAPI {
     @GetMapping()
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR", "CONSUMIDOR"})
+    @CrossOrigin("*")
     public List<NotificacaoDTO> getNotificacoes(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader) throws JWTTokenMissingException {
         List<Notificacao> notificacoes = notificacaoService.getNotificacoes(
                 securityUtils.getEmailFromAuthHeader(authorizationHeader));
@@ -47,6 +48,7 @@ public class NotificacaoControllerAPI {
     @PostMapping("/saida")
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public List<NotificacaoDTO> generateSaidaTransporteNotificacao(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                                                    @RequestParam List<Integer> subItemsIds) throws JWTTokenMissingException, ForbiddenActionException {
         String emailFornecedor = securityUtils.getEmailFromAuthHeader(authorizationHeader);
@@ -69,6 +71,7 @@ public class NotificacaoControllerAPI {
     @PostMapping("/chegada")
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public NotificacaoDTO generateChegadaItemNotificacao(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                                          @RequestParam Integer subItemId) throws JWTTokenMissingException, ForbiddenActionException {
         String emailFornecedor = securityUtils.getEmailFromAuthHeader(authorizationHeader);

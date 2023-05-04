@@ -65,6 +65,7 @@ public class EncomendaControllerAPI {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")})
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"CONSUMIDOR"})
+    @CrossOrigin("*")
     public List<FullEncomendaDTO> getEncomendas(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                                 @RequestParam(required = false) Double precoMin,
                                                 @RequestParam(required = false) Double precoMax,
@@ -103,6 +104,7 @@ public class EncomendaControllerAPI {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")})
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public List<FullSubEncomendaDTO> getSubEncomendas(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                                       @RequestParam(required = false) Double precoMin,
                                                       @RequestParam(required = false) Double precoMax,
@@ -135,6 +137,7 @@ public class EncomendaControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public List<ItemInfoDTO> getItensNaoEntregues(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                                   @RequestParam Integer idTransporte,
                                                   @RequestParam(required = false) Integer page,
@@ -173,6 +176,7 @@ public class EncomendaControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public List<SubItemDTO> getSubItensNaoEntregues(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                                     @RequestParam(required = false) Integer page,
                                                     @RequestParam(required = false) Integer size,
@@ -194,6 +198,7 @@ public class EncomendaControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"CONSUMIDOR"})
+    @CrossOrigin("*")
     public FullEncomendaDTO getEncomendaById(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                              @PathVariable Integer encomendaId) throws JWTTokenMissingException, ForbiddenActionException {
 
@@ -211,6 +216,7 @@ public class EncomendaControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
     public FullSubEncomendaDTO getSubEncomendaById(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                                    @PathVariable Integer subEncomendaId) throws JWTTokenMissingException, ForbiddenActionException {
 
@@ -230,6 +236,7 @@ public class EncomendaControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"CONSUMIDOR"})
+    @CrossOrigin("*")
     public FullEncomendaDTO confirmPayment(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                            @PathVariable Integer encomendaId,
                                            @RequestBody PaymentConfirmationRequest request) throws JWTTokenMissingException, ForbiddenActionException, PaymentFailedException {
@@ -247,6 +254,7 @@ public class EncomendaControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"CONSUMIDOR"})
+    @CrossOrigin("*")
     public EncomendaPaymentDTO insertEncomenda(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                                @RequestBody CompraDTO compraDTO) throws JWTTokenMissingException, ErroCalculoDoPrecoEnviadoException, ForbiddenActionException {
 
@@ -270,6 +278,7 @@ public class EncomendaControllerAPI {
     })
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"CONSUMIDOR"})
+    @CrossOrigin("*")
     public EncomendaDTO cancelEncomenda(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader, @PathVariable Integer idEncomenda) throws EncomendaAlreadyCancelledException, EncomendaCannotBeCancelledException, JWTTokenMissingException, ForbiddenActionException {
 
         return modelMapper.map(encomendaService.cancelEncomenda(securityUtils.getEmailFromAuthHeader(authorizationHeader), idEncomenda), EncomendaDTO.class);
