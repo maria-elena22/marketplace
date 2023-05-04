@@ -139,7 +139,7 @@ public class UtilizadorControllerAPI {
         return modelMapper.map(utilizadorService.getFornecedorByID(idFornecedor), UtilizadorDTO.class);
     }
 
-    @GetMapping("/utilizador")
+    @GetMapping("/detalhes")
     @Operation(summary = "getDetalhesUtilizador",
             description = "Devolve os Detalhes do Utilizador")
     @ApiResponses(value = {

@@ -31,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
         http.csrf().disable();
+        http.cors().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         //Allow unauthenticated users to login and register
         http.authorizeRequests().antMatchers("/api/utilizador/login/**", "/api/utilizador/register/**").permitAll();
@@ -41,7 +42,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //Allow unauthenticated to have access to certain resources
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/categoria/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/produto/**").permitAll();
-
 
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilterBefore(new CustomAuthorizationFilter(securityUtils), UsernamePasswordAuthenticationFilter.class);
