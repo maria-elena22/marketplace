@@ -42,6 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //Allow unauthenticated to have access to certain resources
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/categoria/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/produto/**").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.OPTIONS, "**").permitAll();
 
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilterBefore(new CustomAuthorizationFilter(securityUtils), UsernamePasswordAuthenticationFilter.class);
