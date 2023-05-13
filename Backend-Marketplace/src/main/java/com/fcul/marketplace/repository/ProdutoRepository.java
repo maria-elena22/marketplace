@@ -15,7 +15,7 @@ import java.util.List;
 public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
     @Query("SELECT DISTINCT p FROM Produto p " +
             "INNER JOIN p.subCategorias sc " +
-            "LEFT JOIN p.uniProds up " +
+            "INNER JOIN p.uniProds up " + //TODO TROQUEI PARA INNER JOIN
             "INNER JOIN sc.categoria c " +
             "LEFT JOIN p.precoFornecedores pf " +
             "LEFT JOIN p.propriedades props " +

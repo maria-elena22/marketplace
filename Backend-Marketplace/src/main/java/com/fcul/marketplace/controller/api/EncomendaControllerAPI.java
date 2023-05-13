@@ -246,7 +246,7 @@ public class EncomendaControllerAPI {
         return modelMapper.map(encomenda, FullEncomendaDTO.class);
     }
 
-    @PostMapping("/{idConsumidor}")
+    @PostMapping("")
     @Operation(summary = "insertEncomenda",
             description = "Adiciona uma nova Encomenda à BD, associada ao Consumidor com o ID indicado")
     @ApiResponses(value = {

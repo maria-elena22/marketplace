@@ -11,4 +11,6 @@ public class ItemDTO {
 
     private Integer quantidade;
 
+    private boolean entregue;
+
 }
