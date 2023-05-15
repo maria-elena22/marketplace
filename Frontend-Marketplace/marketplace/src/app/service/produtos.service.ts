@@ -84,7 +84,7 @@ export class ProdutosService{
             paramString = '?'+paramString
 
         }
-        const url = `http://grupo12.pt:8080/api/produto/fornecedor${paramString}`;
+        const url = `https://grupo12.pt:8080/api/produto/fornecedor${paramString}`;
 
         console.log(url)
         return this.http.get<Array<ProdutoFornecedorDTO>>(url, { headers,observe: 'response' });
