@@ -72,7 +72,7 @@ public class ProdutoService {
         }
         Pageable pageable = PageableUtils.getDefaultPageable(page, size, sortDir, sortKey);
         Boolean shouldEvaluateList = subcategoriaId!=null;
-        return produtoRepository.findByOpt(fornecedor.getIdUtilizador(), propriedadeId, categoriaId, unidadeId, nomeProduto, subCategoriasId, precoMin, precoMax, iva, descricao ,pageable, shouldEvaluateList).getContent();
+        return produtoRepository.findByOptF(fornecedor.getIdUtilizador(), unidadeId ,pageable).getContent();
     }
 
     public Produto getProdutoByID(Integer id) {

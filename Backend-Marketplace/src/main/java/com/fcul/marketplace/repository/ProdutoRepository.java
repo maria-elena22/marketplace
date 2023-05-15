@@ -15,7 +15,7 @@ import java.util.List;
 public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
     @Query("SELECT DISTINCT p FROM Produto p " +
             "INNER JOIN p.subCategorias sc " +
-            "INNER JOIN p.uniProds up " + //TODO TROQUEI PARA INNER JOIN
+            "LEFT JOIN p.uniProds up " +
             "INNER JOIN sc.categoria c " +
             "LEFT JOIN p.precoFornecedores pf " +
             "LEFT JOIN p.propriedades props " +
@@ -23,7 +23,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
             "AND (:nomeProduto is null or p.nome LIKE %:nomeProduto%) " +
             "AND (:categoriaId is null or c.idCategoria=:categoriaId) " +
             "AND :shouldEvaluateList = false or sc.idSubCategoria IN :subcategoriaIdsList " +
-            "AND (:unidadeId is null or up.idUnidade=:unidadeId) " +
+            "AND (:unidadeId is null or :unidadeId=up.idUnidade) " +
             "AND (:idFornecedor is null or up.fornecedor.idUtilizador=:idFornecedor) " +
             "AND (:precoMin is null or pf.preco>= :precoMin) " +
             "AND (:precoMax is null or pf.preco<= :precoMax) " +
@@ -31,6 +31,13 @@ public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
             "AND (:descricao is null or p.descricao LIKE %:descricao%) ")
     Page<Produto> findByOpt(Integer idFornecedor, Integer propriedadeId, Integer categoriaId, Integer unidadeId, String nomeProduto,
                             List<Integer> subcategoriaIdsList, Double precoMin, Double precoMax, IVA iva, String descricao, Pageable pageable, Boolean shouldEvaluateList);
+
+
+    @Query("SELECT DISTINCT p FROM Produto p " +
+            "INNER JOIN p.uniProds up " +
+            "WHERE (:unidadeId is null or up.idUnidade=:unidadeId) " +
+            "AND (:idFornecedor is null or up.fornecedor.idUtilizador=:idFornecedor) ")
+    Page<Produto> findByOptF(Integer idFornecedor,Integer unidadeId, Pageable pageable);
 
 
 

@@ -11,7 +11,7 @@ COPY . /app
 ENV APP_NAME marketplace
 
 # Build the application using Maven with the extracted variables
-RUN ./mvnw -T 8 clean package -Dspring.profiles.active=prod
+RUN ./mvnw -T 8 clean package -DskipTests
 
 # Expose port 8080 for the application
 EXPOSE 8080
