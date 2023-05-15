@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ConsumidorService } from '../../service/consumidor.service';
-import { FornecedorService } from '../../service/fornecedor.service';
+
 import { UtilizadorService } from '../../service/utilizador.service';
 import jwt_decode from 'jwt-decode';
 import { Location } from '@angular/common';
@@ -20,9 +19,8 @@ import { Coordinate } from 'src/app/model/models';
 })
 
 export class RegisterComponent implements OnInit{
-  constructor(private appComponent:AppComponent ,private http: HttpClient, private consumidoresService: ConsumidorService, 
-    private location: Location,
-    private fornecedoresService: FornecedorService, private router: Router, private utilizadorService : UtilizadorService)
+  constructor(private appComponent:AppComponent ,private http: HttpClient,
+    private location: Location, private router: Router, private utilizadorService : UtilizadorService)
     {
 
     }
@@ -145,32 +143,7 @@ export class RegisterComponent implements OnInit{
 
 
 
-  createUser(){
-    console.log("success");
-    const input = document.getElementById('filtraSelect') as HTMLInputElement;
-    // console.log(input.value);
-    
-    const nome = document.getElementById('nome') as HTMLInputElement;
-    // console.log(nome.value)
-    const idFiscal = document.getElementById('idFiscal') as HTMLInputElement;
-    // console.log(idFiscal.value)
+  
 
-    if(input.value === "consumidor"){
-      this.createConsumidor(idFiscal.value, nome.value);
-    }else{
-      this.createFornecedor(idFiscal.value, nome.value);
-    }
-  }
-
-  createConsumidor(idFiscal:String, nome:String){
-    console.log("Vamos criar um consumidor");
-    this.consumidoresService.createConsumidor({idFiscal, nome});
-    this.router.navigate(['/admin-consumidor']);
-  }
-
-  createFornecedor(idFiscal:String, nome:String){
-    console.log("Vamos criar um fornecedor");
-    this.fornecedoresService.createFornecedor({idFiscal, nome});
-    this.router.navigate(['/admin-fornecedor']);
-  }
+  
 }

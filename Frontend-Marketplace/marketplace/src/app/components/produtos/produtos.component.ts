@@ -361,7 +361,7 @@ export class ProdutosComponent implements OnInit {
   getIntervaloPrecos(produto : FullProdutoDTO) : string{
     let precos = '';
     let pfs = produto.precoFornecedores;
-    if(pfs){
+    if(pfs && pfs.length !== 0){
       let precoMin = pfs[0].preco;
       let precoMax = pfs[0].preco;
       for(let pf of pfs){
