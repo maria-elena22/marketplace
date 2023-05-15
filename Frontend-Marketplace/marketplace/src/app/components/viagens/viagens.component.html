@@ -112,10 +112,11 @@
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
+
                                     <tr>
                                         <th>Número</th>
-                                        <th>Matrícula</th>
-                                        <th>Unidade de Produção</th>
+                                        <th>Inicio</th>
+                                        <th>Fim</th>
                                         <th>Estado</th>
                                         <th></th>
                                     </tr>
@@ -123,8 +124,8 @@
                                 <tfoot>
                                     <tr>
                                         <th>Número</th>
-                                        <th>Matrícula</th>
-                                        <th>Unidade de Produção</th>
+                                        <th>Inicio</th>
+                                        <th>Fim</th>
                                         <th>Estado</th>
                                         <th></th>
                                     </tr>
@@ -132,13 +133,17 @@
 
                                 <tbody>
                                     <tr *ngFor="let viagem of viagens">
-                                        <td>ola</td>
+                                        <td>{{viagens.indexOf(viagem)+1}}</td>
+                                        <td *ngIf="viagem.dataInicio!==null">{{getData(viagem.dataInicio!)}}</td>
+                                        <td *ngIf="viagem.dataInicio===null">Ainda não foi iniciada</td>
+                                        <td *ngIf="viagem.dataFim!==null">{{getData(viagem.dataFim!)}}</td>
+                                        <td *ngIf="viagem.dataFim===null">Ainda não foi terminada</td>
                                         <td>
                                             <div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
-                                                e</div>
+                                                {{viagem.estadoViagem}}</div>
                                         </td>
-                                        <th><a href="/detalhes-encomenda-consumidor"><i
-                                                    class="fas fa-arrow-right"></i></a></th>
+                                        <th><a (click)="showDetalhesViagem(viagem)"><i
+                                                    class="fa fa-search"></i></a></th>
                                     </tr>
                                 </tbody>
                             </table>
@@ -166,11 +171,66 @@
 
 
 
-<!-- <div class="modal-wrapper" [class.visible]="showModal">
+<div class="modal-wrapper" *ngIf="viagemDestaque" [class.visible]="showModal">
     <div class="modal-container">
         <button class=" btn btn-outline-dark" (click)="toggleModal()">Cancel</button>
         <br>
-        <form [formGroup]="transporteForm" (ngSubmit)="onSubmit()">
+        <div class="col " > <h5><strong>{{viagemDestaque.estadoViagem}}</strong></h5>
+            
+        </div>
+        <article class="card  mt-4">
+            <!-- <header class="card-header"> Detalhes </header> -->
+            <div class="card-body">
+                <article class="card">
+                    <div class="card-body row" style= "align-items: center;">
+                        <div class="col" *ngIf="viagemDestaque.dataInicio"> <strong>Inicio:</strong> <br>{{getData(viagemDestaque.dataInicio)}}</div>
+
+
+                        <div class="col" *ngIf="viagemDestaque.dataFim"> <strong>Fim:</strong> <br>{{getData(viagemDestaque.dataFim)}}</div>
+
+
+                        
+
+                        <div class="col" *ngIf="!viagemEstado('Finalizada')"> 
+                            <button class="btn btn-outline-dark" *ngIf="viagemEstado('Programada')" (click)="iniciarViagem()">Iniciar Viagem</button>
+                            <button class="btn btn-outline-dark" *ngIf="viagemEstado('Iniciada')" (click)="terminarViagem()">Terminar Viagem</button>
+                        </div>
+
+
+                    </div>
+                </article>
+         
+            </div>
+        </article>
+        <div>
+            <!-- Se estiver programada -->
+            
+
+        </div>
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" >
+            <tbody>
+                <tr *ngFor="let subItem of viagemDestaque.subItems">
+
+                    <td>{{subItem.item?.idItem}}</td>
+                    <td>{{subItem.quantidade}}x</td>
+
+                    <td>{{subItemEstaEntregue(subItem.idSubItem!)}}</td>
+                    <td *ngIf="subItemEstaEntregue(subItem.idSubItem!) === 'Por Entregar' && viagemEstado('Iniciada')">
+                        <button (click)="entregarSubItem(subItem.idSubItem!)" class="btn btn-outline-dark">Entregar</button>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+
+
+        <!-- private Timestamp dataInicio;
+         private Timestamp dataFim;
+         private EstadoViagem estadoViagem;
+         private SimpleTransporteDTO transporte;
+         private List<SubItemDTO> subItems; -->
+            
+        <!-- <form [formGroup]="transporteForm" (ngSubmit)="onSubmit()">
             <div>
               <label for="matricula">Matrícula: &nbsp;</label>
               <input type="text" pattern="[a-zA-Z]{2}-[0-9]{2}-[a-zA-Z]{2}" id="matricula" formControlName="matricula" required>
@@ -194,10 +254,10 @@
             
             <button class=" btn btn-outline-dark" [disabled]="!transporteForm.valid" type="submit">Submit</button>
             <p *ngIf="!transporteForm.valid">Tem de preencher todos os campos</p>
-        </form>          
+        </form>           -->
 
     </div>
-  </div> -->
+  </div>
 
   <div class="modal-wrapper" [class.visible]="showAnswer">
     <div class="modal-container">

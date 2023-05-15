@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { TransporteDTO, TransporteInputDTO, UniProdDTO, UniProdInputDTO, ViagemDTO } from 'src/app/model/models';
+import { SubItemDTO, TransporteDTO, TransporteInputDTO, UniProdDTO, UniProdInputDTO, ViagemDTO } from 'src/app/model/models';
 import{UniProdsService} from '../../service/uni-prods.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { AppComponent } from 'src/app/app.component';
@@ -18,6 +18,8 @@ export class ViagensComponent implements OnInit{
   transporte: TransporteDTO;
   viagens:ViagemDTO[];
   showViagens = false
+  viagemDestaque?:ViagemDTO;
+  subItemsNaoEntregues?:SubItemDTO[]
 
   page = 0
   previousButtonDisabled = true
@@ -56,6 +58,8 @@ export class ViagensComponent implements OnInit{
     // });
     
   }
+
+ 
 
 
 
@@ -131,12 +135,83 @@ export class ViagensComponent implements OnInit{
       const statusCode = obj.status
       if (statusCode === 200) {
         this.viagens = obj.body as ViagemDTO[];
+        this.getSubItemsNaoEntregues()
         console.log(this.viagens)
     } else {
         this.error = obj.body as Error;
         //chamar pop up
     }
     })
+
+  }
+  getSubItemsNaoEntregues(){
+    this.viagemService.getSubItemsNaoEntregues().subscribe(obj=>{
+      const statusCode = obj.status
+      if (statusCode === 200) {
+        this.subItemsNaoEntregues = obj.body as SubItemDTO[];
+        console.log(this.subItemsNaoEntregues)
+        
+    } else {
+        this.error = obj.body as Error;
+        //chamar pop up
+    }
+    })
+  }
+
+  subItemEstaEntregue(idSubItem:number){
+    for(let subItemNE of this.subItemsNaoEntregues!){
+      if(subItemNE.idSubItem === idSubItem){
+        return "Por Entregar";
+      }
+    }
+    return "Entregue";
+  }
+
+  viagemEstado(estado:string){
+    return this.viagemDestaque?.estadoViagem === estado.toUpperCase()
+  }
+
+  iniciarViagem(){
+    let subItemsIds:Array<number> = [] 
+
+    for(let subItem of this.viagemDestaque?.subItems!){
+      subItemsIds.push(subItem.idSubItem!);
+    }
+
+    this.viagemService.iniciaViagem(subItemsIds).subscribe(obj=>{
+        console.log(obj)
+        
+    })
+  }
+
+  entregarSubItem(idSubItem:number){
+    this.viagemService.terminaViagem(idSubItem).subscribe(obj=>{
+      console.log(obj)
+      
+  })
+  }
+
+  getData(data:string){
+    const date = new Date(data);
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const year = date.getFullYear().toString();
+
+  return `${hours}:${minutes} - ${day}-${month}-${year}`;
+  }
+
+  terminarViagem(){
+
+
+    for(let subItem of this.viagemDestaque?.subItems!){
+      if(this.subItemEstaEntregue(subItem.idSubItem!) === "Por Entregar"){
+        this.entregarSubItem(subItem.idSubItem!)
+      }
+    }
+
+    
 
   }
 
@@ -202,6 +277,11 @@ export class ViagensComponent implements OnInit{
 
     }
     })
+  }
+
+  showDetalhesViagem(viagem:ViagemDTO){
+    this.viagemDestaque = viagem
+    this.toggleModal();
   }
 
   toggleModal(){
