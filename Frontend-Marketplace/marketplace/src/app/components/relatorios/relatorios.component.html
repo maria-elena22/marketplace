@@ -1,0 +1,199 @@
+<div id="wrapper" *ngIf="relatorioZonas">
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Begin Page Content -->
+
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800 mt-4"><strong>Relatorio Por Zonas</strong></h1>
+
+                <!-- <div class="container" *ngIf="role === 'ROLE_CONSUMIDOR'">
+                    <article class="card  mt-4">
+                        <header class="card-header"> Detalhes </header>
+                        <div class="card-body">
+                            <article class="card">
+                                <div class="card-body row" style= "align-items: center;">
+                                    <div class="col"> <strong>Morada para entrega:</strong> <br>{{getMoradaUser()}}</div>
+                                    <div class="col" > <strong>Estado:</strong> <br> 
+                                        <div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
+                                            {{encomenda.estadoEncomenda}}
+                                        </div> 
+                                        <a *ngIf="porPagar()" style="margin-top: 4%;" (click)="pagarEncomenda()" class="btn btn-info" >Pagar encomenda</a>
+                                    </div>
+                                    <div class="col" *ngIf="porPagar()"><a  (click)="cancelarEncomenda()" class="btn btn-danger" style="font-size: 15px;">Cancelar encomenda</a></div>
+                                </div>
+                            </article>
+                     
+                        </div>
+                    </article>
+                </div> -->
+
+            </div>
+
+                <br>
+
+                <div class="container">
+                    <div class="card">
+                        <div class="table-responsive" >
+                            <br>
+                            <div (click)="showContinentes = !showContinentes">
+                                <h4 style="text-align: left;" >&nbsp;&nbsp; Continentes:
+                                    <i class="fas fa fa-angle-down mr-2" ></i>
+                                </h4> 
+
+                            </div>
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" *ngIf="showContinentes">
+                                <tbody>
+                                    <tr *ngFor="let continente of getArrayZonas(relatorioZonas.mapEncomendasContinente!) ">
+
+                                        <td width="50%">{{continente}}</td>
+                                        <td width="50%">{{relatorioZonas.mapEncomendasContinente![continente]}}x</td>
+                                        <!-- <td>{{(getPrecoProduto(item.produtoId!,subencomenda.fornecedor!)*item.quantidade!).toFixed(2)}}€</td> -->
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr>
+                            <div (click)="showPaises = !showPaises">
+                                <h4 style="text-align: left;" >&nbsp;&nbsp; Países:
+                                    <i class="fas fa fa-angle-down mr-2" ></i>
+                                </h4> 
+
+                            </div>
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" *ngIf="showPaises">
+                                <tbody>
+                                    <tr *ngFor="let pais of getArrayZonas(relatorioZonas.mapEncomendasPais!) ">
+
+                                        <td width="50%" >{{pais}}</td>
+                                        <td width="50%">{{relatorioZonas.mapEncomendasPais![pais]}}x</td>
+                                        <!-- <td>{{(getPrecoProduto(item.produtoId!,subencomenda.fornecedor!)*item.quantidade!).toFixed(2)}}€</td> -->
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr>
+                            <div (click)="showDistritos = !showDistritos">
+                                <h4 style="text-align: left;" >&nbsp;&nbsp; Distritos:
+                                    <i class="fas fa fa-angle-down mr-2" ></i>
+                                </h4> 
+
+                            </div>
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" *ngIf="showDistritos">
+                                <tbody>
+                                    <tr *ngFor="let distrito of getArrayZonas(relatorioZonas.mapEncomendasDistrito!) ">
+
+                                        <td width="50%" >{{distrito}}</td>
+                                        <td width="50%">{{relatorioZonas.mapEncomendasDistrito![distrito]}}x</td>
+                                        <!-- <td>{{(getPrecoProduto(item.produtoId!,subencomenda.fornecedor!)*item.quantidade!).toFixed(2)}}€</td> -->
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr>
+                            <div (click)="showMunicipios = !showMunicipios">
+                                <h4 style="text-align: left;" >&nbsp;&nbsp; Municípios:
+                                    <i class="fas fa fa-angle-down mr-2" ></i>
+                                </h4> 
+
+                            </div>
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" *ngIf="showMunicipios">
+                                <tbody>
+                                    <tr *ngFor="let municipio of getArrayZonas(relatorioZonas.mapEncomendasMunicipio!) ">
+
+                                        <td width="50%" >{{municipio}}</td>
+                                        <td width="50%">{{relatorioZonas.mapEncomendasMunicipio![municipio]}}x</td>
+                                        <!-- <td>{{(getPrecoProduto(item.produtoId!,subencomenda.fornecedor!)*item.quantidade!).toFixed(2)}}€</td> -->
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr>
+                            <div (click)="showFreguesias = !showFreguesias">
+                                <h4 style="text-align: left;" >&nbsp;&nbsp; Freguesias:
+                                    <i class="fas fa fa-angle-down mr-2" ></i>
+                                </h4> 
+
+                            </div>
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" *ngIf="showFreguesias">
+                                <tbody>
+                                    <tr *ngFor="let freguesia of getArrayZonas(relatorioZonas.mapEncomendasFreguesias!) ">
+
+                                        <td width="50%" >{{freguesia}}</td>
+                                        <td width="50%">{{relatorioZonas.mapEncomendasFreguesias![freguesia]}}x</td>
+                                        <!-- <td>{{(getPrecoProduto(item.produtoId!,subencomenda.fornecedor!)*item.quantidade!).toFixed(2)}}€</td> -->
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+
+</div>
+
+
+<div id="wrapper" *ngIf="relatorioDistancias">
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800 mt-4"><strong>Relatorio Por Distâncias</strong></h1>
+
+
+            </div>
+
+                <br>
+
+                <div class="container">
+                    <div class="card">
+                        <div class="table-responsive" >
+                            <br>
+                            <h4 style="text-align: left;">&nbsp;&nbsp; Gamas:</h4>
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" >
+                                <tbody>
+                                    <tr *ngFor="let gama of getArrayZonas(relatorioDistancias.gamaDistanciasQuantidadeEncomendasMap!) ">
+
+                                        <th width="50%">{{gama}}</th>
+                                        <td width="50%">{{relatorioDistancias.gamaDistanciasQuantidadeEncomendasMap![gama]}}x</td>
+                                        <!-- <td>{{(getPrecoProduto(item.produtoId!,subencomenda.fornecedor!)*item.quantidade!).toFixed(2)}}€</td> -->
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+
+</div>

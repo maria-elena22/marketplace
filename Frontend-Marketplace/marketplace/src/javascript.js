@@ -1,4 +1,4 @@
-// function register() {
+ function register() {
 //     document.getElementById("camposFornecedor").style.display = "none";
 
 //     document.getElementById("submitBtn").addEventListener("click", function () {
@@ -25,4 +25,4 @@
 //         }
 //     });
 
-// }
+}

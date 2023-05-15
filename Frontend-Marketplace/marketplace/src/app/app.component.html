@@ -8,26 +8,55 @@
                 class="navbar-toggler-icon"></span></button>
         <div  class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a routerLink="" routerLinkActive="active" ariaCurrentWhenActive="page"
-                        class="nav-link active" aria-current="page" >Home</a></li>
-                <li class="nav-item"><a routerLink="/termos-condicoes" routerLinkActive="active" ariaCurrentWhenActive="page"
-                    class="nav-link active" aria-current="page" class="nav-link" >Termos & Condições</a></li>
+
                 <li ngbDropdown class="nav-item dropdown">
                     <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">Produtos</a>
+                        <app-categorias></app-categorias>
+                </li>
+
+                <li *ngIf="role" class="nav-item"><a routerLink="/encomendas" routerLinkActive="active" ariaCurrentWhenActive="page"
+                        class="nav-link active" aria-current="page" >Encomendas</a></li>
+                
+                <li *ngIf="role === 'ROLE_FORNECEDOR'" class="nav-item"><a routerLink="/uniProds" routerLinkActive="active" ariaCurrentWhenActive="page"
+                        class="nav-link active" aria-current="page" >Unidades de Produção</a></li>
+                    
+                <li *ngIf="role === 'ROLE_FORNECEDOR'" class="nav-item"><a routerLink="/transportes" routerLinkActive="active" ariaCurrentWhenActive="page"
+                    class="nav-link active" aria-current="page" >Transportes</a></li>
+                
+                <!-- <li *ngIf="role === 'ROLE_FORNECEDOR'" class="nav-item"><a routerLink="/viagens" routerLinkActive="active" ariaCurrentWhenActive="page"
+                    class="nav-link active" aria-current="page" >Viagens</a></li> -->
+                       
+                
+                
+                <li *ngIf="role" ngbDropdown class="nav-item dropdown">
+                    <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">Relatórios</a>
                     <ul ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li ngbDropdownItem ><a class="dropdown-item" >Todos os produtos</a></li>
-                        <li><hr class="dropdown-divider"/></li>
-                        <li ngbDropdownItem><a class="dropdown-item" >Latícinios</a></li>
-                        <li ngbDropdownItem><a class="dropdown-item" >Talho</a></li>
+                        <li ngbDropdownItem><a class="dropdown-item" (click)="goToRelatorio('zonas')" >Zonas</a></li>
+                        <li ngbDropdownItem><a class="dropdown-item"(click)="goToRelatorio('distancias')" >Distâncias</a></li>
                     </ul>
                 </li>
+
+                <!-- <li class="nav-item"><a routerLink="/termos-condicoes" routerLinkActive="active" ariaCurrentWhenActive="page"
+                    class="nav-link active" aria-current="page" class="nav-link" >Termos & Condições</a></li> -->
 
             </ul>
 
 
-            <form class="">
-                <li ngbDropdown class="nav-item dropdown d-flex">
+                <li *ngIf="role" ngbDropdown class="nav-item dropdown d-flex">
+                    <a *ngIf="role &&user" ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-square"></i>&nbsp; {{user!.nome}}</a> 
+                    <ul ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li ngbDropdownItem><a class="dropdown-item" >Definições</a></li>
+                        <li>
+                            <hr class="dropdown-divider" />
+                        </li> 
+                        <li ngbDropdownItem ><a class="dropdown-item" (click)="logout()" >Logout</a></li>
+                    </ul>
+                </li>
+
+                <li *ngIf="!role" ngbDropdown class="nav-item dropdown d-flex">
                     <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-square"></i></a>
                     <ul ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -38,15 +67,14 @@
                         <li ngbDropdownItem ><a class="dropdown-item" href="/register">Registo</a></li>
                     </ul>
                 </li>
-            </form>
 
-            <form class="d-flex">
-                <a class="btn btn-outline-dark" type="submit" href="/cesto">
+            <!-- <form class="d-flex"> -->
+                <a *ngIf="role !== 'ROLE_FORNECEDOR'" class="btn btn-outline-dark" type="submit" href="/cesto">
                     <i class="bi-cart-fill me-1"></i>
 
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                    <span class="badge bg-dark text-white ms-1 rounded-pill">{{cestoService.getItems().length}}</span>
                 </a>
-            </form>
+            <!-- </form> -->
         </div>
     </div>
 </nav>
@@ -147,3 +175,12 @@
     <!-- Section: Links  -->
 </footer>
 <!-- Footer -->
+
+  <div class="modal-wrapper" [class.visible]="showAnswer">
+    <div class="modal-container">
+        <button class="btn btn-outline-dark" (click)="toggleAnswer()">Close</button>
+        <br>
+      <h2 [style.color]="success ? 'green' : 'blue'" class="modal-title">{{answer}}</h2>
+
+    </div>
+  </div>

@@ -13,7 +13,7 @@ export class FornecedorService {
   createFornecedor(fornecedor: {idFiscal:String ,nome:String}){
       // console.log(consumidor);
       const headers = new HttpHeaders();
-      this.http.post<{name:string}>('http://localhost:8080/api/utilizador/fornecedor', fornecedor, {headers: headers})
+      this.http.post<{name:string}>('https://localhost:8080/api/utilizador/fornecedor', fornecedor, {headers: headers})
       .subscribe((res) => {
           console.log(res);
       });

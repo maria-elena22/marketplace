@@ -1,0 +1,153 @@
+
+
+
+<div id="wrapper">
+  <!-- <app-sidebar></app-sidebar> -->
+  <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+          <!-- Begin Page Content -->
+          <div class="container-fluid">
+
+              <!-- Page Heading -->
+              <div class="d-sm-flex align-items-center justify-content-between mb-3">
+                  <h1 class="h3 mb-0 text-gray-800 mt-4"> Unidades de Produção</h1>
+                  <button class=" btn btn-outline-dark" (click)="toggleModal()"> Adiciona uma nova Unidade de Producao </button>
+
+              </div>
+
+              <!-- Content Row -->
+
+              <div class="card shadow mb-4 mt-4">
+                  <div class="card-body">
+                      <div class="table-responsive">
+                          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                              <thead>
+                                  <tr>
+                                      <th>Número</th>
+                                      <th>Nome</th>
+                                      <th>Morada</th>
+                                      <th></th>
+                                      <th></th>
+                                      <th></th>
+                                  </tr>
+                              </thead>
+                              <tfoot>
+                                  <tr>
+                                      <th>Número</th>
+                                      <th>Nome</th>
+                                      <th>Morada</th>
+                                      <th></th>
+                                      <th></th>
+                                      <th></th>
+                                  </tr>
+                              </tfoot>
+
+                              <tbody>
+                                  <tr *ngFor="let uniProd of uniProds">
+                                      <td>{{uniProd.idUnidade}}</td>
+                                      <td>{{uniProd.nomeUniProd}}</td>
+                                      <td>MORADA</td>
+                                      <!-- href="/detalhes-encomenda-consumidor" -->
+                                      <th><a (click)="verProdutosUniProd(uniProd)">Ver Produtos &nbsp;<i
+                                                  class="fas fa-arrow-right"></i></a></th>
+                                      <th><a (click)="editarUniProd(uniProd)">Editar &nbsp;<i
+                                                  class="fas fa-edit"></i></a></th>
+                                      <th><a (click)="confirmarRemoverUniProd(uniProd)">Remover &nbsp;<i
+                                                  class="fa fa-trash"></i></a></th>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+
+          </div>
+
+      </div>
+      <!-- End of Main Content -->
+
+  </div>
+  <!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+  <i class="fas fa-angle-up"></i>
+</a>
+
+
+<div class="modal-wrapper" [class.visible]="showModal">
+    <div class="modal-container">
+        <button class=" btn btn-outline-dark" (click)="toggleModal()">Cancel</button>
+        <br>
+        <form [formGroup]="uniProdForm" (ngSubmit)="onSubmit()">
+            <div>
+              <label for="nomeUniProd">Nome UniProd: &nbsp;</label>
+
+              <input type="text" id="nomeUniProd" formControlName="nomeUniProd" required>
+            </div>
+            <br>
+            <button class=" btn btn-outline-dark" type="submit">Submit</button>
+        </form>          
+      <!-- <h2 class="modal-title">Modal Title</h2>
+      <p class="modal-content">Modal Content Here</p> -->
+    </div>
+  </div>
+
+  <div class="modal-wrapper" [class.visible]="showProdutos">
+    <div class="modal-container">
+        <button class=" btn btn-outline-dark" (click)="toggleProdutos()">Cancel</button>
+        <br>        
+        <div *ngFor="let produto of produtosUP">
+            <p class="modal-content">{{produto.nome}} &nbsp; stock - {{stockProduto(produto)}}</p>
+
+        </div>
+      
+    </div>
+  </div>
+
+  <div class="modal-wrapper" [class.visible]="showEditar">
+    <div class="modal-container">
+        <button class=" btn btn-outline-dark" (click)="toggleEditar()">Cancel</button>
+        <br>     
+          
+        <form [formGroup]="editarForm" (ngSubmit)="onSubmitEditar()">
+            <div>
+              <label for="nomeUniProd">Novo nome: &nbsp;</label>
+
+              <input type="text" id="nomeUniProd" formControlName="nomeUniProd" required>
+            </div>
+            <br>
+            <button class="btn btn-outline-dark" [disabled]="!editarForm.valid" type="submit">Submit</button>
+            <p *ngIf="!editarForm.valid">Tem de preencher todos os campos</p>
+        </form>    
+      
+    </div>
+  </div>
+
+  <div class="modal-wrapper" [class.visible]="showRemover">
+    <div class="modal-container">
+        <button class=" btn btn-outline-dark" (click)="toggleRemover()">Cancel</button>
+        <br>        
+        <div *ngFor="let produto of produtosUP">
+            <p class="modal-content">{{produto.nome}} &nbsp; stock - {{stockProduto(produto)}}</p>
+
+        </div>
+      
+    </div>
+  </div>
+
+  <div class="modal-wrapper" *ngIf="uniProdEscolhida" [class.visible]="showConfirmar">
+    <div class="modal-container">
+              
+        <h2>Tem a certeza que quer eliminar {{uniProdEscolhida.nomeUniProd}}?</h2>
+        <button class=" btn btn-outline-dark" (click)="removerUniProd(uniProdEscolhida)">Sim</button>
+        <button class=" btn btn-outline-dark" (click)="toggleConfirmar()">Cancelar</button>
+        <br>  
+      
+    </div>
+  </div>
