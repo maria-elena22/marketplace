@@ -34,6 +34,7 @@ import { UniProdsComponent } from './components/uni-prods/uni-prods.component';
 import { EncomendasComponent } from './components/encomendas/encomendas.component';
 import { RelatoriosComponent } from './components/relatorios/relatorios.component';
 import { ViagensComponent } from './components/viagens/viagens.component';
+import { NotificacoesComponent } from './components/notificacoes/notificacoes.component';
 
 
 const appRoutes: Routes = [
@@ -101,7 +102,8 @@ const appRoutes: Routes = [
     UniProdsComponent,
     EncomendasComponent,
     RelatoriosComponent,
-    ViagensComponent  ],
+    ViagensComponent,
+    NotificacoesComponent  ],
   bootstrap: [ AppComponent ],
   exports: [ProdutosComponent],
   providers: [ProdutosComponent

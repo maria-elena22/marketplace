@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpParams, HttpErrorResponse} from "@angular/common/http";
 import { Observable, throwError } from 'rxjs';
 import { catchError, map,tap } from 'rxjs/operators';
-import { EncomendaDTO, FullEncomendaDTO, ItemInfoDTO } from '../model/models';
+import { EncomendaDTO, FullEncomendaDTO, FullSubEncomendaDTO, ItemInfoDTO } from '../model/models';
 
 @Injectable({
   providedIn: 'root'
@@ -25,9 +25,45 @@ export class EncomendasService {
     params = estadoEncomenda ? params.set('estadoEncomenda', estadoEncomenda) : params;
     params = page ? params.set('page', page) : params;
 
-    const url = `https://grupo12.pt:8080/api/encomenda`;
+    const url = `https://34.30.176.39:8080/api/encomenda`;
 
     return this.http.get<Array<FullEncomendaDTO>>(url ,{ headers, params,observe: 'response' })
+      .pipe(
+          catchError((error) => {
+          console.log('An error occurred:', error);
+          return throwError('Something went wrong');
+        })
+      );
+  }
+
+  getEncomendaById( encomendaId?: number ): Observable<HttpResponse<any>> {
+    const token = localStorage.getItem('jwt_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    let params = new HttpParams();
+    
+    params = encomendaId ? params.set('encomendaId', encomendaId) : params;
+
+    const url = `https://34.30.176.39:8080/api/encomenda/encomenda/${encomendaId}`;
+
+    return this.http.get<FullEncomendaDTO>(url ,{ headers, params,observe: 'response' })
+      .pipe(
+          catchError((error) => {
+          console.log('An error occurred:', error);
+          return throwError('Something went wrong');
+        })
+      );
+  }
+
+  getSubEncomendaById( subEncomendaId?: number ): Observable<HttpResponse<any>> {
+    const token = localStorage.getItem('jwt_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    let params = new HttpParams();
+    
+    params = subEncomendaId ? params.set('subEncomendaId', subEncomendaId) : params;
+
+    const url = `https://34.30.176.39:8080/api/encomenda/subEncomenda/${subEncomendaId}`;
+
+    return this.http.get<FullSubEncomendaDTO>(url ,{ headers, params,observe: 'response' })
       .pipe(
           catchError((error) => {
           console.log('An error occurred:', error);
@@ -47,7 +83,7 @@ export class EncomendasService {
     params = estadoEncomenda ? params.set('estadoEncomenda', estadoEncomenda) : params;
     params = page ? params.set('page', page) : params;
 
-    const url = `https://grupo12.pt:8080/api/encomenda/subEncomendas`;
+    const url = `https://34.30.176.39:8080/api/encomenda/subEncomendas`;
 
     return this.http.get<Array<FullEncomendaDTO>>(url ,{ headers, params,observe: 'response' })
       .pipe(
@@ -68,7 +104,7 @@ export class EncomendasService {
     params = size ? params.set('size', size) : params;
 
 
-    const url = `https://grupo12.pt:8080/api/encomenda/item`;
+    const url = `https://34.30.176.39:8080/api/encomenda/item`;
 
     return this.http.get<Array<ItemInfoDTO>>(url ,{ headers, params,observe: 'response' })
       .pipe(

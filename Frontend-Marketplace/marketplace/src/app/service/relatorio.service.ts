@@ -15,7 +15,7 @@ export class RelatorioService {
     const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    const url = `https://grupo12.pt:8080/api/relatorio/distancia`;
+    const url = `https://34.30.176.39:8080/api/relatorio/distancia`;
 
 
     return this.http.get<RelatorioPorDistanciasDTO>(url ,{ headers, observe: 'response' })
@@ -31,7 +31,7 @@ export class RelatorioService {
     const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    const url = `https://grupo12.pt:8080/api/relatorio/zona`;
+    const url = `https://34.30.176.39:8080/api/relatorio/zona`;
 
 
     return this.http.get<RelatorioPorZonasDTO>(url ,{ headers, observe: 'response' })

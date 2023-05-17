@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
-import { FullEncomendaDTO, FullProdutoDTO, FullSubEncomendaDTO, SimpleUtilizadorDTO } from 'src/app/model/models';
+import { EncomendaDTO, FullEncomendaDTO, FullProdutoDTO, FullSubEncomendaDTO, SimpleUtilizadorDTO } from 'src/app/model/models';
 import { ProdutosService } from 'src/app/service/produtos.service';
 
 @Component({
@@ -55,6 +55,10 @@ export class DetalhesEncomendaConsumidorComponent implements OnInit{
   }
 
   cancelarEncomenda(){
+    this.produtosService.cancelEncomenda(this.encomenda?.idEncomenda!).subscribe(obj=>{
+      const statusCode = obj.status
+      window.location.reload()
+    })
 
   }
 

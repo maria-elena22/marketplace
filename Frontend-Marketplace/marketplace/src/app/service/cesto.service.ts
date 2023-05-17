@@ -63,7 +63,7 @@ export class CestoService {
   addEncomenda(compra: CompraDTO){
     const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const url = `https://grupo12.pt:8080/api/encomenda`;
+    const url = `https://34.30.176.39:8080/api/encomenda`;
 
     return this.http.post<any>(url, compra,{ headers, observe: 'response' })
       .pipe(
@@ -80,7 +80,7 @@ export class CestoService {
     const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    const url = `https://grupo12.pt:8080/api/encomenda/confirm/${encomendaId}`;
+    const url = `https://34.30.176.39:8080/api/encomenda/confirm/${encomendaId}`;
     console.log(url)
 
     return this.http.post<any>(url, request,{ headers, observe: 'response' })

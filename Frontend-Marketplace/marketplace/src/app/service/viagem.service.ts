@@ -25,7 +25,7 @@ export class ViagemService {
       paramString = '?'+paramString
 
     }
-    const url = `https://grupo12.pt:8080/api/viagem/transporte/${idTransporte}`;
+    const url = `https://34.30.176.39:8080/api/viagem/transporte/${idTransporte}`;
 
     return this.http.get<Array<ViagemDTO>>(url ,{ headers, observe: 'response' })
       .pipe(
@@ -47,7 +47,7 @@ export class ViagemService {
     let paramString = params.toString();
 
 
-    const url = `https://grupo12.pt:8080/api/notificacao/saida?${paramString}`;
+    const url = `https://34.30.176.39:8080/api/notificacao/saida?${paramString}`;
 
     return this.http.post<Array<NotificacaoDTO>>(url,{},{ headers,observe: 'response' })
       .pipe(
@@ -68,7 +68,7 @@ export class ViagemService {
     params = params.set('subItemId', subItemId);
     let paramString = params.toString();
 
-    const url = `https://grupo12.pt:8080/api/notificacao/chegada?${paramString}`;
+    const url = `https://34.30.176.39:8080/api/notificacao/chegada?${paramString}`;
     
     return this.http.post<Array<NotificacaoDTO>>(url,{},{ headers,observe: 'response' })
       .pipe(
@@ -92,7 +92,7 @@ export class ViagemService {
       paramString = '?'+paramString
 
     }
-    const url = `https://grupo12.pt:8080/api/encomenda/subItem${paramString}`;
+    const url = `https://34.30.176.39:8080/api/encomenda/subItem${paramString}`;
 
     return this.http.get<Array<SubItemDTO>>(url ,{ headers,params, observe: 'response' })
       .pipe(
@@ -110,7 +110,7 @@ export class ViagemService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
 
-    const url = "https://grupo12.pt:8080/api/viagem";
+    const url = "https://34.30.176.39:8080/api/viagem";
 
     console.log(viagem)
     

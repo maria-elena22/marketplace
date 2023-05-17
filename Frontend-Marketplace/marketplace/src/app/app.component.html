@@ -23,9 +23,6 @@
                     
                 <li *ngIf="role === 'ROLE_FORNECEDOR'" class="nav-item"><a routerLink="/transportes" routerLinkActive="active" ariaCurrentWhenActive="page"
                     class="nav-link active" aria-current="page" >Transportes</a></li>
-                
-                <!-- <li *ngIf="role === 'ROLE_FORNECEDOR'" class="nav-item"><a routerLink="/viagens" routerLinkActive="active" ariaCurrentWhenActive="page"
-                    class="nav-link active" aria-current="page" >Viagens</a></li> -->
                        
                 
                 
@@ -38,9 +35,6 @@
                     </ul>
                 </li>
 
-                <!-- <li class="nav-item"><a routerLink="/termos-condicoes" routerLinkActive="active" ariaCurrentWhenActive="page"
-                    class="nav-link active" aria-current="page" class="nav-link" >Termos & Condições</a></li> -->
-
             </ul>
 
 
@@ -48,7 +42,12 @@
                     <a *ngIf="role &&user" ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-square"></i>&nbsp; {{user!.nome}}</a> 
                     <ul ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li ngbDropdownItem><a class="dropdown-item" (click)="toggleNotifs()" >Notificações</a> 
+                            <p *ngIf="numNotifs > 0 " class="notifCount">{{numNotifs}}</p>
+                        </li>
                         <li ngbDropdownItem><a class="dropdown-item" >Definições</a></li>
+
+
                         <li>
                             <hr class="dropdown-divider" />
                         </li> 
@@ -182,5 +181,31 @@
         <br>
       <h2 [style.color]="success ? 'green' : 'blue'" class="modal-title">{{answer}}</h2>
 
+    </div>
+  </div>
+
+  <!-- The modal -->
+  <div class="notifBox" *ngIf="showNotifs">
+      <a (click)="toggleNotifs()">&times;</a>
+      <div *ngIf="notifs && notifs.length>0">
+        <ul *ngFor="let notif of notifs">
+            <li> {{notif.mensagem}} 
+                <button *ngIf="role === 'ROLE_FORNECEDOR'" class="btn btn-outline-secondary" (click)="showEncomenda(notif.subEncomenda?.idSubEncomenda!)"> - {{notif.subEncomenda?.idSubEncomenda}}</button>
+                <p *ngIf="role === 'ROLE_CONSUMIDOR'" class="btn btn-outline-secondary" (click)="showEncomenda(notif.subEncomenda?.encomenda!.idEncomenda!)">{{notif.subEncomenda?.encomenda!.idEncomenda}}</p> 
+
+            </li>
+    
+          </ul>
+      </div>
+      <div *ngIf="notifs === null||(notifs && notifs.length===0)">
+        <h3>Não tem Notificações</h3>
+      </div>
+  </div>
+
+  <div class="modal-wrapper" [class.visible]="showEncomendaModal">
+    <div class="modal-container">
+        <button class=" btn btn-outline-secondary" style="position: fixed; z-index: 3;" (click)="toggleEncomenda()">Close</button>
+        <br>
+        <app-detalhes-encomenda-consumidor [showDetalhes] = true  [subencomenda]=subencomendaDestaque [encomenda]= encomendaDestaque></app-detalhes-encomenda-consumidor>
     </div>
   </div>

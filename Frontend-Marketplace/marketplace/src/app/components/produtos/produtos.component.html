@@ -5,6 +5,33 @@
     <button class=" btn btn-outline-dark"  (click)="toggleModal()">Adicionar Produto</button>
     
 </div>
+
+<form [formGroup]="searchProdutoForm" (ngSubmit)="onSubmitSearch()">
+
+    <label for="fornecedor">Nome do Produto:</label>
+    <div  >
+        <input type="text" formControlName="nomeProduto">
+    </div>
+    <br>
+    <div>
+
+        <label for="precoMin">Preço Mínimo:</label>
+        <input type="number" id="precoMin" formControlName="precoMin" step="0.01" min="0">
+        <br>
+
+    </div>
+    <div>
+
+        <label for="precoMax">Preço Máximo:</label>
+        <input type="number" id="precoMax" formControlName="precoMax" step="0.01" min="0">
+        <br>
+
+    </div>
+    <br>
+
+    <button class=" btn btn-outline-dark" type="submit">Submit</button>
+</form> 
+
 <!-- 
 <a class="btn btn-outline-dark" [class.disabled]="previousButtonDisabled" (click)="previousPage()" > <i class="fas fa-angle-left"></i> </a> 
 
@@ -82,6 +109,8 @@
                     <!-- Product actions-->
                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                         <div class="text-center"><a class="btn btn-outline-dark mt-auto" (click)="toggleRemoverProduto(produto)">Deixar de Fornecer</a></div>
+                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" (click)="toggleAddUniProds(produto)">Adicionar UniProds</a></div>
+
                     </div>
 
 
@@ -105,9 +134,9 @@
 <!-------------------------------- CRIA PRODUTO ---------------------------------->
 <div class="modal-wrapper" *ngIf="role==='ROLE_FORNECEDOR'" [class.visible]="showModal">
     <div class="modal-container">
-        <button class=" btn btn-outline-dark" (click)="toggleModal()">Cancel</button>
+        <button class=" btn btn-outline-dark cancelar" (click)="toggleModal()">Cancel</button>
         <br>
-        <form [formGroup]="produtoForm" (ngSubmit)="onSubmit()">
+        <form style="width: 60%;" [formGroup]="produtoForm" (ngSubmit)="onSubmit()">
             <label for="nome">Nome:</label>
             <input type="text" id="nome" formControlName="nome">
             <br>
@@ -136,8 +165,17 @@
 
             <label for="uniProdsIds">UniProds:</label>
             <div formArrayName="uniProdsIds">
-            <label *ngFor="let uniprod of uniProdsP">
-                <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdChange($event.target,uniprod.idUnidade!)"> {{ uniprod.nomeUniProd }} &nbsp;| &nbsp;
+            
+            <label style="border: solid 3px; padding: 2%; margin:1%;" *ngFor="let uniprod of getFirstThird(uniProdsP)">
+                <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdChange($event.target,uniprod.idUnidade!)"> {{ uniprod.nomeUniProd }} 
+            </label>
+            <br>
+            <label style="border: solid 3px; padding: 2%; margin:1%;" *ngFor="let uniprod of getSecondThird(uniProdsP)">
+                <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdChange($event.target,uniprod.idUnidade!)"> {{ uniprod.nomeUniProd }} 
+            </label>
+            <br>
+            <label style="border: solid 3px; padding: 2%; margin:1%;" *ngFor="let uniprod of getLastThird(uniProdsP)">
+                <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdChange($event.target,uniprod.idUnidade!)"> {{ uniprod.nomeUniProd }} 
             </label>
             </div>
 
@@ -145,9 +183,6 @@
 
             <div class="cat"> Categorias 
                 <p>escolha pelo menos uma subcategoria</p>
-
-
-                
 
                 <ul *ngFor="let categoria of categorias">
                     <li (click)="showCategorias(categoria)"><h4>{{categoria.nomeCategoria}}</h4></li>
@@ -316,26 +351,35 @@
         <button class="modal-close-btn" (click)="toggleAddProduto(undefined)">Close</button>
         <br>
 
-        <form [formGroup]="addCarrinhoForm" (ngSubmit)="onSubmitFornecer()">
+        <form [formGroup]="addProdutoForm" (ngSubmit)="onSubmitFornecer()">
 
-            <label for="fornecedor">Fornecedor:</label>
-            <div>
-                <label *ngFor="let precoFornecedor of produtoAadicionar.precoFornecedores">
-                    <input  required formControlName="fornecedor" type="radio" [value]="precoFornecedor.fornecedor!.idUtilizador!"> {{precoFornecedor.fornecedor!.nome}} - {{precoFornecedor.preco}}€ &nbsp;
-                    <br>
 
+            <label for="stock">Stock:</label>
+            <input type="number" id="stock" formControlName="stock" min="0">
+            <br>
+
+            <label for="preco">Preço:</label>
+            <input type="number" id="preco" formControlName="preco" step="0.01" min="0">
+            <br>
+        
+            <label for="uniProdsIds">UniProds:</label>
+            <div formArrayName="uniProdsIds" *ngIf="!addUnis">
+            <div *ngIf="!uniProdsP || uniProdsP.length === 0">Deve ter pelo menos uma Unidade de Produção para poder fornecer um produto <br> <a routerLink="/uniProds">Ir para Unidades de produção</a></div>
+            <label *ngFor="let uniprod of uniProdsP">
+                <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdAdd($event.target,uniprod.idUnidade!)"> {{ uniprod.nomeUniProd }} &nbsp;| &nbsp;
+            </label>
+            </div>
+
+            <div formArrayName="uniProdsIds" *ngIf="addUnis">
+                <div *ngIf="!uniProdsA || uniProdsA.length === 0">Já fornece este produto em todas as suas Unidades de produção<br></div>
+                <label *ngFor="let uniprod of uniProdsA">
+                    <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdAdd($event.target,uniprod.idUnidade!)"> {{ uniprod.nomeUniProd }} &nbsp;| &nbsp;
                 </label>
-            </div>
-            <br>
-            <div>
-                <label for="quantidade">Quantidade: &nbsp;</label>
+                </div>
+            
 
-                <input min="1" max="100" step="1" type="number" id="quantidade" formControlName="quantidade" required>
-            </div>
-            <br>
-
-            <button class=" btn btn-outline-dark" [disabled]="!addCarrinhoForm.valid" type="submit">Submit</button>
-            <p *ngIf="!addCarrinhoForm.valid">Tem de preencher todos os campos</p>
+            <button class=" btn btn-outline-dark" [disabled]="!addProdutoForm.valid" type="submit">Submit</button>
+            <p *ngIf="!addProdutoForm.valid">Tem de preencher todos os campos</p>
         </form>    
     
     </div>

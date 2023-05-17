@@ -15,7 +15,7 @@ export class CategoriaService {
   getCategorias(): Observable<HttpResponse<any>> {
     const headers = new HttpHeaders();
 
-    return this.http.get<Array<FullCategoriaDTO>>('https://grupo12.pt:8080/api/categoria', { headers, observe: 'response' });
+    return this.http.get<Array<FullCategoriaDTO>>('https://34.30.176.39:8080/api/categoria', { headers, observe: 'response' });
   }
 
 }

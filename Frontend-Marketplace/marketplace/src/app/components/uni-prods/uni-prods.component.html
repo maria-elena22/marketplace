@@ -91,24 +91,63 @@
               <input type="text" id="nomeUniProd" formControlName="nomeUniProd" required>
             </div>
             <br>
-            <button class=" btn btn-outline-dark" type="submit">Submit</button>
+            <button class="btn btn-outline-dark" [disabled]="!uniProdForm.valid" type="submit">Submit</button>
+            <p *ngIf="!uniProdForm.valid">Tem de preencher todos os campos</p>        
         </form>          
       <!-- <h2 class="modal-title">Modal Title</h2>
       <p class="modal-content">Modal Content Here</p> -->
     </div>
   </div>
 
-  <div class="modal-wrapper" [class.visible]="showProdutos">
+  <div class="modal-wrapper" *ngIf="showProdutos" [class.visible]="showProdutos">
     <div class="modal-container">
         <button class=" btn btn-outline-dark" (click)="toggleProdutos()">Cancel</button>
-        <br>        
-        <div *ngFor="let produto of produtosUP">
-            <p class="modal-content">{{produto.nome}} &nbsp; stock - {{stockProduto(produto)}}</p>
-
-        </div>
+        <br>     
+        <div *ngIf="!produtosUP || produtosUP.length === 0"> Ainda não tem produtos associados a esta Unidade <br> <a routerLink="/produtos">Ver Produtos</a></div>  
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" >
+            <thead>
+                <th>Produto</th>
+                <th>Stock</th>
+                <th></th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let produto of produtosUP">
+                    <td>{{produto.nome}}</td>
+                    <td>{{stockProduto(produto)}}</td>
+                    <td><button class="btn btn-outline-secondary" (click)="alterarStock(produto)">Alterar Stock &nbsp;<i
+                        class="fas fa-edit"></i></button></td>
+                </tr>
+            </tbody>
+        </table> 
       
     </div>
   </div>
+
+
+  <div class="modal-wrapper" *ngIf="showAlteraStock" [class.visible]="showAlteraStock">
+    <div class="modal-container">
+        <button class=" btn btn-outline-dark" (click)="toggleAlteraStock()">Cancel</button>
+        <br>        
+        <form [formGroup]="stockForm" (ngSubmit)="onSubmitStock()">
+            <div>
+                <p>Stock Atual: <strong>{{stockProduto(produtoStock)}}</strong></p>
+            </div>
+            
+            <div>
+                <!-- <small>(deve ser positivo)</small> -->
+                <label for="stock">Novo Stock: </label>
+                <input type="number" id="stock" formControlName="stock" min="0" required>
+
+            </div>
+            <br>
+            <button class="btn btn-outline-dark" [disabled]="!stockForm.valid" type="submit">Submit</button>
+            <p *ngIf="!stockForm.valid">Tem de preencher todos os campos</p>
+        </form>   
+      
+    </div>
+  </div>
+
+
 
   <div class="modal-wrapper" [class.visible]="showEditar">
     <div class="modal-container">
@@ -129,17 +168,7 @@
     </div>
   </div>
 
-  <div class="modal-wrapper" [class.visible]="showRemover">
-    <div class="modal-container">
-        <button class=" btn btn-outline-dark" (click)="toggleRemover()">Cancel</button>
-        <br>        
-        <div *ngFor="let produto of produtosUP">
-            <p class="modal-content">{{produto.nome}} &nbsp; stock - {{stockProduto(produto)}}</p>
 
-        </div>
-      
-    </div>
-  </div>
 
   <div class="modal-wrapper" *ngIf="uniProdEscolhida" [class.visible]="showConfirmar">
     <div class="modal-container">

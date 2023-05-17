@@ -51,7 +51,14 @@
     display: flex;
   }
   
+  .cancelar {
+    position: relative;
+    margin-left: 80%;
+}
+
   .modal-container {
+    align-items: center;
+    width: 60%;
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
@@ -60,7 +67,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    /* align-items: flex-end; */
     position: relative;
     overflow-y: auto; /* Add this line to enable vertical scrolling */
     max-height: 500px; /* Optional: Set a max-height to limit the scrollable area */

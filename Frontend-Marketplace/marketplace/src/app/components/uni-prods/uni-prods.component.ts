@@ -23,6 +23,9 @@ export class UniProdsComponent implements OnInit {
   estados = Object.keys(TransporteDTO.EstadoTransporteEnum).filter(key => isNaN(Number(key)));
   produtosUP :ProdutoFornecedorDTO[];
   uniProdEscolhida : UniProdDTO;
+  showAlteraStock = false
+  produtoStock :ProdutoFornecedorDTO;
+  stockForm: FormGroup;
 
 
   constructor(private uniProdService:UniProdsService,private formBuilder: FormBuilder, private produtoService:ProdutosService){
@@ -41,8 +44,43 @@ export class UniProdsComponent implements OnInit {
       nomeUniProd: new FormControl('', Validators.required)
 
     });
+
+    this.stockForm = new FormGroup({
+      stock: new FormControl('', Validators.required)
+
+    });
     
     
+  }
+
+  
+  alterarStock(produto:ProdutoFornecedorDTO){
+    console.log(produto)
+    this.showAlteraStock = true
+    this.produtoStock = produto
+    this.toggleProdutos()
+
+  }
+
+  onSubmitStock(){
+    this.uniProdService.updateUniProdStock(this.uniProdEscolhida.idUnidade!,
+            this.stockForm.value.stock,this.produtoStock.idProduto!).subscribe(obj=>{
+      const statusCode = obj.status
+
+      if (statusCode === 200) {
+        
+        
+        // const state = { page: 'uniProds' };
+        // const url = '/uniProds';
+
+        // window.history.pushState(state, url);
+        this.toggleAlteraStock()
+        window.location.reload()
+        //trocar na tabela
+
+      } 
+    }
+  )
   }
 
   onSubmit() {
@@ -76,6 +114,11 @@ export class UniProdsComponent implements OnInit {
   toggleConfirmar(){
     this.showConfirmar = !this.showConfirmar
   }
+
+  toggleAlteraStock(){
+    this.showAlteraStock = !this.showAlteraStock
+  }
+
     
   editarUniProd(uniProd:UniProdDTO){
     this.uniProdEscolhida = uniProd
@@ -103,6 +146,7 @@ export class UniProdsComponent implements OnInit {
       const statusCode = obj.status
       if (statusCode === 200) {
         this.toggleRemover()
+        window.location.reload()
     } else {
         this.error = obj.body as Error;
         //chamar pop up
@@ -134,6 +178,7 @@ export class UniProdsComponent implements OnInit {
   }
 
   stockProduto(produto:ProdutoFornecedorDTO) : number{
+    
     const uniProdsP = produto.uniProds
     if(uniProdsP){
       for(let uniProd of uniProdsP){

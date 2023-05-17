@@ -26,12 +26,16 @@ export class ProdutosComponent implements OnInit {
   subCategorias?:SubCategoriaDTO[]=[] //??
   categorias:FullCategoriaDTO[] = [];
   uniProdsR:UniProdDTO[]=[]
-  
+  uniProdsA:UniProdDTO[]=[]
+
 
   // forms
   produtoForm:FormGroup;
   addCarrinhoForm:FormGroup;
   removerProdutoForm:FormGroup;
+  addProdutoForm:FormGroup;
+  searchProdutoForm: FormGroup;
+
 
   // novo produto
   subCategoriasIds:number[] = [];
@@ -61,7 +65,9 @@ export class ProdutosComponent implements OnInit {
   produtoAfornecer?:FullProdutoDTO
   produtoAremover?:FullProdutoDTO
   selectAll: boolean = false;
+  addUnis = false
 
+  uniProdsIdsA:number[]=[]
 
   // carrinho
   produtoAadicionar: FullProdutoDTO;
@@ -99,12 +105,25 @@ export class ProdutosComponent implements OnInit {
         uniProdsIds: new FormControl([], Validators.required)
 
       })
+      this.addProdutoForm = new FormGroup({
+        uniProdsIds: new FormControl([], Validators.required),
+        preco:new FormControl("", Validators.required),
+        stock:new FormControl("", Validators.required)
+
+      })
+      
 
     } else{
       this.addCarrinhoForm = new FormGroup({
         quantidade: new FormControl(0, [Validators.required,Validators.pattern(/^[1-9][0-9]*$/)]),
         fornecedor:new FormControl(0, Validators.required)
       });
+      this.searchProdutoForm = new FormGroup({
+        nomeProduto: new FormControl("", Validators.required),
+        precoMin:new FormControl("", Validators.required),
+        precoMax:new FormControl("", Validators.required)
+
+      })
     }
     
   }
@@ -157,10 +176,6 @@ export class ProdutosComponent implements OnInit {
 
   }
 
-  addUniProds(produto:FullProdutoDTO){
-
-
-  }
 
   removeProduto(produtoId:number,uniProdsIds:Array<number>){
 
@@ -208,6 +223,23 @@ export class ProdutosComponent implements OnInit {
   toggleAddProduto(produto?:FullProdutoDTO){
     this.produtoAfornecer=produto;
     this.showAddProduto = !this.showAddProduto
+    if(this.showAddProduto === false){
+      this.uniProdsA = []
+    }
+  }
+
+  toggleAddUniProds(produto?:ProdutoFornecedorDTO){
+    this.produtoAfornecer=produto;
+    this.addUnis = !this.addUnis
+    if(produto?.uniProds){
+      for(let up of this.uniProdsP){
+        if(produto.uniProds.filter(uni => uni.idUnidade === up.idUnidade).length === 0){ 
+          //se up nao estiver em produto uniprods add to upA
+          this.uniProdsA.push(up)
+        }
+      }
+    }
+    this.showAddProduto = !this.showAddProduto
   }
 
   toggleRemoverProduto(produto?:FullProdutoDTO){
@@ -252,25 +284,87 @@ export class ProdutosComponent implements OnInit {
 
   onSubmitFornecer(){
 
-    const itemData: SimpleItemDTO = {
-      produtoId : this.produtoAadicionar.idProduto,
-      fornecedorId: this.addCarrinhoForm.value.fornecedor,
-      quantidade: this.addCarrinhoForm.value.quantidade
-    }
-
-    console.log(itemData)
-    this.cestoService.addToCart(itemData)
-    this.toggleModalCarrinho()
-    this.success = true
-    this.answer = "Produto adicionado ao cesto!"
-    this.toggleAnswerC()
-    this.addCarrinhoForm.reset();
+    const produtoId = this.produtoAfornecer!.idProduto!
+    const uniProdsIds = this.addProdutoForm.value.uniProdsIds
+    const preco = this.addProdutoForm.value.preco
+    const stock = this.addProdutoForm.value.stock
+     
+    this.addUniProds(produtoId,uniProdsIds,preco,stock);
+    this.uniProdsA = []
 
   }
 
+  onUniProdAdd(target1:any, idUniProd: number): void {
+    let target = target1 as HTMLInputElement
   
+    if (target.checked) {
+      this.uniProdsIdsA.push(idUniProd);
+    } else {
+      const index = this.uniProdsIdsA.indexOf(idUniProd);
+      if (index !== -1) {
+        this.uniProdsIdsA.splice(index, 1);
+      }
+    }
+    this.addProdutoForm.get('uniProdsIds')!.patchValue(this.uniProdsIdsA);
+    console.log(this.addProdutoForm.value)
+
+  }
+
+  addUniProds(produtoId:number,uniProdsIds:Array<number>,preco:number,stock:number){
+    this.produtosService.addUniProds(produtoId,uniProdsIds,preco,stock).subscribe(obj=>{
+      const statusCode = obj
+        this.toggleRemoverProduto()
+        console.log(obj)
+        window.location.reload()
+        this.addProdutoForm.patchValue({uniProdsIds:[],stock:"",preco:""})
+
+    })
+
+  }
+
+  getFirstThird(array: any[]): any[] {
+    const third = Math.ceil(array.length / 3);
+    return array.slice(0, third);
+  }
+
+  getSecondThird(array: any[]): any[] {
+    const third = Math.ceil(array.length / 3);
+    const start = third;
+    const end = third * 2;
+
+    return array.slice(start, end);
+  }
+
+  getLastThird(array: any[]): any[] {
+    const third = Math.ceil(array.length / 3);
+    const start = third * 2;
+
+    return array.slice(start);
+  }
 
   // ---------------------- VER PRODUTOS ----------------------
+
+
+  onSubmitSearch() {
+    
+
+    this.produtosService.getProdutos(this.idCategoria,this.idSubCategoria,undefined,
+          this.searchProdutoForm.value.nomeProduto,this.searchProdutoForm.value.precoMin,this.searchProdutoForm.value.precoMax).subscribe(obj=>{
+      const statusCode = obj.status
+      if (statusCode === 200) {
+        this.produtos = obj.body as FullProdutoDTO[];
+        console.log(obj.body)
+        this.meusProdutos = []
+        
+    } else {
+        this.error = obj.body as Error;
+        //chamar pop up
+
+    }
+    })
+  
+
+  } 
 
   verTodosProdutos(){
     this.getProdutos(-1,-1);
@@ -427,6 +521,9 @@ export class ProdutosComponent implements OnInit {
 
   }
 
+
+    
+
   onUniProdRemove(target1:any, idUniProd: number): void {
     let target = target1 as HTMLInputElement
   
@@ -516,6 +613,8 @@ export class ProdutosComponent implements OnInit {
         }
       }
     }
+    console.log(this.propriedadesToComplete)
+
     
   }
 
@@ -525,6 +624,7 @@ export class ProdutosComponent implements OnInit {
       categoria.propriedadesList = props.filter(p => !this.removerPropriedadePartilhada(p));
       this.propriedadesToComplete.push(...props.filter(p => !this.propriedadesToComplete.includes(p)));
     }
+    console.log(this.propriedadesToComplete)
   }
 
   removerPropriedadePartilhada(prop: PropriedadeDTO): boolean {

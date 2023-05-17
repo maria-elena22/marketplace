@@ -10,10 +10,14 @@
  * Do not edit the class manually.
  */
 
+import { EncomendaNotifDTO } from "./encomendaNotifDTO";
+
 
 export interface SubEncomendaNotifDTO { 
     idSubEncomenda?: number;
     estadoEncomenda?: SubEncomendaNotifDTO.EstadoEncomendaEnum;
+    encomenda?: EncomendaNotifDTO;
+
 }
 export namespace SubEncomendaNotifDTO {
     export type EstadoEncomendaEnum = 'POR_PAGAR' | 'A_PROCESSAR' | 'PROCESSADA' | 'EM_DISTRIBUICAO' | 'ENTREGUE' | 'CANCELADA';
