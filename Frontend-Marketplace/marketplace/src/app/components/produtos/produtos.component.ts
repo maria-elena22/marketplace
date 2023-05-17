@@ -69,6 +69,10 @@ export class ProdutosComponent implements OnInit {
 
   uniProdsIdsA:number[]=[]
 
+  page = 0
+  previousButtonDisabled = true
+  nextButtonDisabled = false
+
   // carrinho
   produtoAadicionar: FullProdutoDTO;
 
@@ -373,14 +377,66 @@ export class ProdutosComponent implements OnInit {
 
   }
 
+  nextPage(){
+    this.page +=1
+    if(this.produtos.length >0){
+      this.getProdutos(this.idCategoria,this.idSubCategoria);
+    }
+    console.log(this.page)
+    this.previousButtonDisabled = false
+
+    // if(this.transportes.length===0){
+
+    //   console.log(this.transportes)
+      
+    // } else{
+      // const state = { page: 'transportes' };
+      // const url = '/transportes';
+      // this.previousButtonDisabled = false
+      // window.history.pushState(state, url);
+      
+
+    //}
+    
+  }
+  previousPage(){
+    this.page -=1
+    if(this.page<0){  
+      this.page += 1
+      this.previousButtonDisabled = true
+
+    } else{
+      this.nextButtonDisabled = false
+
+      if(this.produtos.length >0){
+        this.getProdutos(this.idCategoria,this.idSubCategoria);
+      }
+
+      // const state = { page: 'transportes' };
+      // const url = '/transportes';
+      // this.nextButtonDisabled = false
+      // window.history.pushState(state, url);
+
+    }
+    
+
+    
+
+  }
+
   getProdutos(idCategoria:number, idSubCategoria:number){
 
-    this.produtosService.getProdutos(idCategoria,idSubCategoria).subscribe(obj=>{
+    this.produtosService.getProdutos(idCategoria,idSubCategoria,undefined,undefined,undefined,undefined,this.page).subscribe(obj=>{
       const statusCode = obj.status
       if (statusCode === 200) {
         this.produtos = obj.body as FullProdutoDTO[];
         console.log(obj.body)
         this.meusProdutos = []
+        if(this.produtos.length ===0 && this.page>0){
+          this.page -=1
+          this.nextButtonDisabled = true
+          this.getProdutos(this.idCategoria,this.idSubCategoria)
+        }
         
     } else {
         this.error = obj.body as Error;

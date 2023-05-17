@@ -16,7 +16,7 @@ export class ProdutosService{
                 propriedadeId?:number,
                 nomeProduto?:string,
                 precoMin?:number,
-                precoMax?:number): Observable<HttpResponse<any>> {
+                precoMax?:number,page?:number,size?:number): Observable<HttpResponse<any>> {
         const headers = new HttpHeaders();
         let params = new HttpParams();
         
@@ -34,6 +34,8 @@ export class ProdutosService{
         params = nomeProduto ? params.set('nomeProduto', nomeProduto) : params;
         params = precoMin ? params.set('precoMin', precoMin) : params;
         params = precoMax ? params.set('precoMax', precoMax) : params;
+        params = page ? params.set('page', page) : params;
+        params = size ? params.set('size', size) : params;
 
 
         let paramString = params.toString();
@@ -54,7 +56,7 @@ export class ProdutosService{
             unidadeId?:number,
             nomeProduto?:string,
             precoMin?:number,
-            precoMax?:number ): Observable<HttpResponse<any>> {
+            precoMax?:number ,page?:number,size?:number): Observable<HttpResponse<any>> {
         const token = localStorage.getItem('jwt_token');
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
         let params = new HttpParams();
@@ -75,7 +77,8 @@ export class ProdutosService{
         params = nomeProduto ? params.set('nomeProduto', nomeProduto) : params;
         params = precoMin ? params.set('precoMin', precoMin) : params;
         params = precoMax ? params.set('precoMax', precoMax) : params;
-
+        params = page ? params.set('page', page) : params;
+        params = size ? params.set('size', size) : params;
 
         let paramString = params.toString();
         if(paramString != ''){
