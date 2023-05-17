@@ -1,8 +1,8 @@
 package com.fcul.marketplace.service;
 
 import com.fcul.marketplace.exceptions.ForbiddenActionException;
-import com.fcul.marketplace.model.Fornecedor;
-import com.fcul.marketplace.model.UniProd;
+import com.fcul.marketplace.model.*;
+import com.fcul.marketplace.model.enums.EstadoViagem;
 import com.fcul.marketplace.repository.UniProdRepository;
 import com.fcul.marketplace.repository.utils.PageableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -43,6 +44,7 @@ public class UniProdService {
         Fornecedor fornecedor = utilizadorService.findFornecedorByEmail(fornecedorEmail);
 
         uniProd.setFornecedor(fornecedor);
+        uniProd.setActive(true);
         return uniProdRepository.save(uniProd);
     }
 
@@ -81,7 +83,30 @@ public class UniProdService {
             throw new ForbiddenActionException("Você não é o dono desta unidade de produção");
         }
 
-        uniProdRepository.deleteById(idUniProd);
+        if (!verifyDeactivationUniProd(uniProdBD)){
+            throw new ForbiddenActionException("Não pode eliminar esta Unidade porque ainda tem viagens não finalizadas!");
+        }
+        for (Transporte t : uniProdBD.getTransportes()){
+            t.setActive(false);
+
+        }
+        uniProdBD.setProdutos(new ArrayList<>());
+        uniProdBD.setStocks(new ArrayList<>());
+        uniProdBD.setActive(false);
+        uniProdRepository.save(uniProdBD);
+        //uniProdRepository.deleteById(idUniProd);
+    }
+
+    private boolean verifyDeactivationUniProd(UniProd uniProd) {
+        for (Transporte t : uniProd.getTransportes()){
+            for (Viagem v : t.getViagens()){
+                if(!v.getEstadoViagem().equals(EstadoViagem.FINALIZADA)){
+                    return false;
+                }
+            }
+        }
+        return true;
+
     }
 
 

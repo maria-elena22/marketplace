@@ -4,7 +4,9 @@ import com.fcul.marketplace.exceptions.ForbiddenActionException;
 import com.fcul.marketplace.model.Fornecedor;
 import com.fcul.marketplace.model.Transporte;
 import com.fcul.marketplace.model.UniProd;
+import com.fcul.marketplace.model.Viagem;
 import com.fcul.marketplace.model.enums.EstadoTransporte;
+import com.fcul.marketplace.model.enums.EstadoViagem;
 import com.fcul.marketplace.repository.TransporteRepository;
 import com.fcul.marketplace.repository.utils.PageableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +87,24 @@ public class TransporteService {
         if (!transporteBD.getUnidadeDeProducao().getFornecedor().getIdUtilizador().equals(fornecedor.getIdUtilizador())) {
             throw new ForbiddenActionException("Você não pode apagar este transporte");
         }
-        transporteRepository.deleteById(transporteId);
+
+        if (!verifyDeactivationTransporte(transporteBD)){
+            throw new ForbiddenActionException("Não pode eliminar este Transporte porque ainda tem viagens não finalizadas!");
+        }
+
+        transporteBD.setActive(false);
+        transporteRepository.save(transporteBD);
+        //transporteRepository.deleteById(transporteId);
+    }
+
+    private boolean verifyDeactivationTransporte(Transporte transporte) {
+            for (Viagem v : transporte.getViagens()){
+                if(!v.getEstadoViagem().equals(EstadoViagem.FINALIZADA)){
+                    return false;
+                }
+            }
+        return true;
+
     }
 
 }

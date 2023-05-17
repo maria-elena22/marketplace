@@ -13,11 +13,11 @@ public interface TransporteRepository extends JpaRepository<Transporte, Integer>
 
     @Query("SELECT t FROM Transporte t where" +
             "(t.unidadeDeProducao.idUnidade = :idUniProd) and" +
-            "(:estadoTransporte is null or t.estadoTransporte =:estadoTransporte)")
+            "(:estadoTransporte is null or t.estadoTransporte =:estadoTransporte) and t.active = true")
     Page<Transporte> findByUniProdId(Integer idUniProd, EstadoTransporte estadoTransporte, Pageable pageable);
 
     @Query("SELECT t FROM Transporte t where" +
             "(t.unidadeDeProducao.fornecedor.idUtilizador = :idUtilizador) and" +
-            "(:estadoTransporte is null or t.estadoTransporte =:estadoTransporte)")
+            "(:estadoTransporte is null or t.estadoTransporte =:estadoTransporte) and t.active = true")
     Page<Transporte> findByFornecedorId(Integer idUtilizador, EstadoTransporte estadoTransporte, Pageable pageable);
 }

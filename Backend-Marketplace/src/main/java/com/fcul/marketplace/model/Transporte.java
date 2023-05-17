@@ -25,6 +25,8 @@ public class Transporte {
     @OneToMany(mappedBy = "transporte", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Viagem> viagens;
 
+    private boolean active;
+
     @ManyToOne
     @JoinColumn(name = "uniProd")
     private UniProd unidadeDeProducao;

@@ -32,6 +32,8 @@ public class UniProd {
     @ElementCollection
     private List<Stock> stocks;
 
+    private boolean active;
+
     public void addStock(Stock stock1) {
         if (stocks == null) {
             stocks = new ArrayList<>();

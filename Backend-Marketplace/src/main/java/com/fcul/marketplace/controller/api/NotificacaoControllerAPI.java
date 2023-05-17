@@ -45,6 +45,15 @@ public class NotificacaoControllerAPI {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/num")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR", "CONSUMIDOR"})
+    @CrossOrigin("*")
+    public Integer getNotificacoesNum(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader) throws JWTTokenMissingException {
+
+        return notificacaoService.getNotificacoesNum(securityUtils.getEmailFromAuthHeader(authorizationHeader));
+    }
+
     @PostMapping("/saida")
     @SecurityRequirement(name = "Bearer Authentication")
     @RolesAllowed({"FORNECEDOR"})

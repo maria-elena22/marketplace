@@ -15,6 +15,6 @@ public interface UniProdRepository extends JpaRepository<UniProd, Integer> {
 
     @Query("SELECT u FROM UniProd u where" +
             "(:fornecedorId is null or u.fornecedor.idUtilizador = :fornecedorId) and" +
-            "(:nomeUniProd is null or u.nomeUniProd LIKE %:nomeUniProd%)")
+            "(:nomeUniProd is null or u.nomeUniProd LIKE %:nomeUniProd%) and u.active = true")
     Page<UniProd> findByOpt(Integer fornecedorId, String nomeUniProd, Pageable pageable);
 }

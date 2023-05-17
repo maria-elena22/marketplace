@@ -34,6 +34,12 @@ public class NotificacaoService {
         return notificacaos;
     }
 
+    public Integer getNotificacoesNum(String userEmail) {
+        Utilizador utilizador = utilizadorService.getUtilizadorByEmail(userEmail);
+        List<Notificacao> notificacaos = notificacaoRepository.findByDestinatarioIdUtilizadorAndEntregueFalse(utilizador.getIdUtilizador());
+        return notificacaos.size();
+    }
+
 
     @Transactional
     public Notificacao insertNotificacao(SubEncomenda subEncomenda, TipoNotificacao tipoNotificacao, String message, Utilizador receiver, Utilizador issuer) {
