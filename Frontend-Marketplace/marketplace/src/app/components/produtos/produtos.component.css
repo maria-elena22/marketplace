@@ -56,6 +56,10 @@
     margin-left: 80%;
 }
 
+tr.different {
+  border: 2px solid red;
+}
+
   .modal-container {
     align-items: center;
     width: 60%;

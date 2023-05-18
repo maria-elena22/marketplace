@@ -28,6 +28,9 @@ export class ProdutosComponent implements OnInit {
   uniProdsR:UniProdDTO[]=[]
   uniProdsA:UniProdDTO[]=[]
 
+  prodComparar1?:FullProdutoDTO;
+  prodComparar2?:FullProdutoDTO;
+
 
   // forms
   produtoForm:FormGroup;
@@ -66,6 +69,8 @@ export class ProdutosComponent implements OnInit {
   produtoAremover?:FullProdutoDTO
   selectAll: boolean = false;
   addUnis = false
+  showComparar = false
+  showFilter = true
 
   uniProdsIdsA:number[]=[]
 
@@ -122,13 +127,14 @@ export class ProdutosComponent implements OnInit {
         quantidade: new FormControl(0, [Validators.required,Validators.pattern(/^[1-9][0-9]*$/)]),
         fornecedor:new FormControl(0, Validators.required)
       });
-      this.searchProdutoForm = new FormGroup({
-        nomeProduto: new FormControl("", Validators.required),
-        precoMin:new FormControl("", Validators.required),
-        precoMax:new FormControl("", Validators.required)
-
-      })
+      
     }
+    this.searchProdutoForm = new FormGroup({
+      nomeProduto: new FormControl("", Validators.required),
+      precoMin:new FormControl("", Validators.required),
+      precoMax:new FormControl("", Validators.required)
+
+    })
     
   }
 
@@ -137,6 +143,42 @@ export class ProdutosComponent implements OnInit {
     this.produtoAremover = undefined
     this.selectAll = false
     this.removerProdutoForm.patchValue({uniProdsIds:[]})
+  }
+
+  removeComparar(prod:number){
+    if(prod === 1){
+      this.prodComparar1 = undefined
+    }
+    if(prod === 2){
+      this.prodComparar2 = undefined
+    }
+  }
+
+  comparar(){
+    console.log(this.prodComparar1)
+    console.log(this.prodComparar2)
+    this.showComparar = true
+
+  }
+
+  addComparar(produto:FullProdutoDTO){
+    console.log
+    if(produto === this.prodComparar1 || produto === this.prodComparar2){
+      return;
+    }
+    if(this.prodComparar1 && !this.prodComparar2){
+      this.prodComparar2 = produto
+    }
+    if(!this.prodComparar1 && this.prodComparar2){
+      this.prodComparar1 = produto
+    }
+    if(!this.prodComparar1 && !this.prodComparar2){
+      this.prodComparar1 = produto
+    }
+
+    console.log(this.prodComparar1)
+    console.log(this.prodComparar2)
+
   }
 
   // ---------------------- ADD CARRINHO ----------------------
@@ -371,7 +413,9 @@ export class ProdutosComponent implements OnInit {
   } 
 
   verTodosProdutos(){
+    this.showFilter = true
     this.getProdutos(-1,-1);
+    
     this.router.navigate(['/produtos']);
     //window.location.reload()
 
@@ -448,6 +492,9 @@ export class ProdutosComponent implements OnInit {
 
   verMeusProdutos(idCategoria:number, idSubCategoria:number){
 
+    this.prodComparar1 = undefined
+    this.prodComparar2 =undefined
+    this.showFilter = false
     this.produtosService.getMeusProdutos(idCategoria,idSubCategoria).subscribe(obj=>{
       const statusCode = obj.status
   
