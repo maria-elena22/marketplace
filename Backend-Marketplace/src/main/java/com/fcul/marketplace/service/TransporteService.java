@@ -63,6 +63,7 @@ public class TransporteService {
             throw new ForbiddenActionException("Você não pode adicionar transportes nesta Unidade de Produção");
         }
         transporte.setUnidadeDeProducao(uniProd);
+        transporte.setActive(true);
         transporte = transporteRepository.save(transporte);
         return transporte;
     }
