@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<div *ngIf="role === 'ROLE_FORNECEDOR'">
+<div *ngIf="role === 'ROLE_FORNECEDOR'" style="position: absolute; top: 10%; right: 32px;">
     <button class=" btn btn-outline-dark"  *ngIf="meusProdutos.length>0" (click)="verTodosProdutos()">Todos os produtos</button> &nbsp;
     <button class=" btn btn-outline-dark"  *ngIf="meusProdutos.length===0" (click)="verMeusProdutos(-1,-1)">Meus produtos</button> &nbsp;
     <button class=" btn btn-outline-dark"  (click)="toggleModal()">Adicionar Produto</button>
@@ -9,38 +9,32 @@
 
 
 <form [formGroup]="searchProdutoForm" (ngSubmit)="onSubmitSearch()">
-
-    <label for="fornecedor">Nome do Produto:</label>
-    <div  >
-        <input type="text" formControlName="nomeProduto">
-    </div>
-    <br>
-    <div>
-
-        <label for="precoMin">Preço Mínimo:</label>
-        <input type="number" id="precoMin" formControlName="precoMin" step="0.01" min="0">
-        <br>
-
-    </div>
-    <div>
-
-        <label for="precoMax">Preço Máximo:</label>
-        <input type="number" id="precoMax" formControlName="precoMax" step="0.01" min="0">
-        <br>
-
-    </div>
     <br>
 
-    <button class=" btn btn-outline-dark" type="submit">Submit</button>
+    <div class="mt0">
+        <b><p style="font-size: 25px; margin-left: 0.5%;">Pesquisar por:</p></b> &nbsp;
+        &nbsp;&nbsp;<label for="fornecedor"><b>Nome do Produto:</b></label> &nbsp;
+        <input type="text" formControlName="nomeProduto" class="form-control form-control-user d-inline-block" style="width:15%;">
+    
+        &nbsp; <label for="precoMin"><b>Preço Mínimo:</b></label> &nbsp;
+        <input type="number" id="precoMin" formControlName="precoMin" step="0.01" min="0" class="form-control form-control-user d-inline-block"  style="width:10%;">
+
+        &nbsp; <label for="precoMax"><b>Preço Máximo:</b></label> &nbsp;
+        <input type="number" id="precoMax" formControlName="precoMax" step="0.01" min="0" class="form-control form-control-user d-inline-block" style="width:10%;">     
+        
+        &nbsp;&nbsp;<button class="btn btn-primary d-inline-block" type="submit"><i class="bi bi-search"></i>   Pesquisar</button>
+
+    </div>
+    
+
+    
 </form> 
 </div>
 <br>
 
-<a class="btn btn-outline-dark" [class.disabled]="previousButtonDisabled" (click)="previousPage()" > <i class="fas fa-angle-left"></i> </a> 
 
-<a class="btn btn-outline-dark" [class.disabled]="nextButtonDisabled" (click)="nextPage()" > <i class="fas fa-angle-right"></i> </a> 
 <br>
-<div style="border: solid 2px; display: inline-block; padding: 2%; position: fixed; z-index: 14; background-color: white;" *ngIf="prodComparar1||prodComparar2">Deseja comparar:
+<div style="border: solid 2px; display: inline-block; padding: 1%; margin-top: 15px; position: fixed; z-index: 14; background-color: white; width:15%;" *ngIf="prodComparar1||prodComparar2">Produtos a comparar:
     <div *ngIf="prodComparar1">
         {{prodComparar1.nome}}
         <a (click)="removeComparar(1)" ><i style="padding: 1%;cursor: pointer;" class="fa fa-times" aria-hidden="true"></i></a>
@@ -51,21 +45,24 @@
         <a (click)="removeComparar(2)"  ><i style="padding: 1%;cursor: pointer;" class="fa fa-times" aria-hidden="true"></i></a>
 
     </div>
-    <button *ngIf="prodComparar1&&prodComparar2" (click)="comparar()">Ver Comparação</button>
+    <button *ngIf="prodComparar1&&prodComparar2" (click)="comparar()" class="btn btn-warning mt-1">Ver Comparação</button>
 </div>
 
 
 
 <!---------------------------------- PRODUTOS USERS ---------------------------------->
-
-<section *ngIf="produtos.length>0 && meusProdutos.length===0" class="py-5">
-    <div class="container px-4 px-lg-5 mt-5">
+<div *ngIf="produtos.length === 0">
+    <p style="font-size: 25px; text-align:center; margin: 10% 15%">Não foram encontrados nenhuns produtos</p>
+    
+</div>
+<section *ngIf="produtos.length>0 && meusProdutos.length===0">
+    <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
             <div *ngFor="let produto of produtos" class="col mb-5">
                 <div class="card h-100">
                     <!-- Product image-->
                     <!-- <img class="card-img-top" style="padding: 45px;" src="assets/banana.jpg" alt="..." /> -->
-                    <button [disabled]="prodComparar1&&prodComparar2" (click)="addComparar(produto)" class="btn btn-outline-dark" >Comparar</button>
+                    <button [disabled]="prodComparar1&&prodComparar2" (click)="addComparar(produto)" class="btn btn-outline-secondary" >Comparar</button>
                     <!-- Product details-->
                     <div class="card-body p-4">
                         <div class="text-center">
@@ -78,7 +75,7 @@
                     </div>
                     <!-- Carrinho -->
                     <div [class.disabled]="!produto.precoFornecedores" *ngIf="role==='ROLE_CONSUMIDOR'" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" (click)="showAddCarrinho(produto)">Carrinho</a></div>
+                        <div class="text-center"><a class="btn btn-outline-info mt-auto" (click)="showAddCarrinho(produto)">Carrinho</a></div>
                     </div>
 
                     <div *ngIf="role==='ROLE_FORNECEDOR'" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
@@ -149,58 +146,68 @@
     </div>
 </section>
 
-<!-------------------------------- CRIA PRODUTO ---------------------------------->
+<div style="margin: auto; display:table">
+
+    <a class="btn btn-outline-dark" [class.disabled]="previousButtonDisabled" (click)="previousPage()"> <i class="fas fa-angle-left"></i> </a> 
+    &nbsp;
+    <a class="btn btn-outline-dark" [class.disabled]="nextButtonDisabled" (click)="nextPage()"> <i class="fas fa-angle-right"></i> </a> 
+
+</div>
+
+
+<br><br>
+
+<!-------------------------------- CRIA PRODUTO --------style="width: 60%;"-------------------------->
 <div class="modal-wrapper" *ngIf="role==='ROLE_FORNECEDOR'" [class.visible]="showModal">
-    <div class="modal-container">
-        <button class=" btn btn-outline-dark cancelar" (click)="toggleModal()">Cancel</button>
-        <br>
-        <form style="width: 60%;" [formGroup]="produtoForm" (ngSubmit)="onSubmit()">
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" formControlName="nome">
+    <div class="modal-container" style="text-align: left;">
+        <button class="modal-close-btn" (click)="toggleModal()" style="text-align: right;">FECHAR</button>
+        <form  [formGroup]="produtoForm" (ngSubmit)="onSubmit()">
+            <label for="nome" style="margin: auto; display:table; font-size: 25px"><b>Criar um novo produto</b></label>
+            <label for="nome"><b>Nome:</b></label> &nbsp;
+            <input type="text" id="nome" formControlName="nome" class="form-control form-control-user d-inline-block" style="width:55%;">
             <br>
 
-            <label for="descricao">Descrição:</label>
-            <input type="text" id="descricao" formControlName="descricao">
+            <label for="descricao"><b>Descrição:</b></label>&nbsp;
+            <input type="text" id="descricao" formControlName="descricao" class="form-control form-control-user d-inline-block" style="width:55%;">
             <br>
 
-            <label for="iva">IVA:</label>
-            <select id="iva" formControlName="iva">
-              <option value="" disabled selected>Select IVA</option>
+            <label for="iva"><b>IVA:</b></label>&nbsp;
+            <select id="iva" formControlName="iva" class="form-control form-control-user d-inline-block" style="width:55%;">
+              <option value="" disabled selected>Escolha um IVA</option>
               <option value="IVA_6">IVA 6%</option>
               <option value="IVA_13">IVA 13%</option>
               <option value="IVA_23">IVA 23%</option>
             </select>
             <br>
-            <label for="stock">Stock:</label>
-            <input type="number" id="stock" formControlName="stock">
+            <label for="stock"><b>Stock:</b></label>&nbsp;
+            <input type="number" id="stock" formControlName="stock" class="form-control form-control-user d-inline-block" style="width:55%;">
             <br>
 
-            <label for="preco">Preço:</label>
-            <input type="number" id="preco" formControlName="preco" step="0.01" min="0">
-            <br>
-            
+            <label for="preco"><b>Preço:</b></label>&nbsp;
+            <input type="number" id="preco" formControlName="preco" step="0.01" min="0" class="form-control form-control-user d-inline-block" style="width:55%;">
 
+            <p></p>
 
-            <label for="uniProdsIds">UniProds:</label>
+            <label for="uniProdsIds"><b>UniProds:</b></label>
             <div formArrayName="uniProdsIds">
             
-            <label style="border: solid 3px; padding: 2%; margin:1%;" *ngFor="let uniprod of getFirstThird(uniProdsP)">
+            <label style="border: solid 1px; padding: 2%; margin:1%;" *ngFor="let uniprod of getFirstThird(uniProdsP)">
                 <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdChange($event.target,uniprod.idUnidade!)"> {{ uniprod.nomeUniProd }} 
             </label>
             <br>
-            <label style="border: solid 3px; padding: 2%; margin:1%;" *ngFor="let uniprod of getSecondThird(uniProdsP)">
+            <label style="border: solid 1px; padding: 2%; margin:1%;" *ngFor="let uniprod of getSecondThird(uniProdsP)">
                 <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdChange($event.target,uniprod.idUnidade!)"> {{ uniprod.nomeUniProd }} 
             </label>
             <br>
-            <label style="border: solid 3px; padding: 2%; margin:1%;" *ngFor="let uniprod of getLastThird(uniProdsP)">
+            <label style="border: solid 1px; padding: 2%; margin:1%;" *ngFor="let uniprod of getLastThird(uniProdsP)">
                 <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdChange($event.target,uniprod.idUnidade!)"> {{ uniprod.nomeUniProd }} 
             </label>
             </div>
 
-            <br>
+            <p></p>
 
-            <div class="cat"> Categorias 
-                <p>escolha pelo menos uma subcategoria</p>
+            <div class="cat"> <b>Categorias</b>
+                <p>Escolha pelo menos uma subcategoria</p>
 
                 <ul *ngFor="let categoria of categorias">
                     <li (click)="showCategorias(categoria)"><h4>{{categoria.nomeCategoria}}</h4></li>
@@ -298,21 +305,20 @@
 
             </div>
 
+            <p></p>
 
-            <br>
-
-            <label for="myControl">Propriedades:</label>
+            <label for="myControl"><b>Propriedades:</b></label>
             <div formGroupName="propriedades">
                 <label for="myControl" *ngFor="let prop of propriedadesToComplete"> {{prop.nomePropriedade}}:
-                <input id="myControl" (input)="onPropChange(prop,$event)" type="text" formControlName="myControl" required>&nbsp;| &nbsp;
+                <input id="myControl" (input)="onPropChange(prop,$event)" type="text" formControlName="myControl" class="form-control form-control-user d-inline-block" style="width:55%;" required>
             </label>
               </div>
                 
                 <br>
             
 
-            <button class=" btn btn-outline-dark" [disabled]="!produtoForm.valid" type="submit">Submit</button>
-            <p *ngIf="!produtoForm.valid">Tem de preencher todos os campos</p>
+            <button class=" btn btn-outline-dark" [disabled]="!produtoForm.valid" type="submit" style="margin:auto; display:table;">Submeter</button>
+            <p *ngIf="!produtoForm.valid" style="margin:auto; display:table;">Tem de preencher todos os campos</p>
         </form>
     
     </div>
@@ -322,10 +328,11 @@
 
   <div class="modal-wrapper" [class.visible]="showAnswer">
     <div class="modal-container">
-        <button class="modal-close-btn" (click)="toggleAnswer()">Close</button>
+        <button class="modal-close-btn" (click)="toggleAnswer()" style="text-align: right;">FECHAR</button>
         <br>
         
-      <h2 [style.color]="success ? 'green' : 'red'" class="modal-title">{{answer}}</h2>
+      <h2 [style.color]="success ? '#1cc88a' : 'red'" class="modal-title">{{answer}}</h2>
+      <br>
     </div>
   </div>
 
@@ -333,28 +340,28 @@
 
     <div class="modal-wrapper" [class.visible]="showModalCarrinho">
         <div class="modal-container" *ngIf="produtoAadicionar">
-            <button class="modal-close-btn" (click)="toggleModalCarrinho()">Close</button>
+            <button class="modal-close-btn" (click)="toggleModalCarrinho()" style="text-align: right;">FECHAR</button>
             <br>
 
             <form [formGroup]="addCarrinhoForm" (ngSubmit)="onSubmitProduto()">
+                <div>
+                    <label for="quantidade"><b>Quantidade:</b> &nbsp;</label>
+    
+                    <input min="0" max="100" step="1" type="number" id="quantidade" formControlName="quantidade" required>
+                </div>
+                <br>
 
-                <label for="fornecedor">Fornecedor:</label>
+                <label for="fornecedor"><b>Escolha um dos fornecedores:</b> <p>(de forma a ajudar os négocios locais, escolha um perto de si)</p></label>
                 <div  >
                     <label *ngFor="let precoFornecedor of produtoAadicionar.precoFornecedores">
-                        <input  required formControlName="fornecedor" type="radio" [value]="precoFornecedor.fornecedor!.idUtilizador!"> {{precoFornecedor.fornecedor!.nome}} - {{precoFornecedor.preco}}€ &nbsp;
+                        <input  required formControlName="fornecedor" type="radio" [value]="precoFornecedor.fornecedor!.idUtilizador!"> {{precoFornecedor.fornecedor!.nome}} - {{precoFornecedor.preco}}€ - Distância: {{getDistancia(precoFornecedor.fornecedor!).toFixed(2)}} km &nbsp;
                         <br>
 
                     </label>
                 </div>
                 <br>
-                <div>
-                    <label for="quantidade">Quantidade: &nbsp;</label>
-    
-                    <input min="1" max="100" step="1" type="number" id="quantidade" formControlName="quantidade" required>
-                </div>
-                <br>
 
-                <button class=" btn btn-outline-dark" [disabled]="!addCarrinhoForm.valid" type="submit">Submit</button>
+                <button class=" btn btn-outline-dark" [disabled]="!addCarrinhoForm.valid" type="submit">Submeter</button>
                 <p *ngIf="!addCarrinhoForm.valid">Tem de preencher todos os campos</p>
             </form>    
         
@@ -366,21 +373,22 @@
 
 <div class="modal-wrapper" [class.visible]="showAddProduto">
     <div class="modal-container" *ngIf="produtoAfornecer">
-        <button class="modal-close-btn" (click)="toggleAddProduto(undefined)">Close</button>
+        <button class="modal-close-btn" (click)="toggleAddProduto(undefined)" style="text-align: right;">FECHAR</button>
         <br>
 
         <form [formGroup]="addProdutoForm" (ngSubmit)="onSubmitFornecer()">
 
 
-            <label for="stock">Stock:</label>
-            <input type="number" id="stock" formControlName="stock" min="0">
+            <label for="stock"><b>Stock: </b></label>
+            <input type="number" id="stock" formControlName="stock" min="0" class="form-control form-control-user d-inline-block" style="width:45%;">
             <br>
 
-            <label for="preco">Preço:</label>
-            <input type="number" id="preco" formControlName="preco" step="0.01" min="0">
-            <br>
+            <label for="preco"><b>Preço: </b></label>
+            <input type="number" id="preco" formControlName="preco" step="0.01" min="0" class="form-control form-control-user d-inline-block" style="width:45%;">
+            
+            <p></p>
         
-            <label for="uniProdsIds">UniProds:</label>
+            <label for="uniProdsIds"><b>Uniades de produção:</b></label>
             <div formArrayName="uniProdsIds" *ngIf="!addUnis">
             <div *ngIf="!uniProdsP || uniProdsP.length === 0">Deve ter pelo menos uma Unidade de Produção para poder fornecer um produto <br> <a routerLink="/uniProds">Ir para Unidades de produção</a></div>
             <label *ngFor="let uniprod of uniProdsP">
@@ -393,9 +401,10 @@
                 <label *ngFor="let uniprod of uniProdsA">
                     <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdAdd($event.target,uniprod.idUnidade!)"> {{ uniprod.nomeUniProd }} &nbsp;| &nbsp;
                 </label>
-                </div>
-            
+            </div>
 
+            <p></p>
+            
             <button class=" btn btn-outline-dark" [disabled]="!addProdutoForm.valid" type="submit">Submit</button>
             <p *ngIf="!addProdutoForm.valid">Tem de preencher todos os campos</p>
         </form>    
@@ -408,13 +417,13 @@
 
 <div class="modal-wrapper" [class.visible]="showRemoverProduto">
     <div class="modal-container" *ngIf="produtoAremover && produtoAremover.uniProds">
-        <button class="modal-close-btn" (click)="closeRemoveForm()">Close</button>
+        <button class="modal-close-btn" (click)="closeRemoveForm()" style="text-align: right;">FECHAR</button>
         <br>
 
         <form [formGroup]="removerProdutoForm" (ngSubmit)="onSubmitRemover()">
-            <h2 >UniProds:</h2>
+            <b>Unidades de Produção:</b>
             <br>
-                <label>Select All</label><input type="checkbox" (change)="onSelectAllChange()">
+                <input type="checkbox" (change)="onSelectAllChange()"><label> Selecionar todas</label>
                 <hr>
             <div formArrayName="uniProdsIds" *ngFor="let uniprod of produtoAremover?.uniProds">
                 <label for="uniProdsIds">{{ uniprod.nomeUniProd }} &nbsp;</label>
@@ -434,7 +443,7 @@
 
 <div class="modal-wrapper" *ngIf="showComparar" [class.visible]="showComparar">
     <div class="modal-container">
-        <button class="modal-close-btn" (click)="showComparar=false">Close</button>
+        <button class="modal-close-btn" (click)="showComparar=false" style="text-align: right;">FECHAR</button>
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" >
             <thead>
                 <th>{{prodComparar1?.nome}}</th>
@@ -463,6 +472,7 @@
                 </tr>
             </tbody>
         </table>
+        
 
     </div>
   </div>

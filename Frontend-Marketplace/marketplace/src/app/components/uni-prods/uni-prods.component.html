@@ -14,11 +14,34 @@
               <!-- Page Heading -->
               <div class="d-sm-flex align-items-center justify-content-between mb-3">
                   <h1 class="h3 mb-0 text-gray-800 mt-4"> Unidades de Produção</h1>
-                  <button class=" btn btn-outline-dark" (click)="toggleModal()"> Adiciona uma nova Unidade de Producao </button>
+                  <!--<button class=" btn btn-outline-dark" (click)="toggleModal()"> Adiciona uma nova Unidade de Producao </button>-->
 
               </div>
 
               <!-- Content Row -->
+
+                <div class="col-xl-3 col-md-6 mb-4 " style="cursor: pointer" >
+                    <div (click)="toggleModal()" class="card border-left-warning hover-shadow h-100 py-2">
+                        <div class="card-body ">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <!-- <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                        Adiciona uma nova Unidade de Producao 
+                                    </div> -->
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col-auto">
+                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Adiciona uma nova Unidade de Produção  </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fa fa-plus fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
               <div class="card shadow mb-4 mt-4">
                   <div class="card-body">
@@ -82,16 +105,17 @@
 
 <div class="modal-wrapper" [class.visible]="showModal">
     <div class="modal-container">
-        <button class=" btn btn-outline-dark" (click)="toggleModal()">Cancel</button>
+        <button class="modal-close-btn" (click)="toggleModal()" style="text-align: right;">FECHAR</button>
         <br>
         <form [formGroup]="uniProdForm" (ngSubmit)="onSubmit()">
             <div>
-              <label for="nomeUniProd">Nome UniProd: &nbsp;</label>
+              <label><h4>Adicionar uma unidade de produção </h4></label>
+              <label for="nomeUniProd" class="d-block">Nome:</label>
 
-              <input type="text" id="nomeUniProd" formControlName="nomeUniProd" required>
+              <input type="text" id="nomeUniProd" formControlName="nomeUniProd" class="form-control form-control-user d-inline-block" style="width:45%;" required>
             </div>
             <br>
-            <button class="btn btn-outline-dark" [disabled]="!uniProdForm.valid" type="submit">Submit</button>
+            <button class="btn btn-outline-dark" [disabled]="!uniProdForm.valid" type="submit">Submeter</button>
             <p *ngIf="!uniProdForm.valid">Tem de preencher todos os campos</p>        
         </form>          
       <!-- <h2 class="modal-title">Modal Title</h2>
@@ -101,8 +125,7 @@
 
   <div class="modal-wrapper" *ngIf="showProdutos" [class.visible]="showProdutos">
     <div class="modal-container">
-        <button class=" btn btn-outline-dark" (click)="toggleProdutos()">Cancel</button>
-        <br>     
+        <button class="modal-close-btn m-2" (click)="toggleProdutos()" style="text-align: right;">FECHAR</button>     
         <div *ngIf="!produtosUP || produtosUP.length === 0"> Ainda não tem produtos associados a esta Unidade <br> <a routerLink="/produtos">Ver Produtos</a></div>  
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" >
             <thead>
@@ -126,7 +149,7 @@
 
   <div class="modal-wrapper" *ngIf="showAlteraStock" [class.visible]="showAlteraStock">
     <div class="modal-container">
-        <button class=" btn btn-outline-dark" (click)="toggleAlteraStock()">Cancel</button>
+        <button class="modal-close-btn" (click)="toggleAlteraStock()" style="text-align: right;">FECHAR</button>
         <br>        
         <form [formGroup]="stockForm" (ngSubmit)="onSubmitStock()">
             <div>
@@ -135,12 +158,12 @@
             
             <div>
                 <!-- <small>(deve ser positivo)</small> -->
-                <label for="stock">Novo Stock: </label>
-                <input type="number" id="stock" formControlName="stock" min="0" required>
+                <label for="stock">Novo Stock: </label> &nbsp;
+                <input type="number" id="stock" formControlName="stock" min="0" class="form-control form-control-user d-inline-block" style="width:30%;" required>
 
             </div>
             <br>
-            <button class="btn btn-outline-dark" [disabled]="!stockForm.valid" type="submit">Submit</button>
+            <button class="btn btn-outline-dark" [disabled]="!stockForm.valid" type="submit">Submeter</button>
             <p *ngIf="!stockForm.valid">Tem de preencher todos os campos</p>
         </form>   
       
@@ -151,17 +174,17 @@
 
   <div class="modal-wrapper" [class.visible]="showEditar">
     <div class="modal-container">
-        <button class=" btn btn-outline-dark" (click)="toggleEditar()">Cancel</button>
+        <button class="modal-close-btn" (click)="toggleEditar()" style="text-align: right;">FECHAR</button>
         <br>     
           
         <form [formGroup]="editarForm" (ngSubmit)="onSubmitEditar()">
             <div>
               <label for="nomeUniProd">Novo nome: &nbsp;</label>
 
-              <input type="text" id="nomeUniProd" formControlName="nomeUniProd" required>
+              <input type="text" id="nomeUniProd" formControlName="nomeUniProd" class="form-control form-control-user d-inline-block" style="width:45%;" required>
             </div>
             <br>
-            <button class="btn btn-outline-dark" [disabled]="!editarForm.valid" type="submit">Submit</button>
+            <button class="btn btn-outline-dark" [disabled]="!editarForm.valid" type="submit">Submeter</button>
             <p *ngIf="!editarForm.valid">Tem de preencher todos os campos</p>
         </form>    
       
@@ -173,9 +196,10 @@
   <div class="modal-wrapper" *ngIf="uniProdEscolhida" [class.visible]="showConfirmar">
     <div class="modal-container">
               
-        <h2>Tem a certeza que quer eliminar {{uniProdEscolhida.nomeUniProd}}?</h2>
-        <button class=" btn btn-outline-dark" (click)="removerUniProd(uniProdEscolhida)">Sim</button>
-        <button class=" btn btn-outline-dark" (click)="toggleConfirmar()">Cancelar</button>
+        <b style="font-size: 150%;">Tem a certeza que quer eliminar {{uniProdEscolhida.nomeUniProd}}?</b> <p></p>
+        <button class=" btn btn-outline-danger" (click)="removerUniProd(uniProdEscolhida)" style="width:30%; margin:auto; display:inline-block">Sim</button>
+        <p></p>
+        <button class=" btn btn-outline-dark" (click)="toggleConfirmar()" style="width:30%; margin:auto; display:inline-block">Cancelar</button>
         <br>  
       
     </div>

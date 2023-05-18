@@ -115,10 +115,6 @@
                         </div>
                     </div> -->
                 </div>
-                <a class="btn btn-outline-dark" [class.disabled]="previousButtonDisabled" (click)="previousPage()" > <i class="fas fa-angle-left"></i> </a> 
-
-                <a class="btn btn-outline-dark" [class.disabled]="nextButtonDisabled" (click)="nextPage()" > <i class="fas fa-angle-right"></i> </a> 
-
 
                 <div class="card shadow mb-4 mt-4">
                     <div class="card-body">
@@ -163,6 +159,14 @@
                 </div>
 
             </div>
+            <div style="margin: auto; display:table">
+
+                <a class="btn btn-outline-dark" [class.disabled]="previousButtonDisabled" (click)="previousPage()"> <i class="fas fa-angle-left"></i> </a> 
+                &nbsp;
+                <a class="btn btn-outline-dark" [class.disabled]="nextButtonDisabled" (click)="nextPage()"> <i class="fas fa-angle-right"></i> </a> 
+            
+            </div>
+            <br><br>
 
         </div>
         <!-- End of Main Content -->
@@ -184,31 +188,32 @@
 
 <div class="modal-wrapper" [class.visible]="showModal">
     <div class="modal-container">
-        <button class=" btn btn-outline-dark" (click)="toggleModal()">Cancel</button>
+        <button class="modal-close-btn" (click)="toggleModal()" style="text-align: right;">FECHAR</button>
         <br>
         <form [formGroup]="transporteForm" (ngSubmit)="onSubmit()">
             <div>
+                <label><h4>Adicionar um transporte </h4></label><p></p>
               <label for="matricula">Matrícula: &nbsp;</label>
-              <input type="text" pattern="[a-zA-Z]{2}-[0-9]{2}-[a-zA-Z]{2}" id="matricula" formControlName="matricula" required>
+              <input type="text" pattern="[a-zA-Z]{2}-[0-9]{2}-[a-zA-Z]{2}" id="matricula" formControlName="matricula"  class="form-control form-control-user d-inline-block" style="width:35%;" required>
 
             </div>
-            <br>
             <div>    
-                <p >Estado do Transporte: &nbsp;</p> 
-                <select formControlName="estadoTransporte" required >
+                <p class="d-inline-block">Estado do Transporte: &nbsp;</p> 
+                <select formControlName="estadoTransporte" required  class="form-control form-control-user d-inline-block" style="width:35%;">
+                    <option value="" disabled selected>Escolha uma opção</option>
                     <option *ngFor="let estado of estados" [value]="estado.toUpperCase()" >{{ estado.toString()}}</option>
                 </select>                                            
             </div>
-            <br>
 
             <div>    
-                <p >Unidade de Produção: &nbsp;</p> 
-                <select formControlName="uniProd" required >
+                <p class="d-inline-block">Unidade de Produção: &nbsp;</p> 
+                <select formControlName="uniProd" required  class="form-control form-control-user d-inline-block" style="border-color: #d1d3e2; background-color: white; width:35%;">
+                    <option value="" disabled selected>Escolha uma opção</option>
                     <option *ngFor="let uniProd of uniProds" [value]="uniProd.idUnidade" >{{ uniProd.nomeUniProd}}</option>
                 </select>                                            
             </div>
             
-            <button class=" btn btn-outline-dark" [disabled]="!transporteForm.valid" type="submit">Submit</button>
+            <button class=" btn btn-outline-dark" [disabled]="!transporteForm.valid" type="submit">Submeter</button>
             <p *ngIf="!transporteForm.valid">Tem de preencher todos os campos</p>
         </form>          
       <!-- <h2 class="modal-title">Modal Title</h2>
@@ -218,13 +223,14 @@
 
   <div class="modal-wrapper" [class.visible]="showNovaViagem">
     <div class="modal-container bigger">
-        <button class=" btn btn-outline-dark" (click)="toggleNovaViagem()">Cancel</button>
+        <button class="modal-close-btn" (click)="toggleNovaViagem()" style="text-align: right;">FECHAR</button>
         <br>
-        <form [formGroup]="viagemForm" style="width: 100%;" (ngSubmit)="onSubmitViagem()">
-
+        <form [formGroup]="viagemForm" (ngSubmit)="onSubmitViagem()">
+            <label><h4>Agendar um viagem </h4></label>
             <div>    
-                <p >Transporte: &nbsp;</p> 
-                <select formControlName="transporte" (change)="onTransporteSelected()" [(ngModel)]="selectedTransporteId" required >
+                <p class="d-inline-block">Escolha um transporte: &nbsp;</p> 
+                <select formControlName="transporte" (change)="onTransporteSelected()" [(ngModel)]="selectedTransporteId" class="form-control form-control-user d-inline-block" style="width:30%;" required >
+                    <option value="" disabled selected>Escolha uma opção</option>
                     <option *ngFor="let transporte of transportesDisponiveis" [value]="transporte.idTransporte" >{{ transporte.matricula}} -- {{transporte.unidadeDeProducao?.nomeUniProd}}</option>
                 </select>                                            
             </div>
@@ -250,7 +256,7 @@
 
               </div>
             <br>
-            <button class=" btn btn-outline-dark" [disabled]="!viagemForm.valid || !validado" type="submit">Submit</button>
+            <button class=" btn btn-outline-dark" [disabled]="!viagemForm.valid || !validado" type="submit">Submeter</button>
             <p *ngIf="!viagemForm.valid">Tem de preencher todos os campos</p>
         </form>          
     </div>

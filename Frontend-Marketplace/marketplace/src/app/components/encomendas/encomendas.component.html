@@ -82,9 +82,7 @@
                  </div> -->
 
                 
-                 <a class="btn btn-outline-dark" [class.disabled]="previousButtonDisabled" (click)="previousPage()" > <i class="fas fa-angle-left"></i> </a> 
-
-                 <a class="btn btn-outline-dark" [class.disabled]="nextButtonDisabled" (click)="nextPage()" > <i class="fas fa-angle-right"></i> </a> 
+                
  
  
                  <div class="card shadow mb-4 mt-4">
@@ -119,8 +117,8 @@
                                              <div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
                                                  {{encomenda.estadoEncomenda}}</div>
                                          </td>
-                                         <th ><button (click)="showEncomenda(encomenda,undefined)" >
-                                            <i class="fas fa-arrow-right"></i></button></th>
+                                         <th ><button class="btn btn-outline-dark" (click)="showEncomenda(encomenda,undefined)" >
+                                            <i class="fas fa-angle-right"></i></button></th>
                                      </tr>
                                  </tbody>
 
@@ -133,8 +131,8 @@
                                             <div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
                                                 {{subencomenda.estadoEncomenda}}</div>
                                         </td>
-                                        <th ><button (click)="showEncomenda(undefined,subencomenda)" >
-                                           <i class="fas fa-arrow-right"></i></button></th>
+                                        <th ><button class="btn btn-outline-dark" (click)="showEncomenda(undefined,subencomenda)" >
+                                            <i class="fas fa-angle-right"></i></button></th>
                                     </tr>
                                 </tbody>
                              </table>
@@ -144,10 +142,22 @@
                                 
             </div>
 
+            <div style="margin: auto; display:table">
+
+                <a class="btn btn-outline-dark" [class.disabled]="previousButtonDisabled" (click)="previousPage()"> <i class="fas fa-angle-left"></i> </a> 
+                &nbsp;
+                <a class="btn btn-outline-dark" [class.disabled]="nextButtonDisabled" (click)="nextPage()"> <i class="fas fa-angle-right"></i> </a> 
+
+            </div>
+
+            <br><br>
+
         </div>
         <!-- End of Main Content -->
 
     </div>
+
+    
     <!-- End of Content Wrapper -->
 </div>
 <!-- End of Page Wrapper -->
@@ -160,7 +170,7 @@
 
 <div class="modal-wrapper" [class.visible]="showModal">
     <div class="modal-container">
-        <button class=" btn btn-outline-secondary" style="position: fixed; z-index: 3;" (click)="toggleModal()">Close</button>
+        <button class="modal-close-btn m-2" style="position: fixed; z-index: 3;" (click)="toggleModal()" style="text-align: right;">FECHAR</button>
         <br>
         <app-detalhes-encomenda-consumidor [showDetalhes] = true  [subencomenda]=subencomendaDestaque [encomenda]= encomendaDestaque!></app-detalhes-encomenda-consumidor>
         <!-- <form [formGroup]="transporteForm" (ngSubmit)="onSubmit()">

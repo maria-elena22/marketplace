@@ -8,7 +8,7 @@
         <div id="content">
             <!-- Begin Page Content -->
             <div class="container-fluid">
-
+                <a href="http://localhost:4200/transportes"> < Voltar para transportes</a>
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-3">
                     <h1 class="h3 mb-0 text-gray-800 mt-4"> Viagens - Transporte #{{transporte.idTransporte}}
@@ -102,10 +102,6 @@
                         </div>
                     </div> -->
                 </div>
-                <a class="btn btn-outline-dark" [class.disabled]="previousButtonDisabled" (click)="previousPage()" > <i class="fas fa-angle-left"></i> </a> 
-
-                <a class="btn btn-outline-dark" [class.disabled]="nextButtonDisabled" (click)="nextPage()" > <i class="fas fa-angle-right"></i> </a> 
-
 
                 <div class="card shadow mb-4 mt-4">
                     <div class="card-body">
@@ -152,6 +148,14 @@
                 </div>
 
             </div>
+            <div style="margin: auto; display:table">
+
+                <a class="btn btn-outline-dark" [class.disabled]="previousButtonDisabled" (click)="previousPage()"> <i class="fas fa-angle-left"></i> </a> 
+                &nbsp;
+                <a class="btn btn-outline-dark" [class.disabled]="nextButtonDisabled" (click)="nextPage()"> <i class="fas fa-angle-right"></i> </a> 
+            
+            </div>
+            <br><br>
 
         </div>
         <!-- End of Main Content -->

@@ -17,9 +17,10 @@
                                     </h5>
                                     <hr>
 
-                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <div *ngIf="carrinho" class="d-flex justify-content-between align-items-center mb-4">
                                         <div>
                                             <p class="mb-0">Tem {{carrinho.length}} artigos no seu carrinho</p>
+
                                         </div>
                                     </div>
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FullCategoriaDTO, FullProdutoDTO ,ProdutoDTO,ProdutoFornecedorDTO, ProdutoPropriedadesDTO, ProdutoUniProdDTO, PropriedadeDTO, SimpleItemDTO, SimpleSubCategoriaDTO, SimpleUtilizadorDTO, SubCategoriaDTO, UniProdDTO} from 'src/app/model/models';
+import { Coordinate, FullCategoriaDTO, FullProdutoDTO ,ProdutoDTO,ProdutoFornecedorDTO, ProdutoPropriedadesDTO, ProdutoUniProdDTO, PropriedadeDTO, SimpleItemDTO, SimpleSubCategoriaDTO, SimpleUtilizadorDTO, SubCategoriaDTO, UniProdDTO} from 'src/app/model/models';
 import { ActivatedRoute, Router} from '@angular/router';
 import{ ProdutosService } from '../../service/produtos.service'
 import { AppComponent } from 'src/app/app.component';
@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, FormControl, Validators, FormArray,ValidationEr
 import { UniProdsService } from 'src/app/service/uni-prods.service';
 import { CategoriaService } from 'src/app/service/categoria.service';
 import { CestoService } from 'src/app/service/cesto.service';
-
+import { UtilizadorCoordsDTO } from 'src/app/model/utilizador/utilizadorCoordsDTO';
 
 
 @Component({
@@ -125,7 +125,7 @@ export class ProdutosComponent implements OnInit {
     } else{
       this.addCarrinhoForm = new FormGroup({
         quantidade: new FormControl(0, [Validators.required,Validators.pattern(/^[1-9][0-9]*$/)]),
-        fornecedor:new FormControl(0, Validators.required)
+        fornecedor:new FormControl("", Validators.required)
       });
       
     }
@@ -868,7 +868,32 @@ export class ProdutosComponent implements OnInit {
     this.showModalCarrinho = !this.showModalCarrinho;
   }
 
-  
-  
+  getDistancia(f:UtilizadorCoordsDTO){
+    const coordenadas = f.coordenadas;
+    const lat1 = this.appComponent.user?.coordenadas?.latitude!
+    const lon1 = this.appComponent.user?.coordenadas?.longitude!
+    const lat2 = coordenadas?.latitude!
+    const lon2 = coordenadas?.longitude!
+    const earthRadius = 6371; // Radius of the Earth in kilometers
+
+    // Convert latitude and longitude to radians
+    const lat1Rad = (lat1 * Math.PI) / 180;
+    const lon1Rad = (lon1 * Math.PI) / 180;
+    const lat2Rad = (lat2 * Math.PI) / 180;
+    const lon2Rad = (lon2 * Math.PI) / 180;
+
+    // Calculate the differences between coordinates
+    const dLat = lat2Rad - lat1Rad;
+    const dLon = lon2Rad - lon1Rad;
+
+    // Apply the Haversine formula
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1Rad) * Math.cos(lat2Rad) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = earthRadius * c;
+
+    return distance;
+  }
 
 }
