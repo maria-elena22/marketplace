@@ -18,9 +18,9 @@ export class UtilizadorService {
 
     const headers = new HttpHeaders();
     
-    // https://34.30.176.39:8080/api/utilizador/login?email=cont%40gmail.com&password=Cont%401234
+    // https://grupo12.pt:8080/api/utilizador/login?email=cont%40gmail.com&password=Cont%401234
 
-    const url = `https://34.30.176.39:8080/api/utilizador/login?email=${email}&password=${password}`;
+    const url = `https://grupo12.pt:8080/api/utilizador/login?email=${email}&password=${password}`;
     console.log(url)
     return this.http.get<any>(url, { headers, observe: 'response'});
 
@@ -31,7 +31,7 @@ export class UtilizadorService {
     const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     
-    const url = `https://34.30.176.39:8080/api/notificacao`;
+    const url = `https://grupo12.pt:8080/api/notificacao`;
 
     return this.http.get<Array<NotificacaoDTO>>(url ,{ headers, observe: 'response' })
       .pipe(
@@ -46,7 +46,7 @@ export class UtilizadorService {
     const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     
-    const url = `https://34.30.176.39:8080/api/notificacao/num`;
+    const url = `https://grupo12.pt:8080/api/notificacao/num`;
 
     return this.http.get<number>(url ,{ headers, observe: 'response' })
       .pipe(
@@ -59,7 +59,7 @@ export class UtilizadorService {
 
   insertConsumidor(consumidor: SignUpDTO): Observable<HttpResponse<any>> {
     const headers = new HttpHeaders();
-    const url = `https://34.30.176.39:8080/api/utilizador/register/consumidor`;
+    const url = `https://grupo12.pt:8080/api/utilizador/register/consumidor`;
     console.log(url)
     return this.http.post<any>(url, consumidor, { headers, observe: 'response' });
 
@@ -67,7 +67,7 @@ export class UtilizadorService {
 
   insertFornecedor(fornecedor: SignUpDTO){
     const headers = new HttpHeaders();
-    const url = `https://34.30.176.39:8080/api/utilizador/register/fornecedor`;
+    const url = `https://grupo12.pt:8080/api/utilizador/register/fornecedor`;
     console.log(url)
     return this.http.post<any>(url, fornecedor, { headers, observe: 'response' });
 
@@ -77,7 +77,7 @@ export class UtilizadorService {
 
     const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const url = 'https://34.30.176.39:8080/api/utilizador/detalhes';
+    const url = 'https://grupo12.pt:8080/api/utilizador/detalhes';
 
     return this.http.get<any>(url, { headers, observe: 'response' })
       .pipe(

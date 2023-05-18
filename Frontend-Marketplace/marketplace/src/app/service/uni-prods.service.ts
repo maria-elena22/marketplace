@@ -22,7 +22,7 @@ export class UniProdsService {
       paramString = '?'+paramString
 
     }
-    const url = `https://34.30.176.39:8080/api/uniProd${paramString}`;
+    const url = `https://grupo12.pt:8080/api/uniProd${paramString}`;
 
     return this.http.get<Array<UniProdDTO>>(url ,{ headers, observe: 'response' })
       .pipe(
@@ -37,7 +37,7 @@ export class UniProdsService {
 
     const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const url = `https://34.30.176.39:8080/api/uniProd`;
+    const url = `https://grupo12.pt:8080/api/uniProd`;
 
     return this.http.post<any>(url, uniProd,{ headers, observe: 'response' })
       .pipe(
@@ -62,7 +62,7 @@ export class UniProdsService {
       paramString = '?'+paramString
 
     }
-    const url = `https://34.30.176.39:8080/api/transporte${paramString}`;
+    const url = `https://grupo12.pt:8080/api/transporte${paramString}`;
 
     return this.http.get<Array<UniProdDTO>>(url ,{ headers, observe: 'response' })
       .pipe(
@@ -79,7 +79,7 @@ export class UniProdsService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
 
-    const url = `https://34.30.176.39:8080/api/transporte/${uniProdId}`;
+    const url = `https://grupo12.pt:8080/api/transporte/${uniProdId}`;
 
     return this.http.post<any>(url, transporte,{ headers, observe: 'response' })
       .pipe(
@@ -98,7 +98,7 @@ export class UniProdsService {
 
 
     console.log(uniprod)
-    const url = `https://34.30.176.39:8080/api/uniProd/${idUniProd}`;
+    const url = `https://grupo12.pt:8080/api/uniProd/${idUniProd}`;
   
     return this.http.put<any>(url, uniprod,{ headers, observe: 'response' })
       .pipe(
@@ -118,7 +118,7 @@ export class UniProdsService {
     params = params.set('idUniProd', idUniProd);
     params = params.set('stock', stock);
 
-    const url = `https://34.30.176.39:8080/api/produto/unidade/stock/${produtoId}`;
+    const url = `https://grupo12.pt:8080/api/produto/unidade/stock/${produtoId}`;
   
     return this.http.put<any>(url, {},{ headers, params,observe: 'response' })
       .pipe(
@@ -134,7 +134,7 @@ export class UniProdsService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
 
-    const url = `https://34.30.176.39:8080/api/uniProd/${idUniProd}`;
+    const url = `https://grupo12.pt:8080/api/uniProd/${idUniProd}`;
 
     return this.http.delete<any>(url,{ headers, observe: 'response' })
       .pipe(
