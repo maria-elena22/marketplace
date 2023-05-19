@@ -59,16 +59,16 @@
                     <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-square"></i></a>
                     <ul ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li ngbDropdownItem><a class="dropdown-item" href="/login">Login</a></li>
+                        <li ngbDropdownItem><a class="dropdown-item" (click)="goToLogin()">Login</a></li>
                         <li>
                             <hr class="dropdown-divider" />
                         </li>
-                        <li ngbDropdownItem ><a class="dropdown-item" href="/register">Registo</a></li>
+                        <li ngbDropdownItem ><a class="dropdown-item" (click)="goToRegister()">Registo</a></li>
                     </ul>
                 </li>
 
             <!-- <form class="d-flex"> -->
-                <a *ngIf="role !== 'ROLE_FORNECEDOR'" class="btn btn-outline-dark" type="submit" href="/cesto">
+                <a *ngIf="role !== 'ROLE_FORNECEDOR'" class="btn btn-outline-dark" type="submit" (click)="goToCesto()">
                     <i class="bi-cart-fill me-1"></i>
 
                     <span class="badge bg-dark text-white ms-1 rounded-pill">{{cestoService.getItems().length}}</span>

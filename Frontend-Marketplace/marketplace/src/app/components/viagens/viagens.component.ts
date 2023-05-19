@@ -4,9 +4,10 @@ import{UniProdsService} from '../../service/uni-prods.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { AppComponent } from 'src/app/app.component';
 import { UniProdsComponent } from '../uni-prods/uni-prods.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { TransportesComponent } from '../transportes/transportes.component';
 import { ViagemService } from 'src/app/service/viagem.service';
+import { Inject } from '@angular/core';
 
 @Component({
   selector: 'app-viagens',
@@ -37,7 +38,7 @@ export class ViagensComponent implements OnInit{
 
 
   constructor(private uniProdService:UniProdsService,private formBuilder: FormBuilder, private appComponent:AppComponent,
-              private route: ActivatedRoute, private viagemService:ViagemService){}
+              private route: ActivatedRoute, private viagemService:ViagemService, private router:Router){}
 
   ngOnInit(){
     this.route.params.subscribe(params => {
@@ -45,6 +46,8 @@ export class ViagensComponent implements OnInit{
       this.getViagens(JSON.parse(params['id']))
       
     });
+
+   
 
     // this.getUniProds();
     // this.getTransportes();
@@ -60,7 +63,9 @@ export class ViagensComponent implements OnInit{
   }
 
  
-
+  goToTransportes(){
+    this.router.navigate(['/transportes'])
+  }
 
 
   getTransporte(id:number){

@@ -41,6 +41,10 @@ export class LoginComponent  implements OnInit {
     });
   }
 
+  goToRegister(){
+    this.router.navigate(['/register'])
+  }
+
   onSubmit() {
     console.log(this.loginForm.value);
     const values = this.loginForm.value;

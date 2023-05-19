@@ -44,6 +44,10 @@ export class PagamentoComponent implements OnInit{
     });
   }
   
+  goToProdutos(){
+    this.router.navigate(['/produtos'])
+  }
+
   onSubmit() {
     
     const pagamentoData = {

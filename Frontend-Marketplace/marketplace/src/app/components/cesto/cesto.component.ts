@@ -33,6 +33,10 @@ export class CestoComponent implements OnInit{
       
   }
 
+  goToProdutos(){
+    this.router.navigate(['/produtos'])
+  }
+
   getMinhaMorada(){
     return this.appComponent.user?.morada;
   }

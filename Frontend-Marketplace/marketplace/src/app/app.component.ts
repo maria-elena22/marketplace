@@ -61,6 +61,16 @@ export class AppComponent implements OnInit{
     this.tokenExpirado()
   }
 
+  goToLogin(){
+    this.router.navigate(['/login']);
+  }
+  goToRegister(){
+    this.router.navigate(['/register']);
+  }
+  goToCesto(){
+    this.router.navigate(['/cesto']);
+  }
+
   showNotifs=false
 
   toggleNotifs() {
