@@ -21,6 +21,9 @@ export class LoginComponent  implements OnInit {
   token?:DecodedToken;
   role?:string;
   error?:Error;
+  showAnswer = false
+  answer:string
+  success:boolean
   
 
   constructor(private formBuilder: FormBuilder, 
@@ -42,11 +45,8 @@ export class LoginComponent  implements OnInit {
     console.log(this.loginForm.value);
     const values = this.loginForm.value;
 
-    this.utilizadorService.getLogin(values["email"],values["password"]).subscribe(obj=>{
-      const statusCode = obj.status
-      console.log("-------------------")
-
-      if (statusCode === 200) {
+    this.utilizadorService.getLogin(values["email"],values["password"]).subscribe(
+      (obj) => { 
         this.token = jwt_decode(obj.body['token']) as DecodedToken;
         localStorage.setItem('jwt_token', obj.body['token']);
         console.log(this.token)
@@ -58,20 +58,21 @@ export class LoginComponent  implements OnInit {
         this.appComponent.role = this.role;
         this.location.go('');
         window.location.reload(); 
-
-    } else {
-        this.error = obj.body as Error;
-        //chamar pop up
-
-    }
-    })
+      },
+      (error) => {
+        // Handle error here
+        console.log('An error occurred:', error);
+        this.success = false
+        this.answer = error
+        this.toggleAnswer()
+      }
+    )
+      
   }
 
-  // email = new FormControl('', [Validators.required, Validators.email]);
 
-  // getErrorMessage() {
-  //   return this.email.hasError('required') ? 'You must enter a value' :
-  //       this.email.hasError('email') ? 'Not a valid email' :
-  //           '';
-  // }
+  toggleAnswer(){
+    this.showAnswer = !this.showAnswer;
+  }
+
 }

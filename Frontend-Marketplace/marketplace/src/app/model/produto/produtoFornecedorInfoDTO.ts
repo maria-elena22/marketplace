@@ -10,10 +10,11 @@
  * Do not edit the class manually.
  */
 import { SimpleUtilizadorDTO } from '../utilizador/simpleUtilizadorDTO';
+import { UtilizadorCoordsDTO } from '../utilizador/utilizadorCoordsDTO';
 
 
 export interface ProdutoFornecedorInfoDTO { 
-    fornecedor?: SimpleUtilizadorDTO;
+    fornecedor?: UtilizadorCoordsDTO;
     preco?: number;
 }
 

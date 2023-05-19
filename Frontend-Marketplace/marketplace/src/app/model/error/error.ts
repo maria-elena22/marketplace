@@ -1,4 +1,4 @@
-export interface Error {
+export interface ErroMarket {
     timestamp: string,
     exception: string,
     errorCode: number,

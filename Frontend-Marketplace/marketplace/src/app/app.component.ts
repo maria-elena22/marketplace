@@ -48,13 +48,16 @@ export class AppComponent implements OnInit{
     this.getDecodedToken()
     this.getDetalhesUser()
     console.log(this.user)
-    this.utilizadorService.getNotificacoesNum().subscribe(obj=>{
-      const statusCode = obj.status
-      if (statusCode === 200) {
-        this.numNotifs = obj.body as number;
+    if(this.user){
+      this.utilizadorService.getNotificacoesNum().subscribe(obj=>{
+        const statusCode = obj.status
+        if (statusCode === 200) {
+          this.numNotifs = obj.body as number;
+      }
+  
+      })
     }
-
-    })
+    
     this.tokenExpirado()
   }
 

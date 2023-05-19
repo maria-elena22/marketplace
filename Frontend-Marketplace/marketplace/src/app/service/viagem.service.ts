@@ -3,11 +3,15 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpParams, HttpErrorResponse} f
 import { Observable, throwError } from 'rxjs';
 import { catchError, map,tap } from 'rxjs/operators';
 import { NotificacaoDTO, SignUpDTO, SubItemDTO, TransporteDTO, TransporteInputDTO, UniProdDTO, UniProdInputDTO, ViagemDTO, ViagemInputDTO } from '../model/models';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ViagemService {
+
+
+  backendUrl = environment.backendUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -25,7 +29,7 @@ export class ViagemService {
       paramString = '?'+paramString
 
     }
-    const url = `https://grupo12.pt:8080/api/viagem/transporte/${idTransporte}`;
+    const url = `${this.backendUrl}/viagem/transporte/${idTransporte}`;
 
     return this.http.get<Array<ViagemDTO>>(url ,{ headers, observe: 'response' })
       .pipe(
@@ -47,7 +51,7 @@ export class ViagemService {
     let paramString = params.toString();
 
 
-    const url = `https://grupo12.pt:8080/api/notificacao/saida?${paramString}`;
+    const url = `${this.backendUrl}/notificacao/saida?${paramString}`;
 
     return this.http.post<Array<NotificacaoDTO>>(url,{},{ headers,observe: 'response' })
       .pipe(
@@ -68,7 +72,7 @@ export class ViagemService {
     params = params.set('subItemId', subItemId);
     let paramString = params.toString();
 
-    const url = `https://grupo12.pt:8080/api/notificacao/chegada?${paramString}`;
+    const url = `${this.backendUrl}/notificacao/chegada?${paramString}`;
     
     return this.http.post<Array<NotificacaoDTO>>(url,{},{ headers,observe: 'response' })
       .pipe(
@@ -92,7 +96,7 @@ export class ViagemService {
       paramString = '?'+paramString
 
     }
-    const url = `https://grupo12.pt:8080/api/encomenda/subItem${paramString}`;
+    const url = `${this.backendUrl}/encomenda/subItem${paramString}`;
 
     return this.http.get<Array<SubItemDTO>>(url ,{ headers,params, observe: 'response' })
       .pipe(
@@ -110,7 +114,7 @@ export class ViagemService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
 
-    const url = "https://grupo12.pt:8080/api/viagem";
+    const url = "${this.backendUrl}/viagem";
 
     console.log(viagem)
     

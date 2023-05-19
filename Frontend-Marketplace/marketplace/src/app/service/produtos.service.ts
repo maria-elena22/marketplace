@@ -3,9 +3,13 @@ import { Injectable } from "@angular/core";
 import { Observable, throwError } from 'rxjs';
 import { catchError, map,tap } from 'rxjs/operators';
 import { EncomendaDTO, FullProdutoDTO, ProdutoFornecedorDTO, ProdutoPropriedadesDTO } from "../model/models";
+import { environment } from "src/environments/environment";
 
 @Injectable({providedIn: "root"})
 export class ProdutosService{
+
+
+    backendUrl = environment.backendUrl;
 
     constructor(private http: HttpClient){
 
@@ -43,7 +47,7 @@ export class ProdutosService{
             paramString = '?'+paramString
 
         }
-        const url = `https://grupo12.pt:8080/api/produto${paramString}`;
+        const url = `${this.backendUrl}/produto${paramString}`;
         console.log(url)
     
         return this.http.get<Array<FullProdutoDTO>>(url, { headers,observe: 'response' });
@@ -85,7 +89,7 @@ export class ProdutosService{
             paramString = '?'+paramString
 
         }
-        const url = `https://grupo12.pt:8080/api/produto/fornecedor${paramString}`;
+        const url = `${this.backendUrl}/produto/fornecedor${paramString}`;
 
         console.log(url)
         return this.http.get<Array<ProdutoFornecedorDTO>>(url, { headers,observe: 'response' });
@@ -95,7 +99,7 @@ export class ProdutosService{
         console.log(uniProdsIds)
         const token = localStorage.getItem('jwt_token');
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-        const url = `https://grupo12.pt:8080/api/produto`;
+        const url = `${this.backendUrl}/produto`;
     
         if(uniProdsIds.length === 0){
             return throwError("Deve associar pelo menos uma unidade de produção");
@@ -122,7 +126,7 @@ export class ProdutosService{
         const token = localStorage.getItem('jwt_token');
         let headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
       
-        const url = `https://grupo12.pt:8080/api/encomenda/${idEncomenda}`;
+        const url = `${this.backendUrl}/encomenda/${idEncomenda}`;
 
         return this.http.put<EncomendaDTO>(url, {},{ headers,observe: 'response' })
         .pipe(
@@ -142,7 +146,7 @@ export class ProdutosService{
         params = params.set('preco',preco);
         params = params.set('stock',stock);
       
-        const url = `https://grupo12.pt:8080/api/produto/unidade/${produtoId}`;
+        const url = `${this.backendUrl}/produto/unidade/${produtoId}`;
 
         return this.http.put<FullProdutoDTO>(url, {},{ headers ,params,observe: 'response' })
         .pipe(
@@ -175,7 +179,7 @@ export class ProdutosService{
         }
         // paramString = paramString.slice(0, -1);
         // console.log(paramString)
-        const url = `https://grupo12.pt:8080/api/produto/unidade/remove/${produto}${paramString}`;
+        const url = `${this.backendUrl}/produto/unidade/remove/${produto}${paramString}`;
         // console.log(url)
 
         return this.http.put<FullProdutoDTO>(url, {},{ headers ,observe: 'response' })
@@ -190,7 +194,7 @@ export class ProdutosService{
 
     getCategorias(){
         const headers = new HttpHeaders();
-        this.http.get('https://localhost:8080/api/categoria', {headers: headers})
+        this.http.get(`${this.backendUrl}/categoria`, {headers: headers})
         .subscribe((res) => {
             return res;
         });
@@ -203,8 +207,8 @@ export class ProdutosService{
         //     params.set('categoriaId', idCategoria)
         // }
 
-        // return this.http.get('https://grupo12.pt:8080/api/categoria').pipe(map(res => {return res}));
-        // this.http.get('https://grupo12.pt:8080/api/categoria').subscribe(data => console.log(data));
+        // return this.http.get('${this.backendUrl}/categoria').pipe(map(res => {return res}));
+        // this.http.get('${this.backendUrl}/categoria').subscribe(data => console.log(data));
     }
         
 }

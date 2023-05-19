@@ -3,11 +3,15 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpParams, HttpErrorResponse} f
 import { Observable, throwError } from 'rxjs';
 import { catchError, map,tap } from 'rxjs/operators';
 import { RelatorioPorDistanciasDTO, RelatorioPorZonasDTO } from '../model/models';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RelatorioService {
+
+
+  backendUrl = environment.backendUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -15,7 +19,7 @@ export class RelatorioService {
     const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    const url = `https://grupo12.pt:8080/api/relatorio/distancia`;
+    const url = `${this.backendUrl}/relatorio/distancia`;
 
 
     return this.http.get<RelatorioPorDistanciasDTO>(url ,{ headers, observe: 'response' })
@@ -31,7 +35,7 @@ export class RelatorioService {
     const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    const url = `https://grupo12.pt:8080/api/relatorio/zona`;
+    const url = `${this.backendUrl}/relatorio/zona`;
 
 
     return this.http.get<RelatorioPorZonasDTO>(url ,{ headers, observe: 'response' })

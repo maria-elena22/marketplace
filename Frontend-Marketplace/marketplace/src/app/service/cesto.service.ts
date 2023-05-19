@@ -3,6 +3,7 @@ import { CompraDTO, FullProdutoDTO, PaymentConfirmationRequest, SimpleItemDTO } 
 import { Observable, throwError } from 'rxjs';
 import { catchError, map,tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpResponse, HttpParams} from "@angular/common/http";
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpParams} from "@angular/commo
 export class CestoService {
 
   items:SimpleItemDTO[];
+  backendUrl = environment.backendUrl;
 
   constructor(private http: HttpClient){}
 
@@ -63,7 +65,7 @@ export class CestoService {
   addEncomenda(compra: CompraDTO){
     const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const url = `https://grupo12.pt:8080/api/encomenda`;
+    const url = `${this.backendUrl}/encomenda`;
 
     return this.http.post<any>(url, compra,{ headers, observe: 'response' })
       .pipe(
@@ -80,7 +82,7 @@ export class CestoService {
     const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    const url = `https://grupo12.pt:8080/api/encomenda/confirm/${encomendaId}`;
+    const url = `${this.backendUrl}/encomenda/confirm/${encomendaId}`;
     console.log(url)
 
     return this.http.post<any>(url, request,{ headers, observe: 'response' })

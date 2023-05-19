@@ -59,6 +59,7 @@ export class ProdutosComponent implements OnInit {
   success? : boolean
   answer?:string
   error?: Error  
+  noProdutos = false
 
   // modal
   showModal: boolean = false;
@@ -481,6 +482,9 @@ export class ProdutosComponent implements OnInit {
           this.nextButtonDisabled = true
           this.getProdutos(this.idCategoria,this.idSubCategoria)
         }
+        if(this.produtos.length ===0 && this.page===0){
+          this.noProdutos = true
+        }
         
     } else {
         this.error = obj.body as Error;
@@ -506,6 +510,10 @@ export class ProdutosComponent implements OnInit {
         const url = '/produtos';
 
         window.history.pushState(state, url);
+
+        if(this.meusProdutos.length ===0 && this.page===0){
+          this.noProdutos = true
+        }
 
     } else {
         this.error = obj.body as Error;

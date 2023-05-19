@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpParams, HttpErrorResponse} f
 import { Observable, throwError } from 'rxjs';
 import { catchError, map,tap } from 'rxjs/operators';
 import { NotificacaoDTO, SignUpDTO } from '../model/models';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -11,6 +12,7 @@ import { NotificacaoDTO, SignUpDTO } from '../model/models';
 })
 export class UtilizadorService {
 
+  backendUrl = environment.backendUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -18,11 +20,31 @@ export class UtilizadorService {
 
     const headers = new HttpHeaders();
     
-    // https://grupo12.pt:8080/api/utilizador/login?email=cont%40gmail.com&password=Cont%401234
+    // ${this.backendUrl}/utilizador/login?email=cont%40gmail.com&password=Cont%401234
 
-    const url = `https://grupo12.pt:8080/api/utilizador/login?email=${email}&password=${password}`;
+    const url = `${this.backendUrl}/utilizador/login?email=${email}&password=${password}`;
     console.log(url)
-    return this.http.get<any>(url, { headers, observe: 'response'});
+
+    return this.http.get<any>(url ,{ headers, observe: 'response' })
+    .pipe(
+        catchError((error) => {
+        console.log('An error occurred:', error);
+        console.log(error.error.message)
+        console.log(error.error.exception)
+        let errorMessage = '';
+        if(error.error.exception && error.error.exception === "EntityNotFoundException"){
+          errorMessage = "Não está registado no sistema"
+        }
+        if(error.error.message){
+          errorMessage = error.error.message
+
+        }
+        if(error.error.exception && error.error.exception === "BadCredentialsException"){
+          errorMessage = "Credenciais inválidas"
+        }
+        return throwError(errorMessage);
+      })
+    );
 
 
   }
@@ -31,7 +53,7 @@ export class UtilizadorService {
     const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     
-    const url = `https://grupo12.pt:8080/api/notificacao`;
+    const url = `${this.backendUrl}/notificacao`;
 
     return this.http.get<Array<NotificacaoDTO>>(url ,{ headers, observe: 'response' })
       .pipe(
@@ -46,7 +68,7 @@ export class UtilizadorService {
     const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     
-    const url = `https://grupo12.pt:8080/api/notificacao/num`;
+    const url = `${this.backendUrl}/notificacao/num`;
 
     return this.http.get<number>(url ,{ headers, observe: 'response' })
       .pipe(
@@ -59,7 +81,7 @@ export class UtilizadorService {
 
   insertConsumidor(consumidor: SignUpDTO): Observable<HttpResponse<any>> {
     const headers = new HttpHeaders();
-    const url = `https://grupo12.pt:8080/api/utilizador/register/consumidor`;
+    const url = `${this.backendUrl}/utilizador/register/consumidor`;
     console.log(url)
     return this.http.post<any>(url, consumidor, { headers, observe: 'response' });
 
@@ -67,7 +89,7 @@ export class UtilizadorService {
 
   insertFornecedor(fornecedor: SignUpDTO){
     const headers = new HttpHeaders();
-    const url = `https://grupo12.pt:8080/api/utilizador/register/fornecedor`;
+    const url = `${this.backendUrl}/utilizador/register/fornecedor`;
     console.log(url)
     return this.http.post<any>(url, fornecedor, { headers, observe: 'response' });
 
@@ -77,7 +99,7 @@ export class UtilizadorService {
 
     const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const url = 'https://grupo12.pt:8080/api/utilizador/detalhes';
+    const url = `${this.backendUrl}/utilizador/detalhes`;
 
     return this.http.get<any>(url, { headers, observe: 'response' })
       .pipe(

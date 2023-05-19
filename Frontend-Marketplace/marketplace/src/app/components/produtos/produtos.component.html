@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<div *ngIf="role === 'ROLE_FORNECEDOR'" style="position: absolute; top: 10%; right: 32px;">
+<div *ngIf="role === 'ROLE_FORNECEDOR'" style="position: relative; left: 70%;">
     <button class=" btn btn-outline-dark"  *ngIf="meusProdutos.length>0" (click)="verTodosProdutos()">Todos os produtos</button> &nbsp;
     <button class=" btn btn-outline-dark"  *ngIf="meusProdutos.length===0" (click)="verMeusProdutos(-1,-1)">Meus produtos</button> &nbsp;
     <button class=" btn btn-outline-dark"  (click)="toggleModal()">Adicionar Produto</button>
@@ -51,7 +51,7 @@
 
 
 <!---------------------------------- PRODUTOS USERS ---------------------------------->
-<div *ngIf="produtos.length === 0">
+<div *ngIf="noProdutos">
     <p style="font-size: 25px; text-align:center; margin: 10% 15%">Não foram encontrados nenhuns produtos</p>
     
 </div>
@@ -109,7 +109,7 @@
             <div *ngFor="let produto of meusProdutos" class="col mb-5">
                 <div class="card h-100">
                     <!-- Product image-->
-                    <img class="card-img-top" style="padding: 45px;" src="assets/banana.jpg" alt="..." />
+                    <!-- <img class="card-img-top" style="padding: 45px;" src="assets/banana.jpg" alt="..." /> -->
                     <!-- Product details-->
                     <div class="card-body p-4">
                         <div class="text-center">
@@ -354,7 +354,8 @@
                 <label for="fornecedor"><b>Escolha um dos fornecedores:</b> <p>(de forma a ajudar os négocios locais, escolha um perto de si)</p></label>
                 <div  >
                     <label *ngFor="let precoFornecedor of produtoAadicionar.precoFornecedores">
-                        <input  required formControlName="fornecedor" type="radio" [value]="precoFornecedor.fornecedor!.idUtilizador!"> {{precoFornecedor.fornecedor!.nome}} - {{precoFornecedor.preco}}€ - Distância: {{getDistancia(precoFornecedor.fornecedor!).toFixed(2)}} km &nbsp;
+                        <input  required formControlName="fornecedor" type="radio" [value]="precoFornecedor.fornecedor!.idUtilizador!"> 
+                        {{precoFornecedor.fornecedor!.nome}} - {{precoFornecedor.preco}}€ - Distância: {{getDistancia(precoFornecedor.fornecedor!).toFixed(2)}} km &nbsp;
                         <br>
 
                     </label>

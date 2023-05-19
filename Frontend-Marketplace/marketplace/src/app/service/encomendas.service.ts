@@ -3,11 +3,15 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpParams, HttpErrorResponse} f
 import { Observable, throwError } from 'rxjs';
 import { catchError, map,tap } from 'rxjs/operators';
 import { EncomendaDTO, FullEncomendaDTO, FullSubEncomendaDTO, ItemInfoDTO } from '../model/models';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EncomendasService {
+
+
+  backendUrl = environment.backendUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -25,7 +29,7 @@ export class EncomendasService {
     params = estadoEncomenda ? params.set('estadoEncomenda', estadoEncomenda) : params;
     params = page ? params.set('page', page) : params;
 
-    const url = `https://grupo12.pt:8080/api/encomenda`;
+    const url = `${this.backendUrl}/encomenda`;
 
     return this.http.get<Array<FullEncomendaDTO>>(url ,{ headers, params,observe: 'response' })
       .pipe(
@@ -43,7 +47,7 @@ export class EncomendasService {
     
     params = encomendaId ? params.set('encomendaId', encomendaId) : params;
 
-    const url = `https://grupo12.pt:8080/api/encomenda/encomenda/${encomendaId}`;
+    const url = `${this.backendUrl}/encomenda/encomenda/${encomendaId}`;
 
     return this.http.get<FullEncomendaDTO>(url ,{ headers, params,observe: 'response' })
       .pipe(
@@ -61,7 +65,7 @@ export class EncomendasService {
     
     params = subEncomendaId ? params.set('subEncomendaId', subEncomendaId) : params;
 
-    const url = `https://grupo12.pt:8080/api/encomenda/subEncomenda/${subEncomendaId}`;
+    const url = `${this.backendUrl}/encomenda/subEncomenda/${subEncomendaId}`;
 
     return this.http.get<FullSubEncomendaDTO>(url ,{ headers, params,observe: 'response' })
       .pipe(
@@ -83,7 +87,7 @@ export class EncomendasService {
     params = estadoEncomenda ? params.set('estadoEncomenda', estadoEncomenda) : params;
     params = page ? params.set('page', page) : params;
 
-    const url = `https://grupo12.pt:8080/api/encomenda/subEncomendas`;
+    const url = `${this.backendUrl}/encomenda/subEncomendas`;
 
     return this.http.get<Array<FullEncomendaDTO>>(url ,{ headers, params,observe: 'response' })
       .pipe(
@@ -104,7 +108,7 @@ export class EncomendasService {
     params = size ? params.set('size', size) : params;
 
 
-    const url = `https://grupo12.pt:8080/api/encomenda/item`;
+    const url = `${this.backendUrl}/encomenda/item`;
 
     return this.http.get<Array<ItemInfoDTO>>(url ,{ headers, params,observe: 'response' })
       .pipe(
