@@ -457,11 +457,6 @@ export class ProdutosComponent implements OnInit {
         this.getProdutos(this.idCategoria,this.idSubCategoria);
       }
 
-      // const state = { page: 'transportes' };
-      // const url = '/transportes';
-      // this.nextButtonDisabled = false
-      // window.history.pushState(state, url);
-
     }
     
 
@@ -482,6 +477,7 @@ export class ProdutosComponent implements OnInit {
           this.nextButtonDisabled = true
           this.getProdutos(this.idCategoria,this.idSubCategoria)
         }
+        this.noProdutos = false
         if(this.produtos.length ===0 && this.page===0){
           this.noProdutos = true
         }

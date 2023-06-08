@@ -185,6 +185,7 @@ export class ViagensComponent implements OnInit{
 
     this.viagemService.iniciaViagem(subItemsIds).subscribe(obj=>{
         console.log(obj)
+        window.location.reload()
         
     })
   }
@@ -192,6 +193,7 @@ export class ViagensComponent implements OnInit{
   entregarSubItem(idSubItem:number){
     this.viagemService.terminaViagem(idSubItem).subscribe(obj=>{
       console.log(obj)
+      window.location.reload()
       
   })
   }

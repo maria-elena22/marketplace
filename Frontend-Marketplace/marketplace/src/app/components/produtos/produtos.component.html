@@ -37,12 +37,12 @@
 <div style="border: solid 2px; display: inline-block; padding: 1%; margin-top: 15px; position: fixed; z-index: 14; background-color: white; width:15%;" *ngIf="prodComparar1||prodComparar2">Produtos a comparar:
     <div *ngIf="prodComparar1">
         {{prodComparar1.nome}}
-        <a (click)="removeComparar(1)" ><i style="padding: 1%;cursor: pointer;" class="fa fa-times" aria-hidden="true"></i></a>
+        <a (click)="removeComparar(1)" ><i style="padding: 1%;cursor: pointer;" class="fa fa-times" aria-hidden="true"></i>x</a>
 
     </div>
     <div *ngIf="prodComparar2">
         {{prodComparar2.nome}}
-        <a (click)="removeComparar(2)"  ><i style="padding: 1%;cursor: pointer;" class="fa fa-times" aria-hidden="true"></i></a>
+        <a (click)="removeComparar(2)"  ><i style="padding: 1%;cursor: pointer;" class="fa fa-times" aria-hidden="true"></i>x</a>
 
     </div>
     <button *ngIf="prodComparar1&&prodComparar2" (click)="comparar()" class="btn btn-warning mt-1">Ver Comparação</button>
