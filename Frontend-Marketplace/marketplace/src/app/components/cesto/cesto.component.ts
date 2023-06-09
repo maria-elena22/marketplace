@@ -157,7 +157,7 @@ export class CestoComponent implements OnInit{
           localStorage.setItem('encomendaPayments', JSON.stringify(payments));
   
           const body = obj.body as EncomendaPaymentDTO;
-          let queryParams = { encomenda: body.encomendaDTO?.idEncomenda};
+          let queryParams = { encomenda: body.encomendaDTO?.idEncomenda, produtos: this.items};
           localStorage.setItem("cartItems",JSON.stringify([]))
   
           this.router.navigate(['/pagamento'], { queryParams });

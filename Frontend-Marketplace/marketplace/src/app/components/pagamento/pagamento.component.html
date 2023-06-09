@@ -90,29 +90,23 @@
                                                     </div>
                                                 </div>
                                                 <div class="container" style="float: left; width: 50%;">
-                                                    <div class="card">
+                                                    <div class="card" *ngFor="let fornecedor of produtos">
                                                             <br>
-                                                            <!-- <h5 style="text-align: left;">&nbsp;&nbsp;{{subencomenda.fornecedor!.nome}}</h5> -->
+                                                            <h5 style="text-align: left;">&nbsp;&nbsp;{{fornecedor?.fornecedor?.nome}}</h5>
                                                             <table class="table table-bordered" id="dataTable" >
                                                                 <tbody>
                                                                     <th>Produto</th>
                                                                     <th>Quantidade</th>
                                                                     <th>Preço Uni.</th>
                                                                     <th>Preço Final</th>
-                                                                    <!-- <tr *ngFor="let item of subencomenda.items">
-                                
+                                                                    <tr *ngFor="let item of fornecedor?.items">
                                                                         <td>{{getProduto(item.produtoId!)!.nome}}</td>
                                                                         <td>{{item.quantidade}}x</td>
-                                                                        <td>{{(getPrecoProduto(item.produtoId!,subencomenda.fornecedor!)*item.quantidade!).toFixed(2)}}€</td>
-                                                                         <td>{{item.entregue}}</td>
-                                                                    </tr> -->
-                                                                    <tr >
-                                
-                                                                        <td>banana</td>
-                                                                        <td>3x</td>
-                                                                        <td>2€</td>
-                                                                        
+                                                                        <td>{{getPrecoProduto(item.produtoId!,fornecedor.fornecedor!).toFixed(2)}}€</td>
+                                                                        <td>{{(getPrecoProduto(item.produtoId!,fornecedor.fornecedor!)*item.quantidade!).toFixed(2)}}€</td>
+                                 
                                                                     </tr>
+                                                                    
                                                                 </tbody>
                                                             </table>
                                                             <hr>
