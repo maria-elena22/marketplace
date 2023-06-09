@@ -34,24 +34,28 @@ export class RegisterComponent implements OnInit{
   numerosPassw = false;
   startPassword = false;
   passwordEmpty = true;
+  passwordValid = false;
   //IDFISCAL
   startIdFiscal = false;
   oitoCaracteresId = false;
   numerosId = false;
   letrasId = false;  
   IdFiscalEmpty = true;
+  idFiscalValid = false;
   //CONTACTO
   startContacto = false;
   oitoCaracteresContacto = false;
   numerosContacto = false;
   letrasContacto = false;
   ContactoEmpty = true;
+  contactoValid = false;
   //EMAIL
   startEmail = false;
   simboloEmail = false;
   finalEmail = false;
   pontoEmail = false;
   EmailEmpty = true;
+  emailValid = false;
 
   //anwser
   role?:string;
@@ -59,6 +63,8 @@ export class RegisterComponent implements OnInit{
   showAnswer = false
   answer:string
   success:boolean
+  
+  formValid = false;
   
   ngOnInit() {
     this.signUpForm = new FormGroup({
@@ -78,8 +84,7 @@ export class RegisterComponent implements OnInit{
       role: new FormControl('', Validators.required)
 
     });
-
-    console.log(this.countries)
+    console.log(this.signUpForm.valid)
 
   }
 
@@ -106,6 +111,10 @@ export class RegisterComponent implements OnInit{
     // numbers
     const numericRegex = /\d/;
     this.numerosPassw = numericRegex.test(passwordValue);
+
+    if(this.maiusculasPassw && this.oitoCaracteresPassw && this.minusculasPassw && this.numerosPassw){
+      this.passwordValid = true;
+    }
   }
 
   onIdFiscalInput(event: Event){
@@ -122,6 +131,10 @@ export class RegisterComponent implements OnInit{
     //letras
     const letras = /[a-zA-Z]/;    
     this.letrasId = letras.test(idFiscalValue);
+
+    if(this.oitoCaracteresId && this.numerosId && !this.letrasId){
+      this.idFiscalValid = true;
+    }
   }
 
   onContactoInput(event: Event){
@@ -138,6 +151,10 @@ export class RegisterComponent implements OnInit{
     //letras
     const letras = /[a-zA-Z]/;    
     this.letrasContacto = letras.test(ContactoValue);
+
+    if(this.oitoCaracteresContacto && this.numerosContacto && !this.letrasContacto){
+      this.contactoValid = true;
+    }
   }
 
   onEmailInput(event: Event){
@@ -155,12 +172,19 @@ export class RegisterComponent implements OnInit{
      //@
      const ponto = /(\.)+[\w-]{2,4}$/g;    
      this.pontoEmail = ponto.test(EmailValue);
+
+     if(this.finalEmail && this.simboloEmail && this.pontoEmail){
+      this.emailValid = true;
+    }
  
   }
 
   onSubmit() {
-    const coords : Coordinate = {latitude:this.signUpForm.value.latitude,longitude:this.signUpForm.value.longitude}
-    console.log(coords)
+    if(this.emailValid && this.passwordValid && this.contactoValid && this.idFiscalValid && this.signUpForm.value.role!=""){
+      this.formValid = true;
+    }
+    // const coords : Coordinate = {latitude:this.signUpForm.value.latitude,longitude:this.signUpForm.value.longitude}
+    const coords : Coordinate = {latitude: 90,longitude: 180}
     const signUpData: SignUpDTO = {
       idFiscal: this.signUpForm.value.idFiscal,
       nome: this.signUpForm.value.nome,
@@ -175,58 +199,68 @@ export class RegisterComponent implements OnInit{
       pais: this.signUpForm.value.pais,
       continente: this.signUpForm.value.continente,
     }
-    console.log(signUpData);
-    console.log(this.signUpForm.value.role);
-    const role = this.signUpForm.value.role;
-    if(role === "fornecedor"){
-      this.utilizadorService.insertFornecedor(signUpData).subscribe(
-        (obj)=>{
-        const statusCode = obj.status
-        console.log("-------------------")
-  
-        if (statusCode === 200) {
-          const token = jwt_decode(obj.body['token']) as DecodedToken;
-          localStorage.setItem('jwt_token', obj.body['token']);
-          this.appComponent.token = token;
-          
-          this.location.go('');
-          window.location.reload(); 
-  
-        }
-      }, (error) => {
-        // Handle error here
-        console.log('An error occurred:', error);
-        this.success = false
-        this.answer = "Registo não foi feito. Verifique que preencheu todos os campo corretamente"
-        this.toggleAnswer()
-      }
-    )
 
-    } 
-    if (role === "consumidor"){
-      this.utilizadorService.insertConsumidor(signUpData).subscribe(
-        (obj)=>{
-        const statusCode = obj.status
-        console.log("-------------------")
-  
-        if (statusCode === 200) {
-          const token = jwt_decode(obj.body['token']) as DecodedToken;
-          localStorage.setItem('jwt_token', obj.body['token']);
-          this.appComponent.token = token;
-          
-          this.location.go('');
-          window.location.reload(); 
-        
+    if(this.formValid === true){
+      console.log(signUpData);
+      console.log(this.signUpForm.value.role);
+      const role = this.signUpForm.value.role;
+      if(role === "fornecedor"){
+        this.utilizadorService.insertFornecedor(signUpData).subscribe(
+          (obj)=>{
+          const statusCode = obj.status
+          console.log(statusCode)
+          console.log("-------------------")
+    
+          if (statusCode === 200) {
+            const token = jwt_decode(obj.body['token']) as DecodedToken;
+            localStorage.setItem('jwt_token', obj.body['token']);
+            this.appComponent.token = token;
+            
+            this.location.go('');
+            window.location.reload(); 
+    
+          }
+        }, (error) => {
+          // Handle error here
+          console.log('An error occurred:', error);
+          this.success = false
+          this.answer = error
+          this.toggleAnswer()
         }
-      }, (error) => {
-        // Handle error here
-        console.log('An error occurred:', error);
-        this.success = false
-        this.answer = "Registo não foi feito. Verifique que preencheu todos os campo corretamente"
-        this.toggleAnswer()
+      )
+
+      } 
+      if (role === "consumidor"){
+        this.utilizadorService.insertConsumidor(signUpData).subscribe(
+          (obj)=>{
+          const statusCode = obj.status
+          console.log("-------------------")
+    
+          if (statusCode === 200) {
+            const token = jwt_decode(obj.body['token']) as DecodedToken;
+            localStorage.setItem('jwt_token', obj.body['token']);
+            this.appComponent.token = token;
+            
+            this.location.go('');
+            window.location.reload(); 
+          
+          }
+        }, (error) => {
+          // Handle error here
+          console.log('An error occurred:', error);
+          this.success = false
+          this.answer = error
+          this.toggleAnswer()
+        }
+      )
       }
-    )
+    }else{
+      this.success = false
+      this.answer = "Erro! Verifique que preencheu os campos corretamente"
+      this.toggleAnswer()
     }
+
+    
   }
     toggleAnswer(){
       this.showAnswer = !this.showAnswer;

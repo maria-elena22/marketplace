@@ -31,19 +31,19 @@ export class PagamentoComponent implements OnInit{
 
   refresh(){
     this.route.queryParams.subscribe((queryParams) => {
-      // console.log(queryParams["encomenda"])
+      console.log(queryParams["encomenda"])
       // this.produtos = JSON.parse(queryParams["produtos"]);
       // console.log(JSON.parse(queryParams["produtos"])[0]["fornecedor"]["nome"])
       // for(let produto of JSON.parse(queryParams["produtos"])){
       //   console.log(produto);
       // }
-      // let payments:EncomendaPaymentDTO[] = JSON.parse(localStorage.getItem('encomendaPayments')!)
-      // for(let payment of payments){
-      //   if(payment.encomendaDTO?.idEncomenda == queryParams["encomenda"]){
-      //     this.encomendaPayment = payment
-      //     console.log(this.encomendaPayment);
-      //   }
-      // }
+      let payments:EncomendaPaymentDTO[] = JSON.parse(localStorage.getItem('encomendaPayments')!)
+      for(let payment of payments){
+        if(payment.encomendaDTO?.idEncomenda == queryParams["encomenda"]){
+          this.encomendaPayment = payment
+          console.log(this.encomendaPayment);
+        }
+      }
 
 
     });
@@ -62,7 +62,13 @@ export class PagamentoComponent implements OnInit{
     }
 
     console.log(pagamentoData)
-    this.cestoService.confirmPayment(this.encomendaPayment.encomendaDTO?.idEncomenda!,{clientSecret: this.encomendaPayment.stripeClientSecret}).subscribe(obj=>{
+    if(!this.pagamentoForm.valid){
+      this.success = false
+      this.answer = "Pagamento não foi feito. Verifique que preencheu todos os campo corretamente"
+      this.toggleAnswer()
+    }
+    this.cestoService.confirmPayment(this.encomendaPayment.encomendaDTO?.idEncomenda!,{clientSecret: this.encomendaPayment.stripeClientSecret}).subscribe(
+      (obj)=>{
       const statusCode = obj.status
       if (statusCode === 200) {
         
@@ -71,18 +77,19 @@ export class PagamentoComponent implements OnInit{
         this.toggleAnswer()
 
       } 
-    })
+    }, (error) => {
+      // Handle error here
+      console.log('An error occurred:', error);
+      this.success = false
+      this.answer = "Pagamento não foi feito. Verifique que preencheu todos os campo corretamente"
+      this.toggleAnswer()
+    }
+    )
 
   } 
 
   toggleAnswer(){
-    if(this.showAnswer){
-      this.router.navigate(['/encomendas']);
-      this.showAnswer = !this.showAnswer;
-
-    } else {    
-      this.showAnswer = !this.showAnswer;
-    }  
+    this.showAnswer = !this.showAnswer; 
   }
 
 }

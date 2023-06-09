@@ -1,4 +1,6 @@
 
+    
+<header class="bg-secondary py-5" id="title_inicial"> 
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -49,7 +51,7 @@
                                                                 <div class="form-outline form-white mb-4">
                                                                     <input formControlName="numeroCartao" type="text" id="typeText"
                                                                         class="form-control form-control-lg" size="16"
-                                                                        placeholder="ex.: 1234 5678 9012 3457"
+                                                                        placeholder="ex.: 1234567890123457"
                                                                         minlength="16" maxlength="16" />
                                                                     <label class="form-label small" for="typeText">Número
                                                                         do cartão</label>
@@ -76,23 +78,54 @@
                                                                     </div>
                                                                 </div>
 
-                                                                <button class="btn btn-info btn-block btn-lg" [disabled]="!pagamentoForm.valid" type="submit">
+                                                                <button class="btn btn-info btn-block btn-lg"  type="submit">
                                                                     <div class="d-flex justify-content-between">
                                                                         <span>{{encomendaPayment.encomendaDTO!.preco!.toFixed(2)}}€</span>
                                                                         Confirmar<i class="fas fa-long-arrow-alt-right ms-2"></i>
                                                                     </div>
                                                                 </button>
-                                                                <p *ngIf="!pagamentoForm.valid">Tem de preencher todos os campos</p>
                                                             </form>
                                                             
                                                         </div>
                                                     </div>
                                                 </div>
-
+                                                <div class="container" style="float: left; width: 50%;">
+                                                    <div class="card">
+                                                            <br>
+                                                            <!-- <h5 style="text-align: left;">&nbsp;&nbsp;{{subencomenda.fornecedor!.nome}}</h5> -->
+                                                            <table class="table table-bordered" id="dataTable" >
+                                                                <tbody>
+                                                                    <th>Produto</th>
+                                                                    <th>Quantidade</th>
+                                                                    <th>Preço Uni.</th>
+                                                                    <th>Preço Final</th>
+                                                                    <!-- <tr *ngFor="let item of subencomenda.items">
+                                
+                                                                        <td>{{getProduto(item.produtoId!)!.nome}}</td>
+                                                                        <td>{{item.quantidade}}x</td>
+                                                                        <td>{{(getPrecoProduto(item.produtoId!,subencomenda.fornecedor!)*item.quantidade!).toFixed(2)}}€</td>
+                                                                         <td>{{item.entregue}}</td>
+                                                                    </tr> -->
+                                                                    <tr >
+                                
+                                                                        <td>banana</td>
+                                                                        <td>3x</td>
+                                                                        <td>2€</td>
+                                                                        
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <hr>
+                                                                            
+                                
+                                                            
+                                                    </div>
+                                                </div>
                                             </div>
 
                                         </div>
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -104,12 +137,8 @@
         </div>
     </div>
 
+</header>
     <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
 
     <div class="modal-wrapper" [class.visible]="showAnswer">
         <div class="modal-container">
