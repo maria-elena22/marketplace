@@ -175,13 +175,5 @@ export class CestoComponent implements OnInit{
       this.answer = "Deve aceder com a sua conta para fazer uma encomenda!"
       this.toggleAnswer()
     }
-    
-
-
-    
-
-
-
   }
-
 }

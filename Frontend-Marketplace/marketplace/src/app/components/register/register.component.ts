@@ -27,13 +27,39 @@ export class RegisterComponent implements OnInit{
   signUpForm: FormGroup;
   countries = Object.keys(SignUpDTO.PaisEnum).filter(key => isNaN(Number(key)));
   continents = Object.keys(SignUpDTO.ContinenteEnum).filter(key => isNaN(Number(key)));
-  oitoCaracteres = false;
-  maiusculas = false;
-  minusculas = false;
-  numeros = false;
+  //PASSWORD
+  oitoCaracteresPassw = false;
+  maiusculasPassw = false;
+  minusculasPassw = false;
+  numerosPassw = false;
   startPassword = false;
-  passwordEmpty = true
+  passwordEmpty = true;
+  //IDFISCAL
+  startIdFiscal = false;
+  oitoCaracteresId = false;
+  numerosId = false;
+  letrasId = false;  
+  IdFiscalEmpty = true;
+  //CONTACTO
+  startContacto = false;
+  oitoCaracteresContacto = false;
+  numerosContacto = false;
+  letrasContacto = false;
+  ContactoEmpty = true;
+  //EMAIL
+  startEmail = false;
+  simboloEmail = false;
+  finalEmail = false;
+  pontoEmail = false;
+  EmailEmpty = true;
 
+  //anwser
+  role?:string;
+  error?:Error;
+  showAnswer = false
+  answer:string
+  success:boolean
+  
   ngOnInit() {
     this.signUpForm = new FormGroup({
       idFiscal: new FormControl('', Validators.required),
@@ -67,26 +93,72 @@ export class RegisterComponent implements OnInit{
     const passwordValue = inputElement.value;
     this.passwordEmpty = passwordValue.length > 0;
     // 8 caracteres
-    this.oitoCaracteres = passwordValue.length >= 8;
+    this.oitoCaracteresPassw = passwordValue.length >= 8;
 
     // Maiusculas
     const uppercaseRegex = /[A-Z]/;
-    this.maiusculas = uppercaseRegex.test(passwordValue);
+    this.maiusculasPassw = uppercaseRegex.test(passwordValue);
 
     // minusculas
     const lowercaseRegex = /[a-z]/;
-    this.minusculas = lowercaseRegex.test(passwordValue);
+    this.minusculasPassw = lowercaseRegex.test(passwordValue);
 
     // numbers
     const numericRegex = /\d/;
-    this.numeros = numericRegex.test(passwordValue);
-
-
+    this.numerosPassw = numericRegex.test(passwordValue);
   }
 
+  onIdFiscalInput(event: Event){
+    const inputElement = event.target as HTMLInputElement;
+    const idFiscalValue = inputElement.value;
+    this.IdFiscalEmpty = idFiscalValue.length > 0;
+    // 8 caracteres
+    this.oitoCaracteresId = idFiscalValue.length >= 8;
+
+    // numbers
+    const numericRegex = /\d/;
+    this.numerosId = numericRegex.test(idFiscalValue);
+
+    //letras
+    const letras = /[a-zA-Z]/;    
+    this.letrasId = letras.test(idFiscalValue);
+  }
+
+  onContactoInput(event: Event){
+    const inputElement = event.target as HTMLInputElement;
+    const ContactoValue = inputElement.value;
+    this.ContactoEmpty = ContactoValue.length > 0;
+    // 8 caracteres
+    this.oitoCaracteresContacto = ContactoValue.length >= 8;
+
+    // numbers
+    const numericRegex = /\d/;
+    this.numerosContacto = numericRegex.test(ContactoValue);
+
+    //letras
+    const letras = /[a-zA-Z]/;    
+    this.letrasContacto = letras.test(ContactoValue);
+  }
+
+  onEmailInput(event: Event){
+    const inputElement = event.target as HTMLInputElement;
+    const EmailValue = inputElement.value;
+    this.EmailEmpty = EmailValue.length > 0;
+    //@
+    const final = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;    
+    this.finalEmail = final.test(EmailValue);
+
+    //@
+    const simbolo = /[@]/;    
+    this.simboloEmail = simbolo.test(EmailValue);
+
+     //@
+     const ponto = /(\.)+[\w-]{2,4}$/g;    
+     this.pontoEmail = ponto.test(EmailValue);
+ 
+  }
 
   onSubmit() {
-    
     const coords : Coordinate = {latitude:this.signUpForm.value.latitude,longitude:this.signUpForm.value.longitude}
     console.log(coords)
     const signUpData: SignUpDTO = {
@@ -107,7 +179,8 @@ export class RegisterComponent implements OnInit{
     console.log(this.signUpForm.value.role);
     const role = this.signUpForm.value.role;
     if(role === "fornecedor"){
-      this.utilizadorService.insertFornecedor(signUpData).subscribe(obj=>{
+      this.utilizadorService.insertFornecedor(signUpData).subscribe(
+        (obj)=>{
         const statusCode = obj.status
         console.log("-------------------")
   
@@ -119,13 +192,20 @@ export class RegisterComponent implements OnInit{
           this.location.go('');
           window.location.reload(); 
   
-      } 
-    }
+        }
+      }, (error) => {
+        // Handle error here
+        console.log('An error occurred:', error);
+        this.success = false
+        this.answer = "Registo não foi feito. Verifique que preencheu todos os campo corretamente"
+        this.toggleAnswer()
+      }
     )
 
     } 
     if (role === "consumidor"){
-      this.utilizadorService.insertConsumidor(signUpData).subscribe(obj=>{
+      this.utilizadorService.insertConsumidor(signUpData).subscribe(
+        (obj)=>{
         const statusCode = obj.status
         console.log("-------------------")
   
@@ -136,17 +216,19 @@ export class RegisterComponent implements OnInit{
           
           this.location.go('');
           window.location.reload(); 
-  
-      } 
-    }
+        
+        }
+      }, (error) => {
+        // Handle error here
+        console.log('An error occurred:', error);
+        this.success = false
+        this.answer = "Registo não foi feito. Verifique que preencheu todos os campo corretamente"
+        this.toggleAnswer()
+      }
     )
     }
-
   }
-
-
-
-  
-
-  
+    toggleAnswer(){
+      this.showAnswer = !this.showAnswer;
+    }
 }

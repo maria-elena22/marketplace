@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EncomendaDTO, EncomendaPaymentDTO } from 'src/app/model/models';
+import { EncomendaDTO, EncomendaPaymentDTO, FullEncomendaDTO, FullProdutoDTO, FullSubEncomendaDTO } from 'src/app/model/models';
 import { CestoService } from 'src/app/service/cesto.service';
 
 @Component({
@@ -10,7 +10,6 @@ import { CestoService } from 'src/app/service/cesto.service';
   styleUrls: ['./pagamento.component.css']
 })
 export class PagamentoComponent implements OnInit{
-
   encomendaPayment:EncomendaPaymentDTO;
   pagamentoForm: FormGroup;
   showAnswer = false
@@ -32,13 +31,19 @@ export class PagamentoComponent implements OnInit{
 
   refresh(){
     this.route.queryParams.subscribe((queryParams) => {
-      console.log(queryParams)
-      let payments:EncomendaPaymentDTO[] = JSON.parse(localStorage.getItem('encomendaPayments')!)
-      for(let payment of payments){
-        if(payment.encomendaDTO?.idEncomenda == queryParams["encomenda"]){
-          this.encomendaPayment = payment
-        }
-      }
+      // console.log(queryParams["encomenda"])
+      // this.produtos = JSON.parse(queryParams["produtos"]);
+      // console.log(JSON.parse(queryParams["produtos"])[0]["fornecedor"]["nome"])
+      // for(let produto of JSON.parse(queryParams["produtos"])){
+      //   console.log(produto);
+      // }
+      // let payments:EncomendaPaymentDTO[] = JSON.parse(localStorage.getItem('encomendaPayments')!)
+      // for(let payment of payments){
+      //   if(payment.encomendaDTO?.idEncomenda == queryParams["encomenda"]){
+      //     this.encomendaPayment = payment
+      //     console.log(this.encomendaPayment);
+      //   }
+      // }
 
 
     });
@@ -49,7 +54,6 @@ export class PagamentoComponent implements OnInit{
   }
 
   onSubmit() {
-    
     const pagamentoData = {
       nomeCartao: this.pagamentoForm.value.nomeCartao,
       numeroCartao: this.pagamentoForm.value.numeroCartao,

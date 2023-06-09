@@ -48,9 +48,8 @@ export class DetalhesEncomendaConsumidorComponent implements OnInit{
   }
 
   pagarEncomenda(){
-    let queryParams = { encomenda: this.encomenda!.idEncomenda};
+    let queryParams = { encomenda: this.encomenda!.idEncomenda, produtos: JSON.stringify(this.encomenda?.subEncomendas)};
     localStorage.setItem("cartItems",JSON.stringify([]))
-  
     this.router.navigate(['/pagamento'], { queryParams });
   }
 
