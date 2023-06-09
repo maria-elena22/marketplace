@@ -114,7 +114,7 @@ export class ViagemService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
 
-    const url = "${this.backendUrl}/viagem";
+    const url = `${this.backendUrl}/viagem`;
 
     console.log(viagem)
     

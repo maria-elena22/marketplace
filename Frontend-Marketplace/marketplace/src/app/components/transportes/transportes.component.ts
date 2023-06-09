@@ -172,7 +172,7 @@ export class TransportesComponent implements OnInit{
     (error) => {
       console.log("An error occurred:", error);
       // Handle the error here, for example, you can display an error message to the user
-      this.handleAnswer("Ocorreu um erro ao adicionar o produto.",false)   
+      this.handleAnswer("Ocorreu um erro ao adicionar a viagem.",false)   
 
     }
   )
