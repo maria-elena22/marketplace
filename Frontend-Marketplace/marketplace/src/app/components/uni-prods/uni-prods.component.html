@@ -1,26 +1,23 @@
-
-
-
 <div id="wrapper">
-  <!-- <app-sidebar></app-sidebar> -->
-  <div id="content-wrapper" class="d-flex flex-column">
+    <!-- <app-sidebar></app-sidebar> -->
+    <div id="content-wrapper" class="d-flex flex-column">
 
-      <!-- Main Content -->
-      <div id="content">
+        <!-- Main Content -->
+        <div id="content">
 
-          <!-- Begin Page Content -->
-          <div class="container-fluid">
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
 
-              <!-- Page Heading -->
-              <div class="d-sm-flex align-items-center justify-content-between mb-3">
-                  <h1 class="h3 mb-0 text-gray-800 mt-4"> Unidades de Produção</h1>
-                  <!--<button class=" btn btn-outline-dark" (click)="toggleModal()"> Adiciona uma nova Unidade de Producao </button>-->
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-3">
+                    <h1 class="h3 mb-0 text-gray-800 mt-4"> Unidades de Produção</h1>
+                    <!--<button class=" btn btn-outline-dark" (click)="toggleModal()"> Adiciona uma nova Unidade de Producao </button>-->
 
-              </div>
+                </div>
 
-              <!-- Content Row -->
+                <!-- Content Row -->
 
-                <div class="col-xl-3 col-md-6 mb-4 " style="cursor: pointer" >
+                <div class="col-xl-3 col-md-6 mb-4 " style="cursor: pointer">
                     <div (click)="toggleModal()" class="card border-left-warning hover-shadow h-100 py-2">
                         <div class="card-body ">
                             <div class="row no-gutters align-items-center">
@@ -30,7 +27,7 @@
                                     </div> -->
                                     <div class="row no-gutters align-items-center">
                                         <div class="col-auto">
-                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Adiciona uma nova Unidade de Produção  </div>
+                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Adiciona uma nova Unidade de Produção </div>
                                         </div>
 
                                     </div>
@@ -43,63 +40,63 @@
                     </div>
                 </div>
 
-              <div class="card shadow mb-4 mt-4">
-                  <div class="card-body">
-                      <div class="table-responsive">
-                          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                              <thead>
-                                  <tr>
-                                      <th>Número</th>
-                                      <th>Nome</th>
-                                      <th>Morada</th>
-                                      <th></th>
-                                      <th></th>
-                                      <th></th>
-                                  </tr>
-                              </thead>
-                              <tfoot>
-                                  <tr>
-                                      <th>Número</th>
-                                      <th>Nome</th>
-                                      <th>Morada</th>
-                                      <th></th>
-                                      <th></th>
-                                      <th></th>
-                                  </tr>
-                              </tfoot>
+                <div class="card shadow mb-4 mt-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Número</th>
+                                        <th>Nome</th>
+                                        <th>Morada</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>Número</th>
+                                        <th>Nome</th>
+                                        <th>Morada</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
 
-                              <tbody>
-                                  <tr *ngFor="let uniProd of uniProds">
-                                      <td>{{uniProd.idUnidade}}</td>
-                                      <td>{{uniProd.nomeUniProd}}</td>
-                                      <td>MORADA</td>
-                                      <!-- href="/detalhes-encomenda-consumidor" -->
-                                      <th><a (click)="verProdutosUniProd(uniProd)">Ver Produtos &nbsp;<i
+                                <tbody>
+                                    <tr *ngFor="let uniProd of uniProds">
+                                        <td>{{uniProd.idUnidade}}</td>
+                                        <td>{{uniProd.nomeUniProd}}</td>
+                                        <td>MORADA</td>
+                                        <!-- href="/detalhes-encomenda-consumidor" -->
+                                        <th><a (click)="verProdutosUniProd(uniProd)">Ver Produtos &nbsp;<i
                                                   class="fas fa-arrow-right"></i></a></th>
-                                      <th><a (click)="editarUniProd(uniProd)">Editar &nbsp;<i
+                                        <th><a (click)="editarUniProd(uniProd)">Editar &nbsp;<i
                                                   class="fas fa-edit"></i></a></th>
-                                      <th><a (click)="confirmarRemoverUniProd(uniProd)">Remover &nbsp;<i
+                                        <th><a (click)="confirmarRemoverUniProd(uniProd)">Remover &nbsp;<i
                                                   class="fa fa-trash"></i></a></th>
-                                  </tr>
-                              </tbody>
-                          </table>
-                      </div>
-                  </div>
-              </div>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
 
-          </div>
+            </div>
 
-      </div>
-      <!-- End of Main Content -->
+        </div>
+        <!-- End of Main Content -->
 
-  </div>
-  <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Content Wrapper -->
 </div>
 <!-- End of Page Wrapper -->
 
 <!-- Scroll to Top Button-->
 <a class="scroll-to-top rounded" href="#page-top">
-  <i class="fas fa-angle-up"></i>
+    <i class="fas fa-angle-up"></i>
 </a>
 
 
@@ -109,25 +106,26 @@
         <br>
         <form [formGroup]="uniProdForm" (ngSubmit)="onSubmit()">
             <div>
-              <label><h4>Adicionar uma unidade de produção </h4></label>
-              <label for="nomeUniProd" class="d-block">Nome:</label>
+                <label><h4>Adicionar uma unidade de produção </h4></label>
+                <label for="nomeUniProd" class="d-block">Nome:</label>
 
-              <input type="text" id="nomeUniProd" formControlName="nomeUniProd" class="form-control form-control-user d-inline-block" style="width:45%;" required>
+                <input type="text" id="nomeUniProd" formControlName="nomeUniProd" class="form-control form-control-user d-inline-block" style="width:45%;" required>
             </div>
             <br>
             <button class="btn btn-outline-dark" [disabled]="!uniProdForm.valid" type="submit">Submeter</button>
-            <p *ngIf="!uniProdForm.valid">Tem de preencher todos os campos</p>        
-        </form>          
-      <!-- <h2 class="modal-title">Modal Title</h2>
+            <p *ngIf="!uniProdForm.valid">Tem de preencher todos os campos</p>
+        </form>
+        <!-- <h2 class="modal-title">Modal Title</h2>
       <p class="modal-content">Modal Content Here</p> -->
     </div>
-  </div>
+</div>
 
-  <div class="modal-wrapper" *ngIf="showProdutos" [class.visible]="showProdutos">
+<div class="modal-wrapper" *ngIf="showProdutos" [class.visible]="showProdutos && uniProds">
     <div class="modal-container">
-        <button class="modal-close-btn m-2" (click)="toggleProdutos()" style="text-align: right;">FECHAR</button>     
-        <div *ngIf="!produtosUP || produtosUP.length === 0"> Ainda não tem produtos associados a esta Unidade <br> <a routerLink="/produtos">Ver Produtos</a></div>  
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" >
+        <h3 style="text-align: left;"> A ver: {{uniProdEscolhida.nomeUniProd}}</h3>
+        <button class="modal-close-btn m-2" (click)="toggleProdutos()" style="text-align: right;">FECHAR</button>
+        <div *ngIf="!produtosUP || produtosUP.length === 0"> Ainda não tem produtos associados a esta Unidade <br> <a routerLink="/produtos">Ver Produtos</a></div>
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <th>Produto</th>
                 <th>Stock</th>
@@ -141,21 +139,22 @@
                         class="fas fa-edit"></i></button></td>
                 </tr>
             </tbody>
-        </table> 
-      
+        </table>
+
     </div>
-  </div>
+</div>
 
 
-  <div class="modal-wrapper" *ngIf="showAlteraStock" [class.visible]="showAlteraStock">
+<div class="modal-wrapper" *ngIf="showAlteraStock" [class.visible]="showAlteraStock">
     <div class="modal-container">
+        <h3 style="text-align: left;">A editar: {{produtoStock.nome}}</h3>
         <button class="modal-close-btn" (click)="toggleAlteraStock()" style="text-align: right;">FECHAR</button>
-        <br>        
+        <br>
         <form [formGroup]="stockForm" (ngSubmit)="onSubmitStock()">
             <div>
                 <p>Stock Atual: <strong>{{stockProduto(produtoStock)}}</strong></p>
             </div>
-            
+
             <div>
                 <!-- <small>(deve ser positivo)</small> -->
                 <label for="stock">Novo Stock: </label> &nbsp;
@@ -165,42 +164,44 @@
             <br>
             <button class="btn btn-outline-dark" [disabled]="!stockForm.valid" type="submit">Submeter</button>
             <p *ngIf="!stockForm.valid">Tem de preencher todos os campos</p>
-        </form>   
-      
+        </form>
+
     </div>
-  </div>
+</div>
 
 
 
-  <div class="modal-wrapper" [class.visible]="showEditar">
+<div class="modal-wrapper" *ngIf="showEditar" [class.visible]="showEditar">
     <div class="modal-container">
+        <h3 style="text-align: left;">A editar: {{uniProdEscolhida.nomeUniProd}}</h3>
         <button class="modal-close-btn" (click)="toggleEditar()" style="text-align: right;">FECHAR</button>
-        <br>     
-          
+        <br>
+
         <form [formGroup]="editarForm" (ngSubmit)="onSubmitEditar()">
             <div>
-              <label for="nomeUniProd">Novo nome: &nbsp;</label>
+                <label for="nomeUniProd">Novo nome: &nbsp;</label>
 
-              <input type="text" id="nomeUniProd" formControlName="nomeUniProd" class="form-control form-control-user d-inline-block" style="width:45%;" required>
+                <input type="text" id="nomeUniProd" formControlName="nomeUniProd" class="form-control form-control-user d-inline-block" style="width:45%;" required>
             </div>
             <br>
             <button class="btn btn-outline-dark" [disabled]="!editarForm.valid" type="submit">Submeter</button>
             <p *ngIf="!editarForm.valid">Tem de preencher todos os campos</p>
-        </form>    
-      
+        </form>
+
     </div>
-  </div>
+</div>
 
 
 
-  <div class="modal-wrapper" *ngIf="uniProdEscolhida" [class.visible]="showConfirmar">
+<div class="modal-wrapper" *ngIf="uniProdEscolhida" [class.visible]="showConfirmar">
     <div class="modal-container">
-              
-        <b style="font-size: 150%;">Tem a certeza que quer eliminar {{uniProdEscolhida.nomeUniProd}}?</b> <p></p>
+
+        <b style="font-size: 150%;">Tem a certeza que quer eliminar {{uniProdEscolhida.nomeUniProd}}?</b>
+        <p></p>
         <button class=" btn btn-outline-danger" (click)="removerUniProd(uniProdEscolhida)" style="width:30%; margin:auto; display:inline-block">Sim</button>
         <p></p>
         <button class=" btn btn-outline-dark" (click)="toggleConfirmar()" style="width:30%; margin:auto; display:inline-block">Cancelar</button>
-        <br>  
-      
+        <br>
+
     </div>
-  </div>
+</div>
