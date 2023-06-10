@@ -67,11 +67,21 @@ export class CestoComponent implements OnInit{
     for(let pf of produto.precoFornecedores!){
       const preco = pf.preco;
       if(pf.fornecedor?.idUtilizador === fornecedor.idUtilizador){
-        return preco!.toFixed(2); 
+        return pf.preco!.toFixed(2); 
 
       }
     }
     return '0';
+  }
+  getPrecoFinal(produto:FullProdutoDTO, fornecedor:SimpleUtilizadorDTO){
+    for(let pf of produto.precoFornecedores!){
+      const preco = pf.preco;
+      if(pf.fornecedor?.idUtilizador === fornecedor.idUtilizador){
+        return pf.preco!; 
+
+      }
+    }
+    return 0;
   }
 
   totalCarrinho():string{
