@@ -35,6 +35,7 @@ import { EncomendasComponent } from './components/encomendas/encomendas.componen
 import { RelatoriosComponent } from './components/relatorios/relatorios.component';
 import { ViagensComponent } from './components/viagens/viagens.component';
 import { NotificacoesComponent } from './components/notificacoes/notificacoes.component';
+import { MatIconModule } from '@angular/material/icon';
 
 
 const appRoutes: Routes = [
@@ -63,6 +64,7 @@ const appRoutes: Routes = [
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
+    MatIconModule,
     BrowserModule,
     FormsModule,
     MatFormFieldModule,

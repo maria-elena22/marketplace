@@ -1,10 +1,10 @@
 <li>
-    <a style="padding: 3%; width: max-content;" (click)="goToProdutos(subCategoria)" (mouseenter)="selectSubCategoria(subCategoria)" class="media d-flex align-items-center">
+    <a style="padding: 3%; width: max-content;cursor: pointer; " (click)="goToProdutos(subCategoria)" (mouseenter)="selectSubCategoria(subCategoria)" class="media d-flex align-items-center">
        
     {{ subCategoria.nomeSubCategoria }}</a>
     <ul  *ngIf="subCategoria.subCategoriasFilhos?.length && subcategoriaEscolhida === subCategoria">
-        <a (click)="goToProdutos(subCategoria)">Ver Todos</a>
-        <app-sub-categorias
+        <a style="cursor: pointer;" (click)="goToProdutos(subCategoria)">Ver Todos</a>
+        <app-sub-categorias 
         *ngFor="let subCategoriaFilho of subCategoria.subCategoriasFilhos"
         [subCategoria]="subCategoriaFilho"
       ></app-sub-categorias>
