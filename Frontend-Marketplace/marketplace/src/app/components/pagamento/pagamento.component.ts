@@ -12,9 +12,13 @@ import { ProdutosService } from 'src/app/service/produtos.service';
   styleUrls: ['./pagamento.component.css']
 })
 export class PagamentoComponent implements OnInit{
+  idEncomenda: number;
+  preco:number;
   error?:Error;
   todosProdutos: FullProdutoDTO[];
-  produtos: FullSubEncomendaDTO[];
+  item: SimpleItemDTO;
+  items: { produto: FullProdutoDTO, fornecedor: SimpleUtilizadorDTO, quantidade: number , preco:string }[] = [];
+  fornecedores: FullSubEncomendaDTO[];
   encomendaPayment:EncomendaPaymentDTO;
   pagamentoForm: FormGroup;
   showAnswer = false
@@ -37,10 +41,15 @@ export class PagamentoComponent implements OnInit{
 
   refresh(){
     this.route.queryParams.subscribe((queryParams) => {
-      this.produtos = JSON.parse(queryParams["produtos"]);
-      for(let fornecedor of this.produtos){
-        console.log(fornecedor.items)
+      this.items = JSON.parse(localStorage.getItem('cartItems') || '{}');
+      console.log(this.items)
+      for (let item of this.items){
+        console.log(item)
+        console.log(item.preco)
       }
+      let encomenda = JSON.parse(localStorage.getItem('encomendaPayments') || '{}');
+      this.preco = encomenda["preco"]      
+      this.fornecedores = JSON.parse(queryParams["fornecedores"]);
       let payments:EncomendaPaymentDTO[] = JSON.parse(localStorage.getItem('encomendaPayments')!)
       for(let payment of payments){
         if(payment.encomendaDTO?.idEncomenda == queryParams["encomenda"]){
@@ -56,8 +65,10 @@ export class PagamentoComponent implements OnInit{
   goToProdutos(){
     this.router.navigate(['/produtos'])
   }
+  
 
   onSubmit() {
+    localStorage.setItem("cartItems",JSON.stringify([]))
     const pagamentoData = {
       nomeCartao: this.pagamentoForm.value.nomeCartao,
       numeroCartao: this.pagamentoForm.value.numeroCartao,
@@ -85,7 +96,7 @@ export class PagamentoComponent implements OnInit{
     console.log(pagamentoData)
     if(this.pagamentoForm.valid && verificarValidade){
 
-      this.cestoService.confirmPayment(this.encomendaPayment.encomendaDTO?.idEncomenda!,{clientSecret: this.encomendaPayment.stripeClientSecret}).subscribe(
+      this.cestoService.confirmPayment(this.idEncomenda,{clientSecret: this.encomendaPayment.stripeClientSecret}).subscribe(
         (obj)=>{
         const statusCode = obj.status
         if (statusCode === 200) {
@@ -160,6 +171,10 @@ export class PagamentoComponent implements OnInit{
       }
     }
     return 0
+  }
+
+  getPrecoTotal(){
+
   }
 
 }

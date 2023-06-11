@@ -12,7 +12,7 @@
                             <div class="row">
 
                                 <div class="col-lg-7">
-                                    <h5 class="mb-3"><a (click)="goToProdutos()" class="text-body"><i
+                                    <h5 style="cursor: pointer;" class="mb-3"><a (click)="goToProdutos()" class="text-body"><i
                                                 class="fas fa-long-arrow-alt-left me-2"></i>Continuar compras</a>
                                     </h5>
                                     <hr>
@@ -40,49 +40,43 @@
                                                     </div>
                                                 </div>
                                                 <div class="d-flex flex-row align-items-center">
-                                                    <div class="ms-3">
-                                                        <h6>Quantidade</h6>
-                                                        <p class="fw-normal mb-0" style="text-align: center;">{{item.quantidade}}x</p>
-
+                                                    <div style="width: 50px;">
+                                                        <h5 class="fw-normal mb-0">{{item.quantidade}}x</h5>
                                                     </div>
-                                                    <div class="ms-3">
-                                                        <h6>Preço Unidade</h6>
-                                                        <p class="mb-0" style="text-align: center;">{{item.preco}}€</p>
+                                                    <div style="width: 80px;">
+                                                        <h5 class="mb-0">{{item.preco}}€</h5>
                                                     </div>
-                                                    <div class="ms-3">
-                                                        <h6>Preço Final</h6>
-                                                        <p class="mb-0" style="text-align: center;">{{(getPrecoFinal(item.produto!,item.fornecedor!)*item.quantidade!).toFixed(2)}}€</p>
-                                                    </div>
-                                                    <a (click)="removeItem(item) " style="color: #000000; width: 70px; text-align: right; cursor: pointer;"><mat-icon style="vertical-align: text-bottom; color: #c91527;">delete</mat-icon></a>
+                                                    <a (click)="removeItem(item)" style="color: #cecece;"><i
+                                                            class="fas fa-trash-alt"></i></a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
                                 </div>
-                                <div class="col-lg-5 ">
+                                <div class="col-lg-5">
 
-                                    <div class="card bg-primary text-white rounded-3 ">
-                                        <div class="card-body ">
-                                            <div class="d-flex justify-content-between align-items-center mb-4 ">
-                                                <h5 class="mb-0 ">Detalhes do carrinho</h5>
+                                    <div class="card bg-primary text-white rounded-3">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                                <h5 class="mb-0">Detalhes do carrinho</h5>
                                             </div>
 
-                                            <hr class="my-4 ">
+                                            <hr class="my-4">
 
-                                            <div class="d-flex justify-content-between align-items-center mb-4 ">
+                                            <div class="d-flex justify-content-between align-items-center mb-4">
                                                 <div>
-                                                    <p class="mb-0 "><i class="fas fa-home "></i>&nbsp;&nbsp;&nbsp;</p>
+                                                    <p class="mb-0"><i class="fas fa-home"></i>&nbsp;&nbsp;&nbsp;</p>
                                                 </div>
-                                                <div class="col "> <strong>Morada para entrega:</strong> <br> {{getMinhaMorada()}}
+                                                <div class="col"> <strong>Morada para entrega:</strong> <br>  {{getMinhaMorada()}}
                                                 </div>
                                             </div>
 
-                                            <a [class.disabled]="carrinho.length===0 " type="button " class="btn btn-info btn-block btn-lg " (click)="criaEncomenda() ">
-                                                <div class="d-flex justify-content-between ">
+                                            <a [class.disabled]="carrinho.length === 0" type="button" class="btn btn-info btn-block btn-lg" (click)="criaEncomenda()">
+                                                <div class="d-flex justify-content-between">
                                                     <span>{{totalCarrinho()}}€</span>
                                                     <span>Comprar <i
-                                                            class="fas fa-long-arrow-alt-right ms-2 "></i></span>
+                                                            class="fas fa-long-arrow-alt-right ms-2"></i></span>
                                                 </div>
                                             </a>
 
@@ -105,12 +99,12 @@
 
 <!---------------------------------- RESPOSTA ---------------------------------->
 
-<div class="modal-wrapper " [class.visible]="showAnswer ">
-    <div class="modal-container ">
-        <button class="modal-close-btn " (click)="toggleAnswer() ">Close</button>
+<div class="modal-wrapper" [class.visible]="showAnswer">
+    <div class="modal-container">
+        <button class="modal-close-btn" (click)="toggleAnswer()">Close</button>
         <br>
-
-        <h2 [style.color]="success ? 'green' : 'red' " class="modal-title ">{{answer}}</h2>
-
+        
+      <h2 [style.color]="success ? 'green' : 'red'" class="modal-title">{{answer}}</h2>
+      <a href="/login" style="margin-right: 45%;">Faça Login!</a>
     </div>
-</div>
+  </div>

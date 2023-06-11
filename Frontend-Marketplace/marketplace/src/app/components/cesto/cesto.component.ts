@@ -67,21 +67,11 @@ export class CestoComponent implements OnInit{
     for(let pf of produto.precoFornecedores!){
       const preco = pf.preco;
       if(pf.fornecedor?.idUtilizador === fornecedor.idUtilizador){
-        return pf.preco!.toFixed(2); 
+        return preco!.toFixed(2); 
 
       }
     }
     return '0';
-  }
-  getPrecoFinal(produto:FullProdutoDTO, fornecedor:SimpleUtilizadorDTO){
-    for(let pf of produto.precoFornecedores!){
-      const preco = pf.preco;
-      if(pf.fornecedor?.idUtilizador === fornecedor.idUtilizador){
-        return pf.preco!; 
-
-      }
-    }
-    return 0;
   }
 
   totalCarrinho():string{
@@ -167,7 +157,7 @@ export class CestoComponent implements OnInit{
           localStorage.setItem('encomendaPayments', JSON.stringify(payments));
   
           const body = obj.body as EncomendaPaymentDTO;
-          let queryParams = { encomenda: body.encomendaDTO?.idEncomenda, produtos: this.items};
+          let queryParams = { encomenda: body.encomendaDTO?.idEncomenda};
           localStorage.setItem("cartItems",JSON.stringify([]))
   
           this.router.navigate(['/pagamento'], { queryParams });
