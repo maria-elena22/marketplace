@@ -148,8 +148,8 @@
                                             <div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
                                                 {{transporte.estadoTransporte}}</div>
                                         </td>
-                                        <th><a (click)="goToViagens(transporte)" routerLink="/viagens"><i
-                                                    class="fas fa-arrow-right"></i></a></th>
+                                        <th><a  class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 2%;"  (click)="goToViagens(transporte)" routerLink="/viagens"> <mat-icon style="vertical-align: text-bottom; font-size: 15px; height: auto;">arrow_forward_ios</mat-icon></a>     
+                                        </th>
 
                                     </tr>
                                 </tbody>
@@ -161,9 +161,9 @@
             </div>
             <div style="margin: auto; display:table">
 
-                <a class="btn btn-outline-dark" [class.disabled]="previousButtonDisabled" (click)="previousPage()"> <i class="fas fa-angle-left"></i> </a> 
+                <a class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 0%;" [class.disabled]="previousButtonDisabled" (click)="previousPage()"><mat-icon style="vertical-align: text-bottom; font-size: 20px; height: 5%;">arrow_back</mat-icon> </a> 
                 &nbsp;
-                <a class="btn btn-outline-dark" [class.disabled]="nextButtonDisabled" (click)="nextPage()"> <i class="fas fa-angle-right"></i> </a> 
+                <a class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 0%;" [class.disabled]="nextButtonDisabled" (click)="nextPage()"> <mat-icon style="vertical-align: text-bottom; font-size: 20px; height: 5%;">arrow_forward</mat-icon> </a> 
             
             </div>
             <br><br>
