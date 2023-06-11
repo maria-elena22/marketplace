@@ -53,7 +53,7 @@
                                                         <h6>Preço Final</h6>
                                                         <p class="mb-0" style="text-align: center;">{{(getPrecoFinal(item.produto!,item.fornecedor!)*item.quantidade!).toFixed(2)}}€</p>
                                                     </div>
-                                                    <a (click)="removeItem(item) " style="color: #000000; width: 70px; text-align: right;">elimina</a>
+                                                    <a (click)="removeItem(item) " style="color: #000000; width: 70px; text-align: right; cursor: pointer;">elimina</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -111,5 +111,6 @@
         <br>
 
         <h2 [style.color]="success ? 'green' : 'red' " class="modal-title ">{{answer}}</h2>
+
     </div>
 </div>
