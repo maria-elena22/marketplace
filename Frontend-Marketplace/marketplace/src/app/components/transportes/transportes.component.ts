@@ -35,8 +35,8 @@ export class TransportesComponent implements OnInit{
   answer:string
   success:boolean
   validado = false
-
-
+  startMatricula = false;
+  matriculaValida = false;
 
   constructor(private uniProdService:UniProdsService,private formBuilder: FormBuilder, private appComponent:AppComponent,
     private router : Router, private encomendaService:EncomendasService, private viagemService:ViagemService){}
@@ -61,6 +61,13 @@ export class TransportesComponent implements OnInit{
   }
   ;
 
+  onMatriculaInput(event: Event){
+    const inputElement = event.target as HTMLInputElement;
+    const matriculaValue = inputElement.value;
+    
+    const numericRegex = /[a-zA-Z]{2}-[0-9]{2}-[a-zA-Z]{2}/;
+    this.matriculaValida = numericRegex.test(matriculaValue);
+  }
   
 
   // Method to toggle the checkbox status
