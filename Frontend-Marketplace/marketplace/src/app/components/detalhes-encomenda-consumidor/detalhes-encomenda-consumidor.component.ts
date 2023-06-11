@@ -47,10 +47,10 @@ export class DetalhesEncomendaConsumidorComponent implements OnInit{
     return this.encomenda!.estadoEncomenda === FullEncomendaDTO.EstadoEncomendaEnum.PorPagar;
   }
 
-  pagarEncomenda(idEncomenda?:number){
-    let queryParams = { encomenda: idEncomenda, fornecedores: JSON.stringify(this.encomenda?.subEncomendas)};
+  pagarEncomenda(){
+    let queryParams = { encomenda: this.encomenda!.idEncomenda};
     localStorage.setItem("cartItems",JSON.stringify([]))
-    localStorage.setItem("encomendaPayments", JSON.stringify(this.encomenda))
+  
     this.router.navigate(['/pagamento'], { queryParams });
   }
 

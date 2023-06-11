@@ -2,8 +2,9 @@ import { verifyHostBindings } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EncomendaDTO, EncomendaPaymentDTO, FullEncomendaDTO, FullProdutoDTO, FullSubEncomendaDTO, SimpleItemDTO, SimpleUtilizadorDTO } from 'src/app/model/models';
+import { EncomendaDTO, EncomendaPaymentDTO, FullEncomendaDTO, FullProdutoDTO, FullSubEncomendaDTO, SimpleItemDTO, SimpleSubEncomendaDTO, SimpleUtilizadorDTO } from 'src/app/model/models';
 import { CestoService } from 'src/app/service/cesto.service';
+import { EncomendasService } from 'src/app/service/encomendas.service';
 import { ProdutosService } from 'src/app/service/produtos.service';
 
 @Component({
@@ -12,13 +13,15 @@ import { ProdutosService } from 'src/app/service/produtos.service';
   styleUrls: ['./pagamento.component.css']
 })
 export class PagamentoComponent implements OnInit{
-  idEncomenda: number;
-  preco:number;
+  // idEncomenda: number;
+  // preco:number;
   error?:Error;
   todosProdutos: FullProdutoDTO[];
-  item: SimpleItemDTO;
-  items: { produto: FullProdutoDTO, fornecedor: SimpleUtilizadorDTO, quantidade: number , preco:string }[] = [];
-  fornecedores: FullSubEncomendaDTO[];
+  // item: SimpleItemDTO;
+  // items: { produto: FullProdutoDTO, fornecedor: SimpleUtilizadorDTO, quantidade: number , preco:string }[] = [];
+  // fornecedores: FullSubEncomendaDTO[];
+  encomenda: FullEncomendaDTO;
+  subencomendas?: SimpleSubEncomendaDTO[];
   encomendaPayment:EncomendaPaymentDTO;
   pagamentoForm: FormGroup;
   showAnswer = false
@@ -26,7 +29,7 @@ export class PagamentoComponent implements OnInit{
   success:boolean
 
 
-  constructor(private router: Router, private formBuilder: FormBuilder,private route: ActivatedRoute, private cestoService : CestoService, private produtosService: ProdutosService){}
+  constructor(private router: Router, private formBuilder: FormBuilder,private route: ActivatedRoute, private cestoService : CestoService, private encomendasService: EncomendasService, private produtosService: ProdutosService){}
   
   ngOnInit(): void {
       this.getProdutos();
@@ -41,24 +44,17 @@ export class PagamentoComponent implements OnInit{
 
   refresh(){
     this.route.queryParams.subscribe((queryParams) => {
-      this.items = JSON.parse(localStorage.getItem('cartItems') || '{}');
-      console.log(this.items)
-      for (let item of this.items){
-        console.log(item)
-        console.log(item.preco)
-      }
-      let encomenda = JSON.parse(localStorage.getItem('encomendaPayments') || '{}');
-      this.preco = encomenda["preco"]      
-      this.fornecedores = JSON.parse(queryParams["fornecedores"]);
+      
       let payments:EncomendaPaymentDTO[] = JSON.parse(localStorage.getItem('encomendaPayments')!)
       for(let payment of payments){
+        console.log(payment)
         if(payment.encomendaDTO?.idEncomenda == queryParams["encomenda"]){
           this.encomendaPayment = payment
           console.log(this.encomendaPayment);
+          
         }
       }
-
-
+      this.getEncomenda(queryParams["encomenda"]);
     });
   }
   
@@ -96,7 +92,7 @@ export class PagamentoComponent implements OnInit{
     console.log(pagamentoData)
     if(this.pagamentoForm.valid && verificarValidade){
 
-      this.cestoService.confirmPayment(this.idEncomenda,{clientSecret: this.encomendaPayment.stripeClientSecret}).subscribe(
+      this.cestoService.confirmPayment(this.encomendaPayment.encomendaDTO?.idEncomenda!,{clientSecret: this.encomendaPayment.stripeClientSecret}).subscribe(
         (obj)=>{
         const statusCode = obj.status
         if (statusCode === 200) {
@@ -141,11 +137,28 @@ export class PagamentoComponent implements OnInit{
     this.showAnswer = !this.showAnswer; 
   }
 
+  getEncomenda(idEncomenda:number){
+    this.encomendasService.getEncomendaById(idEncomenda).subscribe(obj=>{
+      const statusCode = obj.status
+          if (statusCode === 200) {
+            this.encomenda = obj.body as FullEncomendaDTO;
+            console.log(this.encomenda)
+            console.log(this.encomenda.subEncomendas)
+            this.subencomendas = this.encomenda.subEncomendas || undefined;
+        } else {
+            this.error = obj.body as Error;
+            //chamar pop up
+        }
+    })
+
+   }
+
   getProdutos(){
     this.produtosService.getProdutos(-1,-1).subscribe(obj=>{
       const statusCode = obj.status
       if (statusCode === 200) {
         this.todosProdutos = obj.body as FullProdutoDTO[];
+        console.log(this.todosProdutos)
     } else {
         this.error = obj.body as Error;
         //chamar pop up
@@ -173,9 +186,6 @@ export class PagamentoComponent implements OnInit{
     return 0
   }
 
-  getPrecoTotal(){
-
-  }
 
 }
 

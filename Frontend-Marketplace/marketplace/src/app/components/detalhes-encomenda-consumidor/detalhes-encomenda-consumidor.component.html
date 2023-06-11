@@ -28,7 +28,7 @@
                                         <div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
                                             {{encomenda.estadoEncomenda}}
                                         </div>
-                                        <a *ngIf="porPagar()" style="margin-top: 4%;" (click)="pagarEncomenda(encomenda.idEncomenda)" class="btn btn-info">Pagar encomenda</a>
+                                        <a *ngIf="porPagar()" style="margin-top: 4%;" (click)="pagarEncomenda()" class="btn btn-info">Pagar encomenda</a>
                                     </div>
                                     <div class="col" *ngIf="porPagar()"><a (click)="cancelarEncomenda()" class="btn btn-danger" style="font-size: 15px;">Cancelar encomenda</a></div>
                                 </div>

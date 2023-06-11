@@ -29,20 +29,20 @@
 
                                             <div class="row" >
                                                 <div class="container" style="float: left; width: 50%;">
-                                                    <div class="card" *ngFor="let fornecedor of fornecedores">
+                                                    <div class="card" *ngFor="let subencomenda of subencomendas">
                                                             <br>
-                                                            <h5 style="text-align: left;">&nbsp;&nbsp;{{fornecedor?.fornecedor?.nome}}</h5>
+                                                            <h5 style="text-align: left;">&nbsp;&nbsp;{{subencomenda.fornecedor?.nome}}</h5>
                                                             <table class="table table-bordered" id="dataTable" >
                                                                 <tbody>
                                                                     <th>Produtos</th>
                                                                     <th>Quantidades</th>
                                                                     <th>Preço Uni.</th>
                                                                     <th>Preço Final</th>
-                                                                    <tr *ngFor="let item of fornecedor?.items">
+                                                                    <tr *ngFor="let item of subencomenda.items">
                                                                         <td>{{getProduto(item.produtoId!)!.nome}}</td>
                                                                         <td>{{item.quantidade}}x</td>
-                                                                        <td>{{getPrecoProduto(item.produtoId!,fornecedor.fornecedor!).toFixed(2)}}€</td>
-                                                                        <td>{{(getPrecoProduto(item.produtoId!,fornecedor.fornecedor!)*item.quantidade!).toFixed(2)}}€</td>
+                                                                        <td>{{getPrecoProduto(item.produtoId!,subencomenda.fornecedor!).toFixed(2)}}€</td>
+                                                                        <td>{{(getPrecoProduto(item.produtoId!,subencomenda.fornecedor!)*item.quantidade!).toFixed(2)}}€</td>
                                  
                                                                     </tr>
 
@@ -55,7 +55,7 @@
                                                             
                                                     </div>
                                                     <br>
-                                                    <h3 style="font-weight: bold; color: #37b9cc; text-align: right;">Preço Final: {{this.preco.toFixed(2)}}€ &nbsp;&nbsp;</h3>
+                                                    <h3 style="font-weight: bold; color: #37b9cc; text-align: right;">Preço Final: {{encomendaPayment.encomendaDTO?.preco?.toFixed(2)}}€ &nbsp;&nbsp;</h3>
                                                 </div>
                                                 <div class="col-lg-5" >
 
@@ -108,7 +108,7 @@
 
                                                                 <button class="btn btn-info btn-block btn-lg"  type="submit">
                                                                     <div class="d-flex justify-content-between">
-                                                                        <span>{{this.preco.toFixed(2)}}€</span>
+                                                                        <span>{{encomendaPayment.encomendaDTO?.preco?.toFixed(2)}}€</span>
                                                                         Confirmar<i class="fas fa-long-arrow-alt-right ms-2"></i>
                                                                     </div>
                                                                 </button>
