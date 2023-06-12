@@ -155,6 +155,11 @@ export class ProdutosComponent implements OnInit {
     }
   }
 
+  removeDivComparar() {
+    this.prodComparar1 = undefined
+    this.prodComparar2 = undefined
+  }
+
   comparar(){
     console.log(this.prodComparar1)
     console.log(this.prodComparar2)
