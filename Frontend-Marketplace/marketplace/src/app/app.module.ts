@@ -35,6 +35,7 @@ import { EncomendasComponent } from './components/encomendas/encomendas.componen
 import { RelatoriosComponent } from './components/relatorios/relatorios.component';
 import { ViagensComponent } from './components/viagens/viagens.component';
 import { NotificacoesComponent } from './components/notificacoes/notificacoes.component';
+import { ProdutoDetalhesComponent } from './components/produto-detalhes/produto-detalhes.component';
 import { MatIconModule } from '@angular/material/icon';
 
 
@@ -57,7 +58,8 @@ const appRoutes: Routes = [
   { path: 'encomendas', component: EncomendasComponent },
   { path: 'uniProds', component: UniProdsComponent },
   { path: 'viagens/:id', component: ViagensComponent },
-  { path: 'relatorios', component: RelatoriosComponent }
+  { path: 'relatorios', component: RelatoriosComponent },
+  { path: 'produto-detalhes', component: ProdutoDetalhesComponent }
   
 ];
 
@@ -105,7 +107,8 @@ const appRoutes: Routes = [
     EncomendasComponent,
     RelatoriosComponent,
     ViagensComponent,
-    NotificacoesComponent  ],
+    NotificacoesComponent,
+    RelatoriosComponent  ],
   bootstrap: [ AppComponent ],
   exports: [ProdutosComponent],
   providers: [ProdutosComponent
