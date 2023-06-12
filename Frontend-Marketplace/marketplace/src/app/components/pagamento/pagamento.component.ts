@@ -100,7 +100,7 @@ export class PagamentoComponent implements OnInit{
           this.success=true;
           this.answer="Pagamento realizado com sucesso!"
           this.toggleAnswer()
-  
+          this.router.navigate(['encomendas']);
         } 
       }, (error) => {
         // Handle error here
