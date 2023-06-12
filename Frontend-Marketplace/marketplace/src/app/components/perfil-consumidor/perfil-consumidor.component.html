@@ -28,12 +28,8 @@
                                         <h5 class="fw-bolder">Catarina Silva</h5>
                                         <p>Consumidora</p>
                                     </div>
-                                </div>
-    
                                 <br>
-                                <!-- Product actions-->
-                                <div class="card-footer p-3 pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center"><a class="btn btn-outline-dark mt-3" href="#" id="editBtn">Editar Perfil</a></div>
+                                <div class="col" ><a class="btn btn-danger" style="font-size: 15px; margin-left: 30%;">Eliminar Conta</a></div>
                                 </div>
                             </div>
                         </div>
@@ -41,65 +37,53 @@
                             <div class="p-5">
                                 <form id="formEdit" class="user">
                                     <div class="form-group row">
+                                    <div class="col-sm-4 mb-3 mb-sm-0">
+                                        <label  for="name">Nome:</label>
+                                        <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="Nome">
+                                    </div>
                                         <div class="col-sm-4">
                                             <label for="idFiscal">Id Fiscal:</label>
                                             <input type="text" class="form-control form-control-user" id="exampleContribuinte" placeholder="Nº de Contribuinte">
                                         </div>
-                                        <div class="col-sm-4 mb-3 mb-sm-0">
-                                            <label  for="name">Nome:</label>
-                                            <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="Nome">
-                                        </div>
+                                        
                                         <div class="col-sm-4">
                                             <label for="tlmv">Contacto:</label>
                                             <input type="text" class="form-control form-control-user" id="exampleTelemovel" placeholder="Contacto">
                                         </div>
                                     </div>
-                                    <div class="form-group row">
+                                    <div class="form-group row" style="margin-top: 3%">
                                         <div class="col-sm-4">
-                                            <label  for="name">Continente:</label>
-                                            <input type="text" class="form-control form-control-user" id="exampleContinente" placeholder="Continente">
+                                            <label for="freguesia">Freguesia:</label>
+                                            <input type="text" class="form-control form-control-user" id="exampleFreguesia" placeholder="Freguesia">
                                         </div>
                                         <div class="col-sm-4">
-                                            <label  for="name">País:</label>
-                                            <input type="text" class="form-control form-control-user" id="examplePais" placeholder="País">
+                                            <label for="municipio">Município:</label>
+                                            <input type="text" class="form-control form-control-user" id="exampleMunicipio" placeholder="Município">
                                         </div>
                                         <div class="col-sm-4">
                                             <label for="distrito">Distrito:</label>
                                             <input type="text" class="form-control form-control-user" id="exampleDistrito" placeholder="Distrito">
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <label for="municipio">Município:</label>
-                                            <input type="text" class="form-control form-control-user" id="exampleMunicipio" placeholder="Município">
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <label for="freguesia">Freguesia:</label>
-                                            <input type="text" class="form-control form-control-user" id="exampleFreguesia" placeholder="Freguesia">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
+                                    <div class="form-group row" style="margin-top: 3%">
                                         <div class="col-sm-8 mb-3 mb-sm-0">
                                             <label for="morada">Morada:</label>
                                             <input type="text" class="form-control form-control-user" id="exampleMorada" placeholder="Morada">
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-4">    
+                                            País: &nbsp;
+                                            <select formControlName="pais" class="form-control-user p-2 text-warning fw-bold w-45" id="filtraSelect" name="filtraSelect" style="border-color: #d1d3e2; background-color: white; height: 48px; margin-top: 10px;" required >
+                                                <option *ngFor="let country of countries" [value]="country.toUpperCase()" >{{ country}}</option>
+
+                                            </select>                                            
+                                        </div>
+                                        
+                                        <!-- <div class="col-sm-4">
                                             <label  for="name">Código Postal:</label>
                                             <input type="text" class="form-control form-control-user" id="exampleCodigoPostal" placeholder="Código Postal">
-                                        </div>
+                                        </div> -->
                                     </div>
-                                    <p style="text-align: center;" class="mb-1"><b>Coordenadas geográficas</b></p>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <label  for="name">Latitude:</label>
-                                            <input type="text" class="form-control form-control-user" id="exampleLatitude" placeholder="Latitude">
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <label  for="name">Longitude:</label>
-                                            <input type="text" class="form-control form-control-user" id="exampleLongitude" placeholder="Longitude">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
+                                    <div class="form-group row" style="margin-top: 3%">
                                         <div class="col-sm-6 mb-3 mb-sm-0">
                                             <label for="email">Email:</label>
                                             <input type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="E-mail">
@@ -109,9 +93,8 @@
                                             <input type="password" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Palavra-passe">
                                         </div>
                                     </div>
-                                    <div style="display: flex;
-                                    justify-content: center;
-                                    align-items: center;">
+                                    <br>
+                                    <div style="display: flex; justify-content: center; align-items: center;">
                                         <a href="#" id ="finishBtn" class="btn btn-success col-sm-2">Salvar as alterações</a> &nbsp;&nbsp;
                                         <a href="/admin-consumidor" class="btn btn-secondary col-sm-2">Cancelar</a>
                                     </div>

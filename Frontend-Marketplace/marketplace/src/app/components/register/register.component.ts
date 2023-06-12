@@ -8,7 +8,6 @@ import {DecodedToken} from '../../model/utilizador/decodedToken'
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SignUpDTO } from '../../model/utilizador/signUpDTO';
-import { Pais } from 'src/app/model/utils/pais';
 import { AppComponent } from 'src/app/app.component';
 import { Coordinate } from 'src/app/model/models';
 
