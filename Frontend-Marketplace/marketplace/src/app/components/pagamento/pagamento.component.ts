@@ -13,13 +13,8 @@ import { ProdutosService } from 'src/app/service/produtos.service';
   styleUrls: ['./pagamento.component.css']
 })
 export class PagamentoComponent implements OnInit{
-  // idEncomenda: number;
-  // preco:number;
   error?:Error;
   todosProdutos: FullProdutoDTO[];
-  // item: SimpleItemDTO;
-  // items: { produto: FullProdutoDTO, fornecedor: SimpleUtilizadorDTO, quantidade: number , preco:string }[] = [];
-  // fornecedores: FullSubEncomendaDTO[];
   encomenda: FullEncomendaDTO;
   subencomendas?: SimpleSubEncomendaDTO[];
   encomendaPayment:EncomendaPaymentDTO;
@@ -100,7 +95,7 @@ export class PagamentoComponent implements OnInit{
           this.success=true;
           this.answer="Pagamento realizado com sucesso!"
           this.toggleAnswer()
-          this.router.navigate(['encomendas']);
+          this.router.navigate(['/encomendas']);
         } 
       }, (error) => {
         // Handle error here
@@ -142,15 +137,12 @@ export class PagamentoComponent implements OnInit{
       const statusCode = obj.status
           if (statusCode === 200) {
             this.encomenda = obj.body as FullEncomendaDTO;
-            console.log(this.encomenda)
-            console.log(this.encomenda.subEncomendas)
             this.subencomendas = this.encomenda.subEncomendas || undefined;
         } else {
             this.error = obj.body as Error;
             //chamar pop up
         }
     })
-
    }
 
   getProdutos(){
@@ -158,7 +150,6 @@ export class PagamentoComponent implements OnInit{
       const statusCode = obj.status
       if (statusCode === 200) {
         this.todosProdutos = obj.body as FullProdutoDTO[];
-        console.log(this.todosProdutos)
     } else {
         this.error = obj.body as Error;
         //chamar pop up

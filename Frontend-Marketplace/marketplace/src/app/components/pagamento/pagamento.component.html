@@ -24,12 +24,13 @@
                                 <div class="col">
                                     <div class="card">
                                         <div class="card-body p-4">
-
+                                            <h3>Encomeda #{{encomenda.idEncomenda}}</h3>
+                                            <br>
                                             <div class="row">
                                                 <div class="container" style="float: left; width: 50%;">
                                                     <div class="card" *ngFor="let subencomenda of subencomendas">
                                                         <br>
-                                                        <h5 style="text-align: left;">&nbsp;&nbsp;{{subencomenda.fornecedor!.nome}} <br/> &nbsp;&nbsp;Encomenda: #{{encomenda.idEncomenda}}</h5>
+                                                        <h5 style="text-align: left;">&nbsp;&nbsp;{{subencomenda.fornecedor!.nome}}</h5>
                                                         <table class="table table-bordered" id="dataTable">
                                                             <tbody>
                                                                 <th>Produtos</th>

@@ -85,7 +85,7 @@
                             <a class="btn btn-outline-info mt-auto" (click)="showAddCarrinho(produto)">Carrinho</a> &nbsp;&nbsp;
                             
 
-                            <a routerLink="/produto-detalhes" routerLinkActive="active" ariaCurrentWhenActive="page"
+                            <a (click) = "showDetalheProduto(produto.idProduto!)" routerLink="/produto-detalhes" routerLinkActive="active" ariaCurrentWhenActive="page"
                                 class="nav-link active" aria-current="page" class="btn btn-outline-primary mt-auto">Ver +</a>    
                         </div>
                     </div>

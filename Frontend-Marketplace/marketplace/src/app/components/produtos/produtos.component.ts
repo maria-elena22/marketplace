@@ -135,8 +135,12 @@ export class ProdutosComponent implements OnInit {
       precoMin:new FormControl("", Validators.required),
       precoMax:new FormControl("", Validators.required)
 
-    })
-    
+    })  
+  }
+
+  showDetalheProduto(idProduto: number){
+    let queryParams = { produto: idProduto};
+    this.router.navigate(['/produto-detalhes'], { queryParams });
   }
 
   closeRemoveForm(){
@@ -243,9 +247,6 @@ export class ProdutosComponent implements OnInit {
         //chamar pop up
     // }
     })
-
-    
-
   }
 
   onSelectAllChange() {
@@ -265,12 +266,9 @@ export class ProdutosComponent implements OnInit {
 
     }
     
-    console.log(this.removerProdutoForm.value);
-
-    
+    console.log(this.removerProdutoForm.value);    
 }
 
-  
 
   toggleAddProduto(produto?:FullProdutoDTO){
     this.produtoAfornecer=produto;
@@ -423,8 +421,6 @@ export class ProdutosComponent implements OnInit {
     this.getProdutos(-1,-1);
     
     this.router.navigate(['/produtos']);
-    //window.location.reload()
-
   }
 
   nextPage(){
@@ -433,22 +429,9 @@ export class ProdutosComponent implements OnInit {
       this.getProdutos(this.idCategoria,this.idSubCategoria);
     }
     console.log(this.page)
-    this.previousButtonDisabled = false
-
-    // if(this.transportes.length===0){
-
-    //   console.log(this.transportes)
-      
-    // } else{
-      // const state = { page: 'transportes' };
-      // const url = '/transportes';
-      // this.previousButtonDisabled = false
-      // window.history.pushState(state, url);
-      
-
-    //}
-    
+    this.previousButtonDisabled = false    
   }
+
   previousPage(){
     this.page -=1
     if(this.page<0){  
@@ -463,14 +446,9 @@ export class ProdutosComponent implements OnInit {
       }
 
     }
-    
-
-    
-
   }
 
   getProdutos(idCategoria:number, idSubCategoria:number){
-
     this.produtosService.getProdutos(idCategoria,idSubCategoria,undefined,undefined,undefined,undefined,this.page).subscribe(obj=>{
       const statusCode = obj.status
       if (statusCode === 200) {
@@ -490,13 +468,11 @@ export class ProdutosComponent implements OnInit {
     } else {
         this.error = obj.body as Error;
         //chamar pop up
-
     }
     })
   }
 
   verMeusProdutos(idCategoria:number, idSubCategoria:number){
-
     this.prodComparar1 = undefined
     this.prodComparar2 =undefined
     this.showFilter = false
@@ -519,7 +495,6 @@ export class ProdutosComponent implements OnInit {
     } else {
         this.error = obj.body as Error;
         //chamar pop up
-
     }
     })
 
