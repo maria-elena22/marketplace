@@ -1,6 +1,4 @@
-
-    
-<header class="bg-secondary py-5" id="title_inicial"> 
+<header class="bg-secondary py-5" id="title_inicial">
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -27,60 +25,53 @@
                                     <div class="card">
                                         <div class="card-body p-4">
 
-                                            <div class="row" >
+                                            <div class="row">
                                                 <div class="container" style="float: left; width: 50%;">
                                                     <div class="card" *ngFor="let subencomenda of subencomendas">
-                                                            <br>
-                                                            <h5 style="text-align: left;">&nbsp;&nbsp;{{subencomenda.fornecedor?.nome}}</h5>
-                                                            <table class="table table-bordered" id="dataTable" >
-                                                                <tbody>
-                                                                    <th>Produtos</th>
-                                                                    <th>Quantidades</th>
-                                                                    <th>Preço Uni.</th>
-                                                                    <th>Preço Final</th>
-                                                                    <tr *ngFor="let item of subencomenda.items">
-                                                                        <td>{{getProduto(item.produtoId!)!.nome}}</td>
-                                                                        <td>{{item.quantidade}}x</td>
-                                                                        <td>{{getPrecoProduto(item.produtoId!,subencomenda.fornecedor!).toFixed(2)}}€</td>
-                                                                        <td>{{(getPrecoProduto(item.produtoId!,subencomenda.fornecedor!)*item.quantidade!).toFixed(2)}}€</td>
-                                 
-                                                                    </tr>
+                                                        <br>
+                                                        <h5 style="text-align: left;">&nbsp;&nbsp;{{subencomenda.fornecedor!.nome}}</h5>
+                                                        <table class="table table-bordered" id="dataTable">
+                                                            <tbody>
+                                                                <th>Produtos</th>
+                                                                <th>Quantidades</th>
+                                                                <th>Preço Uni.</th>
+                                                                <th>Preço Final</th>
+                                                                <tr *ngFor="let item of subencomenda.items">
+                                                                    <td>{{getProduto(item.produtoId!)!.nome}}</td>
+                                                                    <td>{{item.quantidade}}x</td>
+                                                                    <td>{{getPrecoProduto(item.produtoId!,subencomenda.fornecedor!).toFixed(2)}}€</td>
+                                                                    <td>{{(getPrecoProduto(item.produtoId!,subencomenda.fornecedor!)*item.quantidade!).toFixed(2)}}€</td>
 
-                                                                </tbody>
-                                                            </table>
-                                                            
-                                                            <hr>
-                                                                            
-                                
-                                                            
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+
+
+
                                                     </div>
                                                     <br>
                                                     <h3 style="font-weight: bold; color: #37b9cc; text-align: right;">Preço Final: {{encomendaPayment.encomendaDTO?.preco?.toFixed(2)}}€ &nbsp;&nbsp;</h3>
                                                 </div>
-                                                <div class="col-lg-5" >
+                                                <div class="col-lg-5">
 
                                                     <div class="card bg-primary text-white rounded-3">
                                                         <div class="card-body">
 
                                                             <h5 class="mb-3"><a (click)="goToProdutos()" style="color: white;"><i
                                                                 class="fas fa-long-arrow-alt-left me-2"></i>Continuar
-                                                            compras</a>
+                                                            Compras </a>
                                                             </h5>
                                                             <hr>
                                                             <form class="mt-4" [formGroup]="pagamentoForm" (ngSubmit)="onSubmit()">
                                                                 <div class="form-outline form-white mb-4">
-                                                                    <input formControlName="nomeCartao" type="text" id="typeName"
-                                                                        class="form-control form-control-lg" size="17"
-                                                                        placeholder="Nome do cartão" />
+                                                                    <input formControlName="nomeCartao" type="text" id="typeName" class="form-control form-control-lg" size="17" placeholder="Nome do cartão" />
                                                                     <label class="form-label small" for="typeName">Nome do
                                                                         cartão</label>
                                                                 </div>
 
                                                                 <div class="form-outline form-white mb-4">
-                                                                    <input formControlName="numeroCartao" type="text" id="typeText"
-                                                                        class="form-control form-control-lg" size="16"
-                                                                        placeholder="ex.: 1234567890123457"
-                                                                        minlength="16" maxlength="16" />
+                                                                    <input formControlName="numeroCartao" type="text" id="typeText" class="form-control form-control-lg" size="16" placeholder="ex.: 1234567890123457" minlength="16" maxlength="16" />
                                                                     <label class="form-label small" for="typeText">Número
                                                                         do cartão</label>
                                                                 </div>
@@ -88,41 +79,35 @@
                                                                 <div class="row mb-3">
                                                                     <div class="col-md-6">
                                                                         <div class="form-outline form-white">
-                                                                            <input formControlName="validade" type="date" id="typeExp"
-                                                                                class="form-control form-control-lg"
-                                                                                 id="exp"/>
-                                                                            <label class="form-label small"
-                                                                                for="typeExp">Validade</label>
+                                                                            <input formControlName="validade" type="date" id="typeExp" class="form-control form-control-lg" id="exp" />
+                                                                            <label class="form-label small" for="typeExp">Validade</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-outline form-white">
-                                                                            <input formControlName="cvc" class="form-control form-control-lg" type="password" id="typeText" 
-                                                                            name="cvc" minlength="3" maxlength="3" 
-                                                                            pattern="[0-9]{3}" placeholder="CVC" required>
-                                                                            <label class="form-label small"
-                                                                                for="typeText">CVC</label>
+                                                                            <input formControlName="cvc" class="form-control form-control-lg" type="password" id="typeText" name="cvc" minlength="3" maxlength="3" pattern="[0-9]{3}" placeholder="CVC" required>
+                                                                            <label class="form-label small" for="typeText">CVC</label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
 
-                                                                <button class="btn btn-info btn-block btn-lg"  type="submit">
+                                                                <button class="btn btn-info btn-block btn-lg" type="submit">
                                                                     <div class="d-flex justify-content-between">
                                                                         <span>{{encomendaPayment.encomendaDTO?.preco?.toFixed(2)}}€</span>
                                                                         Confirmar<i class="fas fa-long-arrow-alt-right ms-2"></i>
                                                                     </div>
                                                                 </button>
                                                             </form>
-                                                            
+
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
+
                                             </div>
 
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -135,12 +120,12 @@
     </div>
 
 </header>
-    <!-- End of Page Wrapper -->
+<!-- End of Page Wrapper -->
 
-    <div class="modal-wrapper" [class.visible]="showAnswer">
-        <div class="modal-container">
-            <button class="modal-close-btn" (click)="toggleAnswer()">Close</button>
-            <br>
-          <h2 [style.color]="success ? 'green' : 'red'" class="modal-title">{{answer}}</h2>
-        </div>
-      </div>
+<div class="modal-wrapper" [class.visible]="showAnswer">
+    <div class="modal-container">
+        <button class="modal-close-btn" (click)="toggleAnswer()">Close</button>
+        <br>
+        <h2 [style.color]="success ? 'green' : 'red'" class="modal-title">{{answer}}</h2>
+    </div>
+</div>

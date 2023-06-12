@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-  <!-- Button to open the modal -->
-  <button onclick="toggleNotifs()">Open Modal</button>
+<!-- Button to open the modal -->
+<button onclick="toggleNotifs()">Open Modal</button>
 
-  <!-- The modal -->
-  <div id="notificationModal" class="modal" *ngIf="showNotifs">
+<!-- The modal -->
+<div id="notificationModal" class="modal" *ngIf="showNotifs">
     <div class="modal-content">
-      <span class="close" onclick="toggleNotifs()">&times;</span>
-      <h2>Notification</h2>
-      <p>This is a notification message.</p>
+        <span class="close" onclick="toggleNotifs()">&times;</span>
+        <h2>Notification</h2>
+        <p>This is a notification message.</p>
     </div>
-  </div>
+</div>
