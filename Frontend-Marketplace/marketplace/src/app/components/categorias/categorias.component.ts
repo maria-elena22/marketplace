@@ -63,7 +63,7 @@ export class CategoriasComponent implements OnInit{
       queryParams = { categoria: -1, subCategoria:-1 };
 
     }
-    this.router.navigate(['/produtos'], { queryParams });
+    this.router.navigate(['/marketplace/produtos'], { queryParams });
 
   }
 

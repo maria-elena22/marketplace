@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpParams, HttpErrorResponse} from "@angular/common/http";
 import { Observable, throwError } from 'rxjs';
 import { catchError, map,tap } from 'rxjs/operators';
-import { NotificacaoDTO, SignUpDTO } from '../model/models';
+import { NotificacaoDTO, SignUpDTO, UtilizadorDTO, UtilizadorInputDTO } from '../model/models';
 import { environment } from 'src/environments/environment';
 
 
@@ -49,6 +49,66 @@ export class UtilizadorService {
 
   }
 
+  getConsumidor(id:number){
+    const token = localStorage.getItem('jwt_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    
+    const url = `${this.backendUrl}/utilizador/consumidor/${id}`;
+
+    return this.http.get<UtilizadorDTO>(url ,{ headers, observe: 'response' })
+      .pipe(
+          catchError((error) => {
+          console.log('An error occurred:', error);
+          return throwError('Something went wrong');
+        })
+      );
+  }
+
+  getConsumidores(){
+    const token = localStorage.getItem('jwt_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    
+    const url = `${this.backendUrl}/utilizador/consumidor`;
+
+    return this.http.get<Array<UtilizadorDTO>>(url ,{ headers, observe: 'response' })
+      .pipe(
+          catchError((error) => {
+          console.log('An error occurred:', error);
+          return throwError('Something went wrong');
+        })
+      );
+  }
+  getFornecedores(){
+    const token = localStorage.getItem('jwt_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    
+    const url = `${this.backendUrl}/utilizador/fornecedor`;
+
+    return this.http.get<Array<UtilizadorDTO>>(url ,{ headers, observe: 'response' })
+      .pipe(
+          catchError((error) => {
+          console.log('An error occurred:', error);
+          return throwError('Something went wrong');
+        })
+      );
+  }
+
+  getFornecedor(id:number){
+    const token = localStorage.getItem('jwt_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    
+    const url = `${this.backendUrl}/utilizador/fornecedor/${id}`;
+
+    return this.http.get<UtilizadorDTO>(url ,{ headers, observe: 'response' })
+      .pipe(
+          catchError((error) => {
+          console.log('An error occurred:', error);
+          return throwError('Something went wrong');
+        })
+      );
+  }
+
+
   getNotificacoes(){
     const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
@@ -93,6 +153,108 @@ export class UtilizadorService {
     console.log(url)
     return this.http.post<any>(url, fornecedor, { headers, observe: 'response' });
 
+  }
+
+  updateFornecedor(fornecedor: UtilizadorInputDTO){
+
+    const token = localStorage.getItem('jwt_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    const url = `${this.backendUrl}/utilizador/fornecedor`;
+
+    //const url = `${this.backendUrl}/utilizador/consumidor`;
+  
+    return this.http.put<any>(url, fornecedor,{ headers, observe: 'response' })
+      .pipe(
+          catchError((error) => {
+          console.log('An error occurred:', error);
+          return throwError('Something went wrong');
+        })
+      );
+
+
+  }
+
+  updateConsumidor(consumidor: UtilizadorInputDTO){
+
+    const token = localStorage.getItem('jwt_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    const url = `${this.backendUrl}/utilizador/consumidor`;
+  
+    return this.http.put<any>(url, consumidor,{ headers, observe: 'response' })
+      .pipe(
+          catchError((error) => {
+          console.log('An error occurred:', error);
+          return throwError('Something went wrong');
+        })
+      );
+
+
+  }
+
+  removeConsumidor(idConsumidor :number){
+    console.log("olaa")
+    const token = localStorage.getItem('jwt_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+
+    const url = `${this.backendUrl}/utilizador/consumidor/deactivate/${idConsumidor}`;
+
+    return this.http.put<any>(url,{},{ headers, observe: 'response' })
+      .pipe(
+          catchError((error) => {
+          console.log('An error occurred:', error);
+          return throwError('Something went wrong');
+        })
+      );
+  }
+
+  removeFornecedor(idFornecedor :number){
+    const token = localStorage.getItem('jwt_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+
+    const url = `${this.backendUrl}/utilizador/fornecedor/deactivate/${idFornecedor}`;
+
+    return this.http.put<any>(url, {},{ headers, observe: 'response' })
+      .pipe(
+          catchError((error) => {
+          console.log('An error occurred:', error);
+          return throwError('Something went wrong');
+        })
+      );
+  }
+
+
+  ativarConsumidor(idConsumidor :number){
+    const token = localStorage.getItem('jwt_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    const url = `${this.backendUrl}/utilizador/consumidor/activate/${idConsumidor}`;
+
+    return this.http.put<any>(url, {}, { headers, observe: 'response' })
+      .pipe(
+          catchError((error) => {
+          console.log('An error occurred:', error);
+          return throwError('Something went wrong');
+        })
+      );
+  }
+
+  ativarFornecedor(idFornecedor :number){
+    const token = localStorage.getItem('jwt_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    const url = `${this.backendUrl}/utilizador/fornecedor/activate/${idFornecedor}`;
+
+    return this.http.put<any>(url, {}, { headers, observe: 'response' })
+      .pipe(
+          catchError((error) => {
+          console.log('An error occurred:', error);
+          return throwError('Something went wrong');
+        })
+      );
   }
 
   getDetalhesUser(): Observable<HttpResponse<any>> {

@@ -1,4 +1,6 @@
 /* Modal styles */
+@import '~@fortawesome/fontawesome-free/css/all.css';
+
 .m {
     display: none;
     position: fixed;

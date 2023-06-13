@@ -62,13 +62,22 @@ export class AppComponent implements OnInit{
   }
 
   goToLogin(){
-    this.router.navigate(['/login']);
+    this.router.navigate(['/marketplace/login']);
   }
   goToRegister(){
-    this.router.navigate(['/register']);
+    this.router.navigate(['/marketplace/register']);
+  }
+
+  goToDefinicoes(){
+
+    let queryParams = {};
+    
+    queryParams = { role: this.role, user:JSON.stringify(this.user!)};
+    console.log(queryParams)
+    this.router.navigate(['/marketplace/definicoes'], { queryParams });
   }
   goToCesto(){
-    this.router.navigate(['/cesto']);
+    this.router.navigate(['/marketplace/cesto']);
   }
 
   showNotifs=false
@@ -134,7 +143,7 @@ export class AppComponent implements OnInit{
 
   goToRelatorio(tipo:string){
     let queryParams = {tipo:tipo};
-    this.router.navigate(['/relatorios'], { queryParams });
+    this.router.navigate(['/marketplace/relatorios'], { queryParams });
     
   }
 
@@ -161,7 +170,7 @@ export class AppComponent implements OnInit{
   }
 
   getDetalhesUser(){
-    if(this.token){
+    if(this.token && this.role !== 'ROLE_ADMIN'){
       this.utilizadorService.getDetalhesUser().subscribe(obj=>{
         const statusCode = obj.status
         if (statusCode === 200) {
@@ -188,7 +197,7 @@ export class AppComponent implements OnInit{
   logout() {
     // Remove the JWT token from the local storage
     localStorage.removeItem(this.tokenKey);
-    this.location.go('');
+    this.location.go('/marketplace');
     window.location.reload();
 
   }

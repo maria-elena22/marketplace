@@ -141,8 +141,8 @@ export class TransportesComponent implements OnInit{
   }
 
   goToViagens(transporte:TransporteDTO){
-    //this.router.navigate(['/viagens']);
-    this.router.navigate(['/viagens', transporte.idTransporte], {
+    //this.router.navigate(['/marketplace/viagens']);
+    this.router.navigate(['/marketplace/viagens', transporte.idTransporte], {
       state: { transporteId: JSON.stringify(transporte)}
     });
 
@@ -239,7 +239,7 @@ export class TransportesComponent implements OnInit{
       
     // } else{
       const state = { page: 'transportes' };
-      const url = '/transportes';
+      const url = '/marketplace/transportes';
       this.previousButtonDisabled = false
       window.history.pushState(state, url);
       
@@ -256,7 +256,7 @@ export class TransportesComponent implements OnInit{
     } else{
       this.getTransportes(this.page)
       const state = { page: 'transportes' };
-      const url = '/transportes';
+      const url = '/marketplace/transportes';
       this.nextButtonDisabled = false
       window.history.pushState(state, url);
 

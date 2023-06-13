@@ -5,9 +5,9 @@
 //         let value = document.getElementById("filtraSelect").value;
 
 //         // if (value === "consumidor") {
-//         //     window.location.href = '/welcome';
+//         //     window.location.href = '/marketplace/welcome';
 //         // } else if (value === "fornecedor") {
-//         //     window.location.href = '/admin-fornecedor';
+//         //     window.location.href = '/marketplace/admin-fornecedor';
 //         // }
 //     });
 

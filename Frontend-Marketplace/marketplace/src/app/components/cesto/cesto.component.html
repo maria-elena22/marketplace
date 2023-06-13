@@ -46,8 +46,10 @@
                                                     <div style="width: 80px;">
                                                         <h5 class="mb-0">{{item.preco}}€</h5>
                                                     </div>
-                                                    <a (click)="removeItem(item)" style="color: #cecece;"><i
-                                                            class="fas fa-trash-alt"></i></a>
+                                                    <a style="width: 50px;" (click)="removeItem(item)">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                        <!-- <img (click)="removeItem(item)" width="40%" src="../../../assets/trash-alt-solid.svg" alt=""> -->
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -76,7 +78,7 @@
                                                 <p class="mb-2">14.17€</p>
                                             </div> -->
 
-                                            <a [class.disabled]="carrinho.length === 0" type="button" class="btn btn-info btn-block btn-lg" (click)="criaEncomenda()">
+                                            <a [class.disabled]="carrinho && carrinho.length === 0" type="button" class="btn btn-info btn-block btn-lg" (click)="criaEncomenda()">
                                                 <div class="d-flex justify-content-between">
                                                     <span>{{totalCarrinho()}}€</span>
                                                     <span>Comprar <i

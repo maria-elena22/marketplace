@@ -58,7 +58,7 @@ export class RegisterComponent implements OnInit{
   }
 
   goToLogin(){
-    this.router.navigate(['/login'])
+    this.router.navigate(['/marketplace/login'])
   }
 
 
@@ -116,7 +116,7 @@ export class RegisterComponent implements OnInit{
           localStorage.setItem('jwt_token', obj.body['token']);
           this.appComponent.token = token;
           
-          this.location.go('');
+          this.location.go('/marketplace');
           window.location.reload(); 
   
       } 
@@ -134,7 +134,7 @@ export class RegisterComponent implements OnInit{
           localStorage.setItem('jwt_token', obj.body['token']);
           this.appComponent.token = token;
           
-          this.location.go('');
+          this.location.go('/marketplace');
           window.location.reload(); 
   
       } 

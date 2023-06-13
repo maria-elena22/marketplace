@@ -35,28 +35,33 @@ import { EncomendasComponent } from './components/encomendas/encomendas.componen
 import { RelatoriosComponent } from './components/relatorios/relatorios.component';
 import { ViagensComponent } from './components/viagens/viagens.component';
 import { NotificacoesComponent } from './components/notificacoes/notificacoes.component';
+import { DefinicoesComponent } from './components/definicoes/definicoes.component';
+import { AdminUtilizadoresComponent } from './components/admin-utilizadores/admin-utilizadores.component';
+import { DetalhesUtilizadorAdminComponent } from './components/detalhes-utilizador-admin/detalhes-utilizador-admin.component';
+import { GraficoComponent } from './components/grafico/grafico.component';
 
 
 const appRoutes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: '', component: HomeComponent },
-  { path: 'termos-condicoes', component: TermosCondicoesComponent },
-  { path: 'produtos', component: ProdutosComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'cesto', component: CestoComponent },
-  { path: 'admin-consumidor', component: AdminConsumidorComponent},
-  { path: 'admin-fornecedor', component: AdminFornecedorComponent },
-  { path: 'consumidor-historico', component: ConsumidorHistoricoComponent},
-  // { path: 'detalhes-encomenda-consumidor', component: DetalhesEncomendaConsumidorComponent},
-  { path: 'perfil-consumidor', component: PerfilConsumidorComponent},
-  { path: 'transportes', component: TransportesComponent },  
-  { path: 'pagamento', component: PagamentoComponent },
-  { path: 'welcome', component: WelcomeComponent },
-  { path: 'encomendas', component: EncomendasComponent },
-  { path: 'uniProds', component: UniProdsComponent },
-  { path: 'viagens/:id', component: ViagensComponent },
-  { path: 'relatorios', component: RelatoriosComponent }
+  { path: 'marketplace/login', component: LoginComponent },
+  { path: 'marketplace', component: HomeComponent },
+  { path: 'marketplace/termos-condicoes', component: TermosCondicoesComponent },
+  { path: 'marketplace/produtos', component: ProdutosComponent },
+  { path: 'marketplace/register', component: RegisterComponent },
+  { path: 'marketplace/forgot-password', component: ForgotPasswordComponent },
+  { path: 'marketplace/cesto', component: CestoComponent },
+  { path: 'marketplace/admin-consumidor', component: AdminConsumidorComponent},
+  { path: 'marketplace/admin-fornecedor', component: AdminFornecedorComponent },
+  { path: 'marketplace/consumidor-historico', component: ConsumidorHistoricoComponent},
+  { path: 'marketplace/perfil-consumidor', component: PerfilConsumidorComponent},
+  { path: 'marketplace/transportes', component: TransportesComponent },  
+  { path: 'marketplace/pagamento', component: PagamentoComponent },
+  { path: 'marketplace/welcome', component: WelcomeComponent },
+  { path: 'marketplace/encomendas', component: EncomendasComponent },
+  { path: 'marketplace/uniProds', component: UniProdsComponent },
+  { path: 'marketplace/viagens/:id', component: ViagensComponent },
+  { path: 'marketplace/relatorios', component: RelatoriosComponent },
+  { path: 'marketplace/utilizadores', component: AdminUtilizadoresComponent },
+  { path: 'marketplace/definicoes', component: DefinicoesComponent }
   
 ];
 
@@ -103,7 +108,11 @@ const appRoutes: Routes = [
     EncomendasComponent,
     RelatoriosComponent,
     ViagensComponent,
-    NotificacoesComponent  ],
+    NotificacoesComponent,
+    DefinicoesComponent,
+    AdminUtilizadoresComponent,
+    DetalhesUtilizadorAdminComponent,
+    GraficoComponent  ],
   bootstrap: [ AppComponent ],
   exports: [ProdutosComponent],
   providers: [ProdutosComponent

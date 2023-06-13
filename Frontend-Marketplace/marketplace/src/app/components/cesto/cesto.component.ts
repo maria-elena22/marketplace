@@ -28,13 +28,14 @@ export class CestoComponent implements OnInit{
   ngOnInit(): void {
 
     this.getProdutos(-1,-1)
+    console.log(this.carrinho)
 
 
       
   }
 
   goToProdutos(){
-    this.router.navigate(['/produtos'])
+    this.router.navigate(['/marketplace/produtos'])
   }
 
   getMinhaMorada(){
@@ -160,7 +161,7 @@ export class CestoComponent implements OnInit{
           let queryParams = { encomenda: body.encomendaDTO?.idEncomenda};
           localStorage.setItem("cartItems",JSON.stringify([]))
   
-          this.router.navigate(['/pagamento'], { queryParams });
+          this.router.navigate(['/marketplace/pagamento'], { queryParams });
   
   
           // const state = { page: 'cesto' };

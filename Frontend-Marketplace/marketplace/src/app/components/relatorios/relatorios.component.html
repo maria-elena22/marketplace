@@ -15,30 +15,34 @@
                 <!-- Page Heading -->
                 <h1 class="h3 mb-2 text-gray-800 mt-4"><strong>Relatorio Por Zonas</strong></h1>
 
-                <!-- <div class="container" *ngIf="role === 'ROLE_CONSUMIDOR'">
-                    <article class="card  mt-4">
-                        <header class="card-header"> Detalhes </header>
-                        <div class="card-body">
-                            <article class="card">
-                                <div class="card-body row" style= "align-items: center;">
-                                    <div class="col"> <strong>Morada para entrega:</strong> <br>{{getMoradaUser()}}</div>
-                                    <div class="col" > <strong>Estado:</strong> <br> 
-                                        <div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
-                                            {{encomenda.estadoEncomenda}}
-                                        </div> 
-                                        <a *ngIf="porPagar()" style="margin-top: 4%;" (click)="pagarEncomenda()" class="btn btn-info" >Pagar encomenda</a>
-                                    </div>
-                                    <div class="col" *ngIf="porPagar()"><a  (click)="cancelarEncomenda()" class="btn btn-danger" style="font-size: 15px;">Cancelar encomenda</a></div>
-                                </div>
-                            </article>
-                     
-                        </div>
-                    </article>
-                </div> -->
+                <form [formGroup]="filtrosForm" (ngSubmit)="onSubmit()">
+
+                    <label><h4>Ver por: </h4></label>
+
+                    <br>
+
+                    <label for="startDate">Data de Início:</label>
+                    <input type="date" id="startDate" formControlName="startDate" name="startDate">
+                    &nbsp;&nbsp;
+                    <label for="endDate">Data de Fim:</label>
+                    <input type="date" id="endDate" formControlName="endDate" name="endDate">
+                    <br>
+                    <label for="categoriasIds"><b>Categorias:</b></label>
+                    <div formArrayName="categoriasIds">
+                    
+                    <label style="border: solid 1px; padding: 1%; margin:1%;" *ngFor="let categoria of categorias">
+                        <input type="checkbox" [value]="categoria.idCategoria" > {{ categoria.nomeCategoria }} 
+                    </label>
+                    </div>
+                
+                    <br>
+                    <button class=" btn btn-outline-dark" type="submit">Submeter</button>
+                </form>
 
             </div>
 
                 <br>
+                <!-- <app-grafico></app-grafico> -->
 
                 <div class="container">
                     <div class="card">

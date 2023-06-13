@@ -45,7 +45,7 @@ export class PagamentoComponent implements OnInit{
   }
   
   goToProdutos(){
-    this.router.navigate(['/produtos'])
+    this.router.navigate(['/marketplace/produtos'])
   }
 
   onSubmit() {
@@ -73,7 +73,7 @@ export class PagamentoComponent implements OnInit{
 
   toggleAnswer(){
     if(this.showAnswer){
-      this.router.navigate(['/encomendas']);
+      this.router.navigate(['/marketplace/encomendas']);
       this.showAnswer = !this.showAnswer;
 
     } else {    

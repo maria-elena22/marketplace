@@ -303,7 +303,7 @@ export class ProdutosComponent implements OnInit {
             this.produtoAremover!.uniProds = p.uniProds;
             console.log(this.produtoAremover?.uniProds)
             const state = { page: 'produtos' };
-            const url = '/produtos';
+            const url = '/marketplace/produtos';
 
             window.history.pushState(state, url);
             console.log(this.produtoAremover?.uniProds)
@@ -417,7 +417,7 @@ export class ProdutosComponent implements OnInit {
     this.showFilter = true
     this.getProdutos(-1,-1);
     
-    this.router.navigate(['/produtos']);
+    this.router.navigate(['/marketplace/produtos']);
     //window.location.reload()
 
   }
@@ -436,7 +436,7 @@ export class ProdutosComponent implements OnInit {
       
     // } else{
       // const state = { page: 'transportes' };
-      // const url = '/transportes';
+      // const url = '/marketplace/transportes';
       // this.previousButtonDisabled = false
       // window.history.pushState(state, url);
       
@@ -503,7 +503,7 @@ export class ProdutosComponent implements OnInit {
         this.produtos = []
         console.log(this.meusProdutos)
         const state = { page: 'produtos' };
-        const url = '/produtos';
+        const url = '/marketplace/produtos';
 
         window.history.pushState(state, url);
 
