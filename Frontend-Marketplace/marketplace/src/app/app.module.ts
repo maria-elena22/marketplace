@@ -39,6 +39,8 @@ import { DefinicoesComponent } from './components/definicoes/definicoes.componen
 import { AdminUtilizadoresComponent } from './components/admin-utilizadores/admin-utilizadores.component';
 import { DetalhesUtilizadorAdminComponent } from './components/detalhes-utilizador-admin/detalhes-utilizador-admin.component';
 import { GraficoComponent } from './components/grafico/grafico.component';
+import { ProdutoDetalhesComponent } from './components/produto-detalhes/produto-detalhes.component';
+import { MatIconModule } from '@angular/material/icon';
 
 
 const appRoutes: Routes = [
@@ -60,6 +62,7 @@ const appRoutes: Routes = [
   { path: 'marketplace/uniProds', component: UniProdsComponent },
   { path: 'marketplace/viagens/:id', component: ViagensComponent },
   { path: 'marketplace/relatorios', component: RelatoriosComponent },
+  { path: 'marketplace/produto-detalhes', component: ProdutoDetalhesComponent },
   { path: 'marketplace/utilizadores', component: AdminUtilizadoresComponent },
   { path: 'marketplace/definicoes', component: DefinicoesComponent }
   
@@ -68,6 +71,7 @@ const appRoutes: Routes = [
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
+    MatIconModule,
     BrowserModule,
     FormsModule,
     MatFormFieldModule,
@@ -113,6 +117,8 @@ const appRoutes: Routes = [
     AdminUtilizadoresComponent,
     DetalhesUtilizadorAdminComponent,
     GraficoComponent  ],
+
+
   bootstrap: [ AppComponent ],
   exports: [ProdutosComponent],
   providers: [ProdutosComponent

@@ -1,14 +1,14 @@
 <ul ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
-    <li ngbDropdownItem (click)="goToProdutos(undefined)"><a class="dropdown-item" >Todos os produtos</a></li>
+    <li style="cursor: pointer;" ngbDropdownItem (click)="goToProdutos(undefined)"><a class="dropdown-item" >Todos os produtos</a></li>
     <li><hr class="dropdown-divider"/></li>
 
     <ul ngbDropdownItem *ngFor="let categoria of categorias">
-        <li (mouseenter)="selectCategoria(categoria)" class="dropdown-item"> {{ categoria.nomeCategoria }}
+        <li style="cursor: pointer;" (mouseenter)="selectCategoria(categoria)" class="dropdown-item"> {{ categoria.nomeCategoria }}
             <i class="fas fa fa-angle-right	mr-2" ></i>
         </li>
     </ul>
     <ul *ngIf="categoriaEscolhida">
-        <li style="padding: 3%; width: max-content;" (click)="goToProdutos(categoriaEscolhida)" (mouseenter)="showCategoria(categoriaEscolhida)" class="media  align-items-center">
+        <li style="cursor: pointer;" style="padding: 3%; width: max-content;" (click)="goToProdutos(categoriaEscolhida)" (mouseenter)="showCategoria(categoriaEscolhida)" class="media  align-items-center">
             Ver Todos
         </li>
         <div class="dropdown-divider"></div>

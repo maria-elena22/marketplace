@@ -22,58 +22,61 @@
                         <!-- <header class="card-header"> Detalhes </header> -->
                         <div class="card-body">
                             <article class="card">
-                                <div class="card-body row" style= "align-items: center;">
+                                <div class="card-body row" style="align-items: center;">
                                     <div class="col"> <strong>Morada para entrega:</strong> <br>{{getMoradaUser()}}</div>
-                                    <div class="col" > <strong>Estado:</strong> <br> 
+                                    <div class="col"> <strong>Estado:</strong> <br>
                                         <div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
                                             {{encomenda.estadoEncomenda}}
-                                        </div> 
-                                        <a *ngIf="porPagar()" style="margin-top: 4%;" (click)="pagarEncomenda()" class="btn btn-info" >Pagar encomenda</a>
+                                        </div>
+                                        <a *ngIf="porPagar()" style="margin-top: 4%;" (click)="pagarEncomenda()" class="btn btn-info">Pagar encomenda</a>
                                     </div>
-                                    <div class="col" *ngIf="porPagar()"><a  (click)="cancelarEncomenda()" class="btn btn-danger" style="font-size: 15px;">Cancelar encomenda</a></div>
+                                    <div class="col" *ngIf="porPagar()"><a (click)="cancelarEncomenda()" class="btn btn-danger" style="font-size: 15px;">Cancelar encomenda</a></div>
                                 </div>
                             </article>
-                     
+
                         </div>
                     </article>
                 </div>
 
             </div>
 
-                <br>
+            <br>
 
-                <div class="container">
-                    <div class="card">
-                        <div class="table-responsive" *ngFor="let subencomenda of encomenda.subEncomendas">
-                            <br>
-                            <h5 style="text-align: left;">&nbsp;&nbsp;{{subencomenda.fornecedor!.nome}}</h5>
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" >
-                                <tbody>
-                                    <tr *ngFor="let item of subencomenda.items">
+            <div class="container">
+                <div class="card">
+                    <div class="table-responsive" *ngFor="let subencomenda of encomenda.subEncomendas">
+                        <br>
+                        <h5 style="text-align: left;">&nbsp;&nbsp;{{subencomenda.fornecedor!.nome}}</h5>
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <tbody>
+                                <th>Produtos</th>
+                                <th>Quantidades</th>
+                                <th>Preço Uni.</th>
+                                <th>Preço Total</th>
+                                <tr *ngFor="let item of subencomenda.items">
 
-                                        <td>{{getProduto(item.produtoId!)!.nome}}</td>
-                                        <td>{{item.quantidade}}x</td>
-                                        <td>{{(getPrecoProduto(item.produtoId!,subencomenda.fornecedor!)*item.quantidade!).toFixed(2)}}€</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <hr>
-                            <h3 style="font-weight: bold; color: #37b9cc; text-align: right;">{{encomenda.preco?.toFixed(2)}}€ &nbsp;&nbsp;</h3>
-                            
-
-
-                            
-                        </div>
+                                    <td>{{getProduto(item.produtoId!)!.nome}}</td>
+                                    <td>{{item.quantidade}}x</td>
+                                    <td>{{getPrecoProduto(item.produtoId!,subencomenda.fornecedor!).toFixed(2)}}€</td>
+                                    <td>{{(getPrecoProduto(item.produtoId!,subencomenda.fornecedor!)*item.quantidade!).toFixed(2)}}€</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <hr>
                     </div>
-                </div>
-                <br>
-                <br>
+                    <br>
+                    <h3 style="font-weight: bold; color: #37b9cc; text-align: right;">Preço Final: {{encomenda.preco?.toFixed(2)}}€ &nbsp;&nbsp;</h3>
 
+                </div>
             </div>
-            <!-- /.container-fluid -->
+            <br>
+            <br>
 
         </div>
-        <!-- End of Main Content -->
+        <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
 
 
 </div>
@@ -96,17 +99,17 @@
                 <!-- Page Heading -->
                 <h1 class="h3 mb-2 text-gray-800 mt-4"><strong>Encomenda #{{subencomenda.idSubEncomenda}}</strong></h1>
 
-                <div class="container" >
+                <div class="container">
                     <article class="card  mt-4">
                         <!-- <header class="card-header"> Detalhes </header> -->
                         <div class="card-body">
                             <article class="card">
-                                <div class="card-body row" style= "align-items: center;">
+                                <div class="card-body row" style="align-items: center;">
                                     <div class="col"> <strong>Morada para entrega:</strong> <br>{{getMoradaUser()}}</div>
-                                    <div class="col" > <strong>Estado:</strong> <br> 
+                                    <div class="col"> <strong>Estado:</strong> <br>
                                         <div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
                                             {{subencomenda.estadoEncomenda}}
-                                        </div> 
+                                        </div>
                                     </div>
                                     <div class="col"> <strong>Consumidor:</strong> <br>{{subencomenda.encomenda?.consumidor?.nome}}</div>
                                     <div class="col"> <strong>Email:</strong> <br>{{subencomenda.encomenda?.consumidor?.email}}</div>
@@ -114,46 +117,48 @@
 
                                 </div>
                             </article>
-                     
+
                         </div>
                     </article>
                 </div>
 
             </div>
 
-                <br>
+            <br>
 
-                <div class="container">
-                    <div class="card">
-                            <br>
-                            <!-- <h5 style="text-align: left;">&nbsp;&nbsp;{{subencomenda.fornecedor!.nome}}</h5> -->
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" >
-                                <tbody>
-                                    <tr *ngFor="let item of subencomenda.items">
+            <div class="container">
+                <div class="card">
+                    <br>
+                    <!-- <h5 style="text-align: left;">&nbsp;&nbsp;{{subencomenda.fornecedor!.nome}}</h5> -->
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <tbody>
+                            <th>Produtos</th>
+                            <th>Quantidades</th>
+                            <th>Preço Uni.</th>
+                            <th>Preço Total</th>
+                            <tr *ngFor="let item of subencomenda.items">
 
-                                        <td>{{getProduto(item.produtoId!)!.nome}}</td>
-                                        <td>{{item.quantidade}}x</td>
-                                        <td>{{(getPrecoProduto(item.produtoId!,subencomenda.fornecedor!)*item.quantidade!).toFixed(2)}}€</td>
-                                        <!-- <td>{{item.entregue}}</td> -->
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <hr>
-                            <h3 style="font-weight: bold; color: #37b9cc; text-align: right;">{{subencomenda.preco?.toFixed(2)}}€ &nbsp;&nbsp;</h3>
-                            
-
-
-                            
-                    </div>
+                                <td>{{getProduto(item.produtoId!)!.nome}}</td>
+                                <td>{{item.quantidade}}x</td>
+                                <td>{{getPrecoProduto(item.produtoId!,subencomenda.fornecedor!).toFixed(2)}}€</td>
+                                <td>{{(getPrecoProduto(item.produtoId!,subencomenda.fornecedor!)*item.quantidade!).toFixed(2)}}€</td>
+                                <!-- <td>{{item.entregue}}</td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr>
                 </div>
                 <br>
-                <br>
-
+                <h3 style="font-weight: bold; color: #37b9cc; text-align: right;">Preço Final: {{subencomenda.preco?.toFixed(2)}}€ &nbsp;&nbsp;</h3>
             </div>
-            <!-- /.container-fluid -->
+            <br>
+            <br>
 
         </div>
-        <!-- End of Main Content -->
+        <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
 
 
 </div>

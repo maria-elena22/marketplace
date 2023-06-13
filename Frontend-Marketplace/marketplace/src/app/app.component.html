@@ -32,8 +32,8 @@
                     <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">Relatórios</a>
                     <ul ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li ngbDropdownItem><a class="dropdown-item" (click)="goToRelatorio('zonas')" >Zonas</a></li>
-                        <li ngbDropdownItem><a class="dropdown-item"(click)="goToRelatorio('distancias')" >Distâncias</a></li>
+                        <li style="cursor: pointer;" ngbDropdownItem><a class="dropdown-item" (click)="goToRelatorio('zonas')" >Zonas</a></li>
+                        <li style="cursor: pointer;" ngbDropdownItem><a class="dropdown-item"(click)="goToRelatorio('distancias')" >Distâncias</a></li>
                     </ul>
                 </li>
 
@@ -53,16 +53,19 @@
                     <a *ngIf="role &&user" ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-square"></i>&nbsp; {{user!.nome}}</a> 
                     <ul ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li ngbDropdownItem><a class="dropdown-item" (click)="toggleNotifs()" >Notificações</a> 
+                        <li style="cursor: pointer;" ngbDropdownItem><a class="dropdown-item" (click)="toggleNotifs()" >Notificações</a> 
                             <p *ngIf="numNotifs > 0 " class="notifCount">{{numNotifs}}</p>
                         </li>
-                        <li ngbDropdownItem><a (click)="goToDefinicoes()" class="dropdown-item" >Definições</a></li>
+                        <li style="cursor: pointer;" ngbDropdownItem><a class="dropdown-item" routerLink="/marketplace/perfil-consumidor" (click)="goToPerfil()" routerLinkActive="active" ariaCurrentWhenActive="page"
+                            aria-current="page">Perfil</a></li>
+                        <!-- TODO -->
+                        <!-- <li ngbDropdownItem><a (click)="goToDefinicoes()" class="dropdown-item" >Definições</a></li>  -->
 
 
                         <li>
                             <hr class="dropdown-divider" />
                         </li> 
-                        <li ngbDropdownItem ><a class="dropdown-item" (click)="logout()" >Logout</a></li>
+                        <li style="cursor: pointer;" ngbDropdownItem ><a class="dropdown-item" (click)="logout()" >Logout</a></li>
                     </ul>
                 </li>
  
@@ -70,16 +73,19 @@
                     <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-square"></i></a>
                     <ul ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li ngbDropdownItem><a class="dropdown-item" (click)="goToLogin()">Login</a></li>
+                        <li ngbDropdownItem><a class="dropdown-item" href="/marketplace/login">Login</a></li>
                         <li>
                             <hr class="dropdown-divider" />
                         </li>
-                        <li ngbDropdownItem ><a class="dropdown-item" (click)="goToRegister()">Registo</a></li>
+                        <li ngbDropdownItem ><a class="dropdown-item" href="/marketplace/register">Registo</a></li>
                     </ul>
                 </li>
 
             <!-- <form class="d-flex"> -->
-                <a *ngIf="role !== 'ROLE_FORNECEDOR' && role !== 'ROLE_ADMIN'" class="btn btn-outline-dark" type="submit" (click)="goToCesto()">
+                <a *ngIf="role !== 'ROLE_FORNECEDOR' && role !== 'ROLE_ADMIN'" class="btn btn-outline-dark" type="submit" 
+                        href="/marketplace/cesto" (click)="goToCesto()">
+                
+
                     <i class="bi-cart-fill me-1"></i>
 
                     <span class="badge bg-dark text-white ms-1 rounded-pill">{{cestoService.getItems().length}}</span>
@@ -172,10 +178,11 @@
                     <h6 class="text-uppercase fw-bold">Contactos</h6>
                     <hr class="mb-4 mt-0 d-inline-block mx-auto"
                         style="width: 60px; background-color: #4e73df; height: 2px" />
-                    <p><i class="fas fa-home mr-3"></i>Lisboa</p>
-                    <p><i class="fas fa-envelope mr-3"></i> info@marketplace.com</p>
-                    <p><i class="fas fa-phone mr-3"></i> + 91 234 567 88</p>
-                    <p><i class="fas fa-print mr-3"></i> + 21 234 567 89</p>
+                
+                    <p><mat-icon style="vertical-align: text-bottom;">home</mat-icon> &nbsp; Lisboa</p>
+                    <p><mat-icon style="vertical-align: text-bottom;">mail</mat-icon> &nbsp; info@marketplace.com</p>
+                    <p><mat-icon  style="vertical-align: text-bottom; transform: rotate(270deg);"> call</mat-icon> &nbsp; + 91 234 567 88</p>
+                    <p><mat-icon style="vertical-align: text-bottom;">print</mat-icon> &nbsp; + 21 234 567 89</p>
                 </div>
                 <!-- Grid column -->
             </div>

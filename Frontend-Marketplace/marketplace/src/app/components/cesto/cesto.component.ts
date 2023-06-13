@@ -26,9 +26,7 @@ export class CestoComponent implements OnInit{
     private router: Router,private route: ActivatedRoute){}
 
   ngOnInit(): void {
-
     this.getProdutos(-1,-1)
-    console.log(this.carrinho)
 
 
       
@@ -50,9 +48,7 @@ export class CestoComponent implements OnInit{
         let fornecedor = this.getFornecedor(produto,simpleItem.fornecedorId!)
         item = { produto: produto, fornecedor: fornecedor!, quantidade:simpleItem.quantidade!, preco:this.getPreco(produto,fornecedor!) }
         this.items.push(item)
-
-      }
-      
+      } 
     }
   }
 
@@ -60,7 +56,6 @@ export class CestoComponent implements OnInit{
     let simpleItem = {produtoId: item.produto.idProduto, fornecedorId: item.fornecedor.idUtilizador, quantidade: item.quantidade}
     this.cestoService.removeFromCart(simpleItem);
     this.items = []
-
     this.getProdutos(-1,-1)
   }
 
@@ -69,7 +64,6 @@ export class CestoComponent implements OnInit{
       const preco = pf.preco;
       if(pf.fornecedor?.idUtilizador === fornecedor.idUtilizador){
         return preco!.toFixed(2); 
-
       }
     }
     return '0';
@@ -80,19 +74,15 @@ export class CestoComponent implements OnInit{
     for(let item of this.items){
       total += (parseFloat(item.preco) * item.quantidade)
     }
-
-    console.log(total)
     return total.toFixed(2);
   }
 
   getProduto(idProduto:number){
-
     for(let produto of this.produtos){
       if(produto.idProduto === idProduto){
         return produto
       }
     }
-
     return null;
   }
 
@@ -113,11 +103,6 @@ export class CestoComponent implements OnInit{
         this.produtos =  obj.body as FullProdutoDTO[];
         this.carrinho = this.cestoService.getItems();
         this.handleItems();
-        // const state = { page: 'cesto' };
-        // const url = '/cesto';
-
-        // window.history.pushState(state, url);
-
     } 
     })
   }
@@ -125,14 +110,10 @@ export class CestoComponent implements OnInit{
   toggleAnswer(){
     if(!this.showAnswer){
       if(this.success){
-        //this.toggleModal()
-        //this.verMeusProdutos(-1,-1)
         this.showAnswer = true
       }else{
         this.showAnswer = true
-
       }
-      
     }else{
       this.showAnswer = false
     }
@@ -140,23 +121,17 @@ export class CestoComponent implements OnInit{
 
 
   criaEncomenda(){
-
     if(this.appComponent.user){
       const compraData : CompraDTO = {
         items: this.carrinho,
         preco: parseFloat(this.totalCarrinho())
       } 
-
       this.cestoService.addEncomenda(compraData).subscribe(obj=>{
-
         const statusCode = obj.status
         if (statusCode === 200) {
-  
           let payments = localStorage.getItem('encomendaPayments') === null ? [] : JSON.parse(localStorage.getItem('encomendaPayments')!);
           payments.push(obj.body as EncomendaPaymentDTO);
-  
           localStorage.setItem('encomendaPayments', JSON.stringify(payments));
-  
           const body = obj.body as EncomendaPaymentDTO;
           let queryParams = { encomenda: body.encomendaDTO?.idEncomenda};
           localStorage.setItem("cartItems",JSON.stringify([]))
@@ -176,13 +151,5 @@ export class CestoComponent implements OnInit{
       this.answer = "Deve aceder com a sua conta para fazer uma encomenda!"
       this.toggleAnswer()
     }
-    
-
-
-    
-
-
-
   }
-
 }

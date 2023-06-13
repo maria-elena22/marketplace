@@ -19,7 +19,8 @@ import { Coordinate, UtilizadorDTO, UtilizadorInputDTO } from 'src/app/model/mod
 })
 
 export class DefinicoesComponent implements OnInit{
-  user?:UtilizadorDTO;
+  utilizador?:UtilizadorDTO;
+
   role:string;
   showForm= false;
   noChanges = true;
@@ -58,17 +59,17 @@ export class DefinicoesComponent implements OnInit{
     });
 
     this.updateForm.patchValue({
-      idFiscal: this.user!.idFiscal,
-      nome: this.user!.nome,
-      telemovel: this.user!.telemovel,
-      latitude: this.user!.coordenadas?.latitude,
-      longitude: this.user!.coordenadas?.longitude,
-      morada: this.user!.morada,
-      freguesia: this.user!.freguesia,
-      municipio: this.user!.municipio,
-      distrito: this.user!.distrito,
-      pais: this.user!.pais,
-      continente: this.user!.continente
+      idFiscal: this.utilizador!.idFiscal,
+      nome: this.utilizador!.nome,
+      telemovel: this.utilizador!.telemovel,
+      latitude: this.utilizador!.coordenadas?.latitude,
+      longitude: this.utilizador!.coordenadas?.longitude,
+      morada: this.utilizador!.morada,
+      freguesia: this.utilizador!.freguesia,
+      municipio: this.utilizador!.municipio,
+      distrito: this.utilizador!.distrito,
+      pais: this.utilizador!.pais,
+      continente: this.utilizador!.continente
 
     });
     this.showForm=true;
@@ -88,19 +89,16 @@ closeConfirmar(){
 }
 
 removerConta(){
-
-
-
   if(this.role === "ROLE_FORNECEDOR"){
-    this.utilizadorService.removeFornecedor(this.user?.idUtilizador!).subscribe(obj=>{
+    this.utilizadorService.removeFornecedor(this.utilizador?.idUtilizador!).subscribe(obj=>{
       const statusCode = obj.status
       console.log("-------------------")
 
       if (statusCode === 200) {
         this.answer = "Conta removida com sucesso"
         this.success = true;
-        this.user = obj.body
-        this.appComponent.user!.nome! =this.user!.nome!
+        this.utilizador = obj.body
+        this.appComponent.user!.nome! =this.utilizador!.nome!
 
         this.openAnswer();
 
@@ -110,7 +108,7 @@ removerConta(){
 
   } 
   if (this.role === "ROLE_CONSUMIDOR"){
-    this.utilizadorService.removeConsumidor(this.user?.idUtilizador!).subscribe(obj=>{
+    this.utilizadorService.removeConsumidor(this.utilizador?.idUtilizador!).subscribe(obj=>{
       const statusCode = obj.status
       console.log("-------------------")
       console.log(statusCode)
@@ -118,8 +116,8 @@ removerConta(){
       if (statusCode === 200) {
         this.answer = "Conta removida com sucesso"
         this.success = true;
-        this.user = obj.body
-        this.appComponent.user!.nome! =this.user!.nome!
+        this.utilizador = obj.body
+        this.appComponent.user!.nome! =this.utilizador!.nome!
         this.openAnswer();
         //window.location.reload(); 
 
@@ -135,22 +133,15 @@ onPageRefresh(event: BeforeUnloadEvent): void {
 }
 
 refreshFunction(): void {
-  // Code to be executed on page refresh
 
   this.route.queryParams.subscribe((queryParams) => {
     console.log(JSON.parse(queryParams["user"]))
-    console.log("???????????????????????????????????????22")
 
     this.role = queryParams["role"]
-    this.user = JSON.parse(queryParams["user"])
-    console.log(this.user)
+    this.utilizador = JSON.parse(queryParams["user"])
+    console.log(this.utilizador)
     
   });
-
-  // this.user = this.appComponent.user;
-  //   this.role = this.appComponent.role!;
-    console.log(this.user)
-    console.log("???????????????????????????????????????22")
 
 }
 
@@ -180,11 +171,11 @@ refreshFunction(): void {
         if (statusCode === 200) {
           this.answer = "Dados atualizados com sucesso!"
           this.success = true;
-          this.user = obj.body
-          this.appComponent.user!.nome! =this.user!.nome!
+          this.utilizador = obj.body
+          this.appComponent.user!.nome! =this.utilizador!.nome!
 
           this.openAnswer();
-          //window.location.reload(); 
+          
   
       } 
     }
@@ -200,10 +191,9 @@ refreshFunction(): void {
         if (statusCode === 200) {
           this.answer = "Dados atualizados com sucesso!"
           this.success = true;
-          this.user = obj.body
-          this.appComponent.user!.nome! =this.user!.nome!
+          this.utilizador = obj.body
+          this.appComponent.user!.nome! =this.utilizador!.nome!
           this.openAnswer();
-          //window.location.reload(); 
   
       } 
     }
@@ -226,7 +216,7 @@ refreshFunction(): void {
     this.showAnswer=false;
     let queryParams = {};
 
-    queryParams = { role: this.role, user:JSON.stringify(this.user!)};
+    queryParams = { role: this.role, user:JSON.stringify(this.utilizador!)};
     console.log(queryParams)
     this.router.navigate(['/marketplace/definicoes'], { queryParams });
   }

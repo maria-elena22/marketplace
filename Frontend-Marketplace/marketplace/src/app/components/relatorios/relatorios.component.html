@@ -1,17 +1,10 @@
 <div id="wrapper" *ngIf="relatorioZonas">
-
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-
         <!-- Main Content -->
         <div id="content">
-
-            <!-- Begin Page Content -->
-
-
             <!-- Begin Page Content -->
             <div class="container-fluid">
-
                 <!-- Page Heading -->
                 <h1 class="h3 mb-2 text-gray-800 mt-4"><strong>Relatorio Por Zonas</strong></h1>
 
@@ -40,19 +33,15 @@
                 </form>
 
             </div>
-
                 <br>
-                <!-- <app-grafico></app-grafico> -->
-
                 <div class="container">
                     <div class="card">
                         <div class="table-responsive" >
                             <br>
-                            <div (click)="showContinentes = !showContinentes">
+                            <div style="cursor: pointer;" (click)="showContinentes = !showContinentes">
                                 <h4 style="text-align: left;" >&nbsp;&nbsp; Continentes:
                                     <i class="fas fa fa-angle-down mr-2" ></i>
                                 </h4> 
-
                             </div>
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" *ngIf="showContinentes">
                                 <tbody>
@@ -65,11 +54,10 @@
                                 </tbody>
                             </table>
                             <hr>
-                            <div (click)="showPaises = !showPaises">
+                            <div style="cursor: pointer;" (click)="showPaises = !showPaises">
                                 <h4 style="text-align: left;" >&nbsp;&nbsp; Países:
                                     <i class="fas fa fa-angle-down mr-2" ></i>
                                 </h4> 
-
                             </div>
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" *ngIf="showPaises">
                                 <tbody>
@@ -82,11 +70,10 @@
                                 </tbody>
                             </table>
                             <hr>
-                            <div (click)="showDistritos = !showDistritos">
+                            <div style="cursor: pointer;" (click)="showDistritos = !showDistritos">
                                 <h4 style="text-align: left;" >&nbsp;&nbsp; Distritos:
                                     <i class="fas fa fa-angle-down mr-2" ></i>
                                 </h4> 
-
                             </div>
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" *ngIf="showDistritos">
                                 <tbody>
@@ -99,16 +86,14 @@
                                 </tbody>
                             </table>
                             <hr>
-                            <div (click)="showMunicipios = !showMunicipios">
+                            <div style="cursor: pointer;" (click)="showMunicipios = !showMunicipios">
                                 <h4 style="text-align: left;" >&nbsp;&nbsp; Municípios:
                                     <i class="fas fa fa-angle-down mr-2" ></i>
                                 </h4> 
-
                             </div>
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" *ngIf="showMunicipios">
                                 <tbody>
                                     <tr *ngFor="let municipio of getArrayZonas(relatorioZonas.mapEncomendasMunicipio!) ">
-
                                         <td width="50%" >{{municipio}}</td>
                                         <td width="50%">{{relatorioZonas.mapEncomendasMunicipio![municipio]}}x</td>
                                         <!-- <td>{{(getPrecoProduto(item.produtoId!,subencomenda.fornecedor!)*item.quantidade!).toFixed(2)}}€</td> -->
@@ -116,11 +101,10 @@
                                 </tbody>
                             </table>
                             <hr>
-                            <div (click)="showFreguesias = !showFreguesias">
+                            <div style="cursor: pointer;" (click)="showFreguesias = !showFreguesias">
                                 <h4 style="text-align: left;" >&nbsp;&nbsp; Freguesias:
                                     <i class="fas fa fa-angle-down mr-2" ></i>
                                 </h4> 
-
                             </div>
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" *ngIf="showFreguesias">
                                 <tbody>
@@ -132,44 +116,27 @@
                                     </tr>
                                 </tbody>
                             </table>
-
-                            
-                            
                         </div>
                     </div>
                 </div>
                 <br>
                 <br>
-
             </div>
             <!-- /.container-fluid -->
-
         </div>
         <!-- End of Main Content -->
-
-
 </div>
-
-
 <div id="wrapper" *ngIf="relatorioDistancias">
-
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-
         <!-- Main Content -->
         <div id="content">
-
             <!-- Begin Page Content -->
             <div class="container-fluid">
-
                 <!-- Page Heading -->
                 <h1 class="h3 mb-2 text-gray-800 mt-4"><strong>Relatorio Por Distâncias</strong></h1>
-
-
             </div>
-
                 <br>
-
                 <div class="container">
                     <div class="card">
                         <div class="table-responsive" >
@@ -185,19 +152,13 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            
-                            
                         </div>
                     </div>
                 </div>
                 <br>
                 <br>
-
             </div>
             <!-- /.container-fluid -->
-
         </div>
         <!-- End of Main Content -->
-
-
 </div>

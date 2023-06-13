@@ -2,93 +2,18 @@
 <div id="wrapper">
     <!-- <app-sidebar></app-sidebar> -->
     <div id="content-wrapper" class="d-flex flex-column">
-
         <!-- Main Content -->
         <div id="content">
-
             <!-- Begin Page Content -->
             <div class="container-fluid">
-
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-3">
                     <h1 class="h3 mb-0 text-gray-800 mt-4"> Encomendas</h1>
-
                 </div>
-
-                <!-- Content Row 
-                <div class="row"> 
-
-                    Earnings (Monthly) Card Example
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-primary shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                            Número de Transportes</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">8</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-truck fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> 
-
-                    Earnings (Monthly) Card Example
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-success shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Custo de
-                                            Distribuição</div>
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col-auto">
-                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">200000€</div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="bi bi-cash fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                   
-                   <div class="col-xl-6 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                            Minha localidade</div>
-                                        <div class=" mb-0 font-weight-bold text-gray-800">Europa, Portugal, Lisboa,
-                                            Lisboa,
-                                            Lumiar</div>
-                                        <div class="small">Continente, País, Distrito, Município, Freguesia</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-search-location fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                 </div> -->
-
-                
-                
- 
- 
-                 <div class="card shadow mb-4 mt-4">
-                     <div class="card-body">
-                         <div class="table-responsive">
-                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <div class="card shadow mb-4 mt-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
                                         <th>Número</th>
@@ -107,22 +32,24 @@
                                         <th></th>
                                     </tr>
                                 </tfoot>
- 
-                                 <tbody *ngIf="encomendas">
-                                     <tr *ngFor="let encomenda of encomendas">
-                                         <td>{{encomenda.idEncomenda}}</td>
-                                         <td>{{encomenda.dataEncomenda}}</td>
-                                         <td>{{encomenda.preco!.toFixed(2)}}€</td>
-                                         <td>
-                                             <div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
-                                                 {{encomenda.estadoEncomenda}}</div>
-                                         </td>
-                                         <th ><button class="btn btn-outline-dark" (click)="showEncomenda(encomenda,undefined)" >
-                                            <i class="fas fa-angle-right"></i></button></th>
-                                     </tr>
-                                 </tbody>
 
-                                 <tbody *ngIf="subencomendas">
+                                <tbody *ngIf="encomendas">
+
+                                    <tr *ngFor="let encomenda of encomendas">
+                                        <td>{{encomenda.idEncomenda}}</td>
+                                        <td>{{encomenda.dataEncomenda}}</td>
+                                        <td>{{encomenda.preco!.toFixed(2)}}€</td>
+                                        <td>
+                                            <div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
+                                                {{encomenda.estadoEncomenda}}</div>
+                                        </td>
+                                        <th><a class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 2%;" (click)="showEncomenda(encomenda,undefined)"> <mat-icon style="vertical-align: text-bottom; font-size: 15px; height: auto;">arrow_forward_ios</mat-icon> </a>
+                                        </th>
+                                    </tr>
+                                </tbody>
+
+                                <tbody *ngIf="subencomendas">
+
                                     <tr *ngFor="let subencomenda of subencomendas">
                                         <td>{{subencomenda.idSubEncomenda}}</td>
                                         <td>{{subencomenda.dataEncomenda}}</td>
@@ -131,37 +58,31 @@
                                             <div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
                                                 {{subencomenda.estadoEncomenda}}</div>
                                         </td>
-                                        <th ><button class="btn btn-outline-dark" (click)="showEncomenda(undefined,subencomenda)" >
-                                            <i class="fas fa-angle-right"></i></button></th>
+                                        <th>
+                                            <a class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 2%;" (click)="showEncomenda(undefined,subencomenda)"> <mat-icon style="vertical-align: text-bottom; font-size: 15px; height: auto;">arrow_forward_ios</mat-icon> </a>
+                                        </th>
                                     </tr>
                                 </tbody>
-                             </table>
-                         </div>
-                     </div>
-                 </div>
-                                
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <div style="margin: auto; display:table">
 
-                <a class="btn btn-outline-dark" [class.disabled]="previousButtonDisabled" (click)="previousPage()"> <i class="fas fa-angle-left"></i> </a> 
+                <a class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 0%;" [class.disabled]="previousButtonDisabled" (click)="previousPage()"> <mat-icon style="vertical-align: text-bottom; font-size: 20px; height: 5%;">arrow_back</mat-icon> </a>
                 &nbsp;
-                <a class="btn btn-outline-dark" [class.disabled]="nextButtonDisabled" (click)="nextPage()"> <i class="fas fa-angle-right"></i> </a> 
-
+                <a class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 0%;" [class.disabled]="nextButtonDisabled" (click)="nextPage()"> <mat-icon style="vertical-align: text-bottom; font-size: 20px; height: 5%;">arrow_forward</mat-icon> </a>
             </div>
-
             <br><br>
-
         </div>
         <!-- End of Main Content -->
-
     </div>
-
-    
     <!-- End of Content Wrapper -->
 </div>
 <!-- End of Page Wrapper -->
-
 <!-- Scroll to Top Button-->
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
@@ -172,39 +93,14 @@
     <div class="modal-container">
         <button class="modal-close-btn m-2" style="position: fixed; z-index: 3;" (click)="toggleModal()" style="text-align: right;">FECHAR</button>
         <br>
-        <app-detalhes-encomenda-consumidor [showDetalhes] = true  [subencomenda]=subencomendaDestaque [encomenda]= encomendaDestaque!></app-detalhes-encomenda-consumidor>
-        <!-- <form [formGroup]="transporteForm" (ngSubmit)="onSubmit()">
-            <div>
-              <label for="matricula">Matrícula: &nbsp;</label>
-              <input type="text" pattern="[a-zA-Z]{2}-[0-9]{2}-[a-zA-Z]{2}" id="matricula" formControlName="matricula" required>
-
-            </div>
-            <br>
-            <div>    
-                <p >Estado do Transporte: &nbsp;</p> 
-                <select formControlName="estadoTransporte" required >
-                    <option *ngFor="let estado of estados" [value]="estado.toUpperCase()" >{{ estado.toString()}}</option>
-                </select>                                            
-            </div>
-            <br>
-
-            <div>    
-                <p >Unidade de Produção: &nbsp;</p> 
-                <select formControlName="uniProd" required >
-                    <option *ngFor="let uniProd of uniProds" [value]="uniProd.idUnidade" >{{ uniProd.nomeUniProd}}</option>
-                </select>                                            
-            </div>
-            
-            <button class=" btn btn-outline-dark" [disabled]="!transporteForm.valid" type="submit">Submit</button>
-            <p *ngIf="!transporteForm.valid">Tem de preencher todos os campos</p>
-        </form>           -->
+        <app-detalhes-encomenda-consumidor [showDetalhes]=true [subencomenda]=subencomendaDestaque [encomenda]=encomendaDestaque!></app-detalhes-encomenda-consumidor>
     </div>
-  </div>
+</div>
 
-  <div class="modal-wrapper" [class.visible]="showAnswer">
+<div class="modal-wrapper" [class.visible]="showAnswer">
     <div class="modal-container">
         <button class="modal-close-btn" (click)="toggleAnswer()">Close</button>
         <br>
-      <h2 [style.color]="success ? 'green' : 'red'" class="modal-title">{{answer}}</h2>
+        <h2 [style.color]="success ? 'green' : 'red'" class="modal-title">{{answer}}</h2>
     </div>
-  </div>
+</div>

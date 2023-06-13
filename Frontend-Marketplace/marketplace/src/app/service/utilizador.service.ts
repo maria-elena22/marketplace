@@ -13,7 +13,6 @@ import { environment } from 'src/environments/environment';
 export class UtilizadorService {
 
   backendUrl = environment.backendUrl;
-
   constructor(private http: HttpClient) {}
 
   getLogin(email:string, password:string): Observable<HttpResponse<any>> {
@@ -143,7 +142,19 @@ export class UtilizadorService {
     const headers = new HttpHeaders();
     const url = `${this.backendUrl}/utilizador/register/consumidor`;
     console.log(url)
-    return this.http.post<any>(url, consumidor, { headers, observe: 'response' });
+    return this.http.post<any>(url, consumidor, { headers, observe: 'response' })
+    .pipe(
+      catchError((error) => {
+      console.log('An error occurred:', error);
+      let errorMessage = '';
+      if(error.error.exception && error.error.exception === "SignUpException"){
+        errorMessage = "Email já existe no sistema. Faça login"
+      }
+      if(error.error.exception && error.error.exception === "DataIntegrityViolationException"){
+        errorMessage = "Id Fiscal introduzido já existe no sistema"
+      }
+      return throwError(errorMessage);
+    }));
 
   }
 
@@ -151,7 +162,19 @@ export class UtilizadorService {
     const headers = new HttpHeaders();
     const url = `${this.backendUrl}/utilizador/register/fornecedor`;
     console.log(url)
-    return this.http.post<any>(url, fornecedor, { headers, observe: 'response' });
+    return this.http.post<any>(url, fornecedor, { headers, observe: 'response' })
+    .pipe(
+      catchError((error) => {
+      console.log('An error occurred:', error);
+      let errorMessage = '';
+      if(error.error.exception && error.error.exception === "SignUpException"){
+        errorMessage = "Email já existe no sistema. Faça login"
+      }
+      if(error.error.exception && error.error.exception === "DataIntegrityViolationException"){
+          errorMessage = "Id Fiscal introduzido já existe no sistema"
+      }
+      return throwError(errorMessage);
+    }));
 
   }
 

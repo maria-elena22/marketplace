@@ -68,6 +68,15 @@ export class AppComponent implements OnInit{
     this.router.navigate(['/marketplace/register']);
   }
 
+
+  goToPerfil(){
+    let queryParams = {};
+    
+    queryParams = { role: this.role, user:JSON.stringify(this.user!)};
+    console.log(queryParams)
+    this.router.navigate(['/marketplace/perfil-consumidor'], { queryParams });
+  }
+
   goToDefinicoes(){
 
     let queryParams = {};
