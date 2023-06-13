@@ -25,9 +25,18 @@
                                 <div class="card-body row" style="align-items: center;">
                                     <div class="col"> <strong>Morada para entrega:</strong> <br>{{getMoradaUser()}}</div>
                                     <div class="col"> <strong>Estado:</strong> <br>
-                                        <div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
-                                            {{encomenda.estadoEncomenda}}
-                                        </div>
+                                        <div *ngIf="encomenda.estadoEncomenda=='A_PROCESSAR'" class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
+                                            {{encomenda.estadoEncomenda}}</div>
+                                        <div *ngIf="encomenda.estadoEncomenda=='POR_PAGAR'" class="badge bg-warning text-white" style="top: 0.5rem; right: 0.5rem">
+                                            {{encomenda.estadoEncomenda}}</div>
+                                        <div *ngIf="encomenda.estadoEncomenda=='PROCESSADA'" class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
+                                            {{encomenda.estadoEncomenda}}</div>
+                                        <div *ngIf="encomenda.estadoEncomenda=='EM_DISTRIBUICAO'" class="badge bg-primary text-white" style="top: 0.5rem; right: 0.5rem">
+                                            {{encomenda.estadoEncomenda}}</div>
+                                        <div *ngIf="encomenda.estadoEncomenda=='ENTREGUE'" class="badge bg-success text-white" style="top: 0.5rem; right: 0.5rem">
+                                            {{encomenda.estadoEncomenda}}</div>
+                                        <div *ngIf="encomenda.estadoEncomenda=='CANCELADA'" class="badge bg-danger text-white" style="top: 0.5rem; right: 0.5rem">
+                                            {{encomenda.estadoEncomenda}}</div>
                                         <a *ngIf="porPagar()" style="margin-top: 4%;" (click)="pagarEncomenda()" class="btn btn-info">Pagar encomenda</a>
                                     </div>
                                     <div class="col" *ngIf="porPagar()"><a (click)="cancelarEncomenda()" class="btn btn-danger" style="font-size: 15px;">Cancelar encomenda</a></div>
@@ -107,9 +116,19 @@
                                 <div class="card-body row" style="align-items: center;">
                                     <div class="col"> <strong>Morada para entrega:</strong> <br>{{getMoradaUser()}}</div>
                                     <div class="col"> <strong>Estado:</strong> <br>
-                                        <div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
-                                            {{subencomenda.estadoEncomenda}}
-                                        </div>
+
+                                        <div *ngIf="subencomenda.estadoEncomenda=='A_PROCESSAR'" class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
+                                            {{subencomenda.estadoEncomenda}}</div>
+                                        <div *ngIf="subencomenda.estadoEncomenda=='POR_PAGAR'" class="badge bg-warning text-white" style="top: 0.5rem; right: 0.5rem">
+                                            {{subencomenda.estadoEncomenda}}</div>
+                                        <div *ngIf="subencomenda.estadoEncomenda=='PROCESSADA'" class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
+                                            {{subencomenda.estadoEncomenda}}</div>
+                                        <div *ngIf="subencomenda.estadoEncomenda=='EM_DISTRIBUICAO'" class="badge bg-primary text-white" style="top: 0.5rem; right: 0.5rem">
+                                            {{subencomenda.estadoEncomenda}}</div>
+                                        <div *ngIf="subencomenda.estadoEncomenda=='ENTREGUE'" class="badge bg-success text-white" style="top: 0.5rem; right: 0.5rem">
+                                            {{subencomenda.estadoEncomenda}}</div>
+                                        <div *ngIf="subencomenda.estadoEncomenda=='CANCELADA'" class="badge bg-danger text-white" style="top: 0.5rem; right: 0.5rem">
+                                            {{subencomenda.estadoEncomenda}}</div>
                                     </div>
                                     <div class="col"> <strong>Consumidor:</strong> <br>{{subencomenda.encomenda?.consumidor?.nome}}</div>
                                     <div class="col"> <strong>Email:</strong> <br>{{subencomenda.encomenda?.consumidor?.email}}</div>

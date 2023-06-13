@@ -40,7 +40,17 @@
                                         <td>{{encomenda.dataEncomenda}}</td>
                                         <td>{{encomenda.preco!.toFixed(2)}}€</td>
                                         <td>
-                                            <div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
+                                            <div *ngIf="encomenda.estadoEncomenda=='A_PROCESSAR'" class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
+                                                {{encomenda.estadoEncomenda}}</div>
+                                            <div *ngIf="encomenda.estadoEncomenda=='POR_PAGAR'" class="badge bg-warning text-white" style="top: 0.5rem; right: 0.5rem">
+                                                {{encomenda.estadoEncomenda}}</div>
+                                            <div *ngIf="encomenda.estadoEncomenda=='PROCESSADA'" class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
+                                                {{encomenda.estadoEncomenda}}</div>
+                                            <div *ngIf="encomenda.estadoEncomenda=='EM_DISTRIBUICAO'" class="badge bg-primary text-white" style="top: 0.5rem; right: 0.5rem">
+                                                {{encomenda.estadoEncomenda}}</div>
+                                            <div *ngIf="encomenda.estadoEncomenda=='ENTREGUE'" class="badge bg-success text-white" style="top: 0.5rem; right: 0.5rem">
+                                                {{encomenda.estadoEncomenda}}</div>
+                                            <div *ngIf="encomenda.estadoEncomenda=='CANCELADA'" class="badge bg-danger text-white" style="top: 0.5rem; right: 0.5rem">
                                                 {{encomenda.estadoEncomenda}}</div>
                                         </td>
                                         <th><a class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 2%;" (click)="showEncomenda(encomenda,undefined)"> <mat-icon style="vertical-align: text-bottom; font-size: 15px; height: auto;">arrow_forward_ios</mat-icon> </a>
@@ -55,8 +65,20 @@
                                         <td>{{subencomenda.dataEncomenda}}</td>
                                         <td>{{subencomenda.preco!.toFixed(2)}}€</td>
                                         <td>
-                                            <div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
-                                                {{subencomenda.estadoEncomenda}}</div>
+    
+
+                                                <div *ngIf="subencomenda.estadoEncomenda=='A_PROCESSAR'" class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
+                                                    {{subencomenda.estadoEncomenda}}</div>
+                                                <div *ngIf="subencomenda.estadoEncomenda=='POR_PAGAR'" class="badge bg-warning text-white" style="top: 0.5rem; right: 0.5rem">
+                                                    {{subencomenda.estadoEncomenda}}</div>
+                                                <div *ngIf="subencomenda.estadoEncomenda=='PROCESSADA'" class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
+                                                    {{subencomenda.estadoEncomenda}}</div>
+                                                <div *ngIf="subencomenda.estadoEncomenda=='EM_DISTRIBUICAO'" class="badge bg-primary text-white" style="top: 0.5rem; right: 0.5rem">
+                                                    {{subencomenda.estadoEncomenda}}</div>
+                                                <div *ngIf="subencomenda.estadoEncomenda=='ENTREGUE'" class="badge bg-success text-white" style="top: 0.5rem; right: 0.5rem">
+                                                    {{subencomenda.estadoEncomenda}}</div>
+                                                <div *ngIf="subencomenda.estadoEncomenda=='CANCELADA'" class="badge bg-danger text-white" style="top: 0.5rem; right: 0.5rem">
+                                                    {{subencomenda.estadoEncomenda}}</div>
                                         </td>
                                         <th>
                                             <a class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 2%;" (click)="showEncomenda(undefined,subencomenda)"> <mat-icon style="vertical-align: text-bottom; font-size: 15px; height: auto;">arrow_forward_ios</mat-icon> </a>

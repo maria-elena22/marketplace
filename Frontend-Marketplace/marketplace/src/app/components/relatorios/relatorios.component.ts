@@ -1,10 +1,11 @@
-import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FullCategoriaDTO, RelatorioPorDistanciasDTO, RelatorioPorZonasDTO, ViagemInputDTO } from 'src/app/model/models';
 import { RelatorioService } from 'src/app/service/relatorio.service';
 import { CategoriasComponent } from '../categorias/categorias.component';
 import { CategoriaService } from 'src/app/service/categoria.service';
+import { GraficoComponent } from '../grafico/grafico.component';
 
 @Component({
   selector: 'app-relatorios',
@@ -24,36 +25,129 @@ export class RelatoriosComponent implements OnInit{
   showFreguesias=false
   filtrosForm:FormGroup;
   categorias? :FullCategoriaDTO[];
+  categoriasIds:number[] = [];
+
+
+  dados: Array<number>;
+  labels: Array<string>;
+  tiposZonas = ["Continentes", "Países", "Distritos", "Municípios", "Freguesias"]
+  zonaVisivel = 0;
 
 
 
   constructor(private route: ActivatedRoute, private router: Router, private relatorioService: RelatorioService, private categoriaService:CategoriaService){}
 
+  @ViewChild(GraficoComponent, { static: false }) grafico: GraficoComponent;
+
   ngOnInit(): void {
     this.getCategorias();
+    
     this.route.queryParams.subscribe((queryParams) => {
       
       this.tipo = queryParams["tipo"]
       if(this.tipo === 'zonas'){
-        this.getRelatorioZonas();
+        this.getRelatorioZonas([]);
         
         
 
       } else{
-        this.getRelatorioDistancias();
+        this.getRelatorioDistancias([]);
 
       }
 
 
     });
     this.filtrosForm = new FormGroup({
-      startDate: new FormControl('', Validators.required),
-      endDate: new FormControl('', Validators.required),
+      startDate: new FormControl(null, Validators.required),
+      endDate: new FormControl(null, Validators.required),
       categoriasIds: new FormControl([], Validators.required)
 
     });
   }
 
+  detalhesGraficoZonas(){
+    switch (this.zonaVisivel) {
+      case 0:
+        this.labels = this.getArrayZonas(this.relatorioZonas!.mapEncomendasContinente!);
+        this.dados = Object.values(this.relatorioZonas!.mapEncomendasContinente!);
+
+        break;
+    
+      case 1:
+        this.labels = this.getArrayZonas(this.relatorioZonas!.mapEncomendasPais!);
+        this.dados = Object.values(this.relatorioZonas!.mapEncomendasPais!);
+
+        break;
+    
+      case 2:
+        this.labels = this.getArrayZonas(this.relatorioZonas!.mapEncomendasDistrito!);
+        this.dados = Object.values(this.relatorioZonas!.mapEncomendasDistrito!);
+
+        break;
+      
+      case 3:
+        this.labels = this.getArrayZonas(this.relatorioZonas!.mapEncomendasMunicipio!);
+        this.dados = Object.values(this.relatorioZonas!.mapEncomendasMunicipio!);
+
+        break;
+      
+      case 4:
+        this.labels = this.getArrayZonas(this.relatorioZonas!.mapEncomendasFreguesias!);
+        this.dados = Object.values(this.relatorioZonas!.mapEncomendasFreguesias!);
+
+        break;
+        
+      default:
+        this.labels = this.getArrayZonas(this.relatorioZonas!.mapEncomendasContinente!);
+        this.dados = Object.values(this.relatorioZonas!.mapEncomendasContinente!);
+
+        break;
+    }
+    this.grafico.dadosHist=this.dados
+    this.grafico.labelsHist=this.labels
+    this.grafico.criarHistograma()
+
+    
+  }
+
+  detalhesGraficoDistancias(){
+    const gamas = this.getArrayZonas(this.relatorioDistancias!.gamaDistanciasQuantidadeEncomendasMap!);
+    
+    this.labels = []
+    for(const gama of gamas){
+      switch (gama){
+        case "<10":
+          this.labels.push("10km")
+          break;
+        case "10-100":
+          this.labels.push("100km")
+          break;
+        case "100-1000":
+          this.labels.push("1000km")
+          break;
+        case ">1000":
+          this.labels.push("+1000km")
+          break;
+      }
+    }
+
+    this.dados = Object.values(this.relatorioDistancias!.gamaDistanciasQuantidadeEncomendasMap!);
+
+    this.grafico.dadosHist=this.dados
+    this.grafico.labelsHist=this.labels
+    this.grafico.criarHistograma()
+
+  }
+
+  previousZona(){
+    this.zonaVisivel = (this.zonaVisivel - 1 + this.tiposZonas.length) % this.tiposZonas.length;
+    this.detalhesGraficoZonas()
+  }
+
+  nextZona(){
+    this.zonaVisivel = (this.zonaVisivel + 1) % this.tiposZonas.length;
+    this.detalhesGraficoZonas()
+  }
 
   getCategorias(){
     this.categoriaService.getCategorias().subscribe(obj=>{
@@ -68,10 +162,32 @@ export class RelatoriosComponent implements OnInit{
     })
   }
 
+  onCategoriaAdd(target1:any, idCategoria: number): void {
+    let target = target1 as HTMLInputElement
+  
+    if (target.checked) {
+      this.categoriasIds.push(idCategoria);
+    } else {
+      const index = this.categoriasIds.indexOf(idCategoria);
+      if (index !== -1) {
+        this.categoriasIds.splice(index, 1);
+      }
+    }
+    this.filtrosForm.get('categoriasIds')!.patchValue(this.categoriasIds);
+    console.log(this.filtrosForm.value)
+
+  }
 
   onSubmit(){
     console.log(this.filtrosForm.value)
-    return;
+
+    if(this.tipo === 'zonas'){
+      this.getRelatorioZonas(this.filtrosForm.value.categoriasIds, this.filtrosForm.value.startDate, this.filtrosForm.value.endDate);
+      
+    } else{
+      this.getRelatorioDistancias(this.filtrosForm.value.categoriasIds, this.filtrosForm.value.startDate, this.filtrosForm.value.endDate);
+      
+    }
   //   const viagemData: ViagemInputDTO = {
   //     transporte: {idTransporte:this.filtrosForm.value.transporte},
   //     subItems: this.filtrosForm.value.subItems
@@ -110,9 +226,9 @@ export class RelatoriosComponent implements OnInit{
   }
 
 
-  getRelatorioZonas(){
+  getRelatorioZonas(categoriasIds: Array<number>, dataMin?:string, dataMax?:string){
 
-    this.relatorioService.getRelatorioZonas().subscribe(obj=>{
+    this.relatorioService.getRelatorioZonas(categoriasIds, dataMin, dataMax).subscribe(obj=>{
       const statusCode = obj.status
       if (statusCode === 200) {
         this.relatorioZonas = obj.body as RelatorioPorZonasDTO;
@@ -122,6 +238,7 @@ export class RelatoriosComponent implements OnInit{
         // const url = '/marketplace/relatorios';
 
         // window.history.pushState(state, url);
+        this.detalhesGraficoZonas();
         
     } else {
         this.error = obj.body as Error;
@@ -131,15 +248,16 @@ export class RelatoriosComponent implements OnInit{
 
   }
 
-  getRelatorioDistancias(){
+  getRelatorioDistancias(categoriasIds: Array<number>, dataMin?:string, dataMax?:string){
 
-    this.relatorioService.getRelatorioDistancias().subscribe(obj=>{
+    this.relatorioService.getRelatorioDistancias(categoriasIds, dataMin, dataMax).subscribe(obj=>{
       const statusCode = obj.status
       if (statusCode === 200) {
         this.relatorioDistancias = obj.body as RelatorioPorDistanciasDTO;
         this.relatorioZonas = undefined
         console.log(this.relatorioDistancias)
 
+        this.detalhesGraficoDistancias();
         
 
     } else {

@@ -30,7 +30,11 @@
                                         
                                         <div class="h5 mb-0 font-weight-bold text-gray-800">
                                             {{transporte.matricula}}  <br>
-                                            <div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
+                                            <div *ngIf="transporte.estadoTransporte=='DISPONIVEL'" class="badge bg-success text-white" style="top: 0.5rem; right: 0.5rem">
+                                                {{transporte.estadoTransporte}}</div>
+                                            <div *ngIf="transporte.estadoTransporte=='EM_ENTREGA'" class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
+                                                {{transporte.estadoTransporte}}</div>
+                                            <div *ngIf="transporte.estadoTransporte=='INDISPONIVEL'" class="badge bg-danger text-white" style="top: 0.5rem; right: 0.5rem">
                                                 {{transporte.estadoTransporte}}</div>
                                         </div>
                                     </div>
@@ -135,8 +139,13 @@
                                         <td *ngIf="viagem.dataFim!==null">{{getData(viagem.dataFim!)}}</td>
                                         <td *ngIf="viagem.dataFim===null">Ainda não foi terminada</td>
                                         <td>
-                                            <div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
-                                                {{viagem.estadoViagem}}</div>
+
+                                                <div *ngIf="viagem.estadoViagem=='PROGRAMADA'" class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
+                                                    {{viagem.estadoViagem}}</div>
+                                                <div *ngIf="viagem.estadoViagem=='INICIADA'" class="badge bg-primary text-white" style="top: 0.5rem; right: 0.5rem">
+                                                    {{viagem.estadoViagem}}</div>
+                                                <div *ngIf="viagem.estadoViagem=='FINALIZADA'" class="badge bg-success text-white" style="top: 0.5rem; right: 0.5rem">
+                                                    {{viagem.estadoViagem}}</div>
                                         </td>
                                         <th><a (click)="showDetalhesViagem(viagem)"><i
                                                     class="fa fa-search"></i></a></th>

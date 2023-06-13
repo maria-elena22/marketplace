@@ -1,0 +1,14 @@
+@import '~@fortawesome/fontawesome-free/css/all.css';
+
+canvas{
+        display: block;
+        box-sizing: border-box;
+        height: 600px;
+        width: 1000px;
+        margin: auto auto;
+        margin-right: 2%;
+}
+
+#title{
+        text-align: center;
+}

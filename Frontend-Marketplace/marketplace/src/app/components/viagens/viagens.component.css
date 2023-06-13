@@ -28,6 +28,8 @@
     flex-direction: column;
     align-items: flex-end;
     position: relative;
+    overflow-y: auto; /* Add this line to enable vertical scrolling */
+    max-height: 500px; /* Optional: Set a max-height to limit the scrollable area */
   }
   
   .modal-title {
