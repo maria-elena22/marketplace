@@ -108,7 +108,7 @@ const appRoutes: Routes = [
     RelatoriosComponent,
     ViagensComponent,
     NotificacoesComponent,
-    RelatoriosComponent  ],
+    ProdutoDetalhesComponent ],
   bootstrap: [ AppComponent ],
   exports: [ProdutosComponent],
   providers: [ProdutosComponent

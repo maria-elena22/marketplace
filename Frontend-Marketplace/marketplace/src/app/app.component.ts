@@ -71,6 +71,12 @@ export class AppComponent implements OnInit{
     this.router.navigate(['/cesto']);
   }
 
+  goToPerfil(){
+    console.log(this.user)
+    let queryParams = { utilizador: this.user?.idUtilizador };
+    this.router.navigate(['/perfil-consumidor'], { queryParams });
+  }
+
   showNotifs=false
 
   toggleNotifs() {
