@@ -94,7 +94,7 @@
                                             <div *ngIf="!fornecedor.active" class="badge bg-dark text-white" style="top: 0.5rem; right: 0.5rem">
                                                     {{showEstado(fornecedor.active!)}}</div>
                                         </td>
-                                        <th><a (click)="openUser(fornecedor)"><i class="fas fa-arrow-right"></i></a></th>
+                                        <th><a style="cursor: pointer;" (click)="openUser(fornecedor)"><i class="fas fa-arrow-right"></i></a></th>
 
                                     </tr>
                                 </tbody>
@@ -112,7 +112,7 @@
                                                 <div *ngIf="!consumidor.active" class="badge bg-dark text-white" style="top: 0.5rem; right: 0.5rem">
                                                         {{showEstado(consumidor.active!)}}</div>
                                         </td>
-                                        <th><a (click)="openUser(consumidor)"><i class="fas fa-arrow-right"></i></a></th>
+                                        <th><a style="cursor: pointer;" (click)="openUser(consumidor)"><i class="fas fa-arrow-right"></i></a></th>
                                     </tr>
                                 </tbody>
                             </table>

@@ -317,10 +317,7 @@ export class ProdutosComponent implements OnInit {
         }
 
       }
-    })
-
-
-    
+    }) 
   }
 
   onSubmitRemover(){

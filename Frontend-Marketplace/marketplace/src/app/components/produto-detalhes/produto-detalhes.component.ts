@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute} from '@angular/router';
-import { FullProdutoDTO, SimpleItemDTO } from 'src/app/model/models';
+import { AppComponent } from 'src/app/app.component';
+import { FullProdutoDTO, ProdutoFornecedorDTO, SimpleItemDTO, UniProdDTO } from 'src/app/model/models';
+import { UtilizadorCoordsDTO } from 'src/app/model/utilizador/utilizadorCoordsDTO';
 import { CestoService } from 'src/app/service/cesto.service';
 import { ProdutosService } from 'src/app/service/produtos.service';
 
@@ -20,11 +22,20 @@ export class ProdutoDetalhesComponent implements OnInit{
   answer = ""
   showAnswer = false;
   showModal = false;
+  role?:string;
+  
+  
+  produtoAfornecer?:FullProdutoDTO
+  produtoAremover?:FullProdutoDTO
+  showAddProduto: boolean = false;
+  showRemoverProduto: boolean = false;
+  uniProdsA:UniProdDTO[]=[]
 
-  constructor(private route: ActivatedRoute, private produtosService: ProdutosService, private cestoService: CestoService){}
+  constructor(private route: ActivatedRoute, private produtosService: ProdutosService, private cestoService: CestoService, private appComponent: AppComponent){}
   
   ngOnInit(): void {
     this.getProduto();
+    this.role = this.appComponent.role
     this.addCarrinhoForm = new FormGroup({
       quantidade: new FormControl(0, [Validators.required,Validators.pattern(/^[1-9][0-9]*$/)]),
       fornecedor:new FormControl("", Validators.required)
@@ -51,6 +62,34 @@ export class ProdutoDetalhesComponent implements OnInit{
     }
     });
   } 
+
+  getDistancia(f:UtilizadorCoordsDTO){
+    const coordenadas = f.coordenadas;
+    const lat1 = this.appComponent.user?.coordenadas?.latitude!
+    const lon1 = this.appComponent.user?.coordenadas?.longitude!
+    const lat2 = coordenadas?.latitude!
+    const lon2 = coordenadas?.longitude!
+    const earthRadius = 6371; // Radius of the Earth in kilometers
+
+    // Convert latitude and longitude to radians
+    const lat1Rad = (lat1 * Math.PI) / 180;
+    const lon1Rad = (lon1 * Math.PI) / 180;
+    const lat2Rad = (lat2 * Math.PI) / 180;
+    const lon2Rad = (lon2 * Math.PI) / 180;
+
+    // Calculate the differences between coordinates
+    const dLat = lat2Rad - lat1Rad;
+    const dLon = lon2Rad - lon1Rad;
+
+    // Apply the Haversine formula
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1Rad) * Math.cos(lat2Rad) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = earthRadius * c;
+
+    return distance;
+  }
   
   onSubmitProduto(){
     const itemData: SimpleItemDTO = {
@@ -85,4 +124,50 @@ export class ProdutoDetalhesComponent implements OnInit{
       this.showAnswer = false
     }
   }
+
+  forneco(produto:FullProdutoDTO):boolean{
+    const myId = this.appComponent.user?.idUtilizador;
+    for (let pf of produto.precoFornecedores!){
+      if(pf.fornecedor?.idUtilizador === myId){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  toggleAddProduto(produto?:FullProdutoDTO){
+    this.produtoAfornecer=produto;
+    this.showAddProduto = !this.showAddProduto
+    if(this.showAddProduto === false){
+      this.uniProdsA = []
+    }
+  }
+
+  toggleRemoverProduto(produto?:FullProdutoDTO){
+    
+    this.produtosService.getMeusProdutos(-1,-1).subscribe(obj=>{
+      const statusCode = obj.status
+  
+      if (statusCode === 200) {
+        let prods = obj.body as ProdutoFornecedorDTO[];
+
+        for(let p of prods){
+          if(p.idProduto === produto?.idProduto){
+            this.produtoAremover=produto;
+            this.produtoAremover!.uniProds = p.uniProds;
+            console.log(this.produtoAremover?.uniProds)
+            const state = { page: 'produtos' };
+            const url = '/marketplace/produtos';
+
+            window.history.pushState(state, url);
+            console.log(this.produtoAremover?.uniProds)
+            
+            this.showRemoverProduto = !this.showRemoverProduto
+          }
+        }
+
+      }
+    }) 
+  }
+
 }
