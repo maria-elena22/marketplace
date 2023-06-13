@@ -1,0 +1,113 @@
+<div id="wrapper" *ngIf="showDetalhes && user">
+
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <div class="container-fluid">
+
+                <h1 class="h3 mb-3 text-gray-800 mt-4"><strong>Utilizador {{user.nome}}</strong></h1>
+
+                <div class="container">
+                    <article class="card  mt-4">
+                        <div class="card-body row" style= "align-items: center;">
+                            <div class="col"> <strong>ID:</strong> <br>{{user.idUtilizador}}</div>
+                            <div class="col" > <strong>Estado:</strong> <br> 
+                                <div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
+                                    {{showEstado(user.active!)}}
+                                </div>          
+                            </div>
+                            <div class="col" > 
+                                <a *ngIf="!user.active" (click)="openConfirmar('ativar')"  style="margin-top: 4%;" class="btn btn-outline-dark" >Ativar User</a>
+                                <a *ngIf="user.active" (click)="openConfirmar('desativar')"  style="margin-top: 4%;" class="btn btn-outline-dark" >Desativar User</a>
+    
+                            </div>
+                            
+                        </div>
+                        
+                     
+                    </article>
+                </div>
+
+            </div>
+
+                <br>
+
+                <div class="container">
+                    <div class="card">
+                        <div class="table-responsive">
+                            <br>
+                            <!-- <h5 style="text-align: left;">&nbsp;&nbsp;{{user.nome}}</h5> -->
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" >
+                                <tbody>
+                                    <tr>
+                                        <th>Email</th>
+                                        <td>{{user.email}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Número Fiscal</th>
+                                        <td>{{user.idFiscal}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Telemóvel</th>
+                                        <td>{{user.telemovel}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Morada</th>
+                                        <td>{{user.morada}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>País</th>
+                                        <td>{{user.pais}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Municipio</th>
+                                        <td>{{user.municipio}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr>                            
+
+
+                            
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </div>
+
+        </div>
+
+</div>
+
+
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<div class="modal-wrapper" [class.visible]="showAnswer">
+    <div class="modal-container">
+        <button class="modal-close-btn" (click)="closeAnswer()">Close</button>
+        <br>
+      <h2 [style.color]="success ? 'green' : 'red'" class="modal-title">{{answer}}</h2>
+    </div>
+  </div>
+
+  <div class="modal-wrapper" *ngIf="confimaDesativar || confimaAtivar" [class.visible]="confimaDesativar || confimaAtivar">
+    <div class="modal-container" *ngIf="confimaDesativar">
+              
+        <b style="font-size: 150%;">Tem a certeza que quer desativar a conta de {{user?.nome}}?</b> <p></p>
+        <button class=" btn btn-outline-dark" (click)="removerConta()" style="width:30%; margin:auto; display:inline-block">Sim</button>
+        <p></p>
+        <button class=" btn btn-outline-dark" (click)="closeConfirmar()" style="width:30%; margin:auto; display:inline-block">Cancelar</button>
+        <br>  
+      
+    </div>
+    <div class="modal-container" *ngIf="confimaAtivar">
+              
+        <b style="font-size: 150%;">Tem a certeza que quer ativar a conta de {{user?.nome}}?</b> <p></p>
+        <button class=" btn btn-outline-dark" (click)="ativarConta()" style="width:30%; margin:auto; display:inline-block">Sim</button>
+        <p></p>
+        <button class=" btn btn-outline-dark" (click)="closeConfirmar()" style="width:30%; margin:auto; display:inline-block">Cancelar</button>
+        <br>  
+      
+    </div>
+  </div>

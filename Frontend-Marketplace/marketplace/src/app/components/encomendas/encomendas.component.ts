@@ -105,7 +105,7 @@ export class EncomendasComponent implements OnInit {
       
     // } else{
       const state = { page: 'encomendas' };
-      const url = '/encomendas';
+      const url = '/marketplace/encomendas';
       this.previousButtonDisabled = false
       window.history.pushState(state, url);
       
@@ -127,7 +127,7 @@ export class EncomendasComponent implements OnInit {
         this.getSubEncomendas();
       }
       const state = { page: 'encomendas' };
-      const url = '/encomendas';
+      const url = '/marketplace/encomendas';
       this.nextButtonDisabled = false
       window.history.pushState(state, url);
 

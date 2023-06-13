@@ -7,7 +7,7 @@
         <div id="content-wrapper" class="d-flex flex-column">
 
             <!-- Main Content -->
-            <div id="content">
+            <div id="content" >
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -16,7 +16,7 @@
                     <h1 class="h3 mb-2 text-gray-800 mt-4">Perfil</h1>
                     <p>Pode alterar qualquer um dos campos abaixo.</p>
 
-                    <div class="row">
+                    <div class="row" *ngIf="showForm">
                         <div class = "col-lg-4">
                             <div class="card" style="height: 37em;">
                                 
@@ -25,50 +25,51 @@
                                 <div class="card-body py-1">
                                     <div class=" text-center">
                                         
-                                        <h5 class="fw-bolder">Catarina Silva</h5>
-                                        <p>Consumidora</p>
+                                        <h5 class="fw-bolder">{{utilizador.nome}}</h5>
+                                        <p *ngIf="role === 'ROLE_CONSUMIDOR'">Consumidor</p>
+                                        <p *ngIf="role === 'ROLE_FORNECEDOR'">Fornecedor</p>
                                     </div>
                                 <br>
-                                <div class="col" ><a class="btn btn-danger" style="font-size: 15px; margin-left: 30%;">Eliminar Conta</a></div>
+                                <div class="col" ><a (click)="openConfirmar()"  class="btn btn-danger" style="font-size: 15px; margin-left: 30%;">Eliminar Conta</a></div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-8" style="background-color: #fff; border:1px solid #e3e6f0;">
                             <div class="p-5">
-                                <form id="formEdit" class="user">
+                                <form id="formEdit" class="user" [formGroup]="updateForm" (ngSubmit)="onSubmit()">
                                     <div class="form-group row">
-                                    <div class="col-sm-4 mb-3 mb-sm-0">
-                                        <label  for="name">Nome:</label>
-                                        <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="Nome">
-                                    </div>
+                                        <div class="col-sm-4 mb-3 mb-sm-0">
+                                            <label  for="name">Nome:</label>
+                                            <input type="text" formControlName="nome" class="form-control form-control-user" id="exampleFirstName" placeholder="Nome">
+                                        </div>
                                         <div class="col-sm-4">
                                             <label for="idFiscal">Id Fiscal:</label>
-                                            <input type="text" class="form-control form-control-user" id="exampleContribuinte" placeholder="Nº de Contribuinte">
+                                            <input type="text" formControlName="idFiscal" class="form-control form-control-user" id="exampleContribuinte" placeholder="Nº de Contribuinte">
                                         </div>
                                         
                                         <div class="col-sm-4">
                                             <label for="tlmv">Contacto:</label>
-                                            <input type="text" class="form-control form-control-user" id="exampleTelemovel" placeholder="Contacto">
+                                            <input type="text" formControlName="telemovel" class="form-control form-control-user" id="exampleTelemovel" placeholder="Contacto">
                                         </div>
                                     </div>
                                     <div class="form-group row" style="margin-top: 3%">
                                         <div class="col-sm-4">
                                             <label for="freguesia">Freguesia:</label>
-                                            <input type="text" class="form-control form-control-user" id="exampleFreguesia" placeholder="Freguesia">
+                                            <input formControlName="freguesia" type="text" class="form-control form-control-user" id="exampleFreguesia" placeholder="Freguesia">
                                         </div>
                                         <div class="col-sm-4">
                                             <label for="municipio">Município:</label>
-                                            <input type="text" class="form-control form-control-user" id="exampleMunicipio" placeholder="Município">
+                                            <input type="text" formControlName="municipio"  class="form-control form-control-user" id="exampleMunicipio" placeholder="Município">
                                         </div>
                                         <div class="col-sm-4">
                                             <label for="distrito">Distrito:</label>
-                                            <input type="text" class="form-control form-control-user" id="exampleDistrito" placeholder="Distrito">
+                                            <input type="text" formControlName="distrito" class="form-control form-control-user" id="exampleDistrito" placeholder="Distrito">
                                         </div>
                                     </div>
                                     <div class="form-group row" style="margin-top: 3%">
                                         <div class="col-sm-8 mb-3 mb-sm-0">
                                             <label for="morada">Morada:</label>
-                                            <input type="text" class="form-control form-control-user" id="exampleMorada" placeholder="Morada">
+                                            <input type="text" formControlName="morada" class="form-control form-control-user" id="exampleMorada" placeholder="Morada">
                                         </div>
                                         <div class="col-sm-4">    
                                             País: &nbsp;
@@ -83,7 +84,8 @@
                                             <input type="text" class="form-control form-control-user" id="exampleCodigoPostal" placeholder="Código Postal">
                                         </div> -->
                                     </div>
-                                    <div class="form-group row" style="margin-top: 3%">
+
+                                    <!-- <div class="form-group row" style="margin-top: 3%">
                                         <div class="col-sm-6 mb-3 mb-sm-0">
                                             <label for="email">Email:</label>
                                             <input type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="E-mail">
@@ -92,11 +94,13 @@
                                             <label for="pass">Palavra-passe:</label>
                                             <input type="password" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Palavra-passe">
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <br>
                                     <div style="display: flex; justify-content: center; align-items: center;">
-                                        <a href="#" id ="finishBtn" class="btn btn-success col-sm-2">Salvar as alterações</a> &nbsp;&nbsp;
-                                        <a href="/admin-consumidor" class="btn btn-secondary col-sm-2">Cancelar</a>
+                                        <button id ="submitBtn" [class.disabled]="noChanges" class="btn btn-primary btn-user btn-block" type="submit">Guardar Mudanças</button>
+
+                                        <!-- <a href="#" id ="finishBtn" class="btn btn-success col-sm-2">Salvar as alterações</a> &nbsp;&nbsp; -->
+                                        <!-- <a href='/marketplace/admin-consumidor' class="btn btn-secondary col-sm-2">Cancelar</a> -->
                                     </div>
                                 </form>
                             </div>
@@ -121,6 +125,27 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
+
+
+    <div class="modal-wrapper" [class.visible]="showAnswer">
+        <div class="modal-container">
+            <button class="modal-close-btn" (click)="closeAnswer()">Close</button>
+            <br>
+          <h2 [style.color]="success ? 'green' : 'red'" class="modal-title">{{answer}}</h2>
+        </div>
+      </div>
+    
+      <div class="modal-wrapper" *ngIf="confimaRemover" [class.visible]="confimaRemover">
+        <div class="modal-container">
+                  
+            <b style="font-size: 150%;">Tem a certeza que quer eliminar a sua conta {{utilizador?.nome}}?</b> <p></p>
+            <button class=" btn btn-outline-danger" (click)="removerConta()" style="width:30%; margin:auto; display:inline-block">Sim</button>
+            <p></p>
+            <button class=" btn btn-outline-dark" (click)="closeConfirmar()" style="width:30%; margin:auto; display:inline-block">Cancelar</button>
+            <br>  
+          
+        </div>
+      </div>
 
     <script>
         let form = document.getElementById('formEdit');

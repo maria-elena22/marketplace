@@ -71,7 +71,7 @@ export class UniProdsComponent implements OnInit {
         
         
         // const state = { page: 'uniProds' };
-        // const url = '/uniProds';
+        // const url = '/marketplace/uniProds';
 
         // window.history.pushState(state, url);
         this.toggleAlteraStock()

@@ -36,10 +36,10 @@ export class SubCategoriasComponent {
       queryParams = { categoria: -1, subCategoria:-1 };
 
     }
-    this.router.navigate(['/produtos'], { queryParams });
+    this.router.navigate(['/marketplace/produtos'], { queryParams });
 
 
-    //this.router.navigate(['/produtos'], { queryParams });
+    //this.router.navigate(['/marketplace/produtos'], { queryParams });
 
   }
 

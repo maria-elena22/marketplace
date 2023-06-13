@@ -54,7 +54,7 @@ export class PagamentoComponent implements OnInit{
   }
   
   goToProdutos(){
-    this.router.navigate(['/produtos'])
+    this.router.navigate(['/marketplace/produtos'])
   }
   
 
@@ -66,7 +66,6 @@ export class PagamentoComponent implements OnInit{
       validade: this.pagamentoForm.value.validade,
       cvc: this.pagamentoForm.value.cvc
     }
-
     let validade = this.pagamentoForm.value.validade
     var nowDate = new Date(); 
 
@@ -95,7 +94,7 @@ export class PagamentoComponent implements OnInit{
           this.success=true;
           this.answer="Pagamento realizado com sucesso!"
           this.toggleAnswer()
-          this.router.navigate(['/encomendas']);
+          this.router.navigate(['/marketplace/encomendas']);
         } 
       }, (error) => {
         // Handle error here
@@ -129,7 +128,10 @@ export class PagamentoComponent implements OnInit{
   } 
 
   toggleAnswer(){
-    this.showAnswer = !this.showAnswer; 
+    if(this.showAnswer){
+      this.router.navigate(['/marketplace/encomendas']);
+      this.showAnswer = !this.showAnswer;
+    }
   }
 
   getEncomenda(idEncomenda:number){

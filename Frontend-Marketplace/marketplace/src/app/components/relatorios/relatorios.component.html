@@ -7,6 +7,31 @@
             <div class="container-fluid">
                 <!-- Page Heading -->
                 <h1 class="h3 mb-2 text-gray-800 mt-4"><strong>Relatorio Por Zonas</strong></h1>
+
+                <form [formGroup]="filtrosForm" (ngSubmit)="onSubmit()">
+
+                    <label><h4>Ver por: </h4></label>
+
+                    <br>
+
+                    <label for="startDate">Data de Início:</label>
+                    <input type="date" id="startDate" formControlName="startDate" name="startDate">
+                    &nbsp;&nbsp;
+                    <label for="endDate">Data de Fim:</label>
+                    <input type="date" id="endDate" formControlName="endDate" name="endDate">
+                    <br>
+                    <label for="categoriasIds"><b>Categorias:</b></label>
+                    <div formArrayName="categoriasIds">
+                    
+                    <label style="border: solid 1px; padding: 1%; margin:1%;" *ngFor="let categoria of categorias">
+                        <input type="checkbox" [value]="categoria.idCategoria" > {{ categoria.nomeCategoria }} 
+                    </label>
+                    </div>
+                
+                    <br>
+                    <button class=" btn btn-outline-dark" type="submit">Submeter</button>
+                </form>
+
             </div>
                 <br>
                 <div class="container">

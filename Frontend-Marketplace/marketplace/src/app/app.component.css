@@ -12,8 +12,9 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 
+ /* Modal styles */
+ @import '~@fortawesome/fontawesome-free/css/all.css';
 
-/* Modal styles */
 
 .notifCount {
     position: absolute;

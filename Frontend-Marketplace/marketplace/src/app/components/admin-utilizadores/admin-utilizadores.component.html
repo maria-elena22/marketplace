@@ -1,0 +1,155 @@
+<div id="wrapper" >
+    
+    <!-- <app-sidebar></app-sidebar> -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        
+
+        <!-- Main Content -->
+        <div id="content">
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-3">
+                    <h1 class="h3 mb-0 text-gray-800 mt-4"> Utilizadores</h1>
+
+                </div>
+
+                <!-- Content Row -->
+                <div class="row" style="display: flex; justify-content: center;">
+
+                    <div class="col-xl-3 col-md-6 mb-4 " style="cursor: pointer" >
+                        <div (click)="showRole('fornecedor')" [class.selected-card]="roleVisivel === 'fornecedor'" class="card border-left-success hover-shadow h-100 py-2">
+                            <div class="card-body ">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col-auto">
+                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Fornecedores</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-auto">
+                                        <i class="fa fa-plus fa-2x text-gray-300"></i>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4 " style="cursor: pointer" >
+                        <div (click)="showRole('consumidor')" [class.selected-card]="roleVisivel === 'consumidor'" class="card border-left-success hover-shadow h-100 py-2">
+                            <div class="card-body ">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col-auto">
+                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Consumidores</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-auto">
+                                        <i class="fa fa-calendar fa-2x text-gray-300"></i>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+
+                <div *ngIf="roleVisivel != ''" class="card shadow mb-4 mt-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nome</th>
+                                        <th>Email</th>
+                                        <th>Estado</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nome</th>
+                                        <th>Email</th>
+                                        <th>Estado</th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+
+                                <tbody *ngIf="roleVisivel === 'fornecedor'">
+                                    <tr *ngFor="let fornecedor of fornecedores">
+                                        <td>{{fornecedor.idUtilizador}}</td>
+                                        <td>{{fornecedor.nome}}</td>
+                                        <td>{{fornecedor.email}}</td>
+                                        <td>
+                                            <div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
+                                                {{showEstado(fornecedor.active!)}}</div>
+                                        </td>
+                                        <th><a (click)="openUser(fornecedor)"><i class="fas fa-arrow-right"></i></a></th>
+
+                                    </tr>
+                                </tbody>
+
+                                <tbody *ngIf="roleVisivel === 'consumidor'">
+                                    <tr *ngFor="let consumidor of consumidores">
+                                        <td>{{consumidor.idUtilizador}}</td>
+                                        <td>{{consumidor.nome}}</td>
+                                        <td>{{consumidor.email}}</td>
+
+                                        <td>
+                                            <div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
+                                                {{showEstado(consumidor.active!)}}</div>
+                                        </td>
+                                        <th><a (click)="openUser(consumidor)"><i class="fas fa-arrow-right"></i></a></th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- <div *ngIf="roleVisivel != ''" style="margin: auto; display:table">
+
+                <a class="btn btn-outline-dark" [class.disabled]="previousButtonDisabled" (click)="previousPage()"> <i class="fas fa-angle-left"></i> </a> 
+                &nbsp;
+                <a class="btn btn-outline-dark" [class.disabled]="nextButtonDisabled" (click)="nextPage()"> <i class="fas fa-angle-right"></i> </a> 
+            
+            </div> -->
+            <br><br>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+
+  <div class="modal-wrapper" [class.visible]="showAnswer">
+    <div class="modal-container">
+        <button class="modal-close-btn" (click)="toggleAnswer()">Close</button>
+        <br>
+      <h2 [style.color]="success ? 'green' : 'red'" class="modal-title">{{answer}}</h2>
+    </div>
+  </div>
+
+
+  <div class="modal-wrapper" [class.visible]="showModal">
+    <div class="modal-container">
+        <button class="modal-close-btn m-2" style="position: fixed; z-index: 3;" (click)="toggleModal()" style="text-align: right;">FECHAR</button>
+        <br>
+        <app-detalhes-utilizador-admin [showDetalhes] = true  [user]=selectedUtilizador [role]=roleVisivel></app-detalhes-utilizador-admin>
+    </div>
+  </div>

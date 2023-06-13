@@ -1,0 +1,162 @@
+import { Component, OnInit } from '@angular/core';
+import { ItemInfoDTO, ItemViagemDTO, SubItemViagemDTO, TransporteDTO, TransporteInputDTO, UniProdDTO, UniProdInputDTO, UtilizadorDTO, ViagemInputDTO } from 'src/app/model/models';
+import{UniProdsService} from '../../service/uni-prods.service';
+import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { AppComponent } from 'src/app/app.component';
+import { UniProdsComponent } from '../uni-prods/uni-prods.component';
+import { Router } from '@angular/router';
+import { EncomendasService } from 'src/app/service/encomendas.service';
+import { ViagemService } from 'src/app/service/viagem.service';
+import { UtilizadorService } from 'src/app/service/utilizador.service';
+
+@Component({
+  selector: 'app-admin-utilizadores',
+  templateUrl: './admin-utilizadores.component.html',
+  styleUrls: ['./admin-utilizadores.component.css']
+})
+export class AdminUtilizadoresComponent implements OnInit{
+
+  roleVisivel ='';
+  consumidores : UtilizadorDTO[];
+  fornecedores : UtilizadorDTO[];
+  selectedUtilizador?: UtilizadorDTO;
+
+
+  // page = 0
+  // previousButtonDisabled = true
+  // nextButtonDisabled = false
+  error?:Error;
+  showModal: boolean = false;
+  
+  showAnswer = false
+  answer:string
+  success:boolean
+
+
+
+  constructor(private uniProdService:UniProdsService,private formBuilder: FormBuilder, private appComponent:AppComponent,
+    private router : Router, private utilizadorService:UtilizadorService, private viagemService:ViagemService){}
+
+  ngOnInit(){
+  
+    
+  }
+  
+  openUser(user:UtilizadorDTO){
+
+    this.selectedUtilizador = user;
+    this.showModal = true
+    
+  }
+
+  
+  handleAnswer(answer:string,success:boolean){
+    this.answer = answer
+    this.success = success
+    this.showAnswer = true 
+  }
+
+  showRole(role:string){
+    
+    if(role === 'consumidor'){
+      this.getConsumidores()
+    }
+    if(role === 'fornecedor'){
+      this.getFornecedores()
+    }
+  }
+
+    
+  getConsumidores(){
+    this.utilizadorService.getConsumidores().subscribe(obj=>{
+      const statusCode = obj.status
+      if (statusCode === 200) {
+        this.consumidores = obj.body as UtilizadorDTO[];
+        console.log(this.consumidores)
+        this.fornecedores = []
+        this.roleVisivel = 'consumidor'
+    } else {
+        //this.error = obj.body as Error;
+        //chamar pop up
+    }
+    })
+
+  }
+
+  showEstado(estadoBool:boolean){
+    return estadoBool ? "Ativo" : "Inativo"
+  }
+
+  getFornecedores(){
+    
+
+    this.utilizadorService.getFornecedores().subscribe(obj=>{
+      const statusCode = obj.status
+      if (statusCode === 200) {
+        this.fornecedores = obj.body as UtilizadorDTO[];
+        console.log(this.fornecedores)
+        this.consumidores = []
+        this.roleVisivel = 'fornecedor'
+    } else {
+        //this.error = obj.body as Error;
+    }
+    })
+
+  }
+
+  // nextPage(){
+  //   this.page +=1
+  //   if(this.roleVisivel === "consumidor"){
+  //     this.getConsumidores(this.page)
+
+  //   }
+  //   if(this.roleVisivel === "fornecedor"){
+  //     this.getFornecedores(this.page)
+
+  //   }
+  //   console.log(this.page)
+  //   const state = { page: 'utilizadores' };
+  //   const url = '/marketplace/utilizadores';
+  //   this.previousButtonDisabled = false
+  //   window.history.pushState(state, url);
+      
+    
+  // }
+  // previousPage(){
+  //   this.page -=1
+  //   if(this.page<0){  
+  //     this.page += 1
+  //     this.previousButtonDisabled = true
+
+  //   } else{
+  //     if(this.roleVisivel === "consumidor"){
+  //       this.getConsumidores(this.page)
+
+  //     }
+  //     if(this.roleVisivel === "fornecedor"){
+  //       this.getFornecedores(this.page)
+
+  //     }        
+  //     const state = { page: 'utilizadores' };
+  //     const url = '/marketplace/utilizadores';
+  //     this.nextButtonDisabled = false
+  //     window.history.pushState(state, url);
+
+  //   }
+    
+
+    
+
+  // }
+
+
+  toggleModal(){
+    this.showModal = !this.showModal;
+  }
+
+
+  toggleAnswer(){
+    this.showAnswer = !this.showAnswer;
+  }
+}
+

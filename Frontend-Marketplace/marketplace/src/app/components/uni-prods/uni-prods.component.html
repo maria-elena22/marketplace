@@ -70,13 +70,15 @@
                                         <td>{{uniProd.idUnidade}}</td>
                                         <td>{{uniProd.nomeUniProd}}</td>
                                         <td>MORADA</td>
-                                        <!-- href="/detalhes-encomenda-consumidor" -->
+                                        <!-- href="/marketplace/detalhes-encomenda-consumidor" -->
                                         <th><a style="cursor: pointer;" (click)="verProdutosUniProd(uniProd)">Ver Produtos &nbsp;<i
                                                   class="fas fa-arrow-right"></i></a></th>
-                                        <th><a style="cursor: pointer;" (click)="editarUniProd(uniProd)">Editar &nbsp; <mat-icon style="vertical-align: text-bottom;">edit</mat-icon><i
-                                                  class="fas fa-edit"></i></a></th>
-                                        <th><a  style="cursor: pointer;" (click)="confirmarRemoverUniProd(uniProd)">Remover &nbsp; <mat-icon style="vertical-align: text-bottom; color: #c91527;">delete</mat-icon><i
-                                                  class="fa fa-trash"></i></a></th>
+                                        <th><a style="cursor: pointer;" (click)="editarUniProd(uniProd)">Editar &nbsp; <mat-icon style="vertical-align: text-bottom;">edit</mat-icon>
+                                            <!-- <i class="fas fa-edit"></i> -->
+                                        </a></th> 
+                                        <th><a  style="cursor: pointer;" (click)="confirmarRemoverUniProd(uniProd)">Remover &nbsp; <mat-icon style="vertical-align: text-bottom; color: #c91527;">delete</mat-icon>
+                                            <!-- <i class="fa fa-trash"></i> -->
+                                        </a></th> 
                                     </tr>
                                 </tbody>
                             </table>
@@ -124,7 +126,7 @@
     <div class="modal-container">
         <h3 style="text-align: left;"> A ver: {{uniProdEscolhida.nomeUniProd}}</h3>
         <button class="modal-close-btn m-2" (click)="toggleProdutos()" style="text-align: right;">FECHAR</button>
-        <div *ngIf="!produtosUP || produtosUP.length === 0"> Ainda não tem produtos associados a esta Unidade <br> <a routerLink="/produtos">Ver Produtos</a></div>
+        <div *ngIf="!produtosUP || produtosUP.length === 0"> Ainda não tem produtos associados a esta Unidade <br> <a routerLink='/marketplace/produtos'>Ver Produtos</a></div>
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <th>Produto</th>

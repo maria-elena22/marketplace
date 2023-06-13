@@ -64,7 +64,7 @@ export class ViagensComponent implements OnInit{
 
  
   goToTransportes(){
-    this.router.navigate(['/transportes'])
+    this.router.navigate(['/marketplace/transportes'])
   }
 
 
@@ -82,7 +82,7 @@ export class ViagensComponent implements OnInit{
               this.transporte = t;
               break;
               // const state = { page: 'viagens' };
-              // const url = '/viagens';
+              // const url = '/marketplace/viagens';
               // window.history.pushState(state, url);
               
             }
@@ -232,7 +232,7 @@ export class ViagensComponent implements OnInit{
       
     // } else{
       const state = { page: 'transportes' };
-      const url = '/transportes';
+      const url = '/marketplace/transportes';
       this.previousButtonDisabled = false
       window.history.pushState(state, url);
       
@@ -249,7 +249,7 @@ export class ViagensComponent implements OnInit{
     } else{
       this.getTransportes()
       const state = { page: 'transportes' };
-      const url = '/transportes';
+      const url = '/marketplace/transportes';
       this.nextButtonDisabled = false
       window.history.pushState(state, url);
 

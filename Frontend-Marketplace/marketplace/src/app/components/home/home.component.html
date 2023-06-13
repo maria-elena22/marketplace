@@ -2,6 +2,8 @@
 <header class="bg-secondary py-5" id="title_inicial">
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-white">
+            <h1 *ngIf="bemVindo()" class="display-4 fw-bolder">Seja Bem-Vindo ao</h1>
+
             <h1 class="display-4 fw-bolder">Marketplace</h1>
             <p class="lead fw-normal text-white-50 mb-0">Supermercado online para impulsionar os négocios locais</p>
 
@@ -11,7 +13,7 @@
                     <p id="titulo_card">Comprar produtos</p>
                     <p class="card-text" style="color:black">Variadade de produtos alimentares, bens essencias e
                         outros cuidados pessoais.</p>
-                    <a routerLink="/produtos" routerLinkActive="active" ariaCurrentWhenActive="page"
+                    <a routerLink="/marketplace/produtos" routerLinkActive="active" ariaCurrentWhenActive="page"
                     class="nav-link active" aria-current="page" class="btn btn-success">Começar a comprar</a>
                 </div>
             </div>
@@ -22,7 +24,7 @@
                     <p id="titulo_card">Impacto Local</p>
                     <p class="card-text" style="color:black">Informamos o impacto das suas encomendas na comunidade
                         onde reside.</p>
-                    <a routerLink="/termos-condicoes" routerLinkActive="active" ariaCurrentWhenActive="page"
+                    <a routerLink='/marketplace/termos-condicoes' routerLinkActive="active" ariaCurrentWhenActive="page"
                     class="nav-link active" aria-current="page" class="btn btn-success">Consulte os termos e condições</a>
                 </div>
             </div>
@@ -65,7 +67,7 @@
                         <div class="overlay-text text-center">
                             <p>Detalhes:</p>
                             <p>Bananas da Madeira são boas como o caralho</p>
-                            <p>Fornecedor: &nbsp;</p><a href="/admin-fornecedor">Fornecedor 05</a>  
+                            <p>Fornecedor: &nbsp;</p><a href='/marketplace/admin-fornecedor'>Fornecedor 05</a>  
                         </div>
                     </div>
                 </div>

@@ -42,7 +42,7 @@ export class LoginComponent  implements OnInit {
   }
 
   goToRegister(){
-    this.router.navigate(['/register'])
+    this.router.navigate(['/marketplace/register'])
   }
 
   onSubmit() {
@@ -60,7 +60,7 @@ export class LoginComponent  implements OnInit {
         this.role = this.token.role;
         console.log(this.role); // 'admin'
         this.appComponent.role = this.role;
-        this.location.go('');
+        this.location.go('/marketplace');
         window.location.reload(); 
       },
       (error) => {

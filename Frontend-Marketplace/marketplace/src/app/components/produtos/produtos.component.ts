@@ -140,7 +140,7 @@ export class ProdutosComponent implements OnInit {
 
   showDetalheProduto(idProduto: number){
     let queryParams = { produto: idProduto};
-    this.router.navigate(['/produto-detalhes'], { queryParams });
+    this.router.navigate(['marketplace/produto-detalhes'], { queryParams });
   }
 
   closeRemoveForm(){
@@ -270,6 +270,7 @@ export class ProdutosComponent implements OnInit {
 }
 
 
+
   toggleAddProduto(produto?:FullProdutoDTO){
     this.produtoAfornecer=produto;
     this.showAddProduto = !this.showAddProduto
@@ -306,7 +307,7 @@ export class ProdutosComponent implements OnInit {
             this.produtoAremover!.uniProds = p.uniProds;
             console.log(this.produtoAremover?.uniProds)
             const state = { page: 'produtos' };
-            const url = '/produtos';
+            const url = '/marketplace/produtos';
 
             window.history.pushState(state, url);
             console.log(this.produtoAremover?.uniProds)
@@ -420,7 +421,9 @@ export class ProdutosComponent implements OnInit {
     this.showFilter = true
     this.getProdutos(-1,-1);
     
-    this.router.navigate(['/produtos']);
+    this.router.navigate(['/marketplace/produtos']);
+    //window.location.reload()
+
   }
 
   nextPage(){
@@ -484,7 +487,7 @@ export class ProdutosComponent implements OnInit {
         this.produtos = []
         console.log(this.meusProdutos)
         const state = { page: 'produtos' };
-        const url = '/produtos';
+        const url = '/marketplace/produtos';
 
         window.history.pushState(state, url);
 

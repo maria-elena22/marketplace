@@ -70,8 +70,8 @@ export class RegisterComponent implements OnInit{
       idFiscal: new FormControl('', Validators.required),
       nome: new FormControl('', Validators.required),
       telemovel: new FormControl('', Validators.required),
-      latitude: new FormControl('', Validators.required),
-      longitude: new FormControl('', Validators.required),
+      // latitude: new FormControl('', Validators.required),
+      // longitude: new FormControl('', Validators.required),
       morada: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', Validators.required),
@@ -79,7 +79,7 @@ export class RegisterComponent implements OnInit{
       municipio: new FormControl('', Validators.required),
       distrito: new FormControl('', Validators.required),
       pais: new FormControl('', Validators.required),
-      continente: new FormControl('', Validators.required),
+      // continente: new FormControl('', Validators.required),
       role: new FormControl('', Validators.required)
 
     });
@@ -88,7 +88,7 @@ export class RegisterComponent implements OnInit{
   }
 
   goToLogin(){
-    this.router.navigate(['/login'])
+    this.router.navigate(['/marketplace/login'])
   }
 
 
@@ -179,10 +179,12 @@ export class RegisterComponent implements OnInit{
   }
 
   onSubmit() {
+    console.log(this.signUpForm.value)
     // if(this.emailValid && this.passwordValid && this.contactoValid && this.idFiscalValid && this.signUpForm.value.role!=""){
     //   this.formValid = true;
     // }
     // const coords : Coordinate = {latitude:this.signUpForm.value.latitude,longitude:this.signUpForm.value.longitude}
+    //TODO
     const coords : Coordinate = {latitude: 90,longitude: 180}
     const signUpData: SignUpDTO = {
       idFiscal: parseInt(this.signUpForm.value.idFiscal),
@@ -199,7 +201,8 @@ export class RegisterComponent implements OnInit{
       continente: this.getContinent(this.signUpForm.value.pais),
     }
     console.log(signUpData.continente)
-    if(this.formValid === true){
+    // if(this.formValid === true){
+    if(this.signUpForm.valid){
       console.log(signUpData);
       console.log(this.signUpForm.value.role);
       const role = this.signUpForm.value.role;
@@ -215,7 +218,7 @@ export class RegisterComponent implements OnInit{
             localStorage.setItem('jwt_token', obj.body['token']);
             this.appComponent.token = token;
             
-            this.location.go('');
+            this.location.go('/marketplace');
             window.location.reload(); 
     
           }
@@ -228,36 +231,36 @@ export class RegisterComponent implements OnInit{
         }
       )
 
-      } 
-      if (role === "consumidor"){
-        this.utilizadorService.insertConsumidor(signUpData).subscribe(
-          (obj)=>{
-          const statusCode = obj.status
-          console.log("-------------------")
-    
-          if (statusCode === 200) {
-            const token = jwt_decode(obj.body['token']) as DecodedToken;
-            localStorage.setItem('jwt_token', obj.body['token']);
-            this.appComponent.token = token;
-            
-            this.location.go('');
-            window.location.reload(); 
+    } 
+    if (role === "consumidor"){
+      this.utilizadorService.insertConsumidor(signUpData).subscribe(
+        (obj)=>{
+        const statusCode = obj.status
+        console.log("-------------------")
+  
+        if (statusCode === 200) {
+          const token = jwt_decode(obj.body['token']) as DecodedToken;
+          localStorage.setItem('jwt_token', obj.body['token']);
+          this.appComponent.token = token;
           
-          }
-        }, (error) => {
-          // Handle error here
-          console.log('An error occurred:', error);
-          this.success = false
-          this.answer = error
-          this.toggleAnswer()
+          this.location.go('/marketplace');
+          window.location.reload(); 
+        
         }
-      )
+      }, (error) => {
+        // Handle error here
+        console.log('An error occurred:', error);
+        this.success = false
+        this.answer = error
+        this.toggleAnswer()
       }
-    }else{
-      this.success = false
-      this.answer = "Erro! Verifique que preencheu os campos corretamente"
-      this.toggleAnswer()
+    )
     }
+  }else{
+    this.success = false
+    this.answer = "Erro! Verifique que preencheu os campos corretamente"
+    this.toggleAnswer()
+  }
 
     
   }

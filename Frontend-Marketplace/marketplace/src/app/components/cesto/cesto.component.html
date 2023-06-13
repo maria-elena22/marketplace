@@ -61,7 +61,7 @@
                                                 </div>
                                             </div>
 
-                                            <a [class.disabled]="carrinho.length === 0" type="button" class="btn btn-info btn-block btn-lg" (click)="criaEncomenda()">
+                                            <a [class.disabled]="carrinho && carrinho.length === 0" type="button" class="btn btn-info btn-block btn-lg" (click)="criaEncomenda()">
                                                 <div class="d-flex justify-content-between">
                                                     <span>{{totalCarrinho()}}€</span>
                                                     <span>Comprar <i
@@ -90,6 +90,6 @@
         <br>
         
       <h2 [style.color]="success ? 'green' : 'red'" class="modal-title">{{answer}}</h2>
-      <a href="/login" style="margin-right: 45%;">Faça Login!</a>
+      <a href="/marketplace/login" style="margin-right: 45%;">Faça Login!</a>
     </div>
   </div>

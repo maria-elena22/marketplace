@@ -127,7 +127,7 @@
                                             </div>
                                             
                                         </div>
-                                        <button id ="submitBtn" class="btn btn-primary btn-user btn-block" type="submit">Criar Conta</button>
+                                        <button id ="submitBtn" [class.disabled]="!signUpForm.valid" class="btn btn-primary btn-user btn-block" type="submit">Criar Conta</button>
                                     </form>
                                     <hr>
                                     

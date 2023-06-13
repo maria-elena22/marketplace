@@ -27,10 +27,13 @@ export class CestoComponent implements OnInit{
 
   ngOnInit(): void {
     this.getProdutos(-1,-1)
+
+
+      
   }
 
   goToProdutos(){
-    this.router.navigate(['/produtos'])
+    this.router.navigate(['/marketplace/produtos'])
   }
 
   getMinhaMorada(){
@@ -132,7 +135,15 @@ export class CestoComponent implements OnInit{
           const body = obj.body as EncomendaPaymentDTO;
           let queryParams = { encomenda: body.encomendaDTO?.idEncomenda};
           localStorage.setItem("cartItems",JSON.stringify([]))
-          this.router.navigate(['/pagamento'], { queryParams });
+  
+          this.router.navigate(['/marketplace/pagamento'], { queryParams });
+  
+  
+          // const state = { page: 'cesto' };
+          // const url = '/cesto';
+  
+          // window.history.pushState(state, url);
+  
       } 
       })
     } else{
