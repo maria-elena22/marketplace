@@ -113,11 +113,11 @@ const appRoutes: Routes = [
     RelatoriosComponent,
     ViagensComponent,
     NotificacoesComponent,
+    ProdutoDetalhesComponent,
     DefinicoesComponent,
     AdminUtilizadoresComponent,
     DetalhesUtilizadorAdminComponent,
     GraficoComponent  ],
-
 
   bootstrap: [ AppComponent ],
   exports: [ProdutosComponent],

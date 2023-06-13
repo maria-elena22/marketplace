@@ -14,15 +14,12 @@
                 <div class="col-lg-7 col-md-7 col-sm-6">
                     <h3 class="box-title"><b>{{produto.nome}}</b></h3>
                     <h5 class="box-title">Subcategorias</h5>
-                    <!-- <div *ngFor="let categoria of produto.subCategorias">
-                        {{categoria.nomeSubCategoria}}
+                    <div *ngFor="let categoria of produto.subCategorias">
                         <ul class="list-unstyled">
                             <li><i class="bi bi-caret-right-fill text-primary"></i> {{categoria.nomeSubCategoria}}</li>
-                            <li><i class="bi bi-caret-right-fill text-primary"></i> Designed to foster easy portability</li>
-                            <li><i class="bi bi-caret-right-fill text-primary"></i> Perfect furniture to flaunt your wonderful collectibles</li>
                         </ul>
-                    </div> -->
-                    <form >
+                    </div>
+                    <form [formGroup]="addCarrinhoForm" (ngSubmit)="onSubmitProduto()" >
                         <div>
                             <br>
                             <label for="quantidade"><b>Quantidade:</b> &nbsp;</label>
@@ -32,18 +29,17 @@
                         <br>
         
                         <label for="fornecedor"><b>Escolha um dos fornecedores:</b> <p>(de forma a ajudar os négocios locais, escolha um perto de si)</p></label>
-                        <!-- <div>
-                            {{produto.precoFornecedores}}
+                        <div>
                             <label *ngFor="let precoFornecedor of this.produto.precoFornecedores">
                                 <input  required formControlName="fornecedor" type="radio" [value]="precoFornecedor.fornecedor!.idUtilizador!"> 
-                                {{precoFornecedor.fornecedor!.nome}} - {{precoFornecedor.preco}}€ - Distância: {{getDistancia(precoFornecedor.fornecedor!).toFixed(2)}} km &nbsp;
+                                {{precoFornecedor.fornecedor!.nome}} - {{precoFornecedor.preco}}€ - Distância: <!--{{getDistancia(precoFornecedor.fornecedor!).toFixed(2)}}--> km &nbsp;
                                 <br>
                             </label>
-                        </div> -->
+                        </div>
                         <br>
          
-                        <button class="btn btn-outline-info mt-auto">Carrinho</button>
-                        <!--<p *ngIf="!addCarrinhoForm.valid">Tem de preencher todos os campos</p> -->
+                        <button [disabled]="!addCarrinhoForm.valid" class="btn btn-outline-info mt-auto" style="margin-left: 10%;">Carrinho</button>
+                        &nbsp; <a style ="color: #dc3545" *ngIf="!addCarrinhoForm.valid">Tem de preencher todos os campos</a>
                     </form>
 
                     
@@ -53,3 +49,16 @@
         </div>
     </div>
 </div>
+<div class="modal-wrapper" [class.visible]="showAnswer">
+    <div class="modal-container">
+        <button class="modal-close-btn" (click)="toggleAnswer()" style="text-align: right;">FECHAR</button>
+        <br>
+        
+      <h2 [style.color]="success ? '#1cc88a' : 'red'" class="modal-title">{{answer}}</h2>
+      <br>      
+      <a href="/produtos">Ir para todos os produtos</a>
+      <p></p>
+      <a href="/cesto">Ir para o cesto</a>
+      <br>
+    </div>
+  </div>

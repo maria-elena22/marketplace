@@ -15,6 +15,30 @@ export class UtilizadorService {
   backendUrl = environment.backendUrl;
   constructor(private http: HttpClient) {}
 
+  getConsumidorById(id:number){
+    console.log("entrei")
+    const headers = new HttpHeaders();
+    
+
+    const url = `${this.backendUrl}/utilizador/consumidor/${id}`;
+    console.log(url)
+
+    return this.http.get<any>(url ,{ headers, observe: 'response' })
+    .pipe(
+        catchError((error) => {
+        console.log('An error occurred:', error);
+        console.log(error.error.message)
+        console.log(error.error.exception)
+        let errorMessage = '';
+        if(error.error.message){
+          errorMessage = error.error.message
+
+        }
+        return throwError(errorMessage);
+      })
+    );
+  }
+
   getLogin(email:string, password:string): Observable<HttpResponse<any>> {
 
     const headers = new HttpHeaders();
