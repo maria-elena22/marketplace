@@ -256,7 +256,7 @@ export class RelatoriosComponent implements OnInit{
         this.relatorioDistancias = obj.body as RelatorioPorDistanciasDTO;
         this.relatorioZonas = undefined
         console.log(this.relatorioDistancias)
-
+        this.sortRelatorio()
         this.detalhesGraficoDistancias();
         
 
@@ -265,6 +265,16 @@ export class RelatoriosComponent implements OnInit{
         //chamar pop up
     }
     })
+
+  }
+
+  sortRelatorio(){
+
+    this.relatorioDistancias!.gamaDistanciasQuantidadeEncomendasMap = {"<10":this.relatorioDistancias?.gamaDistanciasQuantidadeEncomendasMap!["<10"]!,
+    "10-100":this.relatorioDistancias?.gamaDistanciasQuantidadeEncomendasMap!["10-100"]!,
+    "100-1000":this.relatorioDistancias?.gamaDistanciasQuantidadeEncomendasMap!["100-1000"]!,
+    ">1000":this.relatorioDistancias?.gamaDistanciasQuantidadeEncomendasMap![">1000"]!
+                                                                      }
 
   }
 }

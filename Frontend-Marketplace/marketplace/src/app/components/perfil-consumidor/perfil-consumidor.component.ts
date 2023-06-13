@@ -156,7 +156,7 @@ export class PerfilConsumidorComponent implements OnInit {
       municipio: this.updateForm.value.municipio,
       distrito: this.updateForm.value.distrito,
       pais: this.updateForm.value.pais,
-      continente: this.updateForm.value.continente,
+      continente: this.getContinent(this.updateForm.value.pais),
     }
     console.log(updateData);
     console.log(this.role);
@@ -196,6 +196,20 @@ export class PerfilConsumidorComponent implements OnInit {
     )
     }
 
+  }
+
+  getContinent(pais: String){
+    if(pais == "ALBANIA" || pais == "ANDORRA" || pais == "AUSTRIA" || pais == "BELGIUM" || pais == "BELARUS" || pais == "BOSNIA_HERZEGOVINA" || pais == "BULGARIA" || pais == "CROATIA" || pais == "CYPRUS" || pais == "CZECH_REPUBLIC" || pais == "DANZIG" || pais == "DENMARK" || pais == "ESTONIA" || pais == "FINLAND" || pais == "FRANCE" || pais == "GERMANY" || pais == "GREECE" || pais == "HOLY_ROMAN_EMPIRE" || pais == "HUNGARY" || pais == "ICELAND" || pais == "IRELAND" || pais == "ITALY" || pais == "KOSOVO" || pais == "LATVIA" || pais == "LIECHTENSTEIN" || pais == "LITHUANIA" || pais == "LUXEMBOURG" || pais == "MACEDONIA" || pais == "MALTA" || pais == "MOLDOVA" || pais == "MONACO" || pais == "MONTENEGRO" || pais == "MOUNT_ATHOS" || pais == "NETHERLANDS" || pais == "NORWAY" || pais == "POLAND" || pais == "PORTUGAL" || pais == "PRUSSIA" || pais == "ROMANIA" || pais == "SAN_MARINO" || pais == "SERBIA" || pais == "SLOVAKIA" || pais == "SLOVENIA" || pais == "SPAIN" || pais == "SWEDEN" || pais == "SWITZERLAND" || pais == "UNITED_KINGDOM" || pais == "UKRAINE" || pais == "VATICAN_CITY"){
+      return SignUpDTO.ContinenteEnum.Europa;
+    }else if(pais == "ALGERIA" || pais == "ANGOLA" || pais == "BENIN" || pais == "BOTSWANA" || pais == "BURKINA" || pais == "BURUNDI" || pais == "CAMEROON" || pais == "CAPE_VERDE" || pais == "CENTRAL_AFRICAN_REP" || pais == "CHAD" || pais == "COMOROS" || pais == "DEMOCRATIC_REPUBLIC_OF_THE_CONGO" || pais == "REPUBLIC_OF_THE_CONGO" || pais == "DJIBOUTI" || pais == "EGYPT" || pais == "EQUATORIAL_GUINEA" || pais == "ERITREA" || pais == "ETHIOPIA" || pais == "GABON" || pais == "THE_GAMBIA" || pais == "GHANA" || pais == "GUINEA" || pais == "GUINEA_BISSAU" || pais == "IVORY_COAST" || pais == "KENYA" || pais == "LESOTO" || pais == "LIBERIA" || pais == "LIBIA" || pais == "MADAGASCAR" || pais == "MALAWI" || pais == "MALI" || pais == "MAUTITANIA" || pais == "MAURITIUS" || pais == "MOROCCO" || pais == "MOZAMBIQUE" || pais == "NAMIBIA" || pais == "NIGER" || pais == "NIGERIA" || pais == "RWANDA" || pais == "SAO_TOME_PRINCIPE" || pais == "SENEGAL" || pais == "SEYCHELLES" || pais == "SIERRA_LEONE" || pais == "SOMALIA" || pais == "SOUTH_AFRICA" || pais == "SUDAN" || pais == "SWAZILAND" || pais == "TANZANIA" || pais == "TOGO" || pais == "TUNISIA" || pais == "UGANDA" || pais == "ZAMBIA" || pais == "ZIMBABUE"){
+      return SignUpDTO.ContinenteEnum.Africa;
+    }else if(pais == "AUSTRALIA" || pais == "MICRONESIA" || pais == "FIJI" || pais == "MARSHALL_ISLANDS" || pais == "SOLOMON_ISLANDS"  || pais == "KIRIBATI" || pais == "NAURU" || pais == "NEW_ZEALAND" || pais == "PALAU" || pais == "PAPUA_NEW_GUINEA" || pais == "SAMOA" || pais == "TONGA" || pais == "TUVALU" || pais == "VANUATU"){
+      return SignUpDTO.ContinenteEnum.Oceania;
+    }else if(pais == "ANTIGUA_DEPS" || pais == "ARGENTINA" || pais == "BAHAMAS" || pais == "BARBADOS" || pais == "BELIZE" || pais == "BOLIVIA" || pais == "BRAZIL" || pais == "CANADA" || pais == "CHILE" || pais == "COLOMBIA" || pais == "COSTA_RICA" || pais == "CUBA" || pais == "DOMINICA" || pais == "DOMINICAN_REPUBLIC" || pais == "EQUADOR" || pais == "EL_SALVADOR" || pais == "GEORGIA" || pais == "GRENADA" || pais == "GRENADINES" ||pais == "GUATEMALA" || pais == "GUYANA" || pais == "HAITI" || pais == "HONDURAS" || pais == "JAMAICA" || pais == "JONATHANLAN" || pais == "MEXICO" || pais == "NEWFOUNDLAND" || pais == "NICARAGUA" || pais == "PANAMA" || pais == "PARAGUAY" || pais == "PERU" || pais == "SURINAME" || pais == "TRINIDAD_TOBAGO" || pais == "URUGUAY" || pais == "USA" || pais == "VENEZUELA"){
+        return SignUpDTO.ContinenteEnum.America;
+    }else{
+      return SignUpDTO.ContinenteEnum.Asia;
+    }
   }
 
   openAnswer(){

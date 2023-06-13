@@ -89,8 +89,10 @@
                                         <td>{{fornecedor.nome}}</td>
                                         <td>{{fornecedor.email}}</td>
                                         <td>
-                                            <div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
+                                            <div *ngIf="fornecedor.active" class="badge bg-success text-white" style="top: 0.5rem; right: 0.5rem">
                                                 {{showEstado(fornecedor.active!)}}</div>
+                                            <div *ngIf="!fornecedor.active" class="badge bg-dark text-white" style="top: 0.5rem; right: 0.5rem">
+                                                    {{showEstado(fornecedor.active!)}}</div>
                                         </td>
                                         <th><a (click)="openUser(fornecedor)"><i class="fas fa-arrow-right"></i></a></th>
 
@@ -104,8 +106,11 @@
                                         <td>{{consumidor.email}}</td>
 
                                         <td>
-                                            <div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
-                                                {{showEstado(consumidor.active!)}}</div>
+                                           
+                                                <div *ngIf="consumidor.active" class="badge bg-success text-white" style="top: 0.5rem; right: 0.5rem">
+                                                    {{showEstado(consumidor.active!)}}</div>
+                                                <div *ngIf="!consumidor.active" class="badge bg-dark text-white" style="top: 0.5rem; right: 0.5rem">
+                                                        {{showEstado(consumidor.active!)}}</div>
                                         </td>
                                         <th><a (click)="openUser(consumidor)"><i class="fas fa-arrow-right"></i></a></th>
                                     </tr>
