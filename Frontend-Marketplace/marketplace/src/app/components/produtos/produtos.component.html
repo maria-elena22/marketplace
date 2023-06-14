@@ -37,12 +37,12 @@
     <p>Produtos a comparar:</p>
     <div *ngIf="prodComparar1">
         {{prodComparar1.nome}}
-        <a (click)="removeComparar(1)"><i style="padding: 1%;cursor: pointer;" class="fa fa-times" aria-hidden="true"></i><b>x</b></a>
+        <a (click)="removeComparar(1)"><i style="padding: 1%;cursor: pointer;" class="fa fa-times" aria-hidden="true"></i></a>
 
     </div>
     <div *ngIf="prodComparar2">
         {{prodComparar2.nome}}
-        <a (click)="removeComparar(2)"><i style="padding: 1%;cursor: pointer;" class="fa fa-times" aria-hidden="true"></i><b>x</b></a>
+        <a (click)="removeComparar(2)"><i style="padding: 1%;cursor: pointer;" class="fa fa-times" aria-hidden="true"></i></a>
 
     </div>
     <button (click)="removeDivComparar()" class="btn btn-secondary mt-1">FECHAR</button> &nbsp;&nbsp;
@@ -88,8 +88,7 @@
                     <div *ngIf="role==='ROLE_FORNECEDOR'" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                         <div class="text-center" *ngIf="forneco(produto)"><a class="btn btn-outline-dark mt-auto" (click)="toggleRemoverProduto(produto)">Deixar de fornecer</a></div>
                         <div class="text-center" *ngIf="!forneco(produto)"><a class="btn btn-outline-dark mt-auto" (click)="toggleAddProduto(produto)">Passar a fornecer</a></div>
-                        <p></p>
-                        <div class="text-center"><a (click)="showDetalheProduto(produto.idProduto!)" routerLink="/marketplace/produto-detalhes" class="nav-link active" class="btn btn-outline-primary mt-auto">Ver mais</a></div>
+                        <p></p><div class="text-center"><a (click)="showDetalheProduto(produto.idProduto!)" routerLink="/marketplace/produto-detalhes" class="nav-link active" class="btn btn-outline-primary mt-auto">Ver mais</a></div>
                     </div>
 
                     <div class="card-overlay">
@@ -407,9 +406,8 @@
 <div class="modal-wrapper" [class.visible]="showAddProduto">
     <div class="modal-container" *ngIf="produtoAfornecer">
         <button class="modal-close-btn" (click)="toggleAddProduto(undefined)" style="text-align: right;">FECHAR</button>
-
-        <h4 style="text-align: left;">Passar a Fornecer {{produtoAfornecer.nome}}</h4>
         <br>
+
         <form [formGroup]="addProdutoForm" (ngSubmit)="onSubmitFornecer()">
 
 
@@ -452,9 +450,8 @@
 <div class="modal-wrapper" [class.visible]="showRemoverProduto">
     <div class="modal-container" *ngIf="produtoAremover && produtoAremover.uniProds">
         <button class="modal-close-btn" (click)="closeRemoveForm()" style="text-align: right;">FECHAR</button>
-
-        <h4 style="text-align: left;">Deixar de Fornecer {{produtoAremover.nome}}</h4>
         <br>
+
         <form [formGroup]="removerProdutoForm" (ngSubmit)="onSubmitRemover()">
             <b>Unidades de Produção:</b>
             <br>
@@ -481,28 +478,37 @@
         <button class="modal-close-btn" (click)="showComparar=false" style="text-align: right;">FECHAR</button>
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
+                <td><b>Nome</b></td>
                 <th>{{prodComparar1?.nome}}</th>
                 <th>{{prodComparar2?.nome}}</th>
             </thead>
             <tbody>
                 <tr>
+                    <td><b>Descrição</b></td>
                     <td>{{prodComparar1?.descricao}}</td>
                     <td>{{prodComparar2?.descricao}}</td>
                 </tr>
                 <tr [class.different]="prodComparar1?.iva !== prodComparar2?.iva">
+                    <td><b>IVA</b></td>
                     <td>{{prodComparar1?.iva}}</td>
                     <td>{{prodComparar2?.iva}}</td>
                 </tr>
                 <tr [class.different]="getIntervaloPrecos(prodComparar1!) !== getIntervaloPrecos(prodComparar2!)">
+                    <td><b>Preço</b></td>
                     <td>{{getIntervaloPrecos(prodComparar1!)}}</td>
                     <td>{{getIntervaloPrecos(prodComparar2!)}}</td>
                 </tr>
                 <tr>
-                    <td *ngFor="let c of prodComparar1?.subCategorias">
-                        {{c.nomeSubCategoria}}
+                    <td><b>Subcategorias</b></td>
+                    <td >
+                        <p *ngFor="let c of prodComparar1?.subCategorias" class="d-inline-block">
+                            {{c.nomeSubCategoria}};&nbsp;
+                        </p>
                     </td>
-                    <td *ngFor="let c of prodComparar2?.subCategorias">
-                        {{c.nomeSubCategoria}}
+                    <td>
+                        <p *ngFor="let c of prodComparar2?.subCategorias" class="d-inline-block">
+                            {{c.nomeSubCategoria}};&nbsp;
+                        </p>
                     </td>
                 </tr>
             </tbody>
