@@ -14,6 +14,7 @@ import { SubEncomendaNotifDTO } from './subEncomendaNotifDTO';
 
 
 export interface NotificacaoDTO { 
+    idNotificacao?: number;
     subEncomenda?: SubEncomendaNotifDTO;
     tipoNotificacao?: NotificacaoDTO.TipoNotificacaoEnum;
     mensagem?: string;

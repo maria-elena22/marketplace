@@ -181,10 +181,10 @@
     <a (click)="toggleNotifs()">&times;</a>
     <div *ngIf="notifs && notifs.length>0">
         <ul *ngFor="let notif of notifs">
-            <li> {{notif.mensagem}}
-                <button *ngIf="role === 'ROLE_FORNECEDOR'" class="btn btn-outline-secondary" (click)="showEncomenda(notif.subEncomenda?.idSubEncomenda!)"> - {{notif.subEncomenda?.idSubEncomenda}}</button>
+            <li> {{notif.mensagem}} 
+                <button *ngIf="role === 'ROLE_FORNECEDOR'" class="btn btn-outline-secondary" (click)="showEncomenda(notif.subEncomenda?.idSubEncomenda!)"> {{notif.subEncomenda?.idSubEncomenda}}</button>
                 <p *ngIf="role === 'ROLE_CONSUMIDOR'" class="btn btn-outline-secondary" (click)="showEncomenda(notif.subEncomenda?.encomenda!.idEncomenda!)">{{notif.subEncomenda?.encomenda!.idEncomenda}}</p>
-
+                <button (click)="entregarNotif(notif.idNotificacao!)"><i class="fa fa-trash"></i></button>
             </li>
 
         </ul>

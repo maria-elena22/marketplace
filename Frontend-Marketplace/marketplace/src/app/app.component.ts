@@ -118,6 +118,18 @@ export class AppComponent implements OnInit{
     console.log(this.showNotifs)
   }
 
+  entregarNotif(idNotificacao:number){
+    this.utilizadorService.entregarNotificacao(idNotificacao).subscribe(obj=>{
+      const statusCode = obj.status
+      if (statusCode === 200) {
+        console.log(statusCode)
+        this.notifs = this.notifs!.filter(notif => notif.idNotificacao !== idNotificacao);
+
+    }
+
+    })
+  }
+
   showEncomenda(id:number){
 
     if(this.role! === "ROLE_FORNECEDOR"){

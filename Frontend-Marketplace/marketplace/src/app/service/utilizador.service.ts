@@ -147,6 +147,21 @@ export class UtilizadorService {
       );
   }
 
+  entregarNotificacao(idNotificacao:number){
+    const token = localStorage.getItem('jwt_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    
+    const url = `${this.backendUrl}/notificacao/${idNotificacao}`;
+
+    return this.http.put<any>(url, {} ,{ headers, observe: 'response' })
+      .pipe(
+          catchError((error) => {
+          console.log('An error occurred:', error);
+          return throwError('Something went wrong');
+        })
+      );
+  }
+
   getNotificacoesNum(){
     const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
