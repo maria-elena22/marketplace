@@ -70,6 +70,7 @@ export class ProdutoDetalhesComponent implements OnInit{
             if(produto.idProduto == queryParams["produto"]){
               this.produto = produto;
               this.idProduto = produto.idProduto;
+              console.log(this.produto)
             }
           }
         })
