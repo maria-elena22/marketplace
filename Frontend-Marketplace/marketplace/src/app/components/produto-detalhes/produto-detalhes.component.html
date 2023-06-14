@@ -14,13 +14,33 @@
                 <div class="col-lg-7 col-md-7 col-sm-6">
                     <div *ngIf="role==='ROLE_FORNECEDOR'"></div>
                     <h3 class="box-title"><b>{{produto.nome}}</b></h3>
-                    <h5 class="box-title">Subcategorias</h5>
-                    <div *ngFor="let categoria of produto?.subCategorias">
-                        <ul class="list-unstyled">
-                            <li><i class="bi bi-caret-right-fill text-primary"></i> {{categoria.categoria?.nomeCategoria}}</li>
-                            <li><i class="bi bi-caret-right-fill text-primary"></i> {{categoria.nomeSubCategoria}}</li>
-                        </ul>
+                    
+                    <div *ngFor="let categoria of produto?.subCategorias" class="container">
+                        <div class="row">
+                            <div class="col-sm">
+                                <h5 class="box-title">Categorias</h5>
+                                <!-- <ul class="list-unstyled">
+                                    <li><i class="bi bi-caret-right-fill text-primary"></i> {{categoria.categoria?.nomeCategoria}}</li>
+                                    <li><i class="bi bi-caret-right-fill text-primary"></i> {{categoria.nomeSubCategoria}}</li>
+                                </ul> -->
+                            </div>
+                            <div class="col-sm">
+                                <h5 class="box-title">Subcategorias</h5>
+                                <ul class="list-unstyled">
+                                    <li><i class="bi bi-caret-right-fill text-primary"></i> {{categoria.categoria?.nomeCategoria}}</li>
+                                    <li><i class="bi bi-caret-right-fill text-primary"></i> {{categoria.nomeSubCategoria}}</li>
+                                </ul>
+                            </div>
+                            <div class="col-sm">
+                                <h5 class="box-title">Propriedades</h5>
+                                <!-- <ul class="list-unstyled">
+                                    <li><i class="bi bi-caret-right-fill text-primary"></i> {{categoria.categoria?.nomeCategoria}}</li>
+                                    <li><i class="bi bi-caret-right-fill text-primary"></i> {{categoria.nomeSubCategoria}}</li>
+                                </ul> -->
+                            </div>
+                        </div>   
                     </div>
+
                     <div *ngIf="role==='ROLE_FORNECEDOR'"> 
                         <br>   
                         <h5 class="box-title">Fornecedores</h5>
