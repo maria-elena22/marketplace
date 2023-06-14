@@ -43,12 +43,38 @@
             </div>
             <div class="grafico">
 
-                <h4 *ngIf="relatorioZonas" id="title"> <i style="cursor: pointer;" (click)="previousZona()" class="fas fa-angle-left"></i> &nbsp;{{tiposZonas[zonaVisivel]}}&nbsp;<i style="cursor: pointer;" (click)="nextZona()" class="fas fa-angle-right"></i></h4>
+                <div class="tab-container" *ngIf="relatorioZonas" >
+                    <div class="tab">
 
+                        <h5 class="tab-button title" [class.selected]="zonaVisivel==='Continentes'" (click)="abreTab('Continentes')"> Continentes</h5>
+                        <h5 class="tab-button title" [class.selected]="zonaVisivel==='Países'" (click)="abreTab('Países')"> Países</h5>
+                        <h5 class="tab-button title" [class.selected]="zonaVisivel==='Distritos'" (click)="abreTab('Distritos')"> Distritos</h5>
+                        <h5 class="tab-button title" [class.selected]="zonaVisivel==='Municípios'" (click)="abreTab('Municípios')"> Municípios</h5>
+                        <h5 class="tab-button title" [class.selected]="zonaVisivel==='Freguesias'" (click)="abreTab('Freguesias')"> Freguesias</h5>
+
+                    </div>
+
+            
+                </div>
                 <app-grafico style="margin-right: 0;" [dadosHist]="dados" [labelsHist]="labels" ></app-grafico>
+
+
+
                 
             
             </div>
+
+
+            
+
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementsByClassName("tab-button")[0].click();
+</script>
+
+
+
+  

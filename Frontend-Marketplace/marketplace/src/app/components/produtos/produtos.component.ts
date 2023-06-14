@@ -139,7 +139,7 @@ export class ProdutosComponent implements OnInit {
   }
 
   showDetalheProduto(idProduto: number){
-    let queryParams = { produto: idProduto};
+    let queryParams = { produto: idProduto, page:this.page, idCategoria:this.idCategoria, idSubCategoria:this.idSubCategoria};
     this.router.navigate(['marketplace/produto-detalhes'], { queryParams });
   }
 

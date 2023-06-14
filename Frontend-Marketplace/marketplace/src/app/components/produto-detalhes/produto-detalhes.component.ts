@@ -61,24 +61,25 @@ export class ProdutoDetalhesComponent implements OnInit{
   }
 
   getProduto(){
-    this.produtosService.getProdutos().subscribe(obj=>{
-      const statusCode = obj.status;
-      if (statusCode === 200) {
-        this.listaProdutos = obj.body as FullProdutoDTO [];
-        this.route.queryParams.subscribe((queryParams) => {
+    this.route.queryParams.subscribe((queryParams) => {
+      this.produtosService.getProdutos(queryParams["idCategoria"],queryParams["idSubCategoria"],undefined,undefined,undefined,undefined,queryParams["page"]).subscribe(obj=>{
+        const statusCode = obj.status;
+        if (statusCode === 200) {
+          this.listaProdutos = obj.body as FullProdutoDTO [];
+          
           for (let produto of this.listaProdutos){
             if(produto.idProduto == queryParams["produto"]){
               this.produto = produto;
               this.idProduto = produto.idProduto;
             }
           }
-        })
-        
-      }else {
-        this.error = obj.body as Error;
-        //chamar pop up
-    }
-    });
+          
+        }else {
+          this.error = obj.body as Error;
+          //chamar pop up
+      }
+      });
+    })
   } 
 
   minhasUniProds(){

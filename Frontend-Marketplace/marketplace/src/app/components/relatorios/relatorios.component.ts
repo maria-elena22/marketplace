@@ -31,7 +31,7 @@ export class RelatoriosComponent implements OnInit{
   dados: Array<number>;
   labels: Array<string>;
   tiposZonas = ["Continentes", "Países", "Distritos", "Municípios", "Freguesias"]
-  zonaVisivel = 0;
+  zonaVisivel = "Continentes";
 
 
 
@@ -65,33 +65,43 @@ export class RelatoriosComponent implements OnInit{
     });
   }
 
+
+  abreTab(tabName: string): void {
+    this.zonaVisivel = tabName;
+    this.detalhesGraficoZonas()
+  }
+  
+  // Set the first tab as active by default
+  
+
+
   detalhesGraficoZonas(){
     switch (this.zonaVisivel) {
-      case 0:
+      case "Continentes":
         this.labels = this.getArrayZonas(this.relatorioZonas!.mapEncomendasContinente!);
         this.dados = Object.values(this.relatorioZonas!.mapEncomendasContinente!);
 
         break;
-    
-      case 1:
+
+      case "Países":
         this.labels = this.getArrayZonas(this.relatorioZonas!.mapEncomendasPais!);
         this.dados = Object.values(this.relatorioZonas!.mapEncomendasPais!);
 
         break;
     
-      case 2:
+      case "Distritos":
         this.labels = this.getArrayZonas(this.relatorioZonas!.mapEncomendasDistrito!);
         this.dados = Object.values(this.relatorioZonas!.mapEncomendasDistrito!);
 
         break;
       
-      case 3:
+      case "Municípios":
         this.labels = this.getArrayZonas(this.relatorioZonas!.mapEncomendasMunicipio!);
         this.dados = Object.values(this.relatorioZonas!.mapEncomendasMunicipio!);
 
         break;
       
-      case 4:
+      case "Freguesias":
         this.labels = this.getArrayZonas(this.relatorioZonas!.mapEncomendasFreguesias!);
         this.dados = Object.values(this.relatorioZonas!.mapEncomendasFreguesias!);
 
@@ -103,9 +113,12 @@ export class RelatoriosComponent implements OnInit{
 
         break;
     }
-    this.grafico.dadosHist=this.dados
-    this.grafico.labelsHist=this.labels
-    this.grafico.criarHistograma()
+    if(this.grafico){
+      this.grafico.dadosHist=this.dados
+      this.grafico.labelsHist=this.labels
+      this.grafico.criarHistograma()
+    }
+ 
 
     
   }
@@ -139,15 +152,15 @@ export class RelatoriosComponent implements OnInit{
 
   }
 
-  previousZona(){
-    this.zonaVisivel = (this.zonaVisivel - 1 + this.tiposZonas.length) % this.tiposZonas.length;
-    this.detalhesGraficoZonas()
-  }
+  // previousZona(){
+  //   this.zonaVisivel = (this.zonaVisivel - 1 + this.tiposZonas.length) % this.tiposZonas.length;
+  //   this.detalhesGraficoZonas()
+  // }
 
-  nextZona(){
-    this.zonaVisivel = (this.zonaVisivel + 1) % this.tiposZonas.length;
-    this.detalhesGraficoZonas()
-  }
+  // nextZona(){
+  //   this.zonaVisivel = (this.zonaVisivel + 1) % this.tiposZonas.length;
+  //   this.detalhesGraficoZonas()
+  // }
 
   getCategorias(){
     this.categoriaService.getCategorias().subscribe(obj=>{

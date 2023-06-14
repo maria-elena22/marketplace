@@ -1,6 +1,7 @@
 @import '~@fortawesome/fontawesome-free/css/all.css';
-#title{
+.title{
     text-align: center;
+    margin: auto;
 }
 
 .sidebar {
@@ -32,3 +33,48 @@
     flex: 1; /* Expande o conteúdo para ocupar o espaço restante */
     padding: 20px; /* Espaçamento interno do conteúdo */
   }
+
+
+  .tab-container {
+    border: 1px solid #ccc;
+  }
+  
+  .tab {
+    display: flex;
+  }
+  
+  .tab-button {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    flex: 1;
+    
+    border: solid rgba(78, 115, 223, 0.2);
+    font-weight: bold;
+
+    background-color: rgba(78, 115, 223, 0.2);
+
+  }
+  
+  .tab-button:hover {
+    border: solid rgba(78, 115, 223, 1);
+
+  }
+  
+  .tab-content {
+    display: none;
+    padding: 20px;
+  }
+  
+  .tab-content h2 {
+    margin-top: 0;
+  }
+
+.selected{
+  font-weight: bold;
+  border: solid rgba(78, 115, 223, 1);
+  background-color: #4e73df;
+  color: #ebedf6;
+
+}
