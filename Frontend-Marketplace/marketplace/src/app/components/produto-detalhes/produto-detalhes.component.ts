@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute} from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
-import { FullProdutoDTO, ProdutoFornecedorDTO, SimpleItemDTO, UniProdDTO } from 'src/app/model/models';
+import { FullCategoriaDTO, FullProdutoDTO, ProdutoFornecedorDTO, PropriedadeDTO, SimpleItemDTO, SimpleSubCategoriaDTO, SubCategoriaDTO, UniProdDTO } from 'src/app/model/models';
 import { UtilizadorCoordsDTO } from 'src/app/model/utilizador/utilizadorCoordsDTO';
+import { CategoriaService } from 'src/app/service/categoria.service';
 import { CestoService } from 'src/app/service/cesto.service';
 import { ProdutosService } from 'src/app/service/produtos.service';
 import { UniProdsService } from 'src/app/service/uni-prods.service';
@@ -36,11 +37,15 @@ export class ProdutoDetalhesComponent implements OnInit{
   uniProdsIdsA:number[]=[]
   uniProdsP:UniProdDTO[]=[]
   addUnis = false
+
+  categorias:FullCategoriaDTO[] = []
+  subcategorias:SubCategoriaDTO[] = []
+  props:string[][] =[];
   
   addProdutoForm:FormGroup;
   removerProdutoForm:FormGroup;
 
-  constructor(private route: ActivatedRoute, private produtosService: ProdutosService, private cestoService: CestoService, private appComponent: AppComponent, private uniProdService: UniProdsService){}
+  constructor(private route: ActivatedRoute, private produtosService: ProdutosService, private categoriaService: CategoriaService, private cestoService: CestoService, private appComponent: AppComponent, private uniProdService: UniProdsService){}
   
   ngOnInit(): void {
     this.getProduto();
@@ -70,7 +75,11 @@ export class ProdutoDetalhesComponent implements OnInit{
           for (let produto of this.listaProdutos){
             if(produto.idProduto == queryParams["produto"]){
               this.produto = produto;
+              console.log(this.produto)
+              console.log(this.produto.subCategorias)
               this.idProduto = produto.idProduto;
+              this.getCategorias();
+              this.resolvePropriedades();
             }
           }
           
@@ -81,6 +90,104 @@ export class ProdutoDetalhesComponent implements OnInit{
       });
     })
   } 
+
+  resolvePropriedades(){
+    for(let prop of Object.keys(this.produto.propriedades!)){
+      console.log(prop)
+      const value = prop.split("nomePropriedade=")[1];
+      const startSubstring = "nomePropriedade="; // Define the starting substring
+      const startIndex = prop.indexOf(startSubstring); // Find the index where the substring starts
+      const valueStartIndex = startIndex + startSubstring.length; // Calculate the index where the value starts
+      const valueEndIndex = prop.indexOf(")", valueStartIndex); // Find the index where the value ends
+      const extractedValue = prop.substring(valueStartIndex, valueEndIndex); // Extract the value
+
+      // console.log(extractedValue); 
+      // console.log(this.produto.propriedades![prop])
+
+      this.props.push([extractedValue,this.produto.propriedades![prop]])
+
+
+    }
+    console.log(this.props)
+
+  }
+ 
+
+  getCategorias(){
+    this.categoriaService.getCategorias().subscribe(obj=>{
+      const statusCode = obj.status
+      if (statusCode === 200) {
+
+        const todasCategorias = obj.body as FullCategoriaDTO[];
+        for (const categoria of todasCategorias){
+          if (this.produto.subCategorias?.filter(subcategoria => subcategoria.categoria?.idCategoria === categoria.idCategoria).length !== 0){
+            this.categorias.push(categoria)
+            
+          }
+        }
+    } else {
+        this.error = obj.body as Error;
+        //chamar pop up
+
+    }
+    
+    for(let categoria of this.categorias){
+      
+      for(let subcategoria of categoria.subCategoriaList!){
+        let sbs = this.getSubCategorias([], [subcategoria]);
+        let filter = 0;
+        if(sbs.length>0){
+          filter = this.produto.subCategorias?.filter(sb => sb.idSubCategoria === sbs[sbs.length-1].idSubCategoria).length!;
+        }
+
+        if(filter ===0){
+          sbs = []
+        }
+        sbs.forEach(sb=>this.subcategorias.push(sb));
+      }
+      
+    }
+    console.log(this.categorias)
+    console.log(this.produto.subCategorias)
+    console.log(this.subcategorias)
+    console.log(this.produto.propriedades)
+    
+
+    })
+
+  }
+
+  mostrar(sbNome:string){
+    
+    for(let sb of this.subcategorias){
+
+      if(sb.nomeSubCategoria === sbNome){
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  getSubCategorias(subCategoriasToAdd:SubCategoriaDTO[], subCategorias:SimpleSubCategoriaDTO[]):SubCategoriaDTO[]{
+    for(let subcategoria of subCategorias){
+  
+      let filter = this.produto.subCategorias?.filter(sb => sb.idSubCategoria === subcategoria.idSubCategoria)
+      if(filter!.length>0){
+        subCategoriasToAdd.push(subcategoria);
+       
+      } else if(filter!.length===0 && subcategoria.subCategoriasFilhos!.length===0){
+        console.log("-")
+      }
+
+      else{
+        subCategoriasToAdd.push(subcategoria);
+        return this.getSubCategorias(subCategoriasToAdd,subcategoria.subCategoriasFilhos!);
+      }
+    }
+    return subCategoriasToAdd;
+
+  }
 
   minhasUniProds(){
     this.uniProdService.getUniProds().subscribe(obj=>{
