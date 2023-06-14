@@ -84,7 +84,7 @@
         <button class="modal-close-btn" (click)="toggleAddProduto(undefined)" style="text-align: right;">FECHAR</button>
         <br>
 
-        <!-- <form [formGroup]="addProdutoForm" (ngSubmit)="onSubmitFornecer()">
+        <form [formGroup]="addProdutoForm" (ngSubmit)="onSubmitFornecer()">
 
 
             <label for="stock"><b>Stock: </b></label>
@@ -115,7 +115,7 @@
 
             <button class=" btn btn-outline-dark" [disabled]="!addProdutoForm.valid" type="submit">Submit</button>
             <p *ngIf="!addProdutoForm.valid">Tem de preencher todos os campos</p>
-        </form> -->
+        </form>
 
     </div>
 </div>
@@ -124,7 +124,7 @@
 <!---------------------------------- REMOVE PRODUTO ---------------------------------->
 
 <div class="modal-wrapper" [class.visible]="showRemoverProduto">
-    <!-- <div class="modal-container" *ngIf="produtoAremover && produtoAremover.uniProds">
+    <div class="modal-container" *ngIf="produtoAremover && produtoAremover.uniProds">
         <button class="modal-close-btn" (click)="closeRemoveForm()" style="text-align: right;">FECHAR</button>
         <br>
 
@@ -136,12 +136,10 @@
             <div formArrayName="uniProdsIds" *ngFor="let uniprod of produtoAremover?.uniProds">
                 <label for="uniProdsIds">{{ uniprod.nomeUniProd }} &nbsp;</label>
                 <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdRemove($event.target,uniprod.idUnidade!)" [checked]="selectAll">
-
-
             </div>
             <br>
             <button class="btn btn-outline-dark" [disabled]="!removerProdutoForm.valid" type="submit">Submit</button>
             <p *ngIf="!removerProdutoForm.valid">Tem de preencher todos os campos</p>
         </form>
-    </div> -->
+    </div>
 </div>

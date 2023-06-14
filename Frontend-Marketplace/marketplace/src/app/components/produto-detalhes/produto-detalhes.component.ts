@@ -6,6 +6,7 @@ import { FullProdutoDTO, ProdutoFornecedorDTO, SimpleItemDTO, UniProdDTO } from 
 import { UtilizadorCoordsDTO } from 'src/app/model/utilizador/utilizadorCoordsDTO';
 import { CestoService } from 'src/app/service/cesto.service';
 import { ProdutosService } from 'src/app/service/produtos.service';
+import { UniProdsService } from 'src/app/service/uni-prods.service';
 
 @Component({
   selector: 'app-produto-detalhes',
@@ -27,19 +28,36 @@ export class ProdutoDetalhesComponent implements OnInit{
   
   produtoAfornecer?:FullProdutoDTO
   produtoAremover?:FullProdutoDTO
+  selectAll: boolean = false;
   showAddProduto: boolean = false;
   showRemoverProduto: boolean = false;
   uniProdsA:UniProdDTO[]=[]
+  uniProdsIds:number[] = [];
+  uniProdsIdsA:number[]=[]
+  uniProdsP:UniProdDTO[]=[]
+  addUnis = false
+  
+  addProdutoForm:FormGroup;
+  removerProdutoForm:FormGroup;
 
-  constructor(private route: ActivatedRoute, private produtosService: ProdutosService, private cestoService: CestoService, private appComponent: AppComponent){}
+  constructor(private route: ActivatedRoute, private produtosService: ProdutosService, private cestoService: CestoService, private appComponent: AppComponent, private uniProdService: UniProdsService){}
   
   ngOnInit(): void {
     this.getProduto();
+    this.minhasUniProds()
     this.role = this.appComponent.role
     this.addCarrinhoForm = new FormGroup({
       quantidade: new FormControl(0, [Validators.required,Validators.pattern(/^[1-9][0-9]*$/)]),
       fornecedor:new FormControl("", Validators.required)
     });
+    this.removerProdutoForm = new FormGroup({
+      uniProdsIds: new FormControl([], Validators.required)
+    })
+    this.addProdutoForm = new FormGroup({
+      uniProdsIds: new FormControl([], Validators.required),
+      preco:new FormControl("", Validators.required),
+      stock:new FormControl("", Validators.required)
+    })
   }
 
   getProduto(){
@@ -62,6 +80,18 @@ export class ProdutoDetalhesComponent implements OnInit{
     }
     });
   } 
+
+  minhasUniProds(){
+    this.uniProdService.getUniProds().subscribe(obj=>{
+      const statusCode = obj.status
+      if (statusCode === 200) {
+        this.uniProdsP = obj.body as UniProdDTO[];
+    } else {
+        this.error = obj.body as Error;
+        //chamar pop up
+    }
+    })
+  }
 
   getDistancia(f:UtilizadorCoordsDTO){
     const coordenadas = f.coordenadas;
@@ -106,10 +136,28 @@ export class ProdutoDetalhesComponent implements OnInit{
     this.addCarrinhoForm.reset();
   }
 
+  onSubmitFornecer(){
+    const produtoId = this.produtoAfornecer!.idProduto!
+    const uniProdsIds = this.addProdutoForm.value.uniProdsIds
+    const preco = this.addProdutoForm.value.preco
+    const stock = this.addProdutoForm.value.stock
+    this.addUniProds(produtoId,uniProdsIds,preco,stock);
+    this.uniProdsA = []
+  }
+
+  onSubmitRemover(){
+    const produtoId = this.produtoAremover!.idProduto!
+    const uniProdsIds = this.removerProdutoForm.value
+     
+    console.log(this.removerProdutoForm.value.uniProdsIds)
+    this.removeProduto(produtoId,this.removerProdutoForm.value.uniProdsIds)
+  }
+
   toggleModal(){
     this.showModal = !this.showModal;
     //Criar Uni Prod
   }
+
   toggleAnswer(){
     if(!this.showAnswer){
       if(this.success){
@@ -170,4 +218,83 @@ export class ProdutoDetalhesComponent implements OnInit{
     }) 
   }
 
+  closeRemoveForm(){
+    this.showRemoverProduto = !this.showRemoverProduto
+    this.produtoAremover = undefined
+    this.selectAll = false
+    this.removerProdutoForm.patchValue({uniProdsIds:[]})
+  }
+
+  removeProduto(produtoId:number,uniProdsIds:Array<number>){
+
+    this.produtosService.removeProduto(produtoId,uniProdsIds).subscribe(obj=>{
+      const statusCode = obj
+      // if (statusCode === 200) {
+        this.toggleRemoverProduto()
+        console.log(obj)
+        window.location.reload()
+        this.removerProdutoForm.patchValue({uniProdsIds:[]})
+    // } else {
+        // this.error = obj.body as Error;
+        //chamar pop up
+    // }
+    })
+  }
+
+  onSelectAllChange() {
+    this.selectAll = !this.selectAll;
+    if(this.selectAll){
+      console.log(this.removerProdutoForm.value)
+      this.removerProdutoForm.value.uniProdsIds = []
+      let uniPId = this.removerProdutoForm.value.uniProdsIds
+  
+      for(let up of this.produtoAremover?.uniProds!){
+        this.removerProdutoForm.value.uniProdsIds.push(up.idUnidade);
+      }
+      this.removerProdutoForm.patchValue({uniProdsIds:this.removerProdutoForm.value.uniProdsIds})
+    }else{
+      this.removerProdutoForm.patchValue({uniProdsIds:[]})
+    }
+    console.log(this.removerProdutoForm.value);    
+  }
+
+  addUniProds(produtoId:number,uniProdsIds:Array<number>,preco:number,stock:number){
+    this.produtosService.addUniProds(produtoId,uniProdsIds,preco,stock).subscribe(obj=>{
+      const statusCode = obj
+        this.toggleRemoverProduto()
+        console.log(obj)
+        window.location.reload()
+        this.addProdutoForm.patchValue({uniProdsIds:[],stock:"",preco:""})
+    })
+  }
+
+  onUniProdAdd(target1:any, idUniProd: number): void {
+    let target = target1 as HTMLInputElement
+  
+    if (target.checked) {
+      this.uniProdsIdsA.push(idUniProd);
+    } else {
+      const index = this.uniProdsIdsA.indexOf(idUniProd);
+      if (index !== -1) {
+        this.uniProdsIdsA.splice(index, 1);
+      }
+    }
+    this.addProdutoForm.get('uniProdsIds')!.patchValue(this.uniProdsIdsA);
+    console.log(this.addProdutoForm.value)
+
+  }
+
+  onUniProdRemove(target1:any, idUniProd: number): void {
+    let target = target1 as HTMLInputElement
+  
+    if (target.checked) {
+      this.uniProdsIds.push(idUniProd);
+    } else {
+      const index = this.uniProdsIds.indexOf(idUniProd);
+      if (index !== -1) {
+        this.uniProdsIds.splice(index, 1);
+      }
+    }
+    this.removerProdutoForm.get('uniProdsIds')!.patchValue(this.uniProdsIds);
+  }
 }

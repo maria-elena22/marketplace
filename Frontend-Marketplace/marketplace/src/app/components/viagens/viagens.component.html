@@ -8,14 +8,11 @@
         <div id="content">
             <!-- Begin Page Content -->
             <div class="container-fluid">
-                <a (click)="goToTransportes()"> Voltar para transportes</a>
+                <a style="cursor: pointer;" (click)="goToTransportes()"> Voltar para transportes</a>
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-3">
                     <h1 class="h3 mb-0 text-gray-800 mt-4"> Viagens - Transporte #{{transporte.idTransporte}}
                     </h1> 
-                        
-                    <!-- <button class=" btn btn-outline-dark" (click)="toggleModal()"> Adiciona um novo Transporte </button> -->
-
                 </div>
 
                 <!-- Content Row -->
@@ -45,66 +42,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Earnings (Monthly) Card Example -->
-                    <!-- <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-success shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Custo de
-                                            Distribuição</div>
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col-auto">
-                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">200000€</div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="bi bi-cash fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-
-                    <!-- Earnings (Monthly) Card Example 
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                                Estado da última encomenda</div>
-                                            <div class="mb-0 font-weight-bold text-gray-800">Pagamento</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-box fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
-
-                    <!-- Pending Requests Card Example -->
-                    <!-- <div class="col-xl-6 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                            Minha localidade</div>
-                                        <div class=" mb-0 font-weight-bold text-gray-800">{{getLocalidade()}}</div>
-                                        <div class="small">Continente, País, Distrito, Município, Freguesia</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-search-location fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
                 </div>
 
                 <div class="card shadow mb-4 mt-4">
@@ -235,40 +172,6 @@
                 </tr>
             </tbody>
         </table>
-
-
-        <!-- private Timestamp dataInicio;
-         private Timestamp dataFim;
-         private EstadoViagem estadoViagem;
-         private SimpleTransporteDTO transporte;
-         private List<SubItemDTO> subItems; -->
-            
-        <!-- <form [formGroup]="transporteForm" (ngSubmit)="onSubmit()">
-            <div>
-              <label for="matricula">Matrícula: &nbsp;</label>
-              <input type="text" pattern="[a-zA-Z]{2}-[0-9]{2}-[a-zA-Z]{2}" id="matricula" formControlName="matricula" required>
-
-            </div>
-            <br>
-            <div>    
-                <p >Estado do Transporte: &nbsp;</p> 
-                <select formControlName="estadoTransporte" required >
-                    <option *ngFor="let estado of estados" [value]="estado.toUpperCase()" >{{ estado.toString()}}</option>
-                </select>                                            
-            </div>
-            <br>
-
-            <div>    
-                <p >Unidade de Produção: &nbsp;</p> 
-                <select formControlName="uniProd" required >
-                    <option *ngFor="let uniProd of uniProds" [value]="uniProd.idUnidade" >{{ uniProd.nomeUniProd}}</option>
-                </select>                                            
-            </div>
-            
-            <button class=" btn btn-outline-dark" [disabled]="!transporteForm.valid" type="submit">Submit</button>
-            <p *ngIf="!transporteForm.valid">Tem de preencher todos os campos</p>
-        </form>           -->
-
     </div>
   </div>
 
