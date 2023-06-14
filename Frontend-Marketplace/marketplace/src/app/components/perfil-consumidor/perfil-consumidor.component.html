@@ -20,7 +20,7 @@
                         <div class = "col-lg-4">
                             <div class="card" style="height: 37em;">
                                 
-                                <i class="bi bi-person-square" style="font-size: 200px; text-align: center;"></i>
+                                <i class="bi bi-person-square" style="font-size: 200px; text-align: center; color: #858796;"></i>
                                 
                                 <div class="card-body py-1">
                                     <div class=" text-center">
@@ -30,7 +30,7 @@
                                         <p *ngIf="role === 'ROLE_FORNECEDOR'">Fornecedor</p>
                                     </div>
                                 <br>
-                                <div class="col" ><a (click)="openConfirmar()"  class="btn btn-danger" style="font-size: 15px; margin-left: 30%;">Eliminar Conta</a></div>
+                                <div class="col" ><a (click)="openConfirmar()"  class="btn btn-danger" style="font-size: 15px; display: table; margin: auto;">Eliminar Conta</a></div>
                                 </div>
                             </div>
                         </div>
@@ -66,23 +66,18 @@
                                             <input type="text" formControlName="distrito" class="form-control form-control-user" id="exampleDistrito" placeholder="Distrito">
                                         </div>
                                     </div>
-                                    <div class="form-group row" style="margin-top: 3%">
+                                    <div class="form-group row">
                                         <div class="col-sm-8 mb-3 mb-sm-0">
                                             <label for="morada">Morada:</label>
                                             <input type="text" formControlName="morada" class="form-control form-control-user" id="exampleMorada" placeholder="Morada">
                                         </div>
-                                        <div class="col-sm-4">    
-                                            País: &nbsp;
-                                            <select formControlName="pais" class="form-control-user p-2 text-warning fw-bold w-45" id="filtraSelect" name="filtraSelect" style="border-color: #d1d3e2; background-color: white; height: 48px; margin-top: 10px;" required >
+                                        <div class="col-sm-4 mb-3 mb-sm-0">    
+                                            <label for="pais" class="d-block">País:</label>
+                                            <select formControlName="pais" class="form-control-user p-2 text-warning fw-bold w-45" id="filtraSelect" name="filtraSelect" style="border-color: #d1d3e2; background-color: white; height: 48px; width: 100%;" required >
                                                 <option *ngFor="let country of countries" [value]="country.toUpperCase()" >{{ country}}</option>
 
                                             </select>                                            
                                         </div>
-                                        
-                                        <!-- <div class="col-sm-4">
-                                            <label  for="name">Código Postal:</label>
-                                            <input type="text" class="form-control form-control-user" id="exampleCodigoPostal" placeholder="Código Postal">
-                                        </div> -->
                                     </div>
 
                                     <!-- <div class="form-group row" style="margin-top: 3%">
@@ -113,7 +108,7 @@
             </div>
             <!-- End of Main Content -->
 
-            <br><br> 
+            <br>
 
         </div>
         <!-- End of Content Wrapper -->
