@@ -14,8 +14,9 @@
                 <div class="col-lg-7 col-md-7 col-sm-6" *ngIf="produto">
                     <div *ngIf="role==='ROLE_FORNECEDOR'"></div>
                     <h3 class="box-title"><b>{{produto.nome}}</b></h3>
-                    
-                    <div  class="container">
+                    <h5 class="box-title" style="color: #858796;"><b>Descrição: </b> {{produto.descricao}}</h5>
+                    <p></p>
+                    <div class="container">
                         <div class="row">
                             <div class="col-sm">
                                 <h5 class="box-title">Categorias</h5>
@@ -25,8 +26,8 @@
 
                                 <!-- <ul class="list-unstyled">
                                     <li><i class="bi bi-caret-right-fill text-primary"></i> {{categoria.categoria?.nomeCategoria}}</li>
-                                    <li><i class="bi bi-caret-right-fill text-primary"></i> {{categoria.nomeSubCategoria}}</li>  {{subcategoria.nomeSubCategoria}}
-                                </ul> -->
+                                    <!-- <li><i class="bi bi-caret-right-fill text-primary"></i> {{categoria.nomeSubCategoria}}</li> -->
+                                </ul>
                             </div>
                             <div class="col-sm">
                                 <h5 class="box-title">Subcategorias</h5>
