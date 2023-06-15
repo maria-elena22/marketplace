@@ -1,18 +1,331 @@
 <ul ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
-    <li style="cursor: pointer;" ngbDropdownItem (click)="goToProdutos(undefined)"><a class="dropdown-item" >Todos os produtos</a></li>
+    <li style="cursor: pointer;" ngbDropdownItem (click)="goToProdutos()"><a class="dropdown-item" >Todos os produtos</a></li>
     <li><div class="dropdown-divider"></div></li>
 
     <ul ngbDropdownItem *ngFor="let categoria of categorias">
-        <li style="cursor: pointer;" (mouseenter)="selectCategoria(categoria)" class="dropdown-item"> {{ categoria.nomeCategoria }}
+        <li style="cursor: default;" (mouseenter)="selectCategoria(categoria)" class="dropdown-item"> {{ categoria.nomeCategoria }}
             <i class="fas fa fa-angle-right	mr-2" ></i>
         </li>
     </ul>
-    <ul *ngIf="categoriaEscolhida" class="eu">
-        <li style="cursor: pointer;" style="padding: 3%; width: max-content;" (click)="goToProdutos(categoriaEscolhida)" (mouseenter)="showCategoria(categoriaEscolhida)" class="media  align-items-center">
+
+    <ul *ngIf="categoriaEscolhida && categoriaEscolhida?.nomeCategoria === 'Mercearia'" class="eu">
+        <li class="dropdown-item media d-flex align-items-center"   (click)="goToProdutos('Mercearia')" (mouseenter)="showCategoria(categoriaEscolhida)">
             Ver Todos
         </li>
         <div class="dropdown-divider"></div>
 
-        <app-sub-categorias *ngFor="let subCategoria of subcategorias" [subCategoria]="subCategoria" ></app-sub-categorias>
+
+            <li class="dropdown-item media d-flex align-items-center" style="cursor: default;" (mouseover)="selectSubCategoria('Frutas')">Frutas </li>
+            <li *ngIf="subcategoriaEscolhida && (subcategoriaEscolhida.nomeSubCategoria=== 'Frutas' || subcategoriaEscolhida.nomeSubCategoria=== 'Estrangeiro' || subcategoriaEscolhida.nomeSubCategoria=== 'Nacional')" > 
+                <ul class="eu">
+                    <li class="dropdown-item media d-flex align-items-center"  style="cursor: pointer;" (click)="goToProdutos('Mercearia','Frutas')">Ver Todos</li>
+                    <div class="dropdown-divider"></div>
+                    <li class="dropdown-item media d-flex align-items-center"  (mouseover)="selectSubCategoria('Frutas','Estrangeiro')"  (click)="goToProdutos('Mercearia','Frutas','Estrangeiro')">Estrangeiro</li>
+                    <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Frutas','Nacional')" (click)="goToProdutos('Mercearia','Frutas','Nacional')">Nacional</li>
+                </ul>
+            </li>
+
+
+            <li class="dropdown-item media d-flex align-items-center" style="cursor: default;" (mouseover)="selectSubCategoria('Legumes')">Legumes </li>
+            <li *ngIf="subcategoriaEscolhida && (subcategoriaEscolhida.nomeSubCategoria=== 'Legumes' || subcategoriaEscolhida.nomeSubCategoria=== 'Estrangeiros' || subcategoriaEscolhida.nomeSubCategoria=== 'Nacionais')" > 
+                <ul class="eu">
+                    <li class="dropdown-item media d-flex align-items-center"  style="cursor: pointer;" (click)="goToProdutos('Mercearia','Legumes')">Ver Todos</li>
+                    <div class="dropdown-divider"></div>
+                    <li class="dropdown-item media d-flex align-items-center"  (mouseover)="selectSubCategoria('Legumes','Estrangeiros')"  (click)="goToProdutos('Mercearia','Legumes','Estrangeiros')">Estrangeiros</li>
+                    <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Legumes','Nacionais')" (click)="goToProdutos('Mercearia','Legumes','Nacionais')">Nacionais</li>
+                </ul>
+            </li>
+            
+            <li class="dropdown-item media d-flex align-items-center" style="cursor: default;" (mouseover)="selectSubCategoria('Laticínios e Ovos')">Laticínios e Ovos </li>
+            <li *ngIf="subcategoriaEscolhida && (subcategoriaEscolhida.nomeSubCategoria=== 'Laticínios e Ovos' || subcategoriaEscolhida.nomeSubCategoria=== 'Laticínios' || subcategoriaEscolhida.nomeSubCategoria=== 'Ovos')" > 
+                <ul class="eu">
+                    <li class="dropdown-item media d-flex align-items-center"  style="cursor: pointer;" (click)="goToProdutos('Mercearia','Laticínios e Ovos')">Ver Todos</li>
+                    <div class="dropdown-divider"></div>
+                    <li class="dropdown-item media d-flex align-items-center"  (mouseover)="selectSubCategoria('Laticínios e Ovos','Laticínios')"  (click)="goToProdutos('Mercearia','Laticínios e Ovos','Laticínios')">Laticínios</li>
+                    <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Laticínios e Ovos','Ovos')" (click)="goToProdutos('Mercearia','Laticínios e Ovos','Ovos')">Ovos</li>
+                </ul>
+            </li>
+
+        
     </ul>
+
+
+    <ul *ngIf="categoriaEscolhida && categoriaEscolhida?.nomeCategoria === 'Peixaria'" class="eu">
+        <li class="dropdown-item media d-flex align-items-center"   (click)="goToProdutos('Peixaria')" (mouseenter)="showCategoria(categoriaEscolhida)">
+            Ver Todos
+        </li>
+        <div class="dropdown-divider"></div>
+
+
+            <li class="dropdown-item media d-flex align-items-center"  style="cursor: default;" (mouseover)="selectSubCategoria('Marisco')">Marisco </li>
+            <li *ngIf="subcategoriaEscolhida && (subcategoriaEscolhida.nomeSubCategoria=== 'Marisco' || subcategoriaEscolhida.nomeSubCategoria=== 'Camarão' || subcategoriaEscolhida.nomeSubCategoria=== 'Outro Marisco')" > 
+                <ul class="eu">
+                    <li class="dropdown-item media d-flex align-items-center"  style="cursor: pointer;" (click)="goToProdutos('Peixaria','Marisco')">Ver Todos</li>
+                    <div class="dropdown-divider"></div>
+                    <li class="dropdown-item media d-flex align-items-center"  (mouseover)="selectSubCategoria('Marisco','Camarão')"  (click)="goToProdutos('Peixaria','Marisco','Camarão')">Camarão</li>
+                    <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Marisco','Outro Marisco')" (click)="goToProdutos('Peixaria','Marisco','Outro Marisco')">Outro Marisco</li>
+                </ul>
+            </li>
+
+            <li class="dropdown-item media d-flex align-items-center" style="cursor: default;"  (mouseover)="selectSubCategoria('Polvo, Lulas e Chocos')">Polvo, Lulas e Chocos </li>
+            <li *ngIf="subcategoriaEscolhida && (subcategoriaEscolhida.nomeSubCategoria=== 'Polvo, Lulas e Chocos' || subcategoriaEscolhida.nomeSubCategoria=== 'Polvo' || subcategoriaEscolhida.nomeSubCategoria=== 'Lulas'|| subcategoriaEscolhida.nomeSubCategoria=== 'Chocos')" > 
+                <ul class="eu">
+                    <li class="dropdown-item media d-flex align-items-center"  style="cursor: pointer;" (click)="goToProdutos('Peixaria','Polvo, Lulas e Chocos')">Ver Todos</li>
+                    <div class="dropdown-divider"></div>
+                    <li class="dropdown-item media d-flex align-items-center"  (mouseover)="selectSubCategoria('Polvo, Lulas e Chocos','Polvo')"  (click)="goToProdutos('Peixaria','Polvo, Lulas e Chocos','Polvo')">Polvo</li>
+                    <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Polvo, Lulas e Chocos','Lulas')" (click)="goToProdutos('Peixaria','Polvo, Lulas e Chocos','Lulas')">Lulas</li>
+                    <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Polvo, Lulas e Chocos','Chocos')" (click)="goToProdutos('Peixaria','Polvo, Lulas e Chocos','Chocos')">Chocos</li>
+
+                </ul>
+            </li>
+        
+
+
+            <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Peixe Congelado')" (click)="goToProdutos('Peixaria','Peixe Congelado')">Peixe Congelado </li>
+        
+            <li class="dropdown-item media d-flex align-items-center" style="cursor: default;"  (mouseover)="selectSubCategoria('Peixe Fresco')">Peixe Fresco </li>
+            <li *ngIf="subcategoriaEscolhida && (subcategoriaEscolhida.nomeSubCategoria=== 'Peixe Fresco' || subcategoriaEscolhida.nomeSubCategoria=== 'Estrangeiro' || subcategoriaEscolhida.nomeSubCategoria=== 'Nacional')" > 
+                <ul class="eu">
+                    <li class="dropdown-item media d-flex align-items-center"  style="cursor: pointer;" (click)="goToProdutos('Peixaria','Peixe Fresco')">Ver Todos</li>
+                    <div class="dropdown-divider"></div>
+                    <li class="dropdown-item media d-flex align-items-center"  (mouseover)="selectSubCategoria('Peixe Fresco','Estrangeiro')"  (click)="goToProdutos('Peixaria','Peixe Fresco','Estrangeiro')">Estrangeiro</li>
+                    <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Peixe Fresco','Nacional')" (click)="goToProdutos('Peixaria','Peixe Fresco','Nacional')">Nacional</li>
+                </ul>
+            </li>
+
+            <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Bacalhau')" (click)="goToProdutos('Peixaria','Bacalhau')">Bacalhau </li>
+        
+    </ul>
+
+    <ul *ngIf="categoriaEscolhida && categoriaEscolhida?.nomeCategoria === 'Talho'" class="eu">
+        <li class="dropdown-item media d-flex align-items-center"   (click)="goToProdutos('Talho')" (mouseenter)="showCategoria(categoriaEscolhida)">
+            Ver Todos
+        </li>
+        <div class="dropdown-divider"></div>
+
+
+            <li class="dropdown-item media d-flex align-items-center"  style="cursor: default;" (mouseover)="selectSubCategoria('Novilho, Vitela e Vitelão')">Novilho, Vitela e Vitelão </li>
+            <li *ngIf="subcategoriaEscolhida && (subcategoriaEscolhida.nomeSubCategoria=== 'Novilho, Vitela e Vitelão' || subcategoriaEscolhida.nomeSubCategoria=== 'Novilho' || subcategoriaEscolhida.nomeSubCategoria=== 'Vitela' || subcategoriaEscolhida.nomeSubCategoria=== 'Vitelão')" > 
+                <ul class="eu">
+                    <li class="dropdown-item media d-flex align-items-center"  style="cursor: pointer;" (click)="goToProdutos('Talho','Novilho, Vitela e Vitelão')">Ver Todos</li>
+                    <div class="dropdown-divider"></div>
+                    <li class="dropdown-item media d-flex align-items-center"  (mouseover)="selectSubCategoria('Novilho, Vitela e Vitelão','Novilho')"  (click)="goToProdutos('Talho','Novilho, Vitela e Vitelão','Novilho')">Novilho</li>
+                    <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Novilho, Vitela e Vitelão','Vitela')" (click)="goToProdutos('Talho','Novilho, Vitela e Vitelão','Vitela')">Vitela</li>
+                    <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Novilho, Vitela e Vitelão','Vitelão')" (click)="goToProdutos('Talho','Novilho, Vitela e Vitelão','Vitelão')">Vitelão</li>
+
+                </ul>
+            </li>
+
+            <li class="dropdown-item media d-flex align-items-center"  style="cursor: default;" (mouseover)="selectSubCategoria('Frango e Peru')">Frango e Peru </li>
+            <li *ngIf="subcategoriaEscolhida && (subcategoriaEscolhida.nomeSubCategoria=== 'Frango e Peru' || subcategoriaEscolhida.nomeSubCategoria=== 'Frango' || subcategoriaEscolhida.nomeSubCategoria=== 'Peru')" > 
+                <ul class="eu">
+                    <li class="dropdown-item media d-flex align-items-center"  style="cursor: pointer;" (click)="goToProdutos('Talho','Frango e Peru')">Ver Todos</li>
+                    <div class="dropdown-divider"></div>
+                    <li class="dropdown-item media d-flex align-items-center"  (mouseover)="selectSubCategoria('Frango e Peru','Frango')"  (click)="goToProdutos('Talho','Frango e Peru','Frango')">Frango</li>
+                    <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Frango e Peru','Peru')" (click)="goToProdutos('Talho','Frango e Peru','Peru')">Peru</li>
+                </ul>
+            </li>
+
+            <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Porco')" (click)="goToProdutos('Talho','Porco')">Porco </li>
+
+            
+            <li class="dropdown-item media d-flex align-items-center" style="cursor: default;"  (mouseover)="selectSubCategoria('Pato e Coelho')">Pato e Coelho </li>
+            <li *ngIf="subcategoriaEscolhida && (subcategoriaEscolhida.nomeSubCategoria=== 'Pato e Coelho' || subcategoriaEscolhida.nomeSubCategoria=== 'Pato' || subcategoriaEscolhida.nomeSubCategoria=== 'Coelho')" > 
+                <ul class="eu">
+                    <li class="dropdown-item media d-flex align-items-center"  style="cursor: pointer;" (click)="goToProdutos('Talho','Pato e Coelho')">Ver Todos</li>
+                    <div class="dropdown-divider"></div>
+                    <li class="dropdown-item media d-flex align-items-center"  (mouseover)="selectSubCategoria('Pato e Coelho','Pato')"  (click)="goToProdutos('Talho','Pato e Coelho','Pato')">Pato</li>
+                    <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Pato e Coelho','Coelho')" (click)="goToProdutos('Talho','Pato e Coelho','Coelho')">Coelho</li>
+                </ul>
+            </li>
+
+            <li class="dropdown-item media d-flex align-items-center"  style="cursor: default;" (mouseover)="selectSubCategoria('Cabrito e Borrego')">Cabrito e Borrego </li>
+            <li *ngIf="subcategoriaEscolhida && (subcategoriaEscolhida.nomeSubCategoria=== 'Cabrito e Borrego' || subcategoriaEscolhida.nomeSubCategoria=== 'Cabrito' || subcategoriaEscolhida.nomeSubCategoria=== 'Borrego')" > 
+                <ul class="eu">
+                    <li class="dropdown-item media d-flex align-items-center"  style="cursor: pointer;" (click)="goToProdutos('Talho','Cabrito e Borrego')">Ver Todos</li>
+                    <div class="dropdown-divider"></div>
+                    <li class="dropdown-item media d-flex align-items-center"  (mouseover)="selectSubCategoria('Cabrito e Borrego','Cabrito')"  (click)="goToProdutos('Talho','Cabrito e Borrego','Cabrito')">Cabrito</li>
+                    <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Cabrito e Borrego','Borrego')" (click)="goToProdutos('Talho','Cabrito e Borrego','Borrego')">Borrego</li>
+                </ul>
+            </li>  
+        
+    </ul>
+
+
+    <ul *ngIf="categoriaEscolhida && categoriaEscolhida?.nomeCategoria === 'Congelados'" class="eu">
+        <li class="dropdown-item media d-flex align-items-center"   (click)="goToProdutos('Congelados')" (mouseenter)="showCategoria(categoriaEscolhida)">
+            Ver Todos
+        </li>
+        <div class="dropdown-divider"></div>
+    
+            <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Gelados')" (click)="goToProdutos('Congelados','Gelados')">Gelados </li>
+    
+
+
+            <li class="dropdown-item media d-flex align-items-center" style="cursor: default;"  (mouseover)="selectSubCategoria('Frutas e Legumes')">Frutas e Legumes </li>
+            <li *ngIf="subcategoriaEscolhida && (subcategoriaEscolhida.nomeSubCategoria=== 'Frutas e Legumes' || subcategoriaEscolhida.nomeSubCategoria=== 'Fruta' || subcategoriaEscolhida.nomeSubCategoria=== 'Legumes')" > 
+                <ul class="eu">
+                    <li class="dropdown-item media d-flex align-items-center"  style="cursor: pointer;" (click)="goToProdutos('Congelados','Frutas e Legumes')">Ver Todos</li>
+                    <div class="dropdown-divider"></div>
+                    <li class="dropdown-item media d-flex align-items-center"  (mouseover)="selectSubCategoria('Frutas e Legumes','Fruta')"  (click)="goToProdutos('Congelados','Frutas e Legumes','Fruta')">Fruta</li>
+                    <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Frutas e Legumes','Legumes')" (click)="goToProdutos('Congelados','Frutas e Legumes','Legumes')">Legumes</li>
+                </ul>
+            </li>
+
+
+
+
+            <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Batatas Congeladas')" (click)="goToProdutos('Congelados','Batatas Congeladas')">Batatas Congeladas </li>
+    
+            <li class="dropdown-item media d-flex align-items-center"  style="cursor: default;" (mouseover)="selectSubCategoria('Salgados e Aperitivos')">Salgados e Aperitivos </li>
+            <li *ngIf="subcategoriaEscolhida && (subcategoriaEscolhida.nomeSubCategoria=== 'Salgados e Aperitivos' || subcategoriaEscolhida.nomeSubCategoria=== 'Salgados' || subcategoriaEscolhida.nomeSubCategoria=== 'Aperitivos')" > 
+                <ul class="eu">
+                    <li class="dropdown-item media d-flex align-items-center"  style="cursor: pointer;" (click)="goToProdutos('Congelados','Salgados e Aperitivos')">Ver Todos</li>
+                    <div class="dropdown-divider"></div>
+                    <li class="dropdown-item media d-flex align-items-center"  (mouseover)="selectSubCategoria('Salgados e Aperitivos','Salgados')"  (click)="goToProdutos('Congelados','Salgados e Aperitivos','Salgados')">Salgados</li>
+                    <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Salgados e Aperitivos','Aperitivos')" (click)="goToProdutos('Congelados','Salgados e Aperitivos','Aperitivos')">Aperitivos</li>
+                </ul>
+            </li>
+    
+            <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Pizza')" (click)="goToProdutos('Congelados','Pizza')">Pizza </li>
+    
+    
+            <li class="dropdown-item media d-flex align-items-center"  style="cursor: default;"  (mouseover)="selectSubCategoria('Hambúrgueres e Refeições')">Hambúrgueres e Refeições </li>
+            <li *ngIf="subcategoriaEscolhida && (subcategoriaEscolhida.nomeSubCategoria=== 'Hambúrgueres e Refeições' || subcategoriaEscolhida.nomeSubCategoria=== 'Hambúrgueres' || subcategoriaEscolhida.nomeSubCategoria=== 'Refeições')" > 
+                <ul class="eu">
+                    <li class="dropdown-item media d-flex align-items-center"  style="cursor: pointer;" (click)="goToProdutos('Congelados','Hambúrgueres e Refeições')">Ver Todos</li>
+                    <div class="dropdown-divider"></div>
+                    <li class="dropdown-item media d-flex align-items-center"  (mouseover)="selectSubCategoria('Hambúrgueres e Refeições','Hambúrgueres')"  (click)="goToProdutos('Congelados','Hambúrgueres e Refeições','Hambúrgueres')">Hambúrgueres</li>
+                    <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Hambúrgueres e Refeições','Refeições')" (click)="goToProdutos('Congelados','Hambúrgueres e Refeições','Refeições')">Refeições</li>
+                </ul>
+            </li>  
+    
+    
+            <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Carne Congelada')" (click)="goToProdutos('Congelados','Carne Congelada')">Carne Congelada </li>
+            
+            <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Peixe e Marisco Congelado')" (click)="goToProdutos('Congelados','Peixe e Marisco Congelado')">Peixe e Marisco Congelado </li>
+    
+            
+        
+    </ul>
+
+
+    <ul *ngIf="categoriaEscolhida && categoriaEscolhida?.nomeCategoria === 'Limpeza'" class="eu">
+        <li class="dropdown-item media d-flex align-items-center"   (click)="goToProdutos('Limpeza')" (mouseenter)="showCategoria(categoriaEscolhida)">
+            Ver Todos
+        </li>
+        <div class="dropdown-divider"></div>
+    
+            <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Limpeza Geral')" (click)="goToProdutos('Limpeza','Limpeza Geral')">Gelados </li>
+    
+            <li class="dropdown-item media d-flex align-items-center" style="cursor: default;"  (mouseover)="selectSubCategoria('Limpeza da Cozinha')">Limpeza da Cozinha </li>
+            <li *ngIf="subcategoriaEscolhida && (subcategoriaEscolhida.nomeSubCategoria=== 'Limpeza da Cozinha' || subcategoriaEscolhida.nomeSubCategoria=== 'Detergente Loiça' || subcategoriaEscolhida.nomeSubCategoria=== 'Limpeza Fogão, Forno e Frigorífico')" > 
+                <ul class="eu">
+                    <li class="dropdown-item media d-flex align-items-center"  style="cursor: pointer;" (click)="goToProdutos('Limpeza','Limpeza da Cozinha')">Ver Todos</li>
+                    <div class="dropdown-divider"></div>
+                    <li class="dropdown-item media d-flex align-items-center"  (mouseover)="selectSubCategoria('Limpeza da Cozinha','Detergente Loiça')"  (click)="goToProdutos('Limpeza','Limpeza da Cozinha','Detergente Loiça')">Detergente Loiça</li>
+                    <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Limpeza da Cozinha','Limpeza Fogão, Forno e Frigorífico')" (click)="goToProdutos('Limpeza','Limpeza da Cozinha','Limpeza Fogão, Forno e Frigorífico')">Limpeza Fogão, Forno e Frigorífico</li>
+                </ul>
+            </li>
+    
+    
+            <li class="dropdown-item media d-flex align-items-center" style="cursor: default;"  (mouseover)="selectSubCategoria('Limpeza Casa de Banho')">Limpeza Casa de Banho </li>
+            <li *ngIf="subcategoriaEscolhida && (subcategoriaEscolhida.nomeSubCategoria=== 'Limpeza Casa de Banho' || subcategoriaEscolhida.nomeSubCategoria=== 'Lava Tudo' || subcategoriaEscolhida.nomeSubCategoria=== 'Desentupidores' || subcategoriaEscolhida.nomeSubCategoria=== 'Blocos Sanitários')" > 
+                <ul class="eu">
+                    <li class="dropdown-item media d-flex align-items-center"  style="cursor: pointer;" (click)="goToProdutos('Limpeza','Limpeza Casa de Banho')">Ver Todos</li>                    
+                    <div class="dropdown-divider"></div>
+                    <li class="dropdown-item media d-flex align-items-center"  (mouseover)="selectSubCategoria('Limpeza Casa de Banho','Lava Tudo')"  (click)="goToProdutos('Limpeza','Limpeza Casa de Banho','Lava Tudo')">Lava Tudo</li>
+                    <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Limpeza Casa de Banho','Desentupidores')" (click)="goToProdutos('Limpeza','Limpeza Casa de Banho','Desentupidores')">Desentupidores</li>
+                    <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Limpeza Casa de Banho','Blocos Sanitários')" (click)="goToProdutos('Limpeza','Limpeza Casa de Banho','Blocos Sanitários')">Blocos Sanitários</li>
+    
+                </ul>
+            </li>
+    
+            <li class="dropdown-item media d-flex align-items-center" style="cursor: default;"  (mouseover)="selectSubCategoria('Ambientadores')">Ambientadores </li>
+            <li *ngIf="subcategoriaEscolhida && (subcategoriaEscolhida.nomeSubCategoria=== 'Ambientadores' || subcategoriaEscolhida.nomeSubCategoria=== 'Ambientadores automáticos e manuais' || subcategoriaEscolhida.nomeSubCategoria=== 'Velas' || subcategoriaEscolhida.nomeSubCategoria=== 'Sprays' || subcategoriaEscolhida.nomeSubCategoria=== 'Ambientadores automáticos'||subcategoriaEscolhida.nomeSubCategoria=== 'Ambientadores manuais')" > 
+                <ul class="eu" >
+                    <li class="dropdown-item media d-flex align-items-center"  style="cursor: pointer;" (click)="goToProdutos('Limpeza','Ambientadores')">Ver Todos</li>
+                    <div class="dropdown-divider"></div>
+                    <li class="dropdown-item media d-flex align-items-center subs"  style="cursor: default;"  (mouseover)="selectSubCategoria('Ambientadores','Ambientadores automáticos e manuais')"  (click)="goToProdutos('Limpeza','Ambientadores','Ambientadores automáticos e manuais')">Ambientadores automáticos e manuais</li>
+                        <li  *ngIf="subcategoriaEscolhida && ( subcategoriaEscolhida.nomeSubCategoria==='Ambientadores automáticos e manuais'|| subcategoriaEscolhida.nomeSubCategoria=== 'Ambientadores automáticos'||subcategoriaEscolhida.nomeSubCategoria=== 'Ambientadores manuais')" > 
+                            <ul class="eu">
+                                <li class="dropdown-item media d-flex align-items-center"  style="cursor: pointer;" (click)="goToProdutos('Limpeza','Ambientadores','Ambientadores automáticos e manuais')">Ver Todos</li>
+                                <div class="dropdown-divider"></div>    
+    
+                                <li class="dropdown-item media d-flex align-items-center subs" (mouseover)="selectSubCategoria('Ambientadores','Ambientadores automáticos e manuais', 'Ambientadores automáticos')" (click)="goToProdutos('Limpeza','Ambientadores','Ambientadores automáticos e manuais', 'Ambientadores automáticos')">Ambientadores automáticos</li>
+                                <li class="dropdown-item media d-flex align-items-center subs" (mouseover)="selectSubCategoria('Ambientadores','Ambientadores automáticos e manuais', 'Ambientadores manuais')" (click)="goToProdutos('Limpeza','Ambientadores','Ambientadores automáticos e manuais','Ambientadores manuais')">Ambientadores manuais</li>
+    
+                            </ul>
+                        </li>
+    
+                    <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Ambientadores','Velas')" (click)="goToProdutos('Limpeza','Ambientadores','Velas')">Velas</li>
+                    <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Ambientadores','Sprays')" (click)="goToProdutos('Limpeza','Ambientadores','Sprays')">Sprays</li>
+    
+                </ul>
+            </li>
+    
+    
+            
+            <li class="dropdown-item media d-flex align-items-center subs" (mouseover)="selectSubCategoria('Guardanapos, Rolos e Películas')" (click)="goToProdutos('Limpeza','Guardanapos, Rolos e Películas')">Guardanapos, Rolos e Películas </li>
+    
+            <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Desinfetantes e Proteção')" (click)="goToProdutos('Limpeza','Desinfetantes e Proteção')">Desinfetantes e Proteção </li>
+    
+            
+        
+    </ul>
+
+
+    <ul *ngIf="categoriaEscolhida && categoriaEscolhida?.nomeCategoria === 'Eletrodomésticos'" class="eu">
+        <li class="dropdown-item media d-flex align-items-center"   (click)="goToProdutos('Eletrodomésticos')" (mouseenter)="showCategoria(categoriaEscolhida)">
+            Ver Todos
+        </li>
+        <div class="dropdown-divider"></div>
+    
+        <li class="dropdown-item media d-flex align-items-center" style="cursor: default;"  (mouseover)="selectSubCategoria('Cozinha')">Cozinha </li>
+        <li *ngIf="subcategoriaEscolhida && (subcategoriaEscolhida.nomeSubCategoria=== 'Cozinha' || subcategoriaEscolhida.nomeSubCategoria=== 'Frigoríficos' || subcategoriaEscolhida.nomeSubCategoria=== 'Microondas e fogões' || subcategoriaEscolhida.nomeSubCategoria=== 'Máquinas de café')" > 
+            <ul class="eu">
+                <li class="dropdown-item media d-flex align-items-center"  style="cursor: pointer;" (click)="goToProdutos('Eletrodomésticos','Cozinha')">Ver Todos</li>                    
+                <div class="dropdown-divider"></div>
+                <li class="dropdown-item media d-flex align-items-center"  (mouseover)="selectSubCategoria('Cozinha','Frigoríficos')"  (click)="goToProdutos('Eletrodomésticos','Cozinha','Frigoríficos')">Frigoríficos</li>
+                <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Cozinha','Microondas e fogões')" (click)="goToProdutos('Eletrodomésticos','Cozinha','Microondas e fogões')">Microondas e fogões</li>
+                <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Cozinha','Máquinas de café')" (click)="goToProdutos('Eletrodomésticos','Cozinha','Máquinas de café')">Máquinas de café</li>
+    
+            </ul>
+        </li>
+    
+        <li class="dropdown-item media d-flex align-items-center"  style="cursor: default;" (mouseover)="selectSubCategoria('Sala')">Sala </li>
+        <li *ngIf="subcategoriaEscolhida && (subcategoriaEscolhida.nomeSubCategoria=== 'Sala' || subcategoriaEscolhida.nomeSubCategoria=== 'Ar Condicionado' || subcategoriaEscolhida.nomeSubCategoria=== 'Ventoinhas' || subcategoriaEscolhida.nomeSubCategoria=== 'Televisões')" > 
+            <ul class="eu">
+                <li class="dropdown-item media d-flex align-items-center"  style="cursor: pointer;" (click)="goToProdutos('Eletrodomésticos','Sala')">Ver Todos</li>                    
+                <div class="dropdown-divider"></div>
+                <li class="dropdown-item media d-flex align-items-center"  (mouseover)="selectSubCategoria('Sala','Ar Condicionado')"  (click)="goToProdutos('Eletrodomésticos','Sala','Ar Condicionado')">Ar Condicionado</li>
+                <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Sala','Ventoinhas')" (click)="goToProdutos('Eletrodomésticos','Sala','Ventoinhas')">Ventoinhas</li>
+                <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Sala','Televisões')" (click)="goToProdutos('Eletrodomésticos','Sala','Televisões')">Televisões</li>
+
+            </ul>
+        </li>
+            
+            
+        <li class="dropdown-item media d-flex align-items-center"  style="cursor: default;" (mouseover)="selectSubCategoria('Casa de Banho')">Casa de Banho </li>
+        <li *ngIf="subcategoriaEscolhida && (subcategoriaEscolhida.nomeSubCategoria=== 'Casa de Banho' || subcategoriaEscolhida.nomeSubCategoria=== 'Secador de Cabelo' || subcategoriaEscolhida.nomeSubCategoria=== 'Máquinas de barbear' || subcategoriaEscolhida.nomeSubCategoria=== 'Escovas de dentes')" > 
+            <ul class="eu">
+                <li class="dropdown-item media d-flex align-items-center"  style="cursor: pointer;" (click)="goToProdutos('Eletrodomésticos','Casa de Banho')">Ver Todos</li>                    
+                <div class="dropdown-divider"></div>
+                <li class="dropdown-item media d-flex align-items-center"  (mouseover)="selectSubCategoria('Casa de Banho','Secador de Cabelo')"  (click)="goToProdutos('Eletrodomésticos','Casa de Banho','Secador de Cabelo')">Secador de Cabelo</li>
+                <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Casa de Banho','Máquinas de barbear')" (click)="goToProdutos('Eletrodomésticos','Casa de Banho','Máquinas de barbear')">Máquinas de barbear</li>
+                <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Casa de Banho','Escovas de dentes')" (click)="goToProdutos('Eletrodomésticos','Casa de Banho','Escovas de dentes')">Escovas de dentes</li>
+
+            </ul>
+        </li>
+        
+    </ul>
+
+
+
 </ul>
+
+
+
+
+
+    

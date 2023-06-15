@@ -5,14 +5,13 @@
     <button class=" btn btn-outline-dark" (click)="toggleModal()">Adicionar Produto</button>
 
 </div>
-<div *ngIf="showFilter">
-
+<br>
+<h3 *ngIf="titulo" style="padding: 1%;"><strong>{{titulo}}</strong></h3>
+<div *ngIf="showFilter" style="padding: 1%;">
 
     <form [formGroup]="searchProdutoForm" (ngSubmit)="onSubmitSearch()">
-        <br>
-
-        <div class="mt0">
-            <b><p style="font-size: 25px; margin-left: 0.5%;">Pesquisar por:</p></b> &nbsp; &nbsp;&nbsp;
+        <div class="mt0" >
+            <!-- <b><p style="font-size: 25px; margin-left: 0.5%;">Pesquisar por:</p></b> &nbsp; &nbsp;&nbsp; -->
             <label for="fornecedor"><b>Nome do Produto:</b></label> &nbsp;
             <input type="text" formControlName="nomeProduto" class="form-control form-control-user d-inline-block" style="width:15%;"> &nbsp; <label for="precoMin"><b>Preço Mínimo:</b></label> &nbsp;
             <input type="number" id="precoMin" formControlName="precoMin" step="0.01" min="0" class="form-control form-control-user d-inline-block" style="width:10%;"> &nbsp; <label for="precoMax"><b>Preço Máximo:</b></label> &nbsp;
@@ -203,15 +202,15 @@
             <div formArrayName="uniProdsIds">
 
                 <label style="border: solid 1px; padding: 2%; margin:1%;" *ngFor="let uniprod of getFirstThird(uniProdsP)">
-                <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdChange($event.target,uniprod.idUnidade!)"> {{ uniprod.nomeUniProd }} 
+                <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdChange($event.target,uniprod.idUnidade!)"> {{ uniprod.nomeUniProd }}
             </label>
                 <br>
                 <label style="border: solid 1px; padding: 2%; margin:1%;" *ngFor="let uniprod of getSecondThird(uniProdsP)">
-                <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdChange($event.target,uniprod.idUnidade!)"> {{ uniprod.nomeUniProd }} 
+                <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdChange($event.target,uniprod.idUnidade!)"> {{ uniprod.nomeUniProd }}
             </label>
                 <br>
                 <label style="border: solid 1px; padding: 2%; margin:1%;" *ngFor="let uniprod of getLastThird(uniProdsP)">
-                <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdChange($event.target,uniprod.idUnidade!)"> {{ uniprod.nomeUniProd }} 
+                <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdChange($event.target,uniprod.idUnidade!)"> {{ uniprod.nomeUniProd }}
             </label>
             </div>
 
@@ -385,7 +384,7 @@
             <label for="fornecedor"><b>Escolha um dos fornecedores:</b> <p>(de forma a ajudar os négocios locais, escolha um perto de si)</p></label>
             <div>
                 <label *ngFor="let precoFornecedor of produtoAadicionar.precoFornecedores">
-                        <input  required formControlName="fornecedor" type="radio" [value]="precoFornecedor.fornecedor!.idUtilizador!"> 
+                        <input  required formControlName="fornecedor" type="radio" [value]="precoFornecedor.fornecedor!.idUtilizador!">
                         {{precoFornecedor.fornecedor!.nome}} - {{precoFornecedor.preco}}€ - Distância: {{getDistancia(precoFornecedor.fornecedor!).toFixed(2)}} km &nbsp;
                         <br>
 
@@ -406,7 +405,7 @@
 <div class="modal-wrapper" [class.visible]="showAddProduto">
     <div class="modal-container" *ngIf="produtoAfornecer">
         <button class="modal-close-btn" (click)="toggleAddProduto(undefined)" style="text-align: right;">FECHAR</button>
-        
+
         <h3 style="text-align: left; margin-top: -4%; margin-left: 5%">Produto: {{produtoAfornecer.nome}}</h3>
         <br>
 
@@ -452,7 +451,7 @@
 <div class="modal-wrapper" [class.visible]="showRemoverProduto">
     <div class="modal-container" *ngIf="produtoAremover && produtoAremover.uniProds">
         <button class="modal-close-btn" (click)="closeRemoveForm()" style="text-align: right;">FECHAR</button>
-        
+
         <h3 style="text-align: left; margin-top: -4%; margin-left: 5%">Produto: {{produtoAremover.nome}}</h3>
         <br>
 

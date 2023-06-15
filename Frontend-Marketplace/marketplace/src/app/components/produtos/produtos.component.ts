@@ -31,6 +31,7 @@ export class ProdutosComponent implements OnInit {
   prodComparar1?:FullProdutoDTO;
   prodComparar2?:FullProdutoDTO;
 
+  titulo?:string;
 
   // forms
   produtoForm:FormGroup;
@@ -505,6 +506,7 @@ export class ProdutosComponent implements OnInit {
       
       this.idCategoria = queryParams["categoria"] === undefined? -1:queryParams["categoria"]
       this.idSubCategoria = queryParams["subCategoria"]=== undefined? -1:queryParams["subCategoria"]
+      this.titulo = queryParams["titulo"]
       this.getProdutos(this.idCategoria,this.idSubCategoria);
 
     });

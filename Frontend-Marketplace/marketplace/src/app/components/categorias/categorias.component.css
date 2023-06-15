@@ -18,6 +18,15 @@ ul.eu {
     cursor: pointer;
 }
   
-ul.eu > li {
-    white-space: nowrap; /* Impede que o texto quebre em várias linhas */
+/* ul.eu > li {
+    white-space: nowrap; 
+} 
+*/
+
+.subs{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    white-space: normal;
+    word-wrap: break-word;
 }
