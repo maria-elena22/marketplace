@@ -129,8 +129,9 @@ export class PagamentoComponent implements OnInit{
 
   toggleAnswer(){
     if(this.showAnswer){
-      this.router.navigate(['/marketplace/encomendas']);
       this.showAnswer = !this.showAnswer;
+    }else{
+      this.showAnswer = true;
     }
   }
 
