@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<div *ngIf="role === 'ROLE_FORNECEDOR'" style="position: absolute; left: 70%;" class="mt-3">
+<div *ngIf="role === 'ROLE_FORNECEDOR'" style="position: relative; left: 70%;" class="mt-3">
     <button class=" btn btn-outline-dark" *ngIf="meusProdutos.length>0" (click)="verTodosProdutos()">Todos os produtos</button> &nbsp;
     <button class=" btn btn-outline-dark" *ngIf="meusProdutos.length===0" (click)="verMeusProdutos(-1,-1)">Meus produtos</button> &nbsp;
     <button class=" btn btn-outline-dark" (click)="toggleModal()">Adicionar Produto</button>
 
 </div>
-<br>
+
 <h3 *ngIf="titulo" style="padding: 1%;"><strong>{{titulo}}</strong></h3>
 <div *ngIf="showFilter" style="padding: 1%;">
-
+    <br>
     <form [formGroup]="searchProdutoForm" (ngSubmit)="onSubmitSearch()">
         <div class="mt0" >
             <!-- <b><p style="font-size: 25px; margin-left: 0.5%;">Pesquisar por:</p></b> &nbsp; &nbsp;&nbsp; -->
@@ -27,15 +27,12 @@
             <button class="btn btn-primary d-inline-block" type="submit"><i class="bi bi-search"></i>   Pesquisar</button>
 
         </div>
-
+<br>
 
 
     </form>
 </div>
-<br>
 
-
-<br>
 
 <div style="border: solid 2px; display: inline-block; padding: 1%; margin-top: 15px; position: fixed; z-index: 14; background-color: white; width:17%;" *ngIf="prodComparar1||prodComparar2">
 
@@ -116,7 +113,7 @@
 
 <!---------------------------------- PRODUTOS FORNECEDOR ---------------------------------->
 
-<section *ngIf="meusProdutos.length>0" class="py-5">
+<section *ngIf="meusProdutos.length>0" class="py-5" >
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
             <div *ngFor="let produto of meusProdutos" class="col mb-5">
