@@ -46,8 +46,15 @@ export class CestoComponent implements OnInit{
       let produto = this.getProduto(simpleItem.produtoId!)
       if(produto ){
         let fornecedor = this.getFornecedor(produto,simpleItem.fornecedorId!)
-        item = { produto: produto, fornecedor: fornecedor!, quantidade:simpleItem.quantidade!, preco:this.getPreco(produto,fornecedor!) }
-        this.items.push(item)
+        if(fornecedor){
+          item = { produto: produto, fornecedor: fornecedor!, quantidade:simpleItem.quantidade!, preco:this.getPreco(produto,fornecedor!) }
+          this.items.push(item)
+        } else{
+          this.cestoService.removeFromCart(simpleItem);
+          this.items = []
+          this.getProdutos(-1,-1)
+        }
+       
       } 
     }
   }
@@ -97,7 +104,7 @@ export class CestoComponent implements OnInit{
   }
 
   getProdutos(idCategoria:number,idSubCategoria:number){
-    this.produtosService.getProdutos(idCategoria,idSubCategoria).subscribe(obj=>{
+    this.produtosService.getProdutos(idCategoria,idSubCategoria, undefined, undefined,undefined,undefined,undefined,999999999).subscribe(obj=>{
       const statusCode = obj.status
       if (statusCode === 200) {
         this.produtos =  obj.body as FullProdutoDTO[];
