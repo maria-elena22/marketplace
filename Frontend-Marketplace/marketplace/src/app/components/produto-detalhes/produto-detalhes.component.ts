@@ -49,8 +49,10 @@ export class ProdutoDetalhesComponent implements OnInit{
   
   ngOnInit(): void {
     this.getProduto();
-    this.minhasUniProds()
     this.role = this.appComponent.role
+    if(this.role === "ROLE_FORNECEDOR"){
+      this.minhasUniProds();
+    }
     this.addCarrinhoForm = new FormGroup({
       quantidade: new FormControl(0, [Validators.required,Validators.pattern(/^[1-9][0-9]*$/)]),
       fornecedor:new FormControl("", Validators.required)
