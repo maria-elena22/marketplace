@@ -375,13 +375,16 @@
         <h4><b>Adicionar {{produtoAadicionar.nome}} ao carrinho</b></h4>
         <p></p>
         <form [formGroup]="addCarrinhoForm" (ngSubmit)="onSubmitProduto()">
-            <div>
+            <div style="float: left; width: 65%;">
                 <label for="quantidade"><b>Quantidade:</b> &nbsp;</label>
 
-                <input min="0" max="100" step="1" type="number" id="quantidade" formControlName="quantidade" required>
+                <input min="0" max="100" step="1" type="number" id="quantidade" formControlName="quantidade" required>  &nbsp;
+            </div>
+            <div style="float: right; width: 30%; text-align: left; margin-right: 5%;">
+                <label for="quantidade"><b>Stock:</b> &nbsp;</label>
             </div>
             <br>
-
+            <br>
             <label for="fornecedor"><b>Escolha um dos fornecedores:</b> <p>(de forma a ajudar os négocios locais, escolha um perto de si)</p></label>
             <div>
                 <label *ngFor="let precoFornecedor of produtoAadicionar.precoFornecedores">

@@ -8,7 +8,7 @@
         <div id="content">
             <!-- Begin Page Content -->
             <div class="container-fluid">
-                <a style="cursor: pointer;" (click)="goToTransportes()"> Voltar para transportes</a>
+                <a style="cursor: pointer; margin-top:2.5%; margin-right: 10%; text-align: right; float: right; width: 50%;" (click)="goToTransportes()"> <i class="fas fa-angle-left"></i> Voltar para transportes</a>
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-3">
                     <h1 class="h3 mb-0 text-gray-800 mt-4"> Viagens - Transporte #{{transporte.idTransporte}}
@@ -160,11 +160,13 @@
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" >
             <tbody>
                 <th>Id Item</th>
+                <th>Nome Produto</th>
                 <th>Quantidade</th>
                 <th>Estado</th>
                 <tr *ngFor="let subItem of viagemDestaque.subItems">
 
                     <td>{{subItem.item?.idItem}}</td>
+                    <td>{{subItem.item?.produto?.nome}}</td>
                     <td>{{subItem.quantidade}}x</td>
                     <td>{{subItemEstaEntregue(subItem.idSubItem!)}}</td>
                     <td *ngIf="subItemEstaEntregue(subItem.idSubItem!) === 'Por Entregar' && viagemEstado('Iniciada')">

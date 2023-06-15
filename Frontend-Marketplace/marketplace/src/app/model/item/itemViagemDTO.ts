@@ -10,8 +10,11 @@
  * Do not edit the class manually.
  */
 
+import { ProdutoDTO } from "../models";
+
 
 export interface ItemViagemDTO { 
     idItem?: number;
+    produto?: ProdutoDTO;
 }
 
