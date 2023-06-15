@@ -2,7 +2,7 @@
     <a style="padding: 3%; width: max-content;cursor: pointer; " (click)="goToProdutos(subCategoria)" (mouseenter)="selectSubCategoria(subCategoria)" class="media d-flex align-items-center">
        
     {{ subCategoria.nomeSubCategoria }}</a>
-    <ul  *ngIf="subCategoria.subCategoriasFilhos?.length && subcategoriaEscolhida === subCategoria">
+    <ul  class="eu" *ngIf="subCategoria.subCategoriasFilhos?.length && subcategoriaEscolhida === subCategoria">
         <a style="cursor: pointer;" (click)="goToProdutos(subCategoria)">Ver Todos</a>
         <app-sub-categorias 
         *ngFor="let subCategoriaFilho of subCategoria.subCategoriasFilhos"

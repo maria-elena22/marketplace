@@ -124,8 +124,9 @@
 
 <div class="modal-wrapper" *ngIf="showProdutos" [class.visible]="showProdutos && uniProds">
     <div class="modal-container">
-        <h4 style="text-align: left;"> A ver: {{uniProdEscolhida.nomeUniProd}}</h4>
         <button class="modal-close-btn m-2" (click)="toggleProdutos()" style="text-align: right;">FECHAR</button>
+        <h4 style="text-align: left; margin-top: -4%;"> A ver: {{uniProdEscolhida.nomeUniProd}}</h4>
+        <br>
         <div *ngIf="!produtosUP || produtosUP.length === 0"> Ainda não tem produtos associados a esta Unidade <br> <a routerLink='/marketplace/produtos'>Ver Produtos</a></div>
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
@@ -149,8 +150,8 @@
 
 <div class="modal-wrapper" *ngIf="showAlteraStock" [class.visible]="showAlteraStock">
     <div class="modal-container">
-        <h4 style="text-align: left;">A editar: {{produtoStock.nome}} de {{uniProdEscolhida.nomeUniProd}} </h4>
         <button class="modal-close-btn" (click)="toggleAlteraStock()" style="text-align: right;">FECHAR</button>
+        <h4 style="text-align: left; margin-top: -2%">A editar: {{produtoStock.nome}} de {{uniProdEscolhida.nomeUniProd}} </h4>
         <br>
         <form [formGroup]="stockForm" (ngSubmit)="onSubmitStock()">
             <div>

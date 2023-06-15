@@ -13,11 +13,6 @@
         </li>
         <div class="dropdown-divider"></div>
 
-        <app-sub-categorias
-        *ngFor="let subCategoria of subcategorias"
-        [subCategoria]="subCategoria" 
-        ></app-sub-categorias>
+        <app-sub-categorias *ngFor="let subCategoria of subcategorias" [subCategoria]="subCategoria" ></app-sub-categorias>
     </ul>
-    <!-- <li ngbDropdownItem><a class="dropdown-item" >Latícinios</a></li>
-    <li ngbDropdownItem><a class="dropdown-item" >Talho</a></li> -->
 </ul>

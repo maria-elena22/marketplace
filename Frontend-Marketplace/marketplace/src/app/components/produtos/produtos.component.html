@@ -372,7 +372,7 @@
         <button class="modal-close-btn" (click)="toggleModalCarrinho()" style="text-align: right;">FECHAR</button>
 
 
-        <h4><b>Adicionar um artigo ao carrinho</b></h4>
+        <h4><b>Adicionar {{produtoAadicionar.nome}} ao carrinho</b></h4>
         <p></p>
         <form [formGroup]="addCarrinhoForm" (ngSubmit)="onSubmitProduto()">
             <div>
@@ -406,6 +406,8 @@
 <div class="modal-wrapper" [class.visible]="showAddProduto">
     <div class="modal-container" *ngIf="produtoAfornecer">
         <button class="modal-close-btn" (click)="toggleAddProduto(undefined)" style="text-align: right;">FECHAR</button>
+        
+        <h3 style="text-align: left; margin-top: -4%; margin-left: 5%">Produto: {{produtoAfornecer.nome}}</h3>
         <br>
 
         <form [formGroup]="addProdutoForm" (ngSubmit)="onSubmitFornecer()">
@@ -420,7 +422,7 @@
 
             <p></p>
 
-            <label for="uniProdsIds"><b>Uniades de produção:</b></label>
+            <label for="uniProdsIds"><b>Unidades de produção:</b></label>
             <div formArrayName="uniProdsIds" *ngIf="!addUnis">
                 <div *ngIf="!uniProdsP || uniProdsP.length === 0">Deve ter pelo menos uma Unidade de Produção para poder fornecer um produto <br> <a routerLink='/marketplace/uniProds'>Ir para Unidades de produção</a></div>
                 <label *ngFor="let uniprod of uniProdsP">
@@ -450,6 +452,8 @@
 <div class="modal-wrapper" [class.visible]="showRemoverProduto">
     <div class="modal-container" *ngIf="produtoAremover && produtoAremover.uniProds">
         <button class="modal-close-btn" (click)="closeRemoveForm()" style="text-align: right;">FECHAR</button>
+        
+        <h3 style="text-align: left; margin-top: -4%; margin-left: 5%">Produto: {{produtoAremover.nome}}</h3>
         <br>
 
         <form [formGroup]="removerProdutoForm" (ngSubmit)="onSubmitRemover()">

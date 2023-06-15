@@ -84,7 +84,7 @@
                                                 <div *ngIf="viagem.estadoViagem=='FINALIZADA'" class="badge bg-success text-white" style="top: 0.5rem; right: 0.5rem">
                                                     {{viagem.estadoViagem}}</div>
                                         </td>
-                                        <th><a (click)="showDetalhesViagem(viagem)"><i
+                                        <th><a style="cursor: pointer" (click)="showDetalhesViagem(viagem)"><i
                                                     class="fa fa-search"></i></a></th>
                                     </tr>
                                 </tbody>
@@ -128,9 +128,9 @@
         <div class="col " > <h5><strong>{{viagemDestaque.estadoViagem}}</strong></h5>
             
         </div>
-        <article class="card  mt-4">
+        <article class="card  mt-4" style="margin-right: 15%;">
             <!-- <header class="card-header"> Detalhes </header> -->
-            <div class="card-body">
+            <div class="card-body" >
                 <article class="card">
                     <div class="card-body row" style= "align-items: center;">
                         <div class="col" *ngIf="viagemDestaque.dataInicio"> <strong>Inicio:</strong> <br>{{getData(viagemDestaque.dataInicio)}}</div>
@@ -159,11 +159,13 @@
         </div>
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" >
             <tbody>
+                <th>Id Item</th>
+                <th>Quantidade</th>
+                <th>Estado</th>
                 <tr *ngFor="let subItem of viagemDestaque.subItems">
 
                     <td>{{subItem.item?.idItem}}</td>
                     <td>{{subItem.quantidade}}x</td>
-
                     <td>{{subItemEstaEntregue(subItem.idSubItem!)}}</td>
                     <td *ngIf="subItemEstaEntregue(subItem.idSubItem!) === 'Por Entregar' && viagemEstado('Iniciada')">
                         <button (click)="entregarSubItem(subItem.idSubItem!)" class="btn btn-outline-dark">Entregar</button>

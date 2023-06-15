@@ -17,6 +17,10 @@ export class DetalhesEncomendaConsumidorComponent implements OnInit{
   error?:Error;
   role : string
 
+  showAnswer = false
+  answer:string
+  success:boolean
+
   constructor(private appComponent: AppComponent, private produtosService:ProdutosService, private router: Router){}
 
   ngOnInit(): void {
@@ -50,8 +54,31 @@ export class DetalhesEncomendaConsumidorComponent implements OnInit{
   pagarEncomenda(){
     let queryParams = { encomenda: this.encomenda!.idEncomenda};
     localStorage.setItem("cartItems",JSON.stringify([]))
-  
-    this.router.navigate(['/marketplace/pagamento'], { queryParams });
+    let data = this.encomenda!.dataEncomenda!.split('-');
+    let date1 = new Date();
+    let date2 = new Date(data[1] + "/" + data[2] + "/" + data[0]);
+    let difference = date1. getTime() - date2. getTime();
+    let TotalDays = Math. ceil(difference / (1000 * 3600 * 24)) - 1; 
+    if(TotalDays > 15){
+      this.success = false
+      this.answer = "Prazo para pagamento foi ultrapassado! Encomenda Cancelada"
+      this.produtosService.cancelEncomenda(this.encomenda?.idEncomenda!).subscribe(obj=>{
+        const statusCode = obj.status
+      })
+      this.toggleAnswer()
+    }else{
+      this.router.navigate(['/marketplace/pagamento'], { queryParams });
+    }
+  }
+
+  toggleAnswer(){
+    if(!this.showAnswer){
+      this.showAnswer = !this.showAnswer;
+    }
+    else{
+      this.showAnswer = !this.showAnswer;
+      window.location.reload()
+    }
   }
 
   cancelarEncomenda(){
