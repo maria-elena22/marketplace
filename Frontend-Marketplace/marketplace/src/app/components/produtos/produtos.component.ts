@@ -31,6 +31,9 @@ export class ProdutosComponent implements OnInit {
   prodComparar1?:FullProdutoDTO;
   prodComparar2?:FullProdutoDTO;
 
+  produtosProps : FullProdutoDTO[]=[];
+  lastIdx = 0;
+
   titulo?:string;
 
   // forms
@@ -134,7 +137,8 @@ export class ProdutosComponent implements OnInit {
     this.searchProdutoForm = new FormGroup({
       nomeProduto: new FormControl("", Validators.required),
       precoMin:new FormControl("", Validators.required),
-      precoMax:new FormControl("", Validators.required)
+      precoMax:new FormControl("", Validators.required),
+      propriedade:new FormControl("", Validators.required)
 
     })  
   }
@@ -396,21 +400,53 @@ export class ProdutosComponent implements OnInit {
 
   onSubmitSearch() {
     
-
-    this.produtosService.getProdutos(this.idCategoria,this.idSubCategoria,undefined,
+    this.nextButtonDisabled = false;
+    this.previousButtonDisabled = false;
+    
+    if(this.searchProdutoForm.value.propriedade === ''){
+        this.produtosService.getProdutos(this.idCategoria,this.idSubCategoria,
           this.searchProdutoForm.value.nomeProduto,this.searchProdutoForm.value.precoMin,this.searchProdutoForm.value.precoMax).subscribe(obj=>{
-      const statusCode = obj.status
-      if (statusCode === 200) {
-        this.produtos = obj.body as FullProdutoDTO[];
-        console.log(obj.body)
-        this.meusProdutos = []
-        
-    } else {
-        this.error = obj.body as Error;
-        //chamar pop up
+        const statusCode = obj.status
+        if (statusCode === 200) {
 
+          this.produtos = obj.body as FullProdutoDTO[];
+          this.produtosProps = []
+          console.log(obj.body)
+          this.meusProdutos = []
+          
+      } else {
+          this.error = obj.body as Error;
+          //chamar pop up
+
+      }
+      })
+    } else{
+      this.produtosService.getProdutos(this.idCategoria,this.idSubCategoria,
+        this.searchProdutoForm.value.nomeProduto,this.searchProdutoForm.value.precoMin,this.searchProdutoForm.value.precoMax,0,999999999).subscribe(obj=>{
+        const statusCode = obj.status
+        if (statusCode === 200) {
+          let ps = obj.body as FullProdutoDTO[];
+          this.produtos = []
+          for(let p of ps){
+            if(Object.values(p.propriedades!).includes(this.searchProdutoForm.value.propriedade)){
+              this.produtos.push(p)
+            }
+          }
+
+          this.nextButtonDisabled = true;
+          this.previousButtonDisabled = true;
+
+          console.log(obj.body)
+          this.meusProdutos = []
+          
+      } else {
+          this.error = obj.body as Error;
+          //chamar pop up
+
+  }
+  })
     }
-    })
+    
   
 
   } 
@@ -450,7 +486,7 @@ export class ProdutosComponent implements OnInit {
   }
 
   getProdutos(idCategoria:number, idSubCategoria:number){
-    this.produtosService.getProdutos(idCategoria,idSubCategoria,undefined,undefined,undefined,undefined,this.page).subscribe(obj=>{
+    this.produtosService.getProdutos(idCategoria,idSubCategoria,undefined,undefined,undefined,this.page).subscribe(obj=>{
       const statusCode = obj.status
       if (statusCode === 200) {
         this.produtos = obj.body as FullProdutoDTO[];

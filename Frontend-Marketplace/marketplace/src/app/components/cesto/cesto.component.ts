@@ -104,7 +104,7 @@ export class CestoComponent implements OnInit{
   }
 
   getProdutos(idCategoria:number,idSubCategoria:number){
-    this.produtosService.getProdutos(idCategoria,idSubCategoria, undefined, undefined,undefined,undefined,undefined,999999999).subscribe(obj=>{
+    this.produtosService.getProdutos(idCategoria,idSubCategoria, undefined,undefined,undefined,undefined,999999999).subscribe(obj=>{
       const statusCode = obj.status
       if (statusCode === 200) {
         this.produtos =  obj.body as FullProdutoDTO[];

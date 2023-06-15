@@ -90,7 +90,7 @@ export class DetalhesEncomendaConsumidorComponent implements OnInit{
   }
 
   getProdutos(){
-    this.produtosService.getProdutos(-1,-1, undefined, undefined,undefined,undefined,undefined,999999999).subscribe(obj=>{
+    this.produtosService.getProdutos(-1,-1,undefined,undefined,undefined,undefined,999999999).subscribe(obj=>{
       const statusCode = obj.status
       if (statusCode === 200) {
         this.produtos = obj.body as FullProdutoDTO[];

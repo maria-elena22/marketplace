@@ -69,7 +69,7 @@ export class ProdutoDetalhesComponent implements OnInit{
 
   getProduto(){
     this.route.queryParams.subscribe((queryParams) => {
-      this.produtosService.getProdutos(queryParams["idCategoria"],queryParams["idSubCategoria"],undefined,undefined,undefined,undefined,queryParams["page"]).subscribe(obj=>{
+      this.produtosService.getProdutos(queryParams["idCategoria"],queryParams["idSubCategoria"],undefined,undefined,undefined,queryParams["page"]).subscribe(obj=>{
         const statusCode = obj.status;
         if (statusCode === 200) {
           this.listaProdutos = obj.body as FullProdutoDTO [];

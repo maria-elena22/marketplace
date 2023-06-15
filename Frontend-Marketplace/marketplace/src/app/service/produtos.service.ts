@@ -17,7 +17,6 @@ export class ProdutosService{
 
     getProdutos(categoriaId?:number, 
                 subcategoriaId?:number,
-                propriedadeId?:number,
                 nomeProduto?:string,
                 precoMin?:number,
                 precoMax?:number,page?:number,size?:number): Observable<HttpResponse<any>> {
@@ -34,7 +33,6 @@ export class ProdutosService{
 
         params = subcategoriaId ? params.set('subcategoriaId', subcategoriaId) : params;
         params = categoriaId ? params.set('categoriaId', categoriaId) : params;
-        params = propriedadeId ? params.set('propriedadeId', propriedadeId) : params;
         params = nomeProduto ? params.set('nomeProduto', nomeProduto) : params;
         params = precoMin ? params.set('precoMin', precoMin) : params;
         params = precoMax ? params.set('precoMax', precoMax) : params;

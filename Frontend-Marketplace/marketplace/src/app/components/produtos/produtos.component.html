@@ -13,9 +13,16 @@
         <div class="mt0" >
             <!-- <b><p style="font-size: 25px; margin-left: 0.5%;">Pesquisar por:</p></b> &nbsp; &nbsp;&nbsp; -->
             <label for="fornecedor"><b>Nome do Produto:</b></label> &nbsp;
-            <input type="text" formControlName="nomeProduto" class="form-control form-control-user d-inline-block" style="width:15%;"> &nbsp; <label for="precoMin"><b>Preço Mínimo:</b></label> &nbsp;
-            <input type="number" id="precoMin" formControlName="precoMin" step="0.01" min="0" class="form-control form-control-user d-inline-block" style="width:10%;"> &nbsp; <label for="precoMax"><b>Preço Máximo:</b></label> &nbsp;
+            <input type="text" formControlName="nomeProduto" class="form-control form-control-user d-inline-block" style="width:15%;"> &nbsp; 
+
+            <label for="precoMin"><b>Preço Mínimo:</b></label> &nbsp;
+            <input type="number" id="precoMin" formControlName="precoMin" step="0.01" min="0" class="form-control form-control-user d-inline-block" style="width:10%;"> &nbsp; 
+            
+            <label for="precoMax"><b>Preço Máximo:</b></label> &nbsp;
             <input type="number" id="precoMax" formControlName="precoMax" step="0.01" min="0" class="form-control form-control-user d-inline-block" style="width:10%;"> &nbsp;&nbsp;
+
+            <label for="fornecedor"><b>Propriedade:</b></label> &nbsp;
+            <input type="text" formControlName="propriedade" class="form-control form-control-user d-inline-block" style="width:15%;"> &nbsp;
 
             <button class="btn btn-primary d-inline-block" type="submit"><i class="bi bi-search"></i>   Pesquisar</button>
 
