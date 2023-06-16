@@ -199,25 +199,17 @@ export class AppComponent implements OnInit{
   getDetalhesUser(){
     if(this.token && this.role !== 'ROLE_ADMIN'){
       this.utilizadorService.getDetalhesUser().subscribe(obj=>{
-        const statusCode = obj.status
-        if (statusCode === 200) {
-          console.log("------------------------------")
+        if (obj.status === 200) {
           console.log(obj.body)
           this.user = obj.body as UtilizadorDTO;
-        
-      } else {
-          this.error = obj.body as Error;
-          this.logout()
-          //chamar pop up
-  
-      }
+          
+        }
   
       })
     }
     
 
   }
-
 
   
 

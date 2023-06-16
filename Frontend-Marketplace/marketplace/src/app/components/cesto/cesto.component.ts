@@ -4,6 +4,7 @@ import { AppComponent } from 'src/app/app.component';
 import { CompraDTO, EncomendaPaymentDTO, FullProdutoDTO, SimpleItemDTO, SimpleUtilizadorDTO } from 'src/app/model/models';
 import { CestoService } from 'src/app/service/cesto.service';
 import { ProdutosService } from 'src/app/service/produtos.service';
+import { UtilizadorService } from 'src/app/service/utilizador.service';
 
 @Component({
   selector: 'app-cesto',
@@ -23,9 +24,13 @@ export class CestoComponent implements OnInit{
   error?: Error  
 
   constructor(private appComponent:AppComponent,public cestoService:CestoService, private produtosService:ProdutosService,
-    private router: Router,private route: ActivatedRoute){}
+    private router: Router,private route: ActivatedRoute, private utilizadorService:UtilizadorService){}
 
   ngOnInit(): void {
+    if(this.appComponent.token && this.appComponent.role !== 'ROLE_ADMIN'){
+      this.utilizadorService.getDetalhesUser().subscribe()
+    }
+
     this.getProdutos(-1,-1)
 
 

@@ -38,7 +38,10 @@ export class AdminUtilizadoresComponent implements OnInit{
     private router : Router, private utilizadorService:UtilizadorService, private viagemService:ViagemService){}
 
   ngOnInit(){
-  
+    if(this.appComponent.token && this.appComponent.role !== 'ROLE_ADMIN'){
+      this.utilizadorService.getDetalhesUser().subscribe()
+    }
+
     
   }
   

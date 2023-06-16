@@ -8,6 +8,7 @@ import { CategoriaService } from 'src/app/service/categoria.service';
 import { CestoService } from 'src/app/service/cesto.service';
 import { ProdutosService } from 'src/app/service/produtos.service';
 import { UniProdsService } from 'src/app/service/uni-prods.service';
+import { UtilizadorService } from 'src/app/service/utilizador.service';
 
 @Component({
   selector: 'app-produto-detalhes',
@@ -45,9 +46,14 @@ export class ProdutoDetalhesComponent implements OnInit{
   addProdutoForm:FormGroup;
   removerProdutoForm:FormGroup;
 
-  constructor(private route: ActivatedRoute, private produtosService: ProdutosService, private categoriaService: CategoriaService, private cestoService: CestoService, private appComponent: AppComponent, private uniProdService: UniProdsService){}
+  constructor(private route: ActivatedRoute, private produtosService: ProdutosService, private categoriaService: CategoriaService, 
+    private cestoService: CestoService, private appComponent: AppComponent, private uniProdService: UniProdsService, private utilizadorService:UtilizadorService){}
   
   ngOnInit(): void {
+    if(this.appComponent.token && this.appComponent.role !== 'ROLE_ADMIN'){
+      this.utilizadorService.getDetalhesUser().subscribe()
+    }
+
     this.getProduto();
     this.role = this.appComponent.role
     if(this.role === "ROLE_FORNECEDOR"){
@@ -96,7 +102,6 @@ export class ProdutoDetalhesComponent implements OnInit{
   resolvePropriedades(){
     for(let prop of Object.keys(this.produto.propriedades!)){
       console.log(prop)
-      const value = prop.split("nomePropriedade=")[1];
       const startSubstring = "nomePropriedade="; // Define the starting substring
       const startIndex = prop.indexOf(startSubstring); // Find the index where the substring starts
       const valueStartIndex = startIndex + startSubstring.length; // Calculate the index where the value starts

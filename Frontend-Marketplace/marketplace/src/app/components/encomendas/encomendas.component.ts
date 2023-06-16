@@ -3,6 +3,7 @@ import { FullEncomendaDTO, FullSubEncomendaDTO } from 'src/app/model/models';
 import { EncomendasService } from 'src/app/service/encomendas.service';
 import { DetalhesEncomendaConsumidorComponent } from '../detalhes-encomenda-consumidor/detalhes-encomenda-consumidor.component';
 import { AppComponent } from 'src/app/app.component';
+import { UtilizadorService } from 'src/app/service/utilizador.service';
 
 @Component({
   selector: 'app-encomendas',
@@ -26,9 +27,12 @@ export class EncomendasComponent implements OnInit {
   success:boolean
   
 
-  constructor(private encomendasService:EncomendasService, private appComponent:AppComponent){}
+  constructor(private encomendasService:EncomendasService, private appComponent:AppComponent, private utilizadorService:UtilizadorService){}
 
   ngOnInit(): void {
+    if(this.appComponent.token && this.appComponent.role !== 'ROLE_ADMIN'){
+      this.utilizadorService.getDetalhesUser().subscribe()
+    }
     console.log(this.appComponent.role)
     if(this.appComponent.role === "ROLE_CONSUMIDOR"){
       this.getEncomendas();

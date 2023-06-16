@@ -6,6 +6,8 @@ import { RelatorioService } from 'src/app/service/relatorio.service';
 import { CategoriasComponent } from '../categorias/categorias.component';
 import { CategoriaService } from 'src/app/service/categoria.service';
 import { GraficoComponent } from '../grafico/grafico.component';
+import { AppComponent } from 'src/app/app.component';
+import { UtilizadorService } from 'src/app/service/utilizador.service';
 
 @Component({
   selector: 'app-relatorios',
@@ -35,11 +37,16 @@ export class RelatoriosComponent implements OnInit{
 
 
 
-  constructor(private route: ActivatedRoute, private router: Router, private relatorioService: RelatorioService, private categoriaService:CategoriaService){}
+  constructor(private route: ActivatedRoute, private router: Router, private relatorioService: RelatorioService, private categoriaService:CategoriaService,
+    private appComponent: AppComponent, private utilizadorService:UtilizadorService){}
 
   @ViewChild(GraficoComponent, { static: false }) grafico: GraficoComponent;
 
   ngOnInit(): void {
+    if(this.appComponent.token && this.appComponent.role !== 'ROLE_ADMIN'){
+      this.utilizadorService.getDetalhesUser().subscribe()
+    }
+
     this.getCategorias();
     
     this.route.queryParams.subscribe((queryParams) => {

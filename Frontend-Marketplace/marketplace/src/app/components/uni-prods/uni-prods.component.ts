@@ -3,6 +3,8 @@ import { FullProdutoDTO, ProdutoFornecedorDTO, TransporteDTO, UniProdDTO, UniPro
 import{UniProdsService} from '../../service/uni-prods.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProdutosService } from 'src/app/service/produtos.service';
+import { AppComponent } from 'src/app/app.component';
+import { UtilizadorService } from 'src/app/service/utilizador.service';
 
 @Component({
   selector: 'app-uni-prods',
@@ -28,12 +30,15 @@ export class UniProdsComponent implements OnInit {
   stockForm: FormGroup;
 
 
-  constructor(private uniProdService:UniProdsService,private formBuilder: FormBuilder, private produtoService:ProdutosService){
+  constructor(private uniProdService:UniProdsService,private formBuilder: FormBuilder, private produtoService:ProdutosService,private appComponent: AppComponent, private utilizadorService:UtilizadorService){
     this.getUniProds()
   }
 
   ngOnInit(){
     //this.getUniProds();
+    if(this.appComponent.token && this.appComponent.role !== 'ROLE_ADMIN'){
+      this.utilizadorService.getDetalhesUser().subscribe()
+    }
 
     this.uniProdForm = new FormGroup({
       nomeUniProd: new FormControl('', Validators.required)
