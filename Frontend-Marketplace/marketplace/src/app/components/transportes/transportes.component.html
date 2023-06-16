@@ -1,54 +1,25 @@
 <div id="wrapper" >
-    
     <!-- <app-sidebar></app-sidebar> -->
     <div id="content-wrapper" class="d-flex flex-column">
-        
-
         <!-- Main Content -->
         <div id="content">
             <!-- Begin Page Content -->
             <div class="container-fluid">
-
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-3">
                     <h1 class="h3 mb-0 text-gray-800 mt-4"> Transportes</h1>
-
                 </div>
-
                 <!-- Content Row -->
                 <div class="row" style="display: flex; justify-content: space-between;">
-
-                    <!-- Earnings (Monthly) Card Example -->
-                    <!-- <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-primary shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                            Número de Transportes</div>
-                                        <div *ngIf="transportes" class="h5 mb-0 font-weight-bold text-gray-800">{{transportes.length}}</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-truck fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-
                     <div class="col-xl-3 col-md-6 mb-4 " style="cursor: pointer" >
                         <div (click)="toggleModal()" class="card border-left-success hover-shadow h-100 py-2">
                             <div class="card-body ">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <!-- <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                            Adiciona um novo Transporte 
-                                        </div> -->
                                         <div class="row no-gutters align-items-center">
                                             <div class="col-auto">
                                                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Adiciona um novo Transporte </div>
                                             </div>
-
                                         </div>
                                     </div>
                                     <div class="col-auto">
@@ -67,7 +38,6 @@
                                             <div class="col-auto">
                                                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Agendar Viagem </div>
                                             </div>
-
                                         </div>
                                     </div>
                                     <div class="col-auto">
@@ -77,45 +47,7 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Earnings (Monthly) Card Example 
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                                Estado da última encomenda</div>
-                                            <div class="mb-0 font-weight-bold text-gray-800">Pagamento</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-box fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
-
-                    <!-- Pending Requests Card Example -->
-                    <!-- <div class="col-xl-6 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                            Minha localidade</div>
-                                        <div class=" mb-0 font-weight-bold text-gray-800">{{getLocalidade()}}</div>
-                                        <div class="small">Continente, País, Distrito, Município, Freguesia</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-search-location fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
                 </div>
-
                 <div class="card shadow mb-4 mt-4">
                     <div class="card-body">
                         <div class="table-responsive">
@@ -138,14 +70,12 @@
                                         <th></th>
                                     </tr>
                                 </tfoot>
-
                                 <tbody>
                                     <tr *ngFor="let transporte of transportes">
                                         <td>{{transporte.idTransporte}}</td>
                                         <td>{{transporte.matricula}}</td>
                                         <td>{{transporte.unidadeDeProducao?.nomeUniProd}}</td>
                                         <td>
-
                                                 <div *ngIf="transporte.estadoTransporte=='DISPONIVEL'" class="badge bg-success text-white" style="top: 0.5rem; right: 0.5rem">
                                                     {{transporte.estadoTransporte}}</div>
                                                 <div *ngIf="transporte.estadoTransporte=='EM_ENTREGA'" class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
@@ -154,16 +84,13 @@
                                                     {{transporte.estadoTransporte}}</div>
                                         </td>
                                         <th><a  class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 2%;"  (click)="goToViagens(transporte)" routerLink="/marketplace/viagens"> <mat-icon style="vertical-align: text-bottom; font-size: 15px; height: auto;">arrow_forward_ios</mat-icon></a>     
-                                        </th>
-                                        
-
+                                        </th>                                    
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-
             </div>
             <div style="margin: auto; display:table">
 
@@ -173,24 +100,12 @@
             
             </div>
             <br><br>
-
         </div>
         <!-- End of Main Content -->
-
     </div>
     <!-- End of Content Wrapper -->
 </div>
 <!-- End of Page Wrapper -->
-
-
-
-<!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-</a>
-
-
-
 
 <div class="modal-wrapper" [class.visible]="showModal">
     <div class="modal-container">
@@ -214,7 +129,6 @@
                     <option *ngFor="let estado of estados" [value]="estado.toUpperCase()" >{{ estado.toString()}}</option>
                 </select>                                            
             </div>
-
             <div>    
                 <p class="d-inline-block">Unidade de Produção: &nbsp;</p> 
                 <select formControlName="uniProd" required  class="form-control form-control-user d-inline-block" style="border-color: #d1d3e2; background-color: white; width:35%;">
@@ -222,15 +136,11 @@
                     <option *ngFor="let uniProd of uniProds" [value]="uniProd.idUnidade" >{{ uniProd.nomeUniProd}}</option>
                 </select>                                            
             </div>
-            
             <button class=" btn btn-outline-dark" [disabled]="!transporteForm.valid" type="submit">Submeter</button>
             <p *ngIf="!transporteForm.valid">Tem de preencher todos os campos corretamente</p>
         </form>          
-      <!-- <h2 class="modal-title">Modal Title</h2>
-      <p class="modal-content">Modal Content Here</p> -->
     </div>
   </div>
-
   <div class="modal-wrapper" [class.visible]="showNovaViagem">
     <div class="modal-container bigger">
         <button class="modal-close-btn" (click)="toggleNovaViagem()" style="text-align: right;">FECHAR</button>
@@ -245,7 +155,6 @@
                 </select>                                            
             </div>
             <hr>
-
             <div  *ngIf="selectedTransporteId && itensNaoEntregues" formArrayName="subItems">
                 <div *ngFor="let item of itensNaoEntregues; let i = index" class="linha">
                   <!-- Item form control -->
@@ -253,7 +162,6 @@
                     <input class="left" type="checkbox"  [value]="item.idItem" (change)="toggleItemChecked(item.idItem!)"> 
                     {{item.idItem}} - {{item.produtoNome}}
                   </div>
-                  
                   <!-- Quantidade form control -->
                   <div *ngIf="isItemChecked(item.idItem!) !== null" >
                     <input class="right" type="number" (input)="addSubItem(item.idItem!, $event)" min="0" [max]="item.quantidade! - item.quantidadeDespachada!" required>
@@ -261,9 +169,7 @@
                     Qtd. encomendada - {{item.quantidade}} <br> Qtd. a entregar - {{item.quantidadeDespachada}} <br> Qtd. em stock - {{item.quantidadeStock}}
                   </div>
                   <hr>
-
                 </div>
-
               </div>
             <br>
             <button class=" btn btn-outline-dark" [disabled]="!viagemForm.valid || !validado" type="submit">Submeter</button>
@@ -271,8 +177,6 @@
         </form>          
     </div>
   </div>
-
-
 
   <div class="modal-wrapper" [class.visible]="showAnswer">
     <div class="modal-container">

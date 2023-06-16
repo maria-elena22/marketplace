@@ -39,6 +39,8 @@ export class TransportesComponent implements OnInit{
   startMatricula = false;
   matriculaValida = false;
 
+  proximosTransportes: number;
+
   constructor(private uniProdService:UniProdsService,private formBuilder: FormBuilder, private appComponent:AppComponent,
     private router : Router, private encomendaService:EncomendasService, private viagemService:ViagemService, private utilizadorService:UtilizadorService){}
 
@@ -48,7 +50,9 @@ export class TransportesComponent implements OnInit{
     }
 
     this.getUniProds();
+    this.getProximosTransportes(this.page + 1)
     this.getTransportes(this.page);
+    
     
     console.log(this.uniProds)
     this.transporteForm = new FormGroup({
@@ -204,7 +208,7 @@ export class TransportesComponent implements OnInit{
       if (statusCode === 200) {
         this.toggleModal()
         this.handleAnswer("Transporte adicionado com sucesso!",true)   
-        window.location.reload()    
+        // window.location.reload()    
       }  else {
         console.log(obj)
         this.handleAnswer(obj.statusText,false)   
@@ -242,23 +246,24 @@ export class TransportesComponent implements OnInit{
   }
 
   nextPage(){
-    this.page +=1
-    this.getTransportes(this.page)
-    console.log(this.page)
-    // if(this.transportes.length===0){
+    this.getProximosTransportes(this.page + 1)
+    // this.page +=1
+    // this.getTransportes(this.page)
+    // console.log(this.page)
+    // console.log(this.transportes)
+    // // if(this.transportes.length===0){
 
-    //   console.log(this.transportes)
+    // //   console.log(this.transportes)
       
-    // } else{
-      const state = { page: 'transportes' };
-      const url = '/marketplace/transportes';
-      this.previousButtonDisabled = false
-      window.history.pushState(state, url);
-      
-
-    //}
+    // // } else{
+    //   const state = { page: 'transportes' };
+    //   const url = '/marketplace/transportes';
+    //   this.previousButtonDisabled = false
+    //   window.history.pushState(state, url);
     
+    // //}  
   }
+
   previousPage(){
     this.page -=1
     if(this.page<0){  
@@ -273,18 +278,41 @@ export class TransportesComponent implements OnInit{
       window.history.pushState(state, url);
 
     }
-    
-
-    
-
   }
 
   getLocalidade():string{
     return `${this.appComponent.user?.continente}, ${this.appComponent.user?.pais}, 
           ${this.appComponent.user?.distrito}, ${this.appComponent.user?.municipio}, ${this.appComponent.user?.freguesia}`
   }
-    
 
+  getProximosTransportes(page:number,unidadeProducaoId?:number,estadoTransporte?:TransporteDTO.EstadoTransporteEnum, size?:number){
+    this.uniProdService.getTransportes(unidadeProducaoId,estadoTransporte,page,size).subscribe(obj=>{
+      const statusCode = obj.status
+      if (statusCode === 200) {
+        if(estadoTransporte){
+          let transportesDisponiveis = this.transportes = obj.body as TransporteDTO[];
+          this.proximosTransportes = transportesDisponiveis.length;
+        } else{
+          let transportes = obj.body as TransporteDTO[];
+          this.proximosTransportes = transportes.length;
+          console.log(this.proximosTransportes)
+          if(this.proximosTransportes == 0){
+            this.nextButtonDisabled = true;
+          }
+          // if(this.transportes.length ===0 && this.page>0){
+          //   this.page -=1
+          //   this.nextButtonDisabled = true
+          //   this.getTransportes(this.page)
+          // }
+          // console.log(this.transportes)
+        }
+    } else {
+        this.error = obj.body as Error;
+        //chamar pop up
+
+    } 
+    })
+  }
 
   getTransportes(page:number,unidadeProducaoId?:number,estadoTransporte?:TransporteDTO.EstadoTransporteEnum, size?:number){
     this.uniProdService.getTransportes(unidadeProducaoId,estadoTransporte,page,size).subscribe(obj=>{
@@ -328,5 +356,6 @@ export class TransportesComponent implements OnInit{
 
   toggleAnswer(){
     this.showAnswer = !this.showAnswer;
+    window.location.reload() 
   }
 }
