@@ -50,14 +50,12 @@ export class TransportesComponent implements OnInit{
     this.getUniProds();
     this.getTransportes(this.page);
     
-    console.log(this.uniProds)
     this.transporteForm = new FormGroup({
       matricula: new FormControl('', Validators.required),
       estadoTransporte: new FormControl('', Validators.required),
       uniProd: new FormControl('', Validators.required)
 
     });
-//ViagemInputDTO
     this.viagemForm = new FormGroup({
       transporte: new FormControl('', Validators.required),
       subItems: new FormControl([], Validators.required)
@@ -78,16 +76,13 @@ export class TransportesComponent implements OnInit{
   // Method to toggle the checkbox status
   toggleItemChecked(index: number): void {
     const idxChecked = this.isItemChecked(index);
-    console.log(this.viagemForm.value)
 
     if(idxChecked !== null){
       this.checkedItems.splice(idxChecked,1)
       this.itensParaEntregar.splice(idxChecked,1)
-      console.log(this.checkedItems)
       this.validado= this.itensParaEntregar.length === 0? false:true
       for(let itemE of this.itensParaEntregar){
         if (itemE.quantidade!<1){
-          console.log(itemE)
           this.validado =false
         }
       }
@@ -98,7 +93,6 @@ export class TransportesComponent implements OnInit{
       this.validado = false
       
     }
-    console.log(this.viagemForm.value)
       this.viagemForm.patchValue({subItems:this.itensParaEntregar})
   }
 
@@ -115,9 +109,6 @@ export class TransportesComponent implements OnInit{
 
 
   addSubItem(itemId:number, event: Event): void {
-    console.log(this.viagemForm.value)
-    console.log(this.itensParaEntregar) // checked
-    console.log(this.itensNaoEntregues) // todos
     this.validado = true 
     const value = (event.target as HTMLInputElement).value;
 
@@ -134,34 +125,20 @@ export class TransportesComponent implements OnInit{
         }
         
       } else if (itemE.quantidade!<1){
-        console.log(itemE)
         this.validado =false
       }
     }
 
     this.viagemForm.patchValue({subItems:this.itensParaEntregar})
-  
-    // Your function logic here, using the itemId and quantidade
-    // For example:
-    console.log(itemId, quantidade);
-    
-    console.log(this.viagemForm.value)
-    console.log(this.itensParaEntregar)
+
   }
 
   onTransporteSelected(): void {
-    // Perform actions when an option is selected
-    // You can access the selected value using the selectedTransporteId property
-    console.log('Option selected:', this.selectedTransporteId);
-
 
     this.encomendaService.getItensNaoEntregues(Number(this.selectedTransporteId),0,1000000).subscribe(obj=>{
       const statusCode = obj.status
       if (statusCode === 200) {
-        this.itensNaoEntregues = obj.body as ItemInfoDTO[];
-        
-          console.log(this.itensNaoEntregues[0])
-        
+        this.itensNaoEntregues = obj.body as ItemInfoDTO[];        
     } 
     })
 
@@ -176,7 +153,6 @@ export class TransportesComponent implements OnInit{
   }
 
   onSubmitViagem(){
-    console.log(this.viagemForm.value)
 
     const viagemData: ViagemInputDTO = {
       transporte: {idTransporte:this.viagemForm.value.transporte},
@@ -191,7 +167,6 @@ export class TransportesComponent implements OnInit{
         this.handleAnswer("Viagem adicionada com sucesso!",true)   
         window.location.reload()    
       }  else {
-        console.log(obj)
         this.handleAnswer(obj.statusText,false)   
         
       }
@@ -221,7 +196,6 @@ export class TransportesComponent implements OnInit{
         this.handleAnswer("Transporte adicionado com sucesso!",true)   
         window.location.reload()    
       }  else {
-        console.log(obj)
         this.handleAnswer(obj.statusText,false)   
         
       }
@@ -259,21 +233,14 @@ export class TransportesComponent implements OnInit{
   nextPage(){
     this.page +=1
     this.getTransportes(this.page)
-    console.log(this.page)
-    // if(this.transportes.length===0){
-
-    //   console.log(this.transportes)
-      
-    // } else{
+ 
       const state = { page: 'transportes' };
       const url = '/marketplace/transportes';
       this.previousButtonDisabled = false
       window.history.pushState(state, url);
-      
-
-    //}
-    
+          
   }
+  
   previousPage(){
     this.page -=1
     if(this.page<0){  

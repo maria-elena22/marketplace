@@ -51,19 +51,6 @@ export class ViagensComponent implements OnInit{
       this.getViagens(JSON.parse(params['id']))
       
     });
-
-   
-
-    // this.getUniProds();
-    // this.getTransportes();
-    
-    // console.log(this.uniProds)
-    // this.transporteForm = new FormGroup({
-    //   matricula: new FormControl('', Validators.required),
-    //   estadoTransporte: new FormControl('', Validators.required),
-    //   uniProd: new FormControl('', Validators.required)
-
-    // });
     
   }
 
@@ -79,16 +66,11 @@ export class ViagensComponent implements OnInit{
       if (statusCode === 200) {
         const transportes = obj.body as TransporteDTO[];
 
-          for(let t of transportes){
-            console.log(t) 
-            console.log(t.idTransporte)        
+          for(let t of transportes){    
 
             if(t.idTransporte == id){
               this.transporte = t;
               break;
-              // const state = { page: 'viagens' };
-              // const url = '/marketplace/viagens';
-              // window.history.pushState(state, url);
               
             }
           }
@@ -118,7 +100,6 @@ export class ViagensComponent implements OnInit{
         this.handleAnswer("Transporte adicionado com sucesso!",true)   
         window.location.reload()    
       }  else {
-        console.log(obj)
         this.handleAnswer(obj.statusText,false)   
         
       }
@@ -146,7 +127,6 @@ export class ViagensComponent implements OnInit{
       if (statusCode === 200) {
         this.viagens = obj.body as ViagemDTO[];
         this.getSubItemsNaoEntregues()
-        console.log(this.viagens)
     } else {
         this.error = obj.body as Error;
         //chamar pop up
@@ -159,7 +139,6 @@ export class ViagensComponent implements OnInit{
       const statusCode = obj.status
       if (statusCode === 200) {
         this.subItemsNaoEntregues = obj.body as SubItemDTO[];
-        console.log(this.subItemsNaoEntregues)
         
     } else {
         this.error = obj.body as Error;
@@ -189,7 +168,6 @@ export class ViagensComponent implements OnInit{
     }
 
     this.viagemService.iniciaViagem(subItemsIds).subscribe(obj=>{
-        console.log(obj)
         window.location.reload()
         
     })
@@ -197,7 +175,6 @@ export class ViagensComponent implements OnInit{
 
   entregarSubItem(idSubItem:number){
     this.viagemService.terminaViagem(idSubItem).subscribe(obj=>{
-      console.log(obj)
       window.location.reload()
       
   })
@@ -230,12 +207,6 @@ export class ViagensComponent implements OnInit{
   nextPage(){
     this.page +=1
     this.getTransportes()
-    console.log(this.page)
-    // if(this.transportes.length===0){
-
-    //   console.log(this.transportes)
-      
-    // } else{
       const state = { page: 'transportes' };
       const url = '/marketplace/transportes';
       this.previousButtonDisabled = false
@@ -282,7 +253,6 @@ export class ViagensComponent implements OnInit{
           this.nextButtonDisabled = true
           this.getTransportes()
         }
-        console.log(this.viagens)
     } else {
         this.error = obj.body as Error;
         //chamar pop up

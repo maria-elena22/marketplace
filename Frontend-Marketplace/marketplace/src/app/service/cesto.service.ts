@@ -27,15 +27,12 @@ export class CestoService {
     this.items = localStorage.getItem('cartItems') === null ? [] : JSON.parse(localStorage.getItem('cartItems')!);
     let keepGoing = true
     let idx = -1;
-    console.log(this.items)
-    console.log(item)
+
     for (let i = 0; i < this.items.length && keepGoing; i++) {
       const itemLS = this.items[i];
-      console.log(itemLS)
       if((item.fornecedorId == itemLS.fornecedorId) && (item.produtoId == itemLS.produtoId) && (item.quantidade == itemLS.quantidade)){
         keepGoing = false
         idx = i;
-        console.log(idx)
       }
       
     }
@@ -70,7 +67,6 @@ export class CestoService {
     return this.http.post<any>(url, compra,{ headers, observe: 'response' })
       .pipe(
         catchError((error) => {
-        console.log('An error occurred:', error);
         return throwError(error);
       })
     );
@@ -83,12 +79,10 @@ export class CestoService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     const url = `${this.backendUrl}/encomenda/confirm/${encomendaId}`;
-    console.log(url)
 
     return this.http.post<any>(url, request,{ headers, observe: 'response' })
       .pipe(
         catchError((error) => {
-        console.log('An error occurred:', error);
         return throwError(error);
       })
     );

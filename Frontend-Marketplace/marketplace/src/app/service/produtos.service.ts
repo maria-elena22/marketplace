@@ -46,7 +46,6 @@ export class ProdutosService{
 
         }
         const url = `${this.backendUrl}/produto${paramString}`;
-        console.log(url)
     
         return this.http.get<Array<FullProdutoDTO>>(url, { headers,observe: 'response' });
       }
@@ -89,12 +88,10 @@ export class ProdutosService{
         }
         const url = `${this.backendUrl}/produto/fornecedor${paramString}`;
 
-        console.log(url)
         return this.http.get<Array<ProdutoFornecedorDTO>>(url, { headers,observe: 'response' });
     }
 
     insertProduto(produto: ProdutoPropriedadesDTO, uniProdsIds:Array<number>, subCategoriasIds:Array<number>, preco : number): Observable<HttpResponse<any>> {
-        console.log(uniProdsIds)
         const token = localStorage.getItem('jwt_token');
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
         const url = `${this.backendUrl}/produto`;
@@ -110,7 +107,6 @@ export class ProdutosService{
             .set('uniProdsIds',uniProdsIds.toString())
             .set('subCategoriasIds', subCategoriasIds.toString())
             .set('preco',preco)
-        console.log(params)
         return this.http.post<any>(url, produto,{ headers, params ,observe: 'response' })
           .pipe(
               catchError((error) => {
@@ -157,17 +153,9 @@ export class ProdutosService{
 
     removeProduto(produtoId:number,uniProdsIds:Array<number>){
         let ids = uniProdsIds.toString();
-        console.log(uniProdsIds.toString())
-        console.log(produtoId)
         const token = localStorage.getItem('jwt_token');
         let headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-        //headers.set('Content-Type', 'application/json')
-        console.log(headers);
-        console.log(ids);
         var params1 = new HttpParams().set('uniProdsIds',uniProdsIds.toString());
-        console.log(params1.keys())
-             
-        console.log(params1)
         let produto = produtoId.toString()
  
         let paramString = params1.toString();
@@ -175,10 +163,8 @@ export class ProdutosService{
             paramString = '?'+paramString
 
         }
-        // paramString = paramString.slice(0, -1);
-        // console.log(paramString)
+    
         const url = `${this.backendUrl}/produto/unidade/remove/${produto}${paramString}`;
-        // console.log(url)
 
         return this.http.put<FullProdutoDTO>(url, {},{ headers ,observe: 'response' })
         .pipe(
@@ -197,16 +183,6 @@ export class ProdutosService{
             return res;
         });
 
-        // const params = new HttpParams()
-        // if(idSubCategoria){
-        //     params.set('subcategoriaId', idSubCategoria)
-        // }
-        // if(idCategoria){
-        //     params.set('categoriaId', idCategoria)
-        // }
-
-        // return this.http.get('${this.backendUrl}/categoria').pipe(map(res => {return res}));
-        // this.http.get('${this.backendUrl}/categoria').subscribe(data => console.log(data));
     }
         
 }

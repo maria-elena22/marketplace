@@ -116,7 +116,6 @@ export class ViagemService {
 
     const url = `${this.backendUrl}/viagem`;
 
-    console.log(viagem)
     
     return this.http.post<ViagemDTO>(url, viagem,{ headers, observe: 'response' })
       .pipe(

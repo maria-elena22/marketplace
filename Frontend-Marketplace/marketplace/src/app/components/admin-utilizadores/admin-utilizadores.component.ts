@@ -75,7 +75,6 @@ export class AdminUtilizadoresComponent implements OnInit{
       const statusCode = obj.status
       if (statusCode === 200) {
         this.consumidores = obj.body as UtilizadorDTO[];
-        console.log(this.consumidores)
         this.fornecedores = []
         this.roleVisivel = 'consumidor'
     } else {
@@ -92,12 +91,10 @@ export class AdminUtilizadoresComponent implements OnInit{
 
   getFornecedores(){
     
-
     this.utilizadorService.getFornecedores().subscribe(obj=>{
       const statusCode = obj.status
       if (statusCode === 200) {
         this.fornecedores = obj.body as UtilizadorDTO[];
-        console.log(this.fornecedores)
         this.consumidores = []
         this.roleVisivel = 'fornecedor'
     } else {
@@ -106,51 +103,6 @@ export class AdminUtilizadoresComponent implements OnInit{
     })
 
   }
-
-  // nextPage(){
-  //   this.page +=1
-  //   if(this.roleVisivel === "consumidor"){
-  //     this.getConsumidores(this.page)
-
-  //   }
-  //   if(this.roleVisivel === "fornecedor"){
-  //     this.getFornecedores(this.page)
-
-  //   }
-  //   console.log(this.page)
-  //   const state = { page: 'utilizadores' };
-  //   const url = '/marketplace/utilizadores';
-  //   this.previousButtonDisabled = false
-  //   window.history.pushState(state, url);
-      
-    
-  // }
-  // previousPage(){
-  //   this.page -=1
-  //   if(this.page<0){  
-  //     this.page += 1
-  //     this.previousButtonDisabled = true
-
-  //   } else{
-  //     if(this.roleVisivel === "consumidor"){
-  //       this.getConsumidores(this.page)
-
-  //     }
-  //     if(this.roleVisivel === "fornecedor"){
-  //       this.getFornecedores(this.page)
-
-  //     }        
-  //     const state = { page: 'utilizadores' };
-  //     const url = '/marketplace/utilizadores';
-  //     this.nextButtonDisabled = false
-  //     window.history.pushState(state, url);
-
-  //   }
-    
-
-    
-
-  // }
 
 
   toggleModal(){

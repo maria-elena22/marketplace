@@ -47,7 +47,6 @@ export class AppComponent implements OnInit{
   ngOnInit(): void {
     this.getDecodedToken()
     this.getDetalhesUser()
-    console.log(this.user)
     if(this.user){
       this.utilizadorService.getNotificacoesNum().subscribe(obj=>{
         const statusCode = obj.status
@@ -71,29 +70,13 @@ export class AppComponent implements OnInit{
 
   goToPerfil(){
     let queryParams = {};
-    
     queryParams = { role: this.role, user:JSON.stringify(this.user!)};
-    console.log(queryParams)
     this.router.navigate(['/marketplace/perfil-consumidor'], { queryParams });
   }
 
-  goToDefinicoes(){
-
-    let queryParams = {};
-    
-    queryParams = { role: this.role, user:JSON.stringify(this.user!)};
-    console.log(queryParams)
-    this.router.navigate(['/marketplace/definicoes'], { queryParams });
-  }
   goToCesto(){
     this.router.navigate(['/marketplace/cesto']);
   }
-
-  // goToPerfil(){
-  //   console.log(this.user)
-  //   let queryParams = { utilizador: this.user?.idUtilizador };
-  //   this.router.navigate(['/perfil-consumidor'], { queryParams });
-  // }
 
   showNotifs=false
 
@@ -115,14 +98,12 @@ export class AppComponent implements OnInit{
       this.showNotifs = !this.showNotifs
     }
     
-    console.log(this.showNotifs)
   }
 
   entregarNotif(idNotificacao:number){
     this.utilizadorService.entregarNotificacao(idNotificacao).subscribe(obj=>{
       const statusCode = obj.status
       if (statusCode === 200) {
-        console.log(statusCode)
         this.notifs = this.notifs!.filter(notif => notif.idNotificacao !== idNotificacao);
 
     }
@@ -136,7 +117,6 @@ export class AppComponent implements OnInit{
       this.encomendaService.getSubEncomendaById(id).subscribe(obj=>{
         const statusCode = obj.status
         if (statusCode === 200) {
-          console.log(obj.body)
           this.subencomendaDestaque = obj.body as FullSubEncomendaDTO;
           this.showEncomendaModal = true
           this.showNotifs =false
@@ -146,7 +126,6 @@ export class AppComponent implements OnInit{
       this.encomendaService.getEncomendaById(id).subscribe(obj=>{
         const statusCode = obj.status
         if (statusCode === 200) {
-          console.log(obj.body)
           this.encomendaDestaque = obj.body as FullEncomendaDTO;
           this.showEncomendaModal = true
           this.showNotifs =false
@@ -175,7 +154,6 @@ export class AppComponent implements OnInit{
   }
 
   getCategorias(){
-    console.log("success");
     return this.produtosService.getCategorias();
   }
 

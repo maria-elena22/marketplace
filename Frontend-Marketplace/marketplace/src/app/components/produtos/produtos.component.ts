@@ -176,8 +176,6 @@ export class ProdutosComponent implements OnInit {
   }
 
   comparar(){
-    console.log(this.prodComparar1)
-    console.log(this.prodComparar2)
     this.showComparar = true
 
   }
@@ -197,9 +195,6 @@ export class ProdutosComponent implements OnInit {
       this.prodComparar1 = produto
     }
 
-    console.log(this.prodComparar1)
-    console.log(this.prodComparar2)
-
   }
 
   // ---------------------- ADD CARRINHO ----------------------
@@ -218,7 +213,6 @@ export class ProdutosComponent implements OnInit {
       quantidade: this.addCarrinhoForm.value.quantidade
     }
 
-    console.log(itemData)
     this.cestoService.addToCart(itemData)
     this.toggleModalCarrinho()
     this.success = true
@@ -248,22 +242,16 @@ export class ProdutosComponent implements OnInit {
 
     this.produtosService.removeProduto(produtoId,uniProdsIds).subscribe(obj=>{
       const statusCode = obj
-      // if (statusCode === 200) {
-        this.toggleRemoverProduto()
-        console.log(obj)
-        window.location.reload()
-        this.removerProdutoForm.patchValue({uniProdsIds:[]})
-    // } else {
-        // this.error = obj.body as Error;
-        //chamar pop up
-    // }
+      this.toggleRemoverProduto()
+      window.location.reload()
+      this.removerProdutoForm.patchValue({uniProdsIds:[]})
+
     })
   }
 
   onSelectAllChange() {
     this.selectAll = !this.selectAll;
     if(this.selectAll){
-      console.log(this.removerProdutoForm.value)
       this.removerProdutoForm.value.uniProdsIds = []
       let uniPId = this.removerProdutoForm.value.uniProdsIds
   
@@ -277,7 +265,6 @@ export class ProdutosComponent implements OnInit {
 
     }
     
-    console.log(this.removerProdutoForm.value);    
 }
 
 
@@ -316,12 +303,10 @@ export class ProdutosComponent implements OnInit {
           if(p.idProduto === produto?.idProduto){
             this.produtoAremover=produto;
             this.produtoAremover!.uniProds = p.uniProds;
-            console.log(this.produtoAremover?.uniProds)
             const state = { page: 'produtos' };
             const url = '/marketplace/produtos';
 
             window.history.pushState(state, url);
-            console.log(this.produtoAremover?.uniProds)
             
             this.showRemoverProduto = !this.showRemoverProduto
           }
@@ -336,7 +321,6 @@ export class ProdutosComponent implements OnInit {
     const produtoId = this.produtoAremover!.idProduto!
     const uniProdsIds = this.removerProdutoForm.value
      
-    console.log(this.removerProdutoForm.value.uniProdsIds)
     this.removeProduto(produtoId,this.removerProdutoForm.value.uniProdsIds)
 
   }
@@ -365,7 +349,6 @@ export class ProdutosComponent implements OnInit {
       }
     }
     this.addProdutoForm.get('uniProdsIds')!.patchValue(this.uniProdsIdsA);
-    console.log(this.addProdutoForm.value)
 
   }
 
@@ -373,7 +356,6 @@ export class ProdutosComponent implements OnInit {
     this.produtosService.addUniProds(produtoId,uniProdsIds,preco,stock).subscribe(obj=>{
       const statusCode = obj
         this.toggleRemoverProduto()
-        console.log(obj)
         window.location.reload()
         this.addProdutoForm.patchValue({uniProdsIds:[],stock:"",preco:""})
 
@@ -417,7 +399,6 @@ export class ProdutosComponent implements OnInit {
 
           this.produtos = obj.body as FullProdutoDTO[];
           this.produtosProps = []
-          console.log(obj.body)
           this.meusProdutos = []
           
       } else {
@@ -459,7 +440,6 @@ export class ProdutosComponent implements OnInit {
           this.nextButtonDisabled = true;
           this.previousButtonDisabled = true;
 
-          console.log(obj.body)
           this.meusProdutos = []
           
       } else {
@@ -488,7 +468,6 @@ export class ProdutosComponent implements OnInit {
     if(this.produtos.length >0){
       this.getProdutos(this.idCategoria,this.idSubCategoria);
     }
-    console.log(this.page)
     this.previousButtonDisabled = false    
   }
 
@@ -513,7 +492,6 @@ export class ProdutosComponent implements OnInit {
       const statusCode = obj.status
       if (statusCode === 200) {
         this.produtos = obj.body as FullProdutoDTO[];
-        console.log(obj.body)
         this.meusProdutos = []
         if(this.produtos.length ===0 && this.page>0){
           this.page -=1
@@ -542,7 +520,6 @@ export class ProdutosComponent implements OnInit {
       if (statusCode === 200) {
         this.meusProdutos = obj.body as ProdutoFornecedorDTO[];
         this.produtos = []
-        console.log(this.meusProdutos)
         const state = { page: 'produtos' };
         const url = '/marketplace/produtos';
 
@@ -760,7 +737,6 @@ export class ProdutosComponent implements OnInit {
         }
       }
     }
-    console.log(this.propriedadesToComplete)
 
     
   }
@@ -785,7 +761,6 @@ export class ProdutosComponent implements OnInit {
         
         if(this.propriedadesCompletas){
           for (let key of Object.keys(this.propriedadesCompletas)){
-            console.log(key)
             if(Number(key) === p1.idPropriedade ){
               delete this.propriedadesCompletas[key];
             }
@@ -878,7 +853,7 @@ export class ProdutosComponent implements OnInit {
       const statusCode = obj.status
       this.success = statusCode === 200
       if (this.success) {
-        this.answer = "Produto adicionado com sucesso"
+        this.answer = "Produto criado com sucesso"
         // this.toggleModal()
         // this.verMeusProdutos(-1,-1)
         // window.location.reload();
@@ -945,6 +920,7 @@ export class ProdutosComponent implements OnInit {
 
   getDistancia(f:UtilizadorCoordsDTO){
     const coordenadas = f.coordenadas;
+    
     const lat1 = this.appComponent.user?.coordenadas?.latitude!
     const lon1 = this.appComponent.user?.coordenadas?.longitude!
     const lat2 = coordenadas?.latitude!

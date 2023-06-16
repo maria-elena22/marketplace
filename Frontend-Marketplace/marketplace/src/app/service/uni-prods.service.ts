@@ -100,7 +100,6 @@ export class UniProdsService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
 
-    console.log(uniprod)
     const url = `${this.backendUrl}/uniProd/${idUniProd}`;
   
     return this.http.put<any>(url, uniprod,{ headers, observe: 'response' })

@@ -33,7 +33,6 @@ export class EncomendasComponent implements OnInit {
     if(this.appComponent.token && this.appComponent.role !== 'ROLE_ADMIN'){
       this.utilizadorService.getDetalhesUser().subscribe()
     }
-    console.log(this.appComponent.role)
     if(this.appComponent.role === "ROLE_CONSUMIDOR"){
       this.getEncomendas();
     } 
@@ -45,9 +44,6 @@ export class EncomendasComponent implements OnInit {
 
 
   getEncomendas(){
-    console.log("+++++++++++")
-    console.log(this.page)
-    console.log("+++++++++++")
 
     this.encomendasService.getEncomendas(this.page).subscribe(obj=>{
       const statusCode = obj.status
@@ -70,9 +66,6 @@ export class EncomendasComponent implements OnInit {
   }
 
   getSubEncomendas(){
-    console.log("+++++++++++")
-    console.log(this.page)
-    console.log("+++++++++++")
 
     this.encomendasService.getSubEncomendas(this.page).subscribe(obj=>{
       const statusCode = obj.status
@@ -102,12 +95,6 @@ export class EncomendasComponent implements OnInit {
     if(this.appComponent.role === "ROLE_FORNECEDOR"){
       this.getSubEncomendas();
     }
-    console.log(this.page)
-    // if(this.transportes.length===0){
-
-    //   console.log(this.transportes)
-      
-    // } else{
       const state = { page: 'encomendas' };
       const url = '/marketplace/encomendas';
       this.previousButtonDisabled = false

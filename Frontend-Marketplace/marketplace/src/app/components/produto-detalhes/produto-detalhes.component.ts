@@ -83,8 +83,6 @@ export class ProdutoDetalhesComponent implements OnInit{
           for (let produto of this.listaProdutos){
             if(produto.idProduto == queryParams["produto"]){
               this.produto = produto;
-              console.log(this.produto)
-              console.log(this.produto.subCategorias)
               this.idProduto = produto.idProduto;
               this.getCategorias();
               this.resolvePropriedades();
@@ -101,21 +99,16 @@ export class ProdutoDetalhesComponent implements OnInit{
 
   resolvePropriedades(){
     for(let prop of Object.keys(this.produto.propriedades!)){
-      console.log(prop)
       const startSubstring = "nomePropriedade="; // Define the starting substring
       const startIndex = prop.indexOf(startSubstring); // Find the index where the substring starts
       const valueStartIndex = startIndex + startSubstring.length; // Calculate the index where the value starts
       const valueEndIndex = prop.indexOf(")", valueStartIndex); // Find the index where the value ends
       const extractedValue = prop.substring(valueStartIndex, valueEndIndex); // Extract the value
 
-      // console.log(extractedValue); 
-      // console.log(this.produto.propriedades![prop])
-
       this.props.push([extractedValue,this.produto.propriedades![prop]])
 
 
     }
-    console.log(this.props)
 
   }
  
@@ -154,11 +147,6 @@ export class ProdutoDetalhesComponent implements OnInit{
       }
       
     }
-    console.log(this.categorias)
-    console.log(this.produto.subCategorias)
-    console.log(this.subcategorias)
-    console.log(this.produto.propriedades)
-    
 
     })
 
@@ -184,7 +172,7 @@ export class ProdutoDetalhesComponent implements OnInit{
         subCategoriasToAdd.push(subcategoria);
        
       } else if(filter!.length===0 && subcategoria.subCategoriasFilhos!.length===0){
-        console.log("-")
+        console.log(" ")
       }
 
       else{
@@ -243,7 +231,6 @@ export class ProdutoDetalhesComponent implements OnInit{
       quantidade: this.addCarrinhoForm.value.quantidade
     }
 
-    console.log(itemData)
     this.cestoService.addToCart(itemData)
     this.success = true
     this.answer = "Produto adicionado ao cesto!"
@@ -264,7 +251,6 @@ export class ProdutoDetalhesComponent implements OnInit{
     const produtoId = this.produtoAremover!.idProduto!
     const uniProdsIds = this.removerProdutoForm.value
      
-    console.log(this.removerProdutoForm.value.uniProdsIds)
     this.removeProduto(produtoId,this.removerProdutoForm.value.uniProdsIds)
   }
 
@@ -318,12 +304,10 @@ export class ProdutoDetalhesComponent implements OnInit{
           if(p.idProduto === produto?.idProduto){
             this.produtoAremover=produto;
             this.produtoAremover!.uniProds = p.uniProds;
-            console.log(this.produtoAremover?.uniProds)
             const state = { page: 'produtos' };
             const url = '/marketplace/produtos';
 
             window.history.pushState(state, url);
-            console.log(this.produtoAremover?.uniProds)
             
             this.showRemoverProduto = !this.showRemoverProduto
           }
@@ -346,7 +330,6 @@ export class ProdutoDetalhesComponent implements OnInit{
       const statusCode = obj
       // if (statusCode === 200) {
         this.toggleRemoverProduto()
-        console.log(obj)
         window.location.reload()
         this.removerProdutoForm.patchValue({uniProdsIds:[]})
     // } else {
@@ -359,7 +342,6 @@ export class ProdutoDetalhesComponent implements OnInit{
   onSelectAllChange() {
     this.selectAll = !this.selectAll;
     if(this.selectAll){
-      console.log(this.removerProdutoForm.value)
       this.removerProdutoForm.value.uniProdsIds = []
       let uniPId = this.removerProdutoForm.value.uniProdsIds
   
@@ -370,14 +352,12 @@ export class ProdutoDetalhesComponent implements OnInit{
     }else{
       this.removerProdutoForm.patchValue({uniProdsIds:[]})
     }
-    console.log(this.removerProdutoForm.value);    
   }
 
   addUniProds(produtoId:number,uniProdsIds:Array<number>,preco:number,stock:number){
     this.produtosService.addUniProds(produtoId,uniProdsIds,preco,stock).subscribe(obj=>{
       const statusCode = obj
         this.toggleRemoverProduto()
-        console.log(obj)
         window.location.reload()
         this.addProdutoForm.patchValue({uniProdsIds:[],stock:"",preco:""})
     })
@@ -395,7 +375,6 @@ export class ProdutoDetalhesComponent implements OnInit{
       }
     }
     this.addProdutoForm.get('uniProdsIds')!.patchValue(this.uniProdsIdsA);
-    console.log(this.addProdutoForm.value)
 
   }
 

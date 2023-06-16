@@ -50,8 +50,7 @@ export class CategoriasComponent implements OnInit{
   }
 
   selectSubCategoria(subCategoriaNome? : string, subCategoria1Nome?:string, subCategoria2Nome?:string){
-    console.log(subCategoriaNome)
-    console.log(subCategoria1Nome)
+
     if(subCategoriaNome && subCategoria1Nome === undefined && subCategoria2Nome === undefined){
       this.subcategoriaEscolhida = this.subcategorias?.filter(subC => subC.nomeSubCategoria === subCategoriaNome)[0];
 
@@ -68,7 +67,6 @@ export class CategoriasComponent implements OnInit{
       this.subcategoriaEscolhida = sub3
     }
 
-    console.log(this.subcategoriaEscolhida)
   }
 
 

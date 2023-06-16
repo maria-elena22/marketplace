@@ -88,7 +88,6 @@ export class PerfilConsumidorComponent implements OnInit {
     if(this.role === "ROLE_FORNECEDOR"){
       this.utilizadorService.removeFornecedor(this.utilizador?.idUtilizador!).subscribe(obj=>{
         const statusCode = obj.status
-        console.log("-------------------")
   
         if (statusCode === 200) {
           this.answer = "Conta removida com sucesso"
@@ -106,8 +105,6 @@ export class PerfilConsumidorComponent implements OnInit {
     if (this.role === "ROLE_CONSUMIDOR"){
       this.utilizadorService.removeConsumidor(this.utilizador?.idUtilizador!).subscribe(obj=>{
         const statusCode = obj.status
-        console.log("-------------------")
-        console.log(statusCode)
   
         if (statusCode === 200) {
           this.answer = "Conta removida com sucesso"
@@ -126,25 +123,9 @@ export class PerfilConsumidorComponent implements OnInit {
 
   refresh(){
     this.route.queryParams.subscribe((queryParams) => {
-
-      console.log(JSON.parse(queryParams["user"]))
       this.role = queryParams["role"]
       this.utilizador = JSON.parse(queryParams["user"])
-
-
-      // this.utilizador = queryParams["utilizador"];
-      // console.log(this.utilizador.nome)
-      // this.getConsumidorByID(queryParams["utilizador"])
     });
-  }
-
-  getConsumidorByID(id:number){
-    this.utilizadorService.getConsumidor(id).subscribe(obj=>{
-      const statusCode = obj.status
-      if (statusCode === 200) {
-       console.log(obj.body as UtilizadorDTO)
-      }
-    })
   }
 
   onSubmit() {
@@ -162,18 +143,15 @@ export class PerfilConsumidorComponent implements OnInit {
       pais: this.updateForm.value.pais,
       continente: this.getContinent(this.updateForm.value.pais),
     }
-    console.log(updateData);
-    console.log(this.role);
+
     if(this.role === "ROLE_FORNECEDOR"){
       this.utilizadorService.updateFornecedor(updateData).subscribe(obj=>{
         const statusCode = obj.status
-        console.log("-------------------")
   
         if (statusCode === 200) {
           this.answer = "Dados atualizados com sucesso!"
           this.success = true;
           this.utilizador = obj.body
-          console.log(this.utilizador)
           this.appComponent.user!.nome! =this.utilizador!.nome!
 
           this.openAnswer();
@@ -186,8 +164,6 @@ export class PerfilConsumidorComponent implements OnInit {
     if (this.role === "ROLE_CONSUMIDOR"){
       this.utilizadorService.updateConsumidor(updateData).subscribe(obj=>{
         const statusCode = obj.status
-        console.log("-------------------")
-        console.log(statusCode)
   
         if (statusCode === 200) {
           this.answer = "Dados atualizados com sucesso!"
@@ -229,9 +205,7 @@ export class PerfilConsumidorComponent implements OnInit {
 
     this.showAnswer=false;
     let queryParams = {};
-    console.log(this.utilizador)
     queryParams = { role: this.role, user:JSON.stringify(this.utilizador!)};
-    console.log(queryParams)
     this.router.navigate(['/marketplace/perfil-consumidor'], { queryParams });
   }
 

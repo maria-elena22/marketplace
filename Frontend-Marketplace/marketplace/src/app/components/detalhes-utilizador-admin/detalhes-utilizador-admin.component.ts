@@ -47,8 +47,7 @@ export class DetalhesUtilizadorAdminComponent implements OnInit{
     if(this.role === "fornecedor"){
       this.utilizadorService.removeFornecedor(this.user?.idUtilizador!).subscribe(obj=>{
         const statusCode = obj.status
-        console.log("-------------------")
-  
+          
         if (statusCode === 200) {
           this.answer = "Conta removida com sucesso"
           this.success = true;
@@ -62,8 +61,6 @@ export class DetalhesUtilizadorAdminComponent implements OnInit{
     if (this.role === "consumidor"){
       this.utilizadorService.removeConsumidor(this.user?.idUtilizador!).subscribe(obj=>{
         const statusCode = obj.status
-        console.log("-------------------")
-        console.log(statusCode)
   
         if (statusCode === 200) {
           this.answer = "Conta removida com sucesso"
@@ -81,7 +78,6 @@ export class DetalhesUtilizadorAdminComponent implements OnInit{
     if(this.role === "fornecedor"){
       this.utilizadorService.ativarFornecedor(this.user?.idUtilizador!).subscribe(obj=>{
         const statusCode = obj.status
-        console.log("-------------------")
   
         if (statusCode === 200) {
           this.answer = "Conta reativada com sucesso"
@@ -97,8 +93,6 @@ export class DetalhesUtilizadorAdminComponent implements OnInit{
     if (this.role === "consumidor"){
       this.utilizadorService.ativarConsumidor(this.user?.idUtilizador!).subscribe(obj=>{
         const statusCode = obj.status
-        console.log("-------------------")
-        console.log(statusCode)
   
         if (statusCode === 200) {
           this.answer = "Conta reativada com sucesso"
@@ -129,8 +123,6 @@ export class DetalhesUtilizadorAdminComponent implements OnInit{
     if (this.role === "consumidor"){
       this.utilizadorService.getConsumidor(this.user?.idUtilizador!).subscribe(obj=>{
         const statusCode = obj.status
-        console.log("-------------------")
-        console.log(statusCode)
 
         if (obj.status  === 200) {
           this.user = obj.body as UtilizadorDTO;
@@ -154,7 +146,6 @@ export class DetalhesUtilizadorAdminComponent implements OnInit{
   closeAnswer(){
     
     this.showAnswer=false;
-    console.log(this.user)
     window.location.reload()
     //this.router.navigate(['/marketplace/utilizadores']);
   }

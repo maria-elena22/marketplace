@@ -95,7 +95,6 @@ removerConta(){
   if(this.role === "ROLE_FORNECEDOR"){
     this.utilizadorService.removeFornecedor(this.utilizador?.idUtilizador!).subscribe(obj=>{
       const statusCode = obj.status
-      console.log("-------------------")
 
       if (statusCode === 200) {
         this.answer = "Conta removida com sucesso"
@@ -113,8 +112,6 @@ removerConta(){
   if (this.role === "ROLE_CONSUMIDOR"){
     this.utilizadorService.removeConsumidor(this.utilizador?.idUtilizador!).subscribe(obj=>{
       const statusCode = obj.status
-      console.log("-------------------")
-      console.log(statusCode)
 
       if (statusCode === 200) {
         this.answer = "Conta removida com sucesso"
@@ -138,11 +135,8 @@ onPageRefresh(event: BeforeUnloadEvent): void {
 refreshFunction(): void {
 
   this.route.queryParams.subscribe((queryParams) => {
-    console.log(JSON.parse(queryParams["user"]))
-
     this.role = queryParams["role"]
     this.utilizador = JSON.parse(queryParams["user"])
-    console.log(this.utilizador)
     
   });
 
@@ -164,12 +158,10 @@ refreshFunction(): void {
       pais: this.updateForm.value.pais,
       continente: this.updateForm.value.continente,
     }
-    console.log(updateData);
-    console.log(this.role);
+
     if(this.role === "ROLE_FORNECEDOR"){
       this.utilizadorService.updateFornecedor(updateData).subscribe(obj=>{
         const statusCode = obj.status
-        console.log("-------------------")
   
         if (statusCode === 200) {
           this.answer = "Dados atualizados com sucesso!"
@@ -188,8 +180,6 @@ refreshFunction(): void {
     if (this.role === "ROLE_CONSUMIDOR"){
       this.utilizadorService.updateConsumidor(updateData).subscribe(obj=>{
         const statusCode = obj.status
-        console.log("-------------------")
-        console.log(statusCode)
   
         if (statusCode === 200) {
           this.answer = "Dados atualizados com sucesso!"
@@ -220,7 +210,6 @@ refreshFunction(): void {
     let queryParams = {};
 
     queryParams = { role: this.role, user:JSON.stringify(this.utilizador!)};
-    console.log(queryParams)
     this.router.navigate(['/marketplace/definicoes'], { queryParams });
   }
 

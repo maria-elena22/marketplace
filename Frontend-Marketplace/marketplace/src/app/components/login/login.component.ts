@@ -46,19 +46,16 @@ export class LoginComponent  implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.loginForm.value);
     const values = this.loginForm.value;
 
     this.utilizadorService.getLogin(values["email"],values["password"]).subscribe(
       (obj) => { 
         this.token = jwt_decode(obj.body['token']) as DecodedToken;
         localStorage.setItem('jwt_token', obj.body['token']);
-        console.log(this.token)
         this.appComponent.token = this.token;
         
 
         this.role = this.token.role;
-        console.log(this.role); // 'admin'
         this.appComponent.role = this.role;
         this.location.go('/marketplace');
         window.location.reload(); 

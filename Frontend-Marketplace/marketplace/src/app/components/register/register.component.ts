@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 import { UtilizadorService } from '../../service/utilizador.service';
@@ -10,6 +10,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SignUpDTO } from '../../model/utilizador/signUpDTO';
 import { AppComponent } from 'src/app/app.component';
 import { Coordinate } from 'src/app/model/models';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-register',
@@ -73,6 +75,7 @@ export class RegisterComponent implements OnInit{
       // latitude: new FormControl('', Validators.required),
       // longitude: new FormControl('', Validators.required),
       morada: new FormControl('', Validators.required),
+      codPostal: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', Validators.required),
       freguesia: new FormControl('', Validators.required),
@@ -83,7 +86,6 @@ export class RegisterComponent implements OnInit{
       role: new FormControl('', Validators.required)
 
     });
-    console.log(this.signUpForm.valid)
 
   }
 
@@ -178,75 +180,85 @@ export class RegisterComponent implements OnInit{
  
   }
 
+  geocodeAddress(address: string): Observable<HttpResponse<any>> {
+    const headers = new HttpHeaders();
+
+    const url = `${environment.mapsUrl}?address=${address}&key=${environment.mapsKey}`;
+    // address = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyBboXYv2JYM8DJHRKXzG3ipHTlmjJpc_jM`
+    return this.http.get<any>(url, { headers, observe: 'response' });
+  }
+
   onSubmit() {
-    console.log(this.signUpForm.value)
-    // if(this.emailValid && this.passwordValid && this.contactoValid && this.idFiscalValid && this.signUpForm.value.role!=""){
-    //   this.formValid = true;
-    // }
-    // const coords : Coordinate = {latitude:this.signUpForm.value.latitude,longitude:this.signUpForm.value.longitude}
-    //TODO
-    const coords : Coordinate = {latitude: 90,longitude: 180}
-    const signUpData: SignUpDTO = {
-      idFiscal: parseInt(this.signUpForm.value.idFiscal),
-      nome: this.signUpForm.value.nome,
-      telemovel: parseInt(this.signUpForm.value.telemovel),
-      coordenadas: coords,
-      morada: this.signUpForm.value.morada,
-      email: this.signUpForm.value.email,
-      password: this.signUpForm.value.password,
-      freguesia: this.signUpForm.value.freguesia,
-      municipio: this.signUpForm.value.municipio,
-      distrito: this.signUpForm.value.distrito,
-      pais: this.signUpForm.value.pais,
-      continente: this.getContinent(this.signUpForm.value.pais),
-    }
-    console.log(signUpData.continente)
-    // if(this.formValid === true){
-    if(this.signUpForm.valid){
-      console.log(signUpData);
-      console.log(this.signUpForm.value.role);
-      const role = this.signUpForm.value.role;
-      if(role === "fornecedor"){
-        this.utilizadorService.insertFornecedor(signUpData).subscribe(
-          (obj)=>{
-          const statusCode = obj.status
-          console.log(statusCode)
-          console.log("-------------------")
-    
-          if (statusCode === 200) {
-            const token = jwt_decode(obj.body['token']) as DecodedToken;
-            localStorage.setItem('jwt_token', obj.body['token']);
-            this.appComponent.token = token;
-            
-            this.location.go('/marketplace');
-            window.location.reload(); 
-    
+    let codPostal= this.signUpForm.value.codPostal.replace(" ","")
+    let coords : Coordinate
+    this.geocodeAddress(codPostal).subscribe(
+      (obj)=>{
+        const statusCode = obj.body.status
+
+        if (statusCode === "OK") {
+          const location = obj.body.results[0].geometry.location
+          coords = {latitude: location.lat,longitude: location.lng}
+
+          const signUpData: SignUpDTO = {
+            idFiscal: parseInt(this.signUpForm.value.idFiscal),
+            nome: this.signUpForm.value.nome,
+            telemovel: parseInt(this.signUpForm.value.telemovel),
+            coordenadas: coords,
+            morada: this.signUpForm.value.morada,
+            email: this.signUpForm.value.email,
+            password: this.signUpForm.value.password,
+            freguesia: this.signUpForm.value.freguesia,
+            municipio: this.signUpForm.value.municipio,
+            distrito: this.signUpForm.value.distrito,
+            pais: this.signUpForm.value.pais,
+            continente: this.getContinent(this.signUpForm.value.pais),
           }
-        }, (error) => {
-          // Handle error here
-          console.log('An error occurred:', error);
+
+          if(this.signUpForm.valid){
+            const role = this.signUpForm.value.role;
+            if(role === "fornecedor"){
+              this.insertFornecedor(signUpData);
+            } 
+            if (role === "consumidor"){
+              this.insertConsumidor(signUpData);
+          }
+          } else{
+            this.success = false
+            this.answer = "Erro! Verifique que preencheu os campos corretamente"
+            this.toggleAnswer()
+          }
+        
+        } else{
           this.success = false
-          this.answer = error
+          this.answer = "O Código Postal inserido não é válido!"
           this.toggleAnswer()
         }
-      )
+      }
+      
+    )
 
-    } 
-    if (role === "consumidor"){
-      this.utilizadorService.insertConsumidor(signUpData).subscribe(
-        (obj)=>{
-        const statusCode = obj.status
-        console.log("-------------------")
-  
-        if (statusCode === 200) {
-          const token = jwt_decode(obj.body['token']) as DecodedToken;
-          localStorage.setItem('jwt_token', obj.body['token']);
-          this.appComponent.token = token;
-          
-          this.location.go('/marketplace');
-          window.location.reload(); 
+
+    
+    
+
+    
+
+  }
+
+  insertFornecedor(signUpData:SignUpDTO){
+    this.utilizadorService.insertFornecedor(signUpData).subscribe(
+      (obj)=>{
+      const statusCode = obj.status
+
+      if (statusCode === 200) {
+        const token = jwt_decode(obj.body['token']) as DecodedToken;
+        localStorage.setItem('jwt_token', obj.body['token']);
+        this.appComponent.token = token;
         
-        }
+        this.location.go('/marketplace');
+        window.location.reload(); 
+
+      }
       }, (error) => {
         // Handle error here
         console.log('An error occurred:', error);
@@ -255,18 +267,34 @@ export class RegisterComponent implements OnInit{
         this.toggleAnswer()
       }
     )
-    }
-  }else{
-    this.success = false
-    this.answer = "Erro! Verifique que preencheu os campos corretamente"
-    this.toggleAnswer()
   }
 
-    
+  insertConsumidor(signUpData:SignUpDTO){
+    this.utilizadorService.insertConsumidor(signUpData).subscribe(
+      (obj)=>{
+      const statusCode = obj.status
+
+      if (statusCode === 200) {
+        const token = jwt_decode(obj.body['token']) as DecodedToken;
+        localStorage.setItem('jwt_token', obj.body['token']);
+        this.appComponent.token = token;
+        
+        this.location.go('/marketplace');
+        window.location.reload(); 
+      
+      }
+      }, (error) => {
+        console.log('An error occurred:', error);
+        this.success = false
+        this.answer = error
+        this.toggleAnswer()
+      }
+    )
   }
-    toggleAnswer(){
-      this.showAnswer = !this.showAnswer;
-    }
+    
+  toggleAnswer(){
+    this.showAnswer = !this.showAnswer;
+  }
 
     
     getContinent(pais: String){

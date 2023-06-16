@@ -60,7 +60,6 @@ export class UniProdsComponent implements OnInit {
 
   
   alterarStock(produto:ProdutoFornecedorDTO){
-    console.log(produto)
     this.showAlteraStock = true
     this.produtoStock = produto
     this.toggleProdutos()
@@ -73,15 +72,9 @@ export class UniProdsComponent implements OnInit {
       const statusCode = obj.status
 
       if (statusCode === 200) {
-        
-        
-        // const state = { page: 'uniProds' };
-        // const url = '/marketplace/uniProds';
-
-        // window.history.pushState(state, url);
+  
         this.toggleAlteraStock()
         window.location.reload()
-        //trocar na tabela
 
       } 
     }
@@ -137,7 +130,6 @@ export class UniProdsComponent implements OnInit {
       const statusCode = obj.status
       if (statusCode === 200) {
         this.toggleEditar()
-        console.log(obj.body)
         window.location.reload()
     } else {
         this.error = obj.body as Error;
@@ -170,13 +162,10 @@ export class UniProdsComponent implements OnInit {
       const statusCode = obj.status
       if (statusCode === 200) {
         this.produtosUP = obj.body as ProdutoFornecedorDTO[];
-        console.log(this.produtosUP)
         this.uniProdEscolhida = uniProd;
         this.toggleProdutos()
-        console.log(this.produtosUP)
     } else {
         this.error = obj.body as Error;
-        //chamar pop up
     }
     })
     

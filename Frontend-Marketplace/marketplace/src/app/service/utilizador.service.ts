@@ -14,22 +14,19 @@ import { Router } from '@angular/router';
 export class UtilizadorService {
 
   backendUrl = environment.backendUrl;
+  mapsUrl = environment.mapsUrl;
+  mapsKey = environment.mapsKey;
   constructor(private http: HttpClient, private router: Router) {}
 
   getConsumidorById(id:number){
-    console.log("entrei")
     const headers = new HttpHeaders();
     
-
     const url = `${this.backendUrl}/utilizador/consumidor/${id}`;
-    console.log(url)
 
     return this.http.get<any>(url ,{ headers, observe: 'response' })
     .pipe(
         catchError((error) => {
         console.log('An error occurred:', error);
-        console.log(error.error.message)
-        console.log(error.error.exception)
         let errorMessage = '';
         if(error.error.message){
           errorMessage = error.error.message
@@ -47,14 +44,12 @@ export class UtilizadorService {
     // ${this.backendUrl}/utilizador/login?email=cont%40gmail.com&password=Cont%401234
 
     const url = `${this.backendUrl}/utilizador/login?email=${email}&password=${password}`;
-    console.log(url)
 
     return this.http.get<any>(url ,{ headers, observe: 'response' })
     .pipe(
         catchError((error) => {
         console.log('An error occurred:', error);
-        console.log(error.error.message)
-        console.log(error.error.exception)
+
         let errorMessage = '';
         if(error.error.exception && error.error.exception === "EntityNotFoundException"){
           errorMessage = "Não está registado no sistema"
@@ -178,10 +173,11 @@ export class UtilizadorService {
       );
   }
 
+  
+
   insertConsumidor(consumidor: SignUpDTO): Observable<HttpResponse<any>> {
     const headers = new HttpHeaders();
     const url = `${this.backendUrl}/utilizador/register/consumidor`;
-    console.log(url)
     return this.http.post<any>(url, consumidor, { headers, observe: 'response' })
     .pipe(
       catchError((error) => {
@@ -201,7 +197,6 @@ export class UtilizadorService {
   insertFornecedor(fornecedor: SignUpDTO){
     const headers = new HttpHeaders();
     const url = `${this.backendUrl}/utilizador/register/fornecedor`;
-    console.log(url)
     return this.http.post<any>(url, fornecedor, { headers, observe: 'response' })
     .pipe(
       catchError((error) => {
@@ -257,7 +252,6 @@ export class UtilizadorService {
   }
 
   removeConsumidor(idConsumidor :number){
-    console.log("olaa")
     const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
@@ -332,7 +326,6 @@ export class UtilizadorService {
           console.log('An error occurred:', error);
           localStorage.removeItem('jwt_token');
           const currentUrl = this.router.url;
-          console.log(currentUrl)
           if(currentUrl==='/marketplace'){
             window.location.reload();
 

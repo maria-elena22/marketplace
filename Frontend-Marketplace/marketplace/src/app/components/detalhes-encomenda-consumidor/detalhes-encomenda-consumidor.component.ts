@@ -25,7 +25,6 @@ export class DetalhesEncomendaConsumidorComponent implements OnInit{
 
   ngOnInit(): void {
     this.getProdutos()
-    console.log(this.encomenda)
     this.role = this.appComponent.role!
   }
 

@@ -49,10 +49,8 @@ export class PagamentoComponent implements OnInit{
       
       let payments:EncomendaPaymentDTO[] = JSON.parse(localStorage.getItem('encomendaPayments')!)
       for(let payment of payments){
-        console.log(payment)
         if(payment.encomendaDTO?.idEncomenda == queryParams["encomenda"]){
           this.encomendaPayment = payment
-          console.log(this.encomendaPayment);
           
         }
       }
@@ -90,7 +88,6 @@ export class PagamentoComponent implements OnInit{
       verificarValidade = false;
     } 
     
-    console.log(pagamentoData)
     if(this.pagamentoForm.valid && verificarValidade){
 
       this.cestoService.confirmPayment(this.encomendaPayment.encomendaDTO?.idEncomenda!,{clientSecret: this.encomendaPayment.stripeClientSecret}).subscribe(

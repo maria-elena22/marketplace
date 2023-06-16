@@ -17,16 +17,11 @@ export class SubCategoriasComponent {
 
 
   selectSubCategoria(subCategoria? : SimpleSubCategoriaDTO){
-    // this.subcategoriaEscolhida === subCategoria ?
-    // (this.subcategoriaEscolhida = undefined) :
-    // (this.subcategoriaEscolhida = subCategoria);
-    console.log(subCategoria)
     this.subcategoriaEscolhida = subCategoria;
   }
 
   showSubCategoria(subCategoria : SimpleSubCategoriaDTO){
     this.subcategoriaEscolhida = subCategoria;
-    console.log(subCategoria.nomeSubCategoria);
   }
 
   goToProdutos(subCategoriaP? : SimpleSubCategoriaDTO){
