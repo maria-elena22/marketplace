@@ -340,7 +340,7 @@
             <label for="myControl"><b>Propriedades:</b></label>
             <div formGroupName="propriedades">
                 <label for="myControl" *ngFor="let prop of propriedadesToComplete"> {{prop.nomePropriedade}}:
-                <input id="myControl" (input)="onPropChange(prop,$event)" type="text" formControlName="myControl" class="form-control form-control-user d-inline-block" style="width:55%;" required>
+                <input id="myControl" (input)="onPropChange(prop,$event)" type="text" formControlName="myControl" class="form-control form-control-user d-inline-block" style="width:55%;" placeholder=" " required>
             </label>
             </div>
 

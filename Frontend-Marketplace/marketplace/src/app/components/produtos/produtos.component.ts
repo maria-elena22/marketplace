@@ -731,7 +731,7 @@ export class ProdutosComponent implements OnInit {
         //só posso tirar se nao houver mais subcategorias daquela categoria
         let possoTirar = true
         for(let sc of this.subcategoriasEscolhidas){
-          if(this.getCategoriaForSubcategoria(subCategoria,this.categorias) === categoriaPai){
+          if(this.getCategoriaForSubcategoria(subCategoria) === categoriaPai){
             possoTirar = false
             break
           }
@@ -741,8 +741,7 @@ export class ProdutosComponent implements OnInit {
           if(this.categoriasEscolhidas.length ===0){
             this.propriedadesVisible =false
           }
-          this.removerPropriedades(categoriaPai)
-
+          this.removerPropriedades(categoriaPai.propriedadesList!)
 
         }
         
@@ -766,35 +765,66 @@ export class ProdutosComponent implements OnInit {
     
   }
 
-  removerPropriedades(categoria: FullCategoriaDTO) {
-    const props = categoria.propriedadesList;
-    if (props) {
-      categoria.propriedadesList = props.filter(p => !this.removerPropriedadePartilhada(p));
-      this.propriedadesToComplete.push(...props.filter(p => !this.propriedadesToComplete.includes(p)));
-    }
-    console.log(this.propriedadesToComplete)
-  }
+  removerPropriedades(propriedadesDaRemovida: PropriedadeDTO[]) {
 
-  removerPropriedadePartilhada(prop: PropriedadeDTO): boolean {
-    return !this.categoriasEscolhidas.some(categoria => categoria.propriedadesList?.includes(prop));
-  }
-
-  getCategoriaForSubcategoria(subcategoria: any, categorias: any[]): any {
-    // Find the categoria that contains the given subcategoria
-    for (let categoria of categorias) {
-      for (let subcategoriaOfCategoria of categoria.subCategoriaList) {
-        if (subcategoriaOfCategoria.idSubCategoria === subcategoria.idSubCategoria) {
-          return categoria;
-        } else if (subcategoriaOfCategoria.subCategoriasFilhos && subcategoriaOfCategoria.subCategoriasFilhos.length > 0) {
-          // Recursively search the subcategorias of this subcategoria
-          let subcategoriaParentCategoria = this.getCategoriaForSubcategoria(subcategoria, [subcategoriaOfCategoria]);
-          if (subcategoriaParentCategoria) {
-            return subcategoriaParentCategoria;
-          }
+    let propriedadesQueNaoPossoRemover:PropriedadeDTO[] = []
+    for(let c of this.categoriasEscolhidas){
+      for(let p of c.propriedadesList!){
+        if(!propriedadesQueNaoPossoRemover.includes(p)){
+          propriedadesQueNaoPossoRemover.push(p)
         }
       }
     }
-    // The parent categoria was not found
+    
+    for(let p1 of propriedadesDaRemovida){
+      if(!propriedadesQueNaoPossoRemover.includes(p1)){
+
+        if(this.propriedadesToComplete){
+          this.propriedadesToComplete=this.propriedadesToComplete.filter(p=>p.idPropriedade!==p1.idPropriedade)
+        } 
+        
+        if(this.propriedadesCompletas){
+          for (let key of Object.keys(this.propriedadesCompletas)){
+            console.log(key)
+            if(Number(key) === p1.idPropriedade ){
+              delete this.propriedadesCompletas[key];
+            }
+          }
+        }
+        
+          
+      }
+    }
+ 
+    
+  }
+
+
+  getCategoriaForSubcategoriaAux(subCategoriasFilhos:SimpleSubCategoriaDTO[], categoria:FullCategoriaDTO, subcategoria:SubCategoriaDTO){
+    for(let sbs of subCategoriasFilhos){
+      if(sbs.idSubCategoria === subcategoria.idSubCategoria){
+        return categoria;
+      } else if(sbs.subCategoriasFilhos?.length!>0){
+        this.getCategoriaForSubcategoriaAux(sbs.subCategoriasFilhos!, categoria, subcategoria)
+      }
+    }
+
+    return null;
+
+  }
+
+  getCategoriaForSubcategoria(subcategoria: SubCategoriaDTO): any {
+
+    for (let categoria of this.categorias) {
+      for(let subCategoria of categoria.subCategoriaList!){
+        if(subCategoria.idSubCategoria = subcategoria.idSubCategoria){
+          return categoria;
+          
+        } else if(subCategoria.subCategoriasFilhos?.length!>0){
+          this.getCategoriaForSubcategoriaAux(subCategoria.subCategoriasFilhos!, categoria, subcategoria)
+        }
+      }
+    }
     return null;
   }
   
