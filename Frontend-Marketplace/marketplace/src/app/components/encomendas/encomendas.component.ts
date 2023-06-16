@@ -25,7 +25,7 @@ export class EncomendasComponent implements OnInit {
   showAnswer = false
   answer:string
   success:boolean
-  
+  proximasEncomendas: number;
 
   constructor(private encomendasService:EncomendasService, private appComponent:AppComponent, private utilizadorService:UtilizadorService){}
 
@@ -34,79 +34,49 @@ export class EncomendasComponent implements OnInit {
       this.utilizadorService.getDetalhesUser().subscribe()
     }
     if(this.appComponent.role === "ROLE_CONSUMIDOR"){
+      this.getProximasEncomendas(this.page + 1);
+      if(this.proximasEncomendas == 0){
+        this.nextButtonDisabled = true;
+      }
       this.getEncomendas();
     } 
     if(this.appComponent.role === "ROLE_FORNECEDOR"){
+      this.getProximasSubEncomendas(this.page + 1);
+      if(this.proximasEncomendas == 0){
+        this.nextButtonDisabled = true;
+      }
       this.getSubEncomendas();
     }
-  }
-
-
-
-  getEncomendas(){
-
-    this.encomendasService.getEncomendas(this.page).subscribe(obj=>{
-      const statusCode = obj.status
-  
-      if (statusCode === 200) {
-        this.encomendas = obj.body as FullEncomendaDTO[];
-
-        if(this.encomendas.length ===0 && this.page>0){
-          this.page -=1
-          this.nextButtonDisabled = true
-          this.getEncomendas()
-        }
-
-    } else {
-        this.error = obj.body as Error;
-
-    }
-    })
-
-  }
-
-  getSubEncomendas(){
-
-    this.encomendasService.getSubEncomendas(this.page).subscribe(obj=>{
-      const statusCode = obj.status
-  
-      if (statusCode === 200) {
-        this.subencomendas = obj.body as FullSubEncomendaDTO[];
-
-        if(this.subencomendas.length ===0 && this.page>0){
-          this.page -=1
-          this.nextButtonDisabled = true
-          this.getSubEncomendas()
-        }
-
-    } else {
-        this.error = obj.body as Error;
-
-    }
-    })
-
   }
 
   nextPage(){
     this.page +=1
     if(this.appComponent.role === "ROLE_CONSUMIDOR"){
+      this.getProximasEncomendas(this.page + 2)
+      console.log(this.proximasEncomendas)
+      if(this.proximasEncomendas == 0){
+        this.nextButtonDisabled = true;
+      }
       this.getEncomendas();
     } 
     if(this.appComponent.role === "ROLE_FORNECEDOR"){
+      this.getProximasSubEncomendas(this.page + 2)
+      console.log(this.proximasEncomendas)
+      if(this.proximasEncomendas == 0){
+        this.nextButtonDisabled = true;
+      }
       this.getSubEncomendas();
     }
-      const state = { page: 'encomendas' };
-      const url = '/marketplace/encomendas';
-      this.previousButtonDisabled = false
-      window.history.pushState(state, url);
-      
-
-    //}
-    
+    const state = { page: 'encomendas' };
+    const url = '/marketplace/encomendas';
+    this.previousButtonDisabled = false
+    window.history.pushState(state, url);
   }
+
   previousPage(){
     this.page -=1
-    if(this.page<0){  
+    this.getProximasEncomendas(this.page - 1)
+    if(this.proximasEncomendas == 0){  
       this.page += 1
       this.previousButtonDisabled = true
 
@@ -126,7 +96,82 @@ export class EncomendasComponent implements OnInit {
     
   }
 
+  getEncomendas(){
+    // console.log("+++++++++++")
+    // console.log(this.page)
+    // console.log("+++++++++++")
 
+    this.encomendasService.getEncomendas(this.page).subscribe(obj=>{
+      const statusCode = obj.status
+  
+      if (statusCode === 200) {
+        this.encomendas = obj.body as FullEncomendaDTO[];
+
+        if(this.encomendas.length ===0 && this.page>0){
+          this.page -=1
+          this.nextButtonDisabled = true
+          this.getEncomendas()
+        }
+    } else {
+        this.error = obj.body as Error;
+    }
+    })
+  }
+
+  getSubEncomendas(){
+    // console.log("+++++++++++")
+    // console.log(this.page)
+    // console.log("+++++++++++")
+
+    this.encomendasService.getSubEncomendas(this.page).subscribe(obj=>{
+      const statusCode = obj.status
+      if (statusCode === 200) {
+        this.subencomendas = obj.body as FullSubEncomendaDTO[];
+        if(this.subencomendas.length ===0 && this.page>0){
+          this.page -=1
+          this.nextButtonDisabled = true
+          this.getSubEncomendas()
+        }
+    } else {
+        this.error = obj.body as Error;
+    }
+    })
+  }
+
+  getProximasEncomendas(page: number){
+    this.encomendasService.getEncomendas(page).subscribe(obj=>{
+      const statusCode = obj.status
+  
+      if (statusCode === 200) {
+        let encomendas = obj.body as FullEncomendaDTO[];
+        this.proximasEncomendas = encomendas.length;
+        console.log(this.proximasEncomendas)
+    } else {
+        this.error = obj.body as Error;
+    }
+    })
+  }
+
+  getProximasSubEncomendas(page:number){
+    // console.log("+++++++++++")
+    // console.log(this.page)
+    // console.log("+++++++++++")
+
+    this.encomendasService.getSubEncomendas(page).subscribe(obj=>{
+      const statusCode = obj.status
+      if (statusCode === 200) {
+        let subencomendas = obj.body as FullSubEncomendaDTO[];
+        this.proximasEncomendas = subencomendas.length;
+        // if(this.subencomendas.length ===0 && this.page>0){
+        //   this.page -=1
+        //   this.nextButtonDisabled = true
+        //   this.getSubEncomendas()
+        // }
+    } else {
+        this.error = obj.body as Error;
+    }
+    })
+  }
   
   showEncomenda(encomenda?:FullEncomendaDTO, subencomenda?:FullSubEncomendaDTO){
     this.encomendaDestaque = encomenda
@@ -142,5 +187,4 @@ export class EncomendasComponent implements OnInit {
   toggleAnswer(){
     this.showAnswer = !this.showAnswer;
   }
-
 }
