@@ -82,6 +82,7 @@ export class ProdutosComponent implements OnInit {
   page = 0
   previousButtonDisabled = true
   nextButtonDisabled = false
+  proximosProdutos = 0
 
   // carrinho
   produtoAadicionar: FullProdutoDTO;
@@ -462,27 +463,43 @@ export class ProdutosComponent implements OnInit {
 
   nextPage(){
     this.page +=1
+    this.getProximosProdutos(this.idCategoria,this.idSubCategoria, this.page + 1)
     if(this.produtos.length >0){
       this.getProdutos(this.idCategoria,this.idSubCategoria);
     }
+    if(this.proximosProdutos == 0){
+      this.nextButtonDisabled = true;
+    }
     console.log(this.page)
-    this.previousButtonDisabled = false    
+    this.previousButtonDisabled = false   
   }
 
   previousPage(){
     this.page -=1
-    if(this.page<0){  
-      this.page += 1
-      this.previousButtonDisabled = true
-
-    } else{
-      this.nextButtonDisabled = false
-
-      if(this.produtos.length >0){
-        this.getProdutos(this.idCategoria,this.idSubCategoria);
-      }
-
+    this.getProximosProdutos(this.idCategoria,this.idSubCategoria, this.page -1)
+    if(this.produtos.length >0){
+      this.getProdutos(this.idCategoria,this.idSubCategoria);
     }
+    if(this.proximosProdutos == 0){
+      this.previousButtonDisabled = true;
+    }
+    this.nextButtonDisabled = false  
+  }
+
+  getProximosProdutos(idCategoria:number, idSubCategoria:number, page:number){
+    this.produtosService.getProdutos(idCategoria,idSubCategoria,undefined,undefined,undefined,page).subscribe(obj=>{
+      const statusCode = obj.status
+      if (statusCode === 200) {
+        let produtos = obj.body as FullProdutoDTO[];
+        console.log(obj.body)
+        this.proximosProdutos = produtos.length
+        console.log(this.proximosProdutos)
+        
+    } else {
+        this.error = obj.body as Error;
+        //chamar pop up
+    }
+    })
   }
 
   getProdutos(idCategoria:number, idSubCategoria:number){
@@ -492,11 +509,6 @@ export class ProdutosComponent implements OnInit {
         this.produtos = obj.body as FullProdutoDTO[];
         console.log(obj.body)
         this.meusProdutos = []
-        if(this.produtos.length ===0 && this.page>0){
-          this.page -=1
-          this.nextButtonDisabled = true
-          this.getProdutos(this.idCategoria,this.idSubCategoria)
-        }
         this.noProdutos = false
         if(this.produtos.length ===0 && this.page===0){
           this.noProdutos = true
