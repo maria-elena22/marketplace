@@ -84,13 +84,22 @@ export class TransportesComponent implements OnInit{
       this.checkedItems.splice(idxChecked,1)
       this.itensParaEntregar.splice(idxChecked,1)
       console.log(this.checkedItems)
+      this.validado= this.itensParaEntregar.length === 0? false:true
+      for(let itemE of this.itensParaEntregar){
+        if (itemE.quantidade!<1){
+          console.log(itemE)
+          this.validado =false
+        }
+      }
+
     }else{
       this.checkedItems.push({idItem:index})
       this.itensParaEntregar.push({item:{idItem:index},quantidade: 0})
+      this.validado = false
+      
     }
     console.log(this.viagemForm.value)
       this.viagemForm.patchValue({subItems:this.itensParaEntregar})
-      this.validado = false
   }
 
   // Method to check if the item at the given index is checked
@@ -107,20 +116,26 @@ export class TransportesComponent implements OnInit{
 
   addSubItem(itemId:number, event: Event): void {
     console.log(this.viagemForm.value)
+    console.log(this.itensParaEntregar) // checked
+    console.log(this.itensNaoEntregues) // todos
+    this.validado = true 
     const value = (event.target as HTMLInputElement).value;
 
     const quantidade: number = parseFloat(value);
     for(let itemE of this.itensParaEntregar){
       if(itemE.item?.idItem === itemId){
-        const item = this.itensNaoEntregues?.filter(i => i.idItem===itemId)[0]
+        const item = this.itensNaoEntregues?.filter(i => i.idItem===itemE.item?.idItem)[0]
         if(quantidade<1 || quantidade>item?.quantidade!-item?.quantidadeDespachada! || quantidade>item?.quantidadeStock!){
-          this.validado =false
+          itemE.quantidade = quantidade
+          this.validado = false
         } else{
           itemE.quantidade = quantidade
-          this.validado =true
 
         }
-        itemE.quantidade = quantidade
+        
+      } else if (itemE.quantidade!<1){
+        console.log(itemE)
+        this.validado =false
       }
     }
 
