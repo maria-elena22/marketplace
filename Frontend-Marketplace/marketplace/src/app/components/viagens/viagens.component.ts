@@ -8,6 +8,7 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { TransportesComponent } from '../transportes/transportes.component';
 import { ViagemService } from 'src/app/service/viagem.service';
 import { Inject } from '@angular/core';
+import { UtilizadorService } from 'src/app/service/utilizador.service';
 
 @Component({
   selector: 'app-viagens',
@@ -38,9 +39,13 @@ export class ViagensComponent implements OnInit{
 
 
   constructor(private uniProdService:UniProdsService,private formBuilder: FormBuilder, private appComponent:AppComponent,
-              private route: ActivatedRoute, private viagemService:ViagemService, private router:Router){}
+              private route: ActivatedRoute, private viagemService:ViagemService, private router:Router, private utilizadorService:UtilizadorService){}
 
   ngOnInit(){
+    if(this.appComponent.token && this.appComponent.role !== 'ROLE_ADMIN'){
+      this.utilizadorService.getDetalhesUser().subscribe()
+    }
+
     this.route.params.subscribe(params => {
       this.getTransporte(JSON.parse(params['id']))!
       this.getViagens(JSON.parse(params['id']))

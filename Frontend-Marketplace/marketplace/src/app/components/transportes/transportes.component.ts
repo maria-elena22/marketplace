@@ -7,6 +7,7 @@ import { UniProdsComponent } from '../uni-prods/uni-prods.component';
 import { Router } from '@angular/router';
 import { EncomendasService } from 'src/app/service/encomendas.service';
 import { ViagemService } from 'src/app/service/viagem.service';
+import { UtilizadorService } from 'src/app/service/utilizador.service';
 
 @Component({
   selector: 'app-transportes',
@@ -39,9 +40,13 @@ export class TransportesComponent implements OnInit{
   matriculaValida = false;
 
   constructor(private uniProdService:UniProdsService,private formBuilder: FormBuilder, private appComponent:AppComponent,
-    private router : Router, private encomendaService:EncomendasService, private viagemService:ViagemService){}
+    private router : Router, private encomendaService:EncomendasService, private viagemService:ViagemService, private utilizadorService:UtilizadorService){}
 
   ngOnInit(){
+    if(this.appComponent.token && this.appComponent.role !== 'ROLE_ADMIN'){
+      this.utilizadorService.getDetalhesUser().subscribe()
+    }
+
     this.getUniProds();
     this.getTransportes(this.page);
     

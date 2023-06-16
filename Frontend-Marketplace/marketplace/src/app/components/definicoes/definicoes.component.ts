@@ -39,6 +39,9 @@ export class DefinicoesComponent implements OnInit{
 
 
   ngOnInit() {
+    if(this.appComponent.token && this.appComponent.role !== 'ROLE_ADMIN'){
+      this.utilizadorService.getDetalhesUser().subscribe()
+    }
 
   
     this.refreshFunction()

@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map,tap } from 'rxjs/operators';
 import { NotificacaoDTO, SignUpDTO, UtilizadorDTO, UtilizadorInputDTO } from '../model/models';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 
 
@@ -13,7 +14,7 @@ import { environment } from 'src/environments/environment';
 export class UtilizadorService {
 
   backendUrl = environment.backendUrl;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   getConsumidorById(id:number){
     console.log("entrei")
@@ -329,6 +330,17 @@ export class UtilizadorService {
       .pipe(
           catchError((error) => {
           console.log('An error occurred:', error);
+          localStorage.removeItem('jwt_token');
+          const currentUrl = this.router.url;
+          console.log(currentUrl)
+          if(currentUrl==='/marketplace'){
+            window.location.reload();
+
+          } else{
+            this.router.navigateByUrl('');
+            this.router.navigateByUrl('/marketplace');
+          }
+         
           return throwError('Something went wrong');
         })
       );

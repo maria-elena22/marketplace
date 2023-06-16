@@ -2,10 +2,12 @@ import { verifyHostBindings } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AppComponent } from 'src/app/app.component';
 import { EncomendaDTO, EncomendaPaymentDTO, FullEncomendaDTO, FullProdutoDTO, FullSubEncomendaDTO, SimpleItemDTO, SimpleSubEncomendaDTO, SimpleUtilizadorDTO } from 'src/app/model/models';
 import { CestoService } from 'src/app/service/cesto.service';
 import { EncomendasService } from 'src/app/service/encomendas.service';
 import { ProdutosService } from 'src/app/service/produtos.service';
+import { UtilizadorService } from 'src/app/service/utilizador.service';
 
 @Component({
   selector: 'app-pagamento',
@@ -24,9 +26,14 @@ export class PagamentoComponent implements OnInit{
   success:boolean
 
 
-  constructor(private router: Router, private formBuilder: FormBuilder,private route: ActivatedRoute, private cestoService : CestoService, private encomendasService: EncomendasService, private produtosService: ProdutosService){}
+  constructor(private router: Router, private formBuilder: FormBuilder,private route: ActivatedRoute, 
+    private cestoService : CestoService, private encomendasService: EncomendasService, private produtosService: ProdutosService, private appComponent: AppComponent
+    , private utilizadorService:UtilizadorService){}
   
   ngOnInit(): void {
+    if(this.appComponent.token && this.appComponent.role !== 'ROLE_ADMIN'){
+      this.utilizadorService.getDetalhesUser().subscribe()
+    }
       this.getProdutos();
       this.refresh();
       this.pagamentoForm = new FormGroup({

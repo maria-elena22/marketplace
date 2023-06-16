@@ -31,6 +31,10 @@ export class PerfilConsumidorComponent implements OnInit {
      private router: Router){}
   
   ngOnInit(): void {
+    if(this.appComponent.token && this.appComponent.role !== 'ROLE_ADMIN'){
+      this.utilizadorService.getDetalhesUser().subscribe()
+    }
+
       this.refresh();
 
       this.updateForm = new FormGroup({
