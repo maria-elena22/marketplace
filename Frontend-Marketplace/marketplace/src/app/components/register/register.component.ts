@@ -72,8 +72,6 @@ export class RegisterComponent implements OnInit{
       idFiscal: new FormControl('', Validators.required),
       nome: new FormControl('', Validators.required),
       telemovel: new FormControl('', Validators.required),
-      // latitude: new FormControl('', Validators.required),
-      // longitude: new FormControl('', Validators.required),
       morada: new FormControl('', Validators.required),
       codPostal: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -82,7 +80,6 @@ export class RegisterComponent implements OnInit{
       municipio: new FormControl('', Validators.required),
       distrito: new FormControl('', Validators.required),
       pais: new FormControl('', Validators.required),
-      // continente: new FormControl('', Validators.required),
       role: new FormControl('', Validators.required)
 
     });
@@ -197,72 +194,24 @@ export class RegisterComponent implements OnInit{
   geocodeAddress(address: string): Observable<HttpResponse<any>> {
     const headers = new HttpHeaders();
 
-    const url = `${environment.mapsUrl}?address=${address}&key=${environment.mapsKey}`;
+    //const url = `${environment.mapsUrl}?address=${address}&key=${environment.mapsKey}`;
     // address = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyBboXYv2JYM8DJHRKXzG3ipHTlmjJpc_jM`
+    
+    const url = `${environment.mapsUrl}address?key=${environment.mapsKey}&location=${address}`
     return this.http.get<any>(url, { headers, observe: 'response' });
   }
 
-  // onSubmit() {
-  //   let codPostal= this.signUpForm.value.codPostal.replace(" ","")
-  //   let coords : Coordinate
-  //   this.geocodeAddress(codPostal).subscribe(
-  //     (obj)=>{
-  //       const statusCode = obj.body.status
-
-  //       if (statusCode === "OK") {
-  //         const location = obj.body.results[0].geometry.location
-  //         coords = {latitude: location.lat,longitude: location.lng}
-
-  //         const signUpData: SignUpDTO = {
-  //           idFiscal: parseInt(this.signUpForm.value.idFiscal),
-  //           nome: this.signUpForm.value.nome,
-  //           telemovel: parseInt(this.signUpForm.value.telemovel),
-  //           coordenadas: coords,
-  //           morada: this.signUpForm.value.morada,
-  //           email: this.signUpForm.value.email,
-  //           password: this.signUpForm.value.password,
-  //           freguesia: this.signUpForm.value.freguesia,
-  //           municipio: this.signUpForm.value.municipio,
-  //           distrito: this.signUpForm.value.distrito,
-  //           pais: this.signUpForm.value.pais,
-  //           continente: this.getContinent(this.signUpForm.value.pais),
-  //         }
-
-  //         if(this.signUpForm.valid){
-  //           const role = this.signUpForm.value.role;
-  //           if(role === "fornecedor"){
-  //             this.insertFornecedor(signUpData);
-  //           } 
-  //           if (role === "consumidor"){
-  //             this.insertConsumidor(signUpData);
-  //         }
-  //         } else{
-  //           this.success = false
-  //           this.answer = "Erro! Verifique que preencheu os campos corretamente"
-  //           this.toggleAnswer()
-  //         }
-        
-  //       } else{
-  //         this.success = false
-  //         this.answer = "O Código Postal inserido não é válido!"
-  //         this.toggleAnswer()
-  //       }
-  //     }
-      
-  //   )
-
-
-    
-    
-
-    
-
-  // }
-
-
   onSubmit() {
-    let coords : Coordinate = {latitude:22,longitude:22}
-    const signUpData: SignUpDTO = {
+    let codPostal= this.signUpForm.value.codPostal.replace(" ","")
+    let coords : Coordinate
+    this.geocodeAddress(codPostal).subscribe(
+      (obj)=>{
+
+        let latitude = obj.body.results[0].locations[0].latLng.lat
+        let longitude = obj.body.results[0].locations[0].latLng.lng
+
+        coords = {latitude: latitude,longitude: longitude}
+        const signUpData: SignUpDTO = {
             idFiscal: parseInt(this.signUpForm.value.idFiscal),
             nome: this.signUpForm.value.nome,
             telemovel: parseInt(this.signUpForm.value.telemovel),
@@ -275,11 +224,12 @@ export class RegisterComponent implements OnInit{
             distrito: this.signUpForm.value.distrito,
             pais: this.signUpForm.value.pais,
             continente: this.getContinent(this.signUpForm.value.pais),
-    }
+        }
 
           if(this.signUpForm.valid){
             const role = this.signUpForm.value.role;
             if(role === "fornecedor"){
+
               this.insertFornecedor(signUpData);
             } 
             if (role === "consumidor"){
@@ -290,10 +240,14 @@ export class RegisterComponent implements OnInit{
             this.answer = "Erro! Verifique que preencheu os campos corretamente"
             this.toggleAnswer()
           }
+        
+      }
+      
+    )
 
-    
 
   }
+
 
   insertFornecedor(signUpData:SignUpDTO){
     this.utilizadorService.insertFornecedor(signUpData).subscribe(

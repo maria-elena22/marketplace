@@ -1,9 +1,12 @@
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router} from '@angular/router';
+import { Observable } from 'rxjs';
 import { AppComponent } from 'src/app/app.component';
 import { Coordinate, SignUpDTO, UtilizadorDTO, UtilizadorInputDTO } from 'src/app/model/models';
 import { UtilizadorService } from 'src/app/service/utilizador.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-perfil-consumidor',
@@ -27,7 +30,7 @@ export class PerfilConsumidorComponent implements OnInit {
   countries = Object.keys(SignUpDTO.PaisEnum).filter(key => isNaN(Number(key)));
   continents = Object.keys(SignUpDTO.ContinenteEnum).filter(key => isNaN(Number(key)));
 
-  constructor(private route: ActivatedRoute, private utilizadorService: UtilizadorService, private appComponent:AppComponent,
+  constructor(private route: ActivatedRoute, private http: HttpClient, private utilizadorService: UtilizadorService, private appComponent:AppComponent,
      private router: Router){}
   
   ngOnInit(): void {
@@ -41,36 +44,71 @@ export class PerfilConsumidorComponent implements OnInit {
         idFiscal: new FormControl('', Validators.required),
         nome: new FormControl('', Validators.required),
         telemovel: new FormControl('', Validators.required),
-        // latitude: new FormControl('', Validators.required),
-        // longitude: new FormControl('', Validators.required),
         morada: new FormControl('', Validators.required),
+        codPostal: new FormControl('', Validators.required),
         freguesia: new FormControl('', Validators.required),
         municipio: new FormControl('', Validators.required),
         distrito: new FormControl('', Validators.required),
         pais: new FormControl('', Validators.required),
-        // continente: new FormControl('', Validators.required)
   
       });
 
-      this.updateForm.patchValue({
-        idFiscal: this.utilizador!.idFiscal,
-        nome: this.utilizador!.nome,
-        telemovel: this.utilizador!.telemovel,
-        // latitude: this.utilizador!.coordenadas?.latitude,
-        // longitude: this.utilizador!.coordenadas?.longitude,
-        morada: this.utilizador!.morada,
-        freguesia: this.utilizador!.freguesia,
-        municipio: this.utilizador!.municipio,
-        distrito: this.utilizador!.distrito,
-        pais: this.utilizador!.pais,
-        // continente: this.utilizador!.continente
+      this.getCodPostal()
+
+      //TODO
+      // this.updateForm.patchValue({
+      //   idFiscal: this.utilizador!.idFiscal,
+      //   nome: this.utilizador!.nome,
+      //   telemovel: this.utilizador!.telemovel,
+      //   morada: this.utilizador!.morada,
+      //   freguesia: this.utilizador!.freguesia,
+      //   municipio: this.utilizador!.municipio,
+      //   distrito: this.utilizador!.distrito,
+      //   pais: this.utilizador!.pais,  
+      // });
+      // this.showForm=true;
   
-      });
-      this.showForm=true;
-  
-      this.updateForm.valueChanges.subscribe(() => {
-        this.noChanges = false;
-      });
+      // this.updateForm.valueChanges.subscribe(() => {
+      //   this.noChanges = false;
+      // });
+
+  }
+
+
+  getCodPostal(){
+    let latitude = this.utilizador.coordenadas?.latitude!
+    let longitude = this.utilizador.coordenadas?.longitude!
+
+    this.getCodPostalFromCoordenadas(latitude, longitude).subscribe(
+      (obj) => {
+        let postalCode = obj.body.results[0].locations[0].postalCode
+
+          this.updateForm.patchValue({
+            idFiscal: this.utilizador!.idFiscal,
+            nome: this.utilizador!.nome,
+            telemovel: this.utilizador!.telemovel,
+            morada: this.utilizador!.morada,
+            codPostal: postalCode,
+            freguesia: this.utilizador!.freguesia,
+            municipio: this.utilizador!.municipio,
+            distrito: this.utilizador!.distrito,
+            pais: this.utilizador!.pais,  
+          });
+          this.showForm=true;
+      
+          this.updateForm.valueChanges.subscribe(() => {
+            this.noChanges = false;
+          });
+              
+        }
+    )
+  }
+
+  getCodPostalFromCoordenadas(latitude:number, longitude:number){
+    const headers = new HttpHeaders();
+
+    const url = `${environment.mapsUrl}reverse?key=${environment.mapsKey}&location=${latitude},${longitude}`;
+    return this.http.get<any>(url, { headers, observe: 'response' });
   }
 
   onPageRefresh(event: BeforeUnloadEvent): void {
@@ -128,55 +166,130 @@ export class PerfilConsumidorComponent implements OnInit {
     });
   }
 
+  geocodeAddress(address: string): Observable<HttpResponse<any>> {
+    const headers = new HttpHeaders();
+    const url = `${environment.mapsUrl}address?key=${environment.mapsKey}&location=${address}`
+    return this.http.get<any>(url, { headers, observe: 'response' });
+  }
+
   onSubmit() {
+    let codPostal= this.updateForm.value.codPostal.replace(" ","")
+    let coords : Coordinate
+    this.geocodeAddress(codPostal).subscribe(
+      (obj)=>{
 
-    const coords : Coordinate = {latitude:this.updateForm.value.latitude,longitude:this.updateForm.value.longitude}
-    const updateData: UtilizadorInputDTO = {
-      idFiscal: this.updateForm.value.idFiscal,
-      nome: this.updateForm.value.nome,
-      telemovel: this.updateForm.value.telemovel,
-      coordenadas: coords,
-      morada: this.updateForm.value.morada,
-      freguesia: this.updateForm.value.freguesia,
-      municipio: this.updateForm.value.municipio,
-      distrito: this.updateForm.value.distrito,
-      pais: this.updateForm.value.pais,
-      continente: this.getContinent(this.updateForm.value.pais),
-    }
+        let latitude = obj.body.results[0].locations[0].latLng.lat
+        let longitude = obj.body.results[0].locations[0].latLng.lng
 
-    if(this.role === "ROLE_FORNECEDOR"){
-      this.utilizadorService.updateFornecedor(updateData).subscribe(obj=>{
-        const statusCode = obj.status
-  
-        if (statusCode === 200) {
-          this.answer = "Dados atualizados com sucesso!"
-          this.success = true;
-          this.utilizador = obj.body
-          this.appComponent.user!.nome! =this.utilizador!.nome!
+        coords = {latitude: latitude,longitude: longitude}
+        const updateData: UtilizadorInputDTO = {
+            idFiscal: parseInt(this.updateForm.value.idFiscal),
+            nome: this.updateForm.value.nome,
+            telemovel: parseInt(this.updateForm.value.telemovel),
+            coordenadas: coords,
+            morada: this.updateForm.value.morada,
+            freguesia: this.updateForm.value.freguesia,
+            municipio: this.updateForm.value.municipio,
+            distrito: this.updateForm.value.distrito,
+            pais: this.updateForm.value.pais,
+            continente: this.getContinent(this.updateForm.value.pais),
+        }
 
-          this.openAnswer();
-  
-      } 
-    }
+          // if(this.signUpForm.valid){
+            const role = this.updateForm.value.role;
+            if(this.role === "ROLE_FORNECEDOR"){
+
+              this.utilizadorService.updateFornecedor(updateData).subscribe(obj=>{
+                const statusCode = obj.status
+          
+                if (statusCode === 200) {
+                  this.answer = "Dados atualizados com sucesso!"
+                  this.success = true;
+                  this.utilizador = obj.body
+                  this.appComponent.user!.nome! =this.utilizador!.nome!
+        
+                  this.openAnswer();
+          
+              } 
+            }
+            )
+            } 
+            if (this.role === "ROLE_CONSUMIDOR"){
+              this.utilizadorService.updateConsumidor(updateData).subscribe(obj=>{
+                const statusCode = obj.status
+          
+                if (statusCode === 200) {
+                  this.answer = "Dados atualizados com sucesso!"
+                  this.success = true;
+                  this.utilizador = obj.body
+                  this.appComponent.user!.nome! =this.utilizador!.nome!
+                  this.openAnswer();
+              } 
+            }
+            )          }
+          // } else{
+          //   this.success = false
+          //   this.answer = "Erro! Verifique que preencheu os campos corretamente"
+          //   this.toggleAnswer()
+          // }
+        
+      }
+      
     )
-
-    } 
-    if (this.role === "ROLE_CONSUMIDOR"){
-      this.utilizadorService.updateConsumidor(updateData).subscribe(obj=>{
-        const statusCode = obj.status
-  
-        if (statusCode === 200) {
-          this.answer = "Dados atualizados com sucesso!"
-          this.success = true;
-          this.utilizador = obj.body
-          this.appComponent.user!.nome! =this.utilizador!.nome!
-          this.openAnswer();
-      } 
-    }
-    )
-    }
 
   }
+
+
+  // onSubmit() {
+ 
+
+  //   const coords : Coordinate = {latitude:this.updateForm.value.latitude,longitude:this.updateForm.value.longitude}
+  //   const updateData: UtilizadorInputDTO = {
+  //     idFiscal: this.updateForm.value.idFiscal,
+  //     nome: this.updateForm.value.nome,
+  //     telemovel: this.updateForm.value.telemovel,
+  //     coordenadas: coords,
+  //     morada: this.updateForm.value.morada,
+  //     freguesia: this.updateForm.value.freguesia,
+  //     municipio: this.updateForm.value.municipio,
+  //     distrito: this.updateForm.value.distrito,
+  //     pais: this.updateForm.value.pais,
+  //     continente: this.getContinent(this.updateForm.value.pais),
+  //   }
+
+  //   if(this.role === "ROLE_FORNECEDOR"){
+  //     this.utilizadorService.updateFornecedor(updateData).subscribe(obj=>{
+  //       const statusCode = obj.status
+  
+  //       if (statusCode === 200) {
+  //         this.answer = "Dados atualizados com sucesso!"
+  //         this.success = true;
+  //         this.utilizador = obj.body
+  //         this.appComponent.user!.nome! =this.utilizador!.nome!
+
+  //         this.openAnswer();
+  
+  //     } 
+  //   }
+  //   )
+
+  //   } 
+  //   if (this.role === "ROLE_CONSUMIDOR"){
+  //     this.utilizadorService.updateConsumidor(updateData).subscribe(obj=>{
+  //       const statusCode = obj.status
+  
+  //       if (statusCode === 200) {
+  //         this.answer = "Dados atualizados com sucesso!"
+  //         this.success = true;
+  //         this.utilizador = obj.body
+  //         this.appComponent.user!.nome! =this.utilizador!.nome!
+  //         this.openAnswer();
+  //     } 
+  //   }
+  //   )
+  //   }
+
+  // }
 
   getContinent(pais: String){
     if(pais == "ALBANIA" || pais == "ANDORRA" || pais == "AUSTRIA" || pais == "BELGIUM" || pais == "BELARUS" || pais == "BOSNIA_HERZEGOVINA" || pais == "BULGARIA" || pais == "CROATIA" || pais == "CYPRUS" || pais == "CZECH_REPUBLIC" || pais == "DANZIG" || pais == "DENMARK" || pais == "ESTONIA" || pais == "FINLAND" || pais == "FRANCE" || pais == "GERMANY" || pais == "GREECE" || pais == "HOLY_ROMAN_EMPIRE" || pais == "HUNGARY" || pais == "ICELAND" || pais == "IRELAND" || pais == "ITALY" || pais == "KOSOVO" || pais == "LATVIA" || pais == "LIECHTENSTEIN" || pais == "LITHUANIA" || pais == "LUXEMBOURG" || pais == "MACEDONIA" || pais == "MALTA" || pais == "MOLDOVA" || pais == "MONACO" || pais == "MONTENEGRO" || pais == "MOUNT_ATHOS" || pais == "NETHERLANDS" || pais == "NORWAY" || pais == "POLAND" || pais == "PORTUGAL" || pais == "PRUSSIA" || pais == "ROMANIA" || pais == "SAN_MARINO" || pais == "SERBIA" || pais == "SLOVAKIA" || pais == "SLOVENIA" || pais == "SPAIN" || pais == "SWEDEN" || pais == "SWITZERLAND" || pais == "UNITED_KINGDOM" || pais == "UKRAINE" || pais == "VATICAN_CITY"){
