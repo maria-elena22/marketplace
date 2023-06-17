@@ -2,6 +2,7 @@ import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
 import { EncomendaDTO, FullEncomendaDTO, FullProdutoDTO, FullSubEncomendaDTO, SimpleUtilizadorDTO } from 'src/app/model/models';
+import { EncomendasService } from 'src/app/service/encomendas.service';
 import { ProdutosService } from 'src/app/service/produtos.service';
 
 @Component({
@@ -21,7 +22,7 @@ export class DetalhesEncomendaConsumidorComponent implements OnInit{
   answer:string
   success:boolean
 
-  constructor(private appComponent: AppComponent, private produtosService:ProdutosService, private router: Router){}
+  constructor(private encomendasService:EncomendasService, private appComponent: AppComponent, private produtosService:ProdutosService, private router: Router){}
 
   ngOnInit(): void {
     this.getProdutos()
@@ -120,4 +121,32 @@ export class DetalhesEncomendaConsumidorComponent implements OnInit{
     }
     return 0
   }
+
+  obterJSON(idSubEncomenda:number){
+    
+      this.encomendasService.getSubEncomendaById(idSubEncomenda).subscribe(obj => {
+        const statusCode = obj.status;
+        if (statusCode === 200) {
+          this.generateFile(JSON.stringify(obj.body), idSubEncomenda);
+        
+        }
+      });
+  }
+
+
+  generateFile(jsonContent: any, idSubEncomenda:number) {
+    const blob = new Blob([jsonContent], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+  
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `encomenda${idSubEncomenda}-${this.appComponent.user?.nome}.json`;
+    
+    document.body.appendChild(link);
+    link.click();
+    
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
 }

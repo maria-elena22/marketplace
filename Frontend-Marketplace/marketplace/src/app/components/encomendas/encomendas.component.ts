@@ -5,6 +5,7 @@ import { DetalhesEncomendaConsumidorComponent } from '../detalhes-encomenda-cons
 import { AppComponent } from 'src/app/app.component';
 import { UtilizadorService } from 'src/app/service/utilizador.service';
 
+
 @Component({
   selector: 'app-encomendas',
   templateUrl: './encomendas.component.html',
@@ -27,7 +28,7 @@ export class EncomendasComponent implements OnInit {
   success:boolean
   proximasEncomendas: number;
 
-  constructor(private encomendasService:EncomendasService, private appComponent:AppComponent, private utilizadorService:UtilizadorService){}
+  constructor(private encomendasService:EncomendasService, private appComponent:AppComponent, private utilizadorService:UtilizadorService){  }
 
   ngOnInit(): void {
     if(this.appComponent.token && this.appComponent.role !== 'ROLE_ADMIN'){
@@ -132,11 +133,33 @@ export class EncomendasComponent implements OnInit {
     })
   }
 
-  obterJSON(idEncomenda?:number){
-    if(!idEncomenda){
-      
-    }
+  obterJSON(){
+      this.encomendasService.getSubEncomendas(this.page).subscribe(obj => {
+        const statusCode = obj.status;
+        if (statusCode === 200) {
+          this.generateFile(JSON.stringify(obj.body));
+        
+        }
+      });
+
+    
   }
+
+
+generateFile(jsonContent: any) {
+  const blob = new Blob([jsonContent], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `encomendas${this.appComponent.user?.nome}.json`;
+  
+  document.body.appendChild(link);
+  link.click();
+  
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
 
   getProximasEncomendas(page: number){
     this.encomendasService.getEncomendas(page).subscribe(obj=>{
