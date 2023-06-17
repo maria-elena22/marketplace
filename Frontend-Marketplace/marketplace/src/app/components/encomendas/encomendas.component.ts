@@ -97,9 +97,6 @@ export class EncomendasComponent implements OnInit {
   }
 
   getEncomendas(){
-    // console.log("+++++++++++")
-    // console.log(this.page)
-    // console.log("+++++++++++")
 
     this.encomendasService.getEncomendas(this.page).subscribe(obj=>{
       const statusCode = obj.status
@@ -119,9 +116,6 @@ export class EncomendasComponent implements OnInit {
   }
 
   getSubEncomendas(){
-    // console.log("+++++++++++")
-    // console.log(this.page)
-    // console.log("+++++++++++")
 
     this.encomendasService.getSubEncomendas(this.page).subscribe(obj=>{
       const statusCode = obj.status
@@ -136,6 +130,12 @@ export class EncomendasComponent implements OnInit {
         this.error = obj.body as Error;
     }
     })
+  }
+
+  obterJSON(idEncomenda?:number){
+    if(!idEncomenda){
+      
+    }
   }
 
   getProximasEncomendas(page: number){
@@ -187,4 +187,7 @@ export class EncomendasComponent implements OnInit {
   toggleAnswer(){
     this.showAnswer = !this.showAnswer;
   }
+
+
+
 }

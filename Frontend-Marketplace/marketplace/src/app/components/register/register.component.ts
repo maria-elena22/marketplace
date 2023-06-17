@@ -133,18 +133,25 @@ export class RegisterComponent implements OnInit{
     const letras = /[a-zA-Z]/;    
     this.letrasId = letras.test(idFiscalValue);
 
+    //special
+    const specialChars = /[^a-zA-Z0-9]/;
+    const hasSpecialChars = specialChars.test(idFiscalValue);
+
     if(this.oitoCaracteresId && this.numerosId && !this.letrasId){
       this.idFiscalValid = true;
+    } else if(this.letrasId || hasSpecialChars){
+      this.signUpForm.patchValue({idFiscal:inputElement.value.replace(/\D/g, "")})
     }
   }
 
   onContactoInput(event: Event){
+    
     const inputElement = event.target as HTMLInputElement;
     const ContactoValue = inputElement.value;
     this.ContactoEmpty = ContactoValue.length > 0;
     // 8 caracteres
     this.oitoCaracteresContacto = ContactoValue.length >= 8;
-
+    
     // numbers
     const numericRegex = /\d/;
     this.numerosContacto = numericRegex.test(ContactoValue);
@@ -153,8 +160,15 @@ export class RegisterComponent implements OnInit{
     const letras = /[a-zA-Z]/;    
     this.letrasContacto = letras.test(ContactoValue);
 
+    //special
+    const specialChars = /[^a-zA-Z0-9]/;
+    const hasSpecialChars = specialChars.test(ContactoValue);
+
     if(this.oitoCaracteresContacto && this.numerosContacto && !this.letrasContacto){
       this.contactoValid = true;
+    } 
+    else if(this.letrasContacto || hasSpecialChars){
+      this.signUpForm.patchValue({telemovel:inputElement.value.replace(/\D/g, "")})
     }
   }
 
@@ -188,18 +202,67 @@ export class RegisterComponent implements OnInit{
     return this.http.get<any>(url, { headers, observe: 'response' });
   }
 
+  // onSubmit() {
+  //   let codPostal= this.signUpForm.value.codPostal.replace(" ","")
+  //   let coords : Coordinate
+  //   this.geocodeAddress(codPostal).subscribe(
+  //     (obj)=>{
+  //       const statusCode = obj.body.status
+
+  //       if (statusCode === "OK") {
+  //         const location = obj.body.results[0].geometry.location
+  //         coords = {latitude: location.lat,longitude: location.lng}
+
+  //         const signUpData: SignUpDTO = {
+  //           idFiscal: parseInt(this.signUpForm.value.idFiscal),
+  //           nome: this.signUpForm.value.nome,
+  //           telemovel: parseInt(this.signUpForm.value.telemovel),
+  //           coordenadas: coords,
+  //           morada: this.signUpForm.value.morada,
+  //           email: this.signUpForm.value.email,
+  //           password: this.signUpForm.value.password,
+  //           freguesia: this.signUpForm.value.freguesia,
+  //           municipio: this.signUpForm.value.municipio,
+  //           distrito: this.signUpForm.value.distrito,
+  //           pais: this.signUpForm.value.pais,
+  //           continente: this.getContinent(this.signUpForm.value.pais),
+  //         }
+
+  //         if(this.signUpForm.valid){
+  //           const role = this.signUpForm.value.role;
+  //           if(role === "fornecedor"){
+  //             this.insertFornecedor(signUpData);
+  //           } 
+  //           if (role === "consumidor"){
+  //             this.insertConsumidor(signUpData);
+  //         }
+  //         } else{
+  //           this.success = false
+  //           this.answer = "Erro! Verifique que preencheu os campos corretamente"
+  //           this.toggleAnswer()
+  //         }
+        
+  //       } else{
+  //         this.success = false
+  //         this.answer = "O Código Postal inserido não é válido!"
+  //         this.toggleAnswer()
+  //       }
+  //     }
+      
+  //   )
+
+
+    
+    
+
+    
+
+  // }
+
+
   onSubmit() {
-    let codPostal= this.signUpForm.value.codPostal.replace(" ","")
-    let coords : Coordinate
-    this.geocodeAddress(codPostal).subscribe(
-      (obj)=>{
-        const statusCode = obj.body.status
-
-        if (statusCode === "OK") {
-          const location = obj.body.results[0].geometry.location
-          coords = {latitude: location.lat,longitude: location.lng}
-
-          const signUpData: SignUpDTO = {
+    let coords : Coordinate = {latitude:22,longitude:22}
+    const signUpData: SignUpDTO = {
             idFiscal: parseInt(this.signUpForm.value.idFiscal),
             nome: this.signUpForm.value.nome,
             telemovel: parseInt(this.signUpForm.value.telemovel),
@@ -212,7 +275,7 @@ export class RegisterComponent implements OnInit{
             distrito: this.signUpForm.value.distrito,
             pais: this.signUpForm.value.pais,
             continente: this.getContinent(this.signUpForm.value.pais),
-          }
+    }
 
           if(this.signUpForm.valid){
             const role = this.signUpForm.value.role;
@@ -227,19 +290,6 @@ export class RegisterComponent implements OnInit{
             this.answer = "Erro! Verifique que preencheu os campos corretamente"
             this.toggleAnswer()
           }
-        
-        } else{
-          this.success = false
-          this.answer = "O Código Postal inserido não é válido!"
-          this.toggleAnswer()
-        }
-      }
-      
-    )
-
-
-    
-    
 
     
 

@@ -63,7 +63,7 @@ export class CestoService {
     const token = localStorage.getItem('jwt_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const url = `${this.backendUrl}/encomenda`;
-
+    console.log(compra)
     return this.http.post<any>(url, compra,{ headers, observe: 'response' })
       .pipe(
         catchError((error) => {
