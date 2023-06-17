@@ -406,6 +406,10 @@ public class EncomendaService {
             total +=(preco*simpleItemDTO.getQuantidade());
 
         }
+
+        String formattedNumber = String.format("%.2f", total);
+
+        total = Double.parseDouble(formattedNumber);
         return total;
     }
 
