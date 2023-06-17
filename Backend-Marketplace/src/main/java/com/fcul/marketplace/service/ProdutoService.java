@@ -41,14 +41,14 @@ public class ProdutoService {
 
 
 
-    public List<Produto> getProdutos(Integer propriedadeId, Integer subcategoriaId, Integer categoriaId, Integer unidadeId, String nomeProduto, Double precoMax, Double precoMin, IVA iva,String descricao, Integer page, Integer size, Sort.Direction sortDir, String sortKey) {
+    public List<Produto> getProdutos(Integer subcategoriaId, Integer categoriaId, Integer unidadeId, String nomeProduto, Double precoMax, Double precoMin, IVA iva,String descricao, Integer page, Integer size, Sort.Direction sortDir, String sortKey) {
         List<Integer> subCategoriasIds= null;
         if(subcategoriaId!=null){
                 subCategoriasIds = resolveSubCategorias(subcategoriaId, new ArrayList<>());
         }
         Pageable pageable = PageableUtils.getDefaultPageable(page, size, sortDir, sortKey);
         Boolean shouldEvaluateList = subcategoriaId!=null;
-        return produtoRepository.findByOpt(null, propriedadeId, categoriaId, unidadeId, nomeProduto, subCategoriasIds, precoMin, precoMax, iva, descricao,pageable,shouldEvaluateList).getContent();
+        return produtoRepository.findByOpt(null, categoriaId, unidadeId, nomeProduto, subCategoriasIds, precoMin, precoMax, iva, descricao,pageable,shouldEvaluateList).getContent();
     }
 
     private List<Integer> resolveSubCategorias(Integer subCategoriaId, List<Integer> list) {

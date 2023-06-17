@@ -49,7 +49,6 @@ public class ProdutoControllerAPI {
             description = "Devolve todos os Produtos podendo os resultados serem filtrados por propriedadeId, subcategoriaId," +
                     " categoriaId, unidadeId, nomeProduto e/ou preço")
     @Parameters(value = {
-            @Parameter(name = "propriedadeId", description = "Filtrar resultados por ID da Propriedade"),
             @Parameter(name = "subcategoriaId", description = "Filtrar resultados por ID da Subcategoria"),
             @Parameter(name = "categoriaId", description = "Filtrar resultados por ID da Categoria"),
             @Parameter(name = "nomeProduto", description = "Filtrar resultados por produtos cujo o nome contem o parametro"),
@@ -65,8 +64,7 @@ public class ProdutoControllerAPI {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
     @CrossOrigin("*")
-    public List<ProdutoConsumidorDTO> getProdutos(@RequestParam(required = false) Integer propriedadeId,
-                                                  @RequestParam(required = false) Integer subcategoriaId,
+    public List<ProdutoConsumidorDTO> getProdutos(@RequestParam(required = false) Integer subcategoriaId,
                                                   @RequestParam(required = false) Integer categoriaId,
                                                   @RequestParam(required = false) Integer unidadeId,
                                                   @RequestParam(required = false) String nomeProduto,
@@ -79,7 +77,7 @@ public class ProdutoControllerAPI {
                                                   @RequestParam(required = false) String sortKey,
                                                   @RequestParam(required = false) Sort.Direction sortDir) {
 
-        List<Produto> produtos = produtoService.getProdutos(propriedadeId, subcategoriaId, categoriaId, unidadeId, nomeProduto
+        List<Produto> produtos = produtoService.getProdutos(subcategoriaId, categoriaId, unidadeId, nomeProduto
                 , precoMax, precoMin, iva, descricao,page, size, sortDir, sortKey);
         return produtos.stream()
                 .map(produto -> modelMapper.map(produto, ProdutoConsumidorDTO.class)).collect(Collectors.toList());

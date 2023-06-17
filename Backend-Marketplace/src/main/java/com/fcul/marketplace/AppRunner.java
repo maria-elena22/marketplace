@@ -35,8 +35,8 @@ public class AppRunner implements ApplicationRunner {
             DefaultMutableTreeNode frutasNacionaisNode = new DefaultMutableTreeNode("Nacional");
             DefaultMutableTreeNode frutasEstrangeirasNode = new DefaultMutableTreeNode("Estrangeiro");
             DefaultMutableTreeNode legumesNode = new DefaultMutableTreeNode("Legumes");
-            DefaultMutableTreeNode legumesNacionaisNode = new DefaultMutableTreeNode("Nacional");
-            DefaultMutableTreeNode legumesEstrangeirosNode = new DefaultMutableTreeNode("Estrangeiro");
+            DefaultMutableTreeNode legumesNacionaisNode = new DefaultMutableTreeNode("Nacionais");
+            DefaultMutableTreeNode legumesEstrangeirosNode = new DefaultMutableTreeNode("Estrangeiros");
             DefaultMutableTreeNode lacticiniosOvosNode = new DefaultMutableTreeNode("Laticínios e Ovos");
             DefaultMutableTreeNode lacticiniosNode = new DefaultMutableTreeNode("Laticínios");
             DefaultMutableTreeNode ovosNode = new DefaultMutableTreeNode("Ovos");

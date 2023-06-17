@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class NotificacaoService {
@@ -28,11 +29,10 @@ public class NotificacaoService {
 
     public List<Notificacao> getNotificacoes(String userEmail) {
         Utilizador utilizador = utilizadorService.getUtilizadorByEmail(userEmail);
-        List<Notificacao> notificacaos = notificacaoRepository.findByDestinatarioIdUtilizadorAndEntregueFalse(utilizador.getIdUtilizador());
-        notificacaos.forEach(notificacao -> notificacao.setEntregue(true));
-        notificacaoRepository.saveAll(notificacaos);
-        return notificacaos;
+        return notificacaoRepository.findByDestinatarioIdUtilizadorAndEntregueFalse(utilizador.getIdUtilizador());
     }
+
+
 
     public Integer getNotificacoesNum(String userEmail) {
         Utilizador utilizador = utilizadorService.getUtilizadorByEmail(userEmail);
@@ -102,5 +102,19 @@ public class NotificacaoService {
                     subItem.getItem().getProduto().getNome() + " já foi entregue");
         }
 
+    }
+
+    public void entregarNotificacao(String userEmail, Integer idNotificacao) {
+        Utilizador utilizador = utilizadorService.getUtilizadorByEmail(userEmail);
+        List<Notificacao> notificacaos = notificacaoRepository.findByDestinatarioIdUtilizadorAndEntregueFalse(utilizador.getIdUtilizador());
+
+        Optional<Notificacao> notificacao = notificacaos.stream()
+                .filter(notif -> notif.getIdNotificacao() == idNotificacao)
+                .findFirst();
+
+        notificacao.ifPresent(notif -> {
+            notif.setEntregue(true);
+            notificacaoRepository.save(notif);
+        });
     }
 }

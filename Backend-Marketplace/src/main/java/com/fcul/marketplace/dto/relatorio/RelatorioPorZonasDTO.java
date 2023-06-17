@@ -14,6 +14,7 @@ public class RelatorioPorZonasDTO {
     Map<String, Long> mapEncomendasDistrito;
     Map<String, Long> mapEncomendasPais;
     Map<String, Long> mapEncomendasContinente;
+
     //Representa a quantidade de encomendas feitas no mundo
     Integer totalDeEncomendas;
 }

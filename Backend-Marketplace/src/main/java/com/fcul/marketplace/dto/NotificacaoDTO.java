@@ -8,6 +8,8 @@ import lombok.Data;
 @Data
 public class NotificacaoDTO {
 
+    private Integer idNotificacao;
+
     private SubEncomendaNotifDTO subEncomenda;
 
     private TipoNotificacao tipoNotificacao;

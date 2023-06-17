@@ -9,6 +9,7 @@ import com.fcul.marketplace.model.SubItem;
 import com.fcul.marketplace.service.EncomendaService;
 import com.fcul.marketplace.service.NotificacaoService;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,18 @@ public class NotificacaoControllerAPI {
                 securityUtils.getEmailFromAuthHeader(authorizationHeader));
         return notificacoes.stream().map(notificacao -> modelMapper.map(notificacao, NotificacaoDTO.class))
                 .collect(Collectors.toList());
+    }
+
+
+    @PutMapping("/{idNotificacao}")
+    @Parameters(value = {
+            @Parameter(name = "idNotificacao", description = "ID do Notificacao a entregar")})
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR", "CONSUMIDOR"})
+    @CrossOrigin("*")
+    public void entregarNotificacao(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader, @PathVariable Integer idNotificacao) throws JWTTokenMissingException {
+        notificacaoService.entregarNotificacao(securityUtils.getEmailFromAuthHeader(authorizationHeader),idNotificacao);
+
     }
 
     @GetMapping("/num")

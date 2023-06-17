@@ -27,9 +27,8 @@ public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
             "AND (:idFornecedor is null or up.fornecedor.idUtilizador=:idFornecedor) " +
             "AND (:precoMin is null or pf.preco>= :precoMin) " +
             "AND (:precoMax is null or pf.preco<= :precoMax) " +
-            "AND (:propriedadeId is null or KEY(props) = :propriedadeId) " +
             "AND (:descricao is null or LOWER(p.nome) LIKE CONCAT('%', LOWER(:nomeProduto), '%')) ")
-    Page<Produto> findByOpt(Integer idFornecedor, Integer propriedadeId, Integer categoriaId, Integer unidadeId, String nomeProduto,
+    Page<Produto> findByOpt(Integer idFornecedor, Integer categoriaId, Integer unidadeId, String nomeProduto,
                             List<Integer> subcategoriaIdsList, Double precoMin, Double precoMax, IVA iva, String descricao, Pageable pageable, Boolean shouldEvaluateList);
 
 
