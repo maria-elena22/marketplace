@@ -35,16 +35,10 @@ export class EncomendasComponent implements OnInit {
     }
     if(this.appComponent.role === "ROLE_CONSUMIDOR"){
       this.getProximasEncomendas(this.page + 1);
-      if(this.proximasEncomendas == 0){
-        this.nextButtonDisabled = true;
-      }
       this.getEncomendas();
     } 
     if(this.appComponent.role === "ROLE_FORNECEDOR"){
       this.getProximasSubEncomendas(this.page + 1);
-      if(this.proximasEncomendas == 0){
-        this.nextButtonDisabled = true;
-      }
       this.getSubEncomendas();
     }
   }
@@ -53,7 +47,6 @@ export class EncomendasComponent implements OnInit {
     this.page +=1
     if(this.appComponent.role === "ROLE_CONSUMIDOR"){
       this.getProximasEncomendas(this.page + 2)
-      console.log(this.proximasEncomendas)
       if(this.proximasEncomendas == 0){
         this.nextButtonDisabled = true;
       }
@@ -75,35 +68,30 @@ export class EncomendasComponent implements OnInit {
 
   previousPage(){
     this.page -=1
-    this.getProximasEncomendas(this.page - 1)
-    if(this.proximasEncomendas == 0){  
-      this.page += 1
-      this.previousButtonDisabled = true
-
-    } else{
-      if(this.appComponent.role === "ROLE_CONSUMIDOR"){
-        this.getEncomendas();
-      } 
-      if(this.appComponent.role === "ROLE_FORNECEDOR"){
-        this.getSubEncomendas();
+    if(this.appComponent.role === "ROLE_CONSUMIDOR"){
+      this.getProximasEncomendas(this.page - 2)
+      console.log(this.page-2)
+      if(this.proximasEncomendas == 0 && this.page - 2 <= 0){
+        this.previousButtonDisabled = true;
       }
-      const state = { page: 'encomendas' };
-      const url = '/marketplace/encomendas';
-      this.nextButtonDisabled = false
-      window.history.pushState(state, url);
-
+      this.getEncomendas();
+    } 
+    if(this.appComponent.role === "ROLE_FORNECEDOR"){
+      this.getProximasSubEncomendas(this.page - 2)
+      if(this.proximasEncomendas == 0 && this.page - 2 <= 0){
+        this.nextButtonDisabled = true;
+      }
+      this.getSubEncomendas();
     }
-    
+    const state = { page: 'encomendas' };
+    const url = '/marketplace/encomendas';
+    this.nextButtonDisabled = false
+    window.history.pushState(state, url);
   }
 
   getEncomendas(){
-    // console.log("+++++++++++")
-    // console.log(this.page)
-    // console.log("+++++++++++")
-
     this.encomendasService.getEncomendas(this.page).subscribe(obj=>{
       const statusCode = obj.status
-  
       if (statusCode === 200) {
         this.encomendas = obj.body as FullEncomendaDTO[];
 
@@ -119,10 +107,6 @@ export class EncomendasComponent implements OnInit {
   }
 
   getSubEncomendas(){
-    // console.log("+++++++++++")
-    // console.log(this.page)
-    // console.log("+++++++++++")
-
     this.encomendasService.getSubEncomendas(this.page).subscribe(obj=>{
       const statusCode = obj.status
       if (statusCode === 200) {
@@ -141,32 +125,25 @@ export class EncomendasComponent implements OnInit {
   getProximasEncomendas(page: number){
     this.encomendasService.getEncomendas(page).subscribe(obj=>{
       const statusCode = obj.status
-  
       if (statusCode === 200) {
         let encomendas = obj.body as FullEncomendaDTO[];
         this.proximasEncomendas = encomendas.length;
-        console.log(this.proximasEncomendas)
+        if(this.proximasEncomendas == 0){
+          this.nextButtonDisabled = true;
+        }
     } else {
-        this.error = obj.body as Error;
+      this.proximasEncomendas = 0;
+      this.error = obj.body as Error;
     }
     })
   }
 
   getProximasSubEncomendas(page:number){
-    // console.log("+++++++++++")
-    // console.log(this.page)
-    // console.log("+++++++++++")
-
     this.encomendasService.getSubEncomendas(page).subscribe(obj=>{
       const statusCode = obj.status
       if (statusCode === 200) {
         let subencomendas = obj.body as FullSubEncomendaDTO[];
         this.proximasEncomendas = subencomendas.length;
-        // if(this.subencomendas.length ===0 && this.page>0){
-        //   this.page -=1
-        //   this.nextButtonDisabled = true
-        //   this.getSubEncomendas()
-        // }
     } else {
         this.error = obj.body as Error;
     }

@@ -255,7 +255,7 @@
                             <div *ngIf="!forneco(produto)"><a class="btn btn-outline-dark mt-auto" (click)="toggleAddProduto(produto)">Passar a fornecer</a></div>
                         </div>
                     </div>
-                    <form *ngIf="role==='ROLE_CONSUMIDOR'" [formGroup]="addCarrinhoForm" (ngSubmit)="onSubmitProduto()" >
+                    <form *ngIf="role!=='ROLE_FORNECEDOR'" [formGroup]="addCarrinhoForm" (ngSubmit)="onSubmitProduto()" >
                         <div>
                             <br>
                             <label for="quantidade"><b>Quantidade:</b> &nbsp;</label>
