@@ -225,12 +225,20 @@ export class PerfilConsumidorComponent implements OnInit {
                   } 
                 })
               }
+            }else{
+              this.success = false
+              this.answer = "Erro! Verifique que preencheu os campos corretamente"
+              this.toggleAnswer()
             }
         
       }
       
     )
 
+  }
+
+  toggleAnswer(){
+    this.showAnswer = !this.showAnswer;
   }
 
   getContinent(pais: String){
