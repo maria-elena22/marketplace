@@ -57,6 +57,7 @@ export class RegisterComponent implements OnInit{
   pontoEmail = false;
   EmailEmpty = true;
   emailValid = false;
+
   //CODIGO POSTAL
   startCodPostal = false;
   CodPostalValido = false;
@@ -244,7 +245,7 @@ export class RegisterComponent implements OnInit{
             continente: this.getContinent(this.signUpForm.value.pais),
         }
 
-          if(this.signUpForm.valid){
+          if(this.emailValid && this.contactoValid && this.idFiscalValid && this.passwordValid){
             const role = this.signUpForm.value.role;
             if(role === "fornecedor"){
 

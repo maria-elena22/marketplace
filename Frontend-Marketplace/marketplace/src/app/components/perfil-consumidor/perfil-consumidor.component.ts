@@ -193,7 +193,7 @@ export class PerfilConsumidorComponent implements OnInit {
             continente: this.getContinent(this.updateForm.value.pais),
         }
 
-          // if(this.signUpForm.valid){
+          if(this.contactoValid && this.idFiscalValid){
             const role = this.updateForm.value.role;
             if(this.role === "ROLE_FORNECEDOR"){
 
@@ -208,23 +208,24 @@ export class PerfilConsumidorComponent implements OnInit {
         
                   this.openAnswer();
           
+                } 
+              }
+              )
               } 
+              if (this.role === "ROLE_CONSUMIDOR"){
+                this.utilizadorService.updateConsumidor(updateData).subscribe(obj=>{
+                  const statusCode = obj.status
+            
+                  if (statusCode === 200) {
+                    this.answer = "Dados atualizados com sucesso!"
+                    this.success = true;
+                    this.utilizador = obj.body
+                    this.appComponent.user!.nome! =this.utilizador!.nome!
+                    this.openAnswer();
+                  } 
+                })
+              }
             }
-            )
-            } 
-            if (this.role === "ROLE_CONSUMIDOR"){
-              this.utilizadorService.updateConsumidor(updateData).subscribe(obj=>{
-                const statusCode = obj.status
-          
-                if (statusCode === 200) {
-                  this.answer = "Dados atualizados com sucesso!"
-                  this.success = true;
-                  this.utilizador = obj.body
-                  this.appComponent.user!.nome! =this.utilizador!.nome!
-                  this.openAnswer();
-              } 
-            }
-            )          }
         
       }
       
