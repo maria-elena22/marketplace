@@ -57,6 +57,11 @@ export class RegisterComponent implements OnInit{
   pontoEmail = false;
   EmailEmpty = true;
   emailValid = false;
+  //CODIGO POSTAL
+  startCodPostal = false;
+  CodPostalValido = false;
+  numerosCodPostal = false;
+  CodPostalEmpty = false
 
   //anwser
   role?:string;
@@ -72,8 +77,6 @@ export class RegisterComponent implements OnInit{
       idFiscal: new FormControl('', Validators.required),
       nome: new FormControl('', Validators.required),
       telemovel: new FormControl('', Validators.required),
-      // latitude: new FormControl('', Validators.required),
-      // longitude: new FormControl('', Validators.required),
       morada: new FormControl('', Validators.required),
       codPostal: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -82,7 +85,6 @@ export class RegisterComponent implements OnInit{
       municipio: new FormControl('', Validators.required),
       distrito: new FormControl('', Validators.required),
       pais: new FormControl('', Validators.required),
-      // continente: new FormControl('', Validators.required),
       role: new FormControl('', Validators.required)
 
     });
@@ -123,7 +125,7 @@ export class RegisterComponent implements OnInit{
     const idFiscalValue = inputElement.value;
     this.IdFiscalEmpty = idFiscalValue.length > 0;
     // 8 caracteres
-    this.oitoCaracteresId = idFiscalValue.length >= 8;
+    this.oitoCaracteresId = idFiscalValue.length >= 9;
 
     // numbers
     const numericRegex = /\d/;
@@ -133,18 +135,25 @@ export class RegisterComponent implements OnInit{
     const letras = /[a-zA-Z]/;    
     this.letrasId = letras.test(idFiscalValue);
 
+    //special
+    const specialChars = /[^a-zA-Z0-9]/;
+    const hasSpecialChars = specialChars.test(idFiscalValue);
+
     if(this.oitoCaracteresId && this.numerosId && !this.letrasId){
       this.idFiscalValid = true;
+    } else if(this.letrasId || hasSpecialChars){
+      this.signUpForm.patchValue({idFiscal:inputElement.value.replace(/\D/g, "")})
     }
   }
 
   onContactoInput(event: Event){
+    
     const inputElement = event.target as HTMLInputElement;
     const ContactoValue = inputElement.value;
     this.ContactoEmpty = ContactoValue.length > 0;
-    // 8 caracteres
-    this.oitoCaracteresContacto = ContactoValue.length >= 8;
-
+    //9 caracteres
+    this.oitoCaracteresContacto = ContactoValue.length >= 9;
+    
     // numbers
     const numericRegex = /\d/;
     this.numerosContacto = numericRegex.test(ContactoValue);
@@ -153,8 +162,15 @@ export class RegisterComponent implements OnInit{
     const letras = /[a-zA-Z]/;    
     this.letrasContacto = letras.test(ContactoValue);
 
+    //special
+    const specialChars = /[^a-zA-Z0-9]/;
+    const hasSpecialChars = specialChars.test(ContactoValue);
+
     if(this.oitoCaracteresContacto && this.numerosContacto && !this.letrasContacto){
       this.contactoValid = true;
+    } 
+    else if(this.letrasContacto || hasSpecialChars){
+      this.signUpForm.patchValue({telemovel:inputElement.value.replace(/\D/g, "")})
     }
   }
 
@@ -177,14 +193,29 @@ export class RegisterComponent implements OnInit{
      if(this.finalEmail && this.simboloEmail && this.pontoEmail){
       this.emailValid = true;
     }
- 
+  }
+
+  onCodPostalInput(event: Event){
+    const inputElement = event.target as HTMLInputElement;
+    const codPostalValue = inputElement.value;
+    this.CodPostalEmpty = codPostalValue.length > 0;
+
+    //@
+    const numeros = /^[0-9]{4}[-][0-9]{3}$/;    
+    this.numerosCodPostal = numeros.test(codPostalValue);
+
+    if(this.numerosCodPostal){
+     this.CodPostalValido = true;
+   }
   }
 
   geocodeAddress(address: string): Observable<HttpResponse<any>> {
     const headers = new HttpHeaders();
 
-    const url = `${environment.mapsUrl}?address=${address}&key=${environment.mapsKey}`;
+    //const url = `${environment.mapsUrl}?address=${address}&key=${environment.mapsKey}`;
     // address = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyBboXYv2JYM8DJHRKXzG3ipHTlmjJpc_jM`
+    
+    const url = `${environment.mapsUrl}address?key=${environment.mapsKey}&location=${address}`
     return this.http.get<any>(url, { headers, observe: 'response' });
   }
 
@@ -193,13 +224,12 @@ export class RegisterComponent implements OnInit{
     let coords : Coordinate
     this.geocodeAddress(codPostal).subscribe(
       (obj)=>{
-        const statusCode = obj.body.status
 
-        if (statusCode === "OK") {
-          const location = obj.body.results[0].geometry.location
-          coords = {latitude: location.lat,longitude: location.lng}
+        let latitude = obj.body.results[0].locations[0].latLng.lat
+        let longitude = obj.body.results[0].locations[0].latLng.lng
 
-          const signUpData: SignUpDTO = {
+        coords = {latitude: latitude,longitude: longitude}
+        const signUpData: SignUpDTO = {
             idFiscal: parseInt(this.signUpForm.value.idFiscal),
             nome: this.signUpForm.value.nome,
             telemovel: parseInt(this.signUpForm.value.telemovel),
@@ -212,11 +242,12 @@ export class RegisterComponent implements OnInit{
             distrito: this.signUpForm.value.distrito,
             pais: this.signUpForm.value.pais,
             continente: this.getContinent(this.signUpForm.value.pais),
-          }
+        }
 
           if(this.signUpForm.valid){
             const role = this.signUpForm.value.role;
             if(role === "fornecedor"){
+
               this.insertFornecedor(signUpData);
             } 
             if (role === "consumidor"){
@@ -228,22 +259,13 @@ export class RegisterComponent implements OnInit{
             this.toggleAnswer()
           }
         
-        } else{
-          this.success = false
-          this.answer = "O Código Postal inserido não é válido!"
-          this.toggleAnswer()
-        }
       }
       
     )
 
 
-    
-    
-
-    
-
   }
+
 
   insertFornecedor(signUpData:SignUpDTO){
     this.utilizadorService.insertFornecedor(signUpData).subscribe(

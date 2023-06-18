@@ -1,9 +1,12 @@
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router} from '@angular/router';
+import { Observable } from 'rxjs';
 import { AppComponent } from 'src/app/app.component';
 import { Coordinate, SignUpDTO, UtilizadorDTO, UtilizadorInputDTO } from 'src/app/model/models';
 import { UtilizadorService } from 'src/app/service/utilizador.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-perfil-consumidor',
@@ -23,11 +26,27 @@ export class PerfilConsumidorComponent implements OnInit {
   confimaRemover = false;
   updateForm: FormGroup;
 
+  //IDFISCAL
+  startIdFiscal = false;
+  oitoCaracteresId = false;
+  numerosId = false;
+  letrasId = false;  
+  IdFiscalEmpty = true;
+  idFiscalValid = false;
+  //CONTACTO
+  startContacto = false;
+  oitoCaracteresContacto = false;
+  numerosContacto = false;
+  letrasContacto = false;
+  ContactoEmpty = true;
+  contactoValid = false;  
+  formValid = false;
+
 
   countries = Object.keys(SignUpDTO.PaisEnum).filter(key => isNaN(Number(key)));
   continents = Object.keys(SignUpDTO.ContinenteEnum).filter(key => isNaN(Number(key)));
 
-  constructor(private route: ActivatedRoute, private utilizadorService: UtilizadorService, private appComponent:AppComponent,
+  constructor(private route: ActivatedRoute, private http: HttpClient, private utilizadorService: UtilizadorService, private appComponent:AppComponent,
      private router: Router){}
   
   ngOnInit(): void {
@@ -41,36 +60,53 @@ export class PerfilConsumidorComponent implements OnInit {
         idFiscal: new FormControl('', Validators.required),
         nome: new FormControl('', Validators.required),
         telemovel: new FormControl('', Validators.required),
-        // latitude: new FormControl('', Validators.required),
-        // longitude: new FormControl('', Validators.required),
         morada: new FormControl('', Validators.required),
+        codPostal: new FormControl('', Validators.required),
         freguesia: new FormControl('', Validators.required),
         municipio: new FormControl('', Validators.required),
         distrito: new FormControl('', Validators.required),
         pais: new FormControl('', Validators.required),
-        // continente: new FormControl('', Validators.required)
   
       });
 
-      this.updateForm.patchValue({
-        idFiscal: this.utilizador!.idFiscal,
-        nome: this.utilizador!.nome,
-        telemovel: this.utilizador!.telemovel,
-        // latitude: this.utilizador!.coordenadas?.latitude,
-        // longitude: this.utilizador!.coordenadas?.longitude,
-        morada: this.utilizador!.morada,
-        freguesia: this.utilizador!.freguesia,
-        municipio: this.utilizador!.municipio,
-        distrito: this.utilizador!.distrito,
-        pais: this.utilizador!.pais,
-        // continente: this.utilizador!.continente
-  
-      });
-      this.showForm=true;
-  
-      this.updateForm.valueChanges.subscribe(() => {
-        this.noChanges = false;
-      });
+      this.getCodPostal()
+  }
+
+
+  getCodPostal(){
+    let latitude = this.utilizador.coordenadas?.latitude!
+    let longitude = this.utilizador.coordenadas?.longitude!
+
+    this.getCodPostalFromCoordenadas(latitude, longitude).subscribe(
+      (obj) => {
+        let postalCode = obj.body.results[0].locations[0].postalCode
+
+          this.updateForm.patchValue({
+            idFiscal: this.utilizador!.idFiscal,
+            nome: this.utilizador!.nome,
+            telemovel: this.utilizador!.telemovel,
+            morada: this.utilizador!.morada,
+            codPostal: postalCode,
+            freguesia: this.utilizador!.freguesia,
+            municipio: this.utilizador!.municipio,
+            distrito: this.utilizador!.distrito,
+            pais: this.utilizador!.pais,  
+          });
+          this.showForm=true;
+      
+          this.updateForm.valueChanges.subscribe(() => {
+            this.noChanges = false;
+          });
+              
+        }
+    )
+  }
+
+  getCodPostalFromCoordenadas(latitude:number, longitude:number){
+    const headers = new HttpHeaders();
+
+    const url = `${environment.mapsUrl}reverse?key=${environment.mapsKey}&location=${latitude},${longitude}`;
+    return this.http.get<any>(url, { headers, observe: 'response' });
   }
 
   onPageRefresh(event: BeforeUnloadEvent): void {
@@ -128,53 +164,71 @@ export class PerfilConsumidorComponent implements OnInit {
     });
   }
 
+  geocodeAddress(address: string): Observable<HttpResponse<any>> {
+    const headers = new HttpHeaders();
+    const url = `${environment.mapsUrl}address?key=${environment.mapsKey}&location=${address}`
+    return this.http.get<any>(url, { headers, observe: 'response' });
+  }
+
   onSubmit() {
+    let codPostal= this.updateForm.value.codPostal.replace(" ","")
+    let coords : Coordinate
+    this.geocodeAddress(codPostal).subscribe(
+      (obj)=>{
 
-    const coords : Coordinate = {latitude:this.updateForm.value.latitude,longitude:this.updateForm.value.longitude}
-    const updateData: UtilizadorInputDTO = {
-      idFiscal: this.updateForm.value.idFiscal,
-      nome: this.updateForm.value.nome,
-      telemovel: this.updateForm.value.telemovel,
-      coordenadas: coords,
-      morada: this.updateForm.value.morada,
-      freguesia: this.updateForm.value.freguesia,
-      municipio: this.updateForm.value.municipio,
-      distrito: this.updateForm.value.distrito,
-      pais: this.updateForm.value.pais,
-      continente: this.getContinent(this.updateForm.value.pais),
-    }
+        let latitude = obj.body.results[0].locations[0].latLng.lat
+        let longitude = obj.body.results[0].locations[0].latLng.lng
 
-    if(this.role === "ROLE_FORNECEDOR"){
-      this.utilizadorService.updateFornecedor(updateData).subscribe(obj=>{
-        const statusCode = obj.status
-  
-        if (statusCode === 200) {
-          this.answer = "Dados atualizados com sucesso!"
-          this.success = true;
-          this.utilizador = obj.body
-          this.appComponent.user!.nome! =this.utilizador!.nome!
+        coords = {latitude: latitude,longitude: longitude}
+        const updateData: UtilizadorInputDTO = {
+            idFiscal: parseInt(this.updateForm.value.idFiscal),
+            nome: this.updateForm.value.nome,
+            telemovel: parseInt(this.updateForm.value.telemovel),
+            coordenadas: coords,
+            morada: this.updateForm.value.morada,
+            freguesia: this.updateForm.value.freguesia,
+            municipio: this.updateForm.value.municipio,
+            distrito: this.updateForm.value.distrito,
+            pais: this.updateForm.value.pais,
+            continente: this.getContinent(this.updateForm.value.pais),
+        }
 
-          this.openAnswer();
-  
-      } 
-    }
+          // if(this.signUpForm.valid){
+            const role = this.updateForm.value.role;
+            if(this.role === "ROLE_FORNECEDOR"){
+
+              this.utilizadorService.updateFornecedor(updateData).subscribe(obj=>{
+                const statusCode = obj.status
+          
+                if (statusCode === 200) {
+                  this.answer = "Dados atualizados com sucesso!"
+                  this.success = true;
+                  this.utilizador = obj.body
+                  this.appComponent.user!.nome! =this.utilizador!.nome!
+        
+                  this.openAnswer();
+          
+              } 
+            }
+            )
+            } 
+            if (this.role === "ROLE_CONSUMIDOR"){
+              this.utilizadorService.updateConsumidor(updateData).subscribe(obj=>{
+                const statusCode = obj.status
+          
+                if (statusCode === 200) {
+                  this.answer = "Dados atualizados com sucesso!"
+                  this.success = true;
+                  this.utilizador = obj.body
+                  this.appComponent.user!.nome! =this.utilizador!.nome!
+                  this.openAnswer();
+              } 
+            }
+            )          }
+        
+      }
+      
     )
-
-    } 
-    if (this.role === "ROLE_CONSUMIDOR"){
-      this.utilizadorService.updateConsumidor(updateData).subscribe(obj=>{
-        const statusCode = obj.status
-  
-        if (statusCode === 200) {
-          this.answer = "Dados atualizados com sucesso!"
-          this.success = true;
-          this.utilizador = obj.body
-          this.appComponent.user!.nome! =this.utilizador!.nome!
-          this.openAnswer();
-      } 
-    }
-    )
-    }
 
   }
 
@@ -210,5 +264,59 @@ export class PerfilConsumidorComponent implements OnInit {
   }
 
   
+  onIdFiscalInput(event: Event){
+    const inputElement = event.target as HTMLInputElement;
+    const idFiscalValue = inputElement.value;
+    console.log(idFiscalValue)
+    this.IdFiscalEmpty = idFiscalValue.length > 0;
+    // 8 caracteres
+    this.oitoCaracteresId = idFiscalValue.length >= 9;
 
+    // numbers
+    const numericRegex = /\d/;
+    this.numerosId = numericRegex.test(idFiscalValue);
+
+    //letras
+    const letras = /[a-zA-Z]/;    
+    this.letrasId = letras.test(idFiscalValue);
+
+    //special
+    const specialChars = /[^a-zA-Z0-9]/;
+    const hasSpecialChars = specialChars.test(idFiscalValue);
+
+    if(this.oitoCaracteresId && this.numerosId && !this.letrasId){
+      this.idFiscalValid = true;
+    } else if(this.letrasId || hasSpecialChars){
+      this.updateForm.patchValue({idFiscal:inputElement.value.replace(/\D/g, "")})
+    }
+  }
+
+  onContactoInput(event: Event){
+    
+    const inputElement = event.target as HTMLInputElement;
+    const ContactoValue = inputElement.value;
+    this.ContactoEmpty = ContactoValue.length > 0;
+    // 8 caracteres
+    this.oitoCaracteresContacto = ContactoValue.length >= 9;
+    
+    // numbers
+    const numericRegex = /\d/;
+    this.numerosContacto = numericRegex.test(ContactoValue);
+
+    //letras
+    const letras = /[a-zA-Z]/;    
+    this.letrasContacto = letras.test(ContactoValue);
+
+    //special
+    const specialChars = /[^a-zA-Z0-9]/;
+    const hasSpecialChars = specialChars.test(ContactoValue);
+
+    if(this.oitoCaracteresContacto && this.numerosContacto && !this.letrasContacto){
+      this.contactoValid = true;
+    } 
+    else if(this.letrasContacto || hasSpecialChars){
+      this.updateForm.patchValue({telemovel:inputElement.value.replace(/\D/g, "")})
+    }
+  }
+  
 }

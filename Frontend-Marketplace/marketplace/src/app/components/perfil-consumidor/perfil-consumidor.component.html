@@ -44,12 +44,19 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <label for="idFiscal">Id Fiscal:</label>
-                                            <input type="text" formControlName="idFiscal" class="form-control form-control-user" id="exampleContribuinte" placeholder="Nº de Contribuinte">
+                                            <input (focus)="startIdFiscal= true" (focus)="onIdFiscalInput($event)" (input)="onIdFiscalInput($event)" minlength="9" maxlength="9" formControlName="idFiscal" type="idFiscal" class="form-control form-control-user" id="idFiscal" placeholder="Id Fiscal" required>
                                         </div>
-                                        
+                                        <div *ngIf="startIdFiscal " style="font-size:x-small;margin-left: 250px;margin-top: 10px">
+                                            <a [style.color]="numerosId&&!letrasId ? 'green' : 'red'">O idFiscal só pode conter números</a><br>
+                                            <a [style.color]="oitoCaracteresId ? 'green' : 'red'">O idFiscal tem de conter 9 caracteres</a>
+                                        </div>
                                         <div class="col-sm-4">
                                             <label for="tlmv">Contacto:</label>
-                                            <input type="text" formControlName="telemovel" class="form-control form-control-user" id="exampleTelemovel" placeholder="Contacto">
+                                            <input (focus)="startContacto= true" (focus)="onContactoInput($event)" (input)="onContactoInput($event)" minlength="9" maxlength="9" formControlName="telemovel" type="text" class="form-control form-control-user" id="contacto" placeholder="Contacto" required>
+                                        </div>
+                                        <div class="col-sm-6 mb-3 mb-sm-0" *ngIf="startContacto " style="font-size:x-small; margin-top: 40px;">
+                                            <a [style.color]="numerosContacto&&!letrasContacto ? 'green' : 'red'">O contacto só pode conter números</a><br>
+                                            <a [style.color]="oitoCaracteresContacto ? 'green' : 'red'">O contacto tem de conter 9 caracteres</a>
                                         </div>
                                     </div>
                                     <div class="form-group row" style="margin-top: 3%">
@@ -71,6 +78,10 @@
                                             <label for="morada">Morada:</label>
                                             <input type="text" formControlName="morada" class="form-control form-control-user" id="exampleMorada" placeholder="Morada">
                                         </div>
+                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                            <label for="morada">Código Postal:</label>
+                                            <input formControlName="codPostal" type="text" class="form-control form-control-user" id="exampleCódigoPostal" placeholder="Código Postal" required>
+                                        </div>
                                         <div class="col-sm-4 mb-3 mb-sm-0">    
                                             <label for="pais" class="d-block">País:</label>
                                             <select formControlName="pais" class="form-control-user p-2 text-warning fw-bold w-45" id="filtraSelect" name="filtraSelect" style="border-color: #d1d3e2; background-color: white; height: 48px; width: 100%;" required >
@@ -78,6 +89,7 @@
 
                                             </select>                                            
                                         </div>
+                                        
                                     </div>
 
                                     <!-- <div class="form-group row" style="margin-top: 3%">
