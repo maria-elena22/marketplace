@@ -15,7 +15,7 @@ import { EncomendasService } from './service/encomendas.service';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
-  
+
 })
 
 
@@ -36,14 +36,14 @@ export class AppComponent implements OnInit{
   numNotifs = 0;
 
 
-  
+
   // products: this.getCategorias();
 
-  constructor(private http: HttpClient,private location: Location,private router: Router, public cestoService:CestoService, 
+  constructor(private http: HttpClient,private location: Location,private router: Router, public cestoService:CestoService,
     private produtosService: ProdutosService, private utilizadorService : UtilizadorService, private encomendaService: EncomendasService){
 
   }
- 
+
   ngOnInit(): void {
     this.getDecodedToken()
     this.getDetalhesUser()
@@ -53,10 +53,10 @@ export class AppComponent implements OnInit{
         if (statusCode === 200) {
           this.numNotifs = obj.body as number;
       }
-  
+
       })
     }
-    
+
     this.tokenExpirado()
   }
 
@@ -91,13 +91,13 @@ export class AppComponent implements OnInit{
           this.showNotifs = !this.showNotifs
           this.numNotifs=0
       }
-  
+
       })
 
     } else{
       this.showNotifs = !this.showNotifs
     }
-    
+
   }
 
   entregarNotif(idNotificacao:number){
@@ -130,15 +130,15 @@ export class AppComponent implements OnInit{
           this.showEncomendaModal = true
           this.showNotifs =false
         }
-          
+
       })
     }
   }
-  
+
   toggleEncomenda(){
     this.showEncomendaModal = false
   }
-  
+
 
   tokenExpirado(){
     if(localStorage.getItem("jwt_token") && this.user === undefined){
@@ -150,7 +150,7 @@ export class AppComponent implements OnInit{
   goToRelatorio(tipo:string){
     let queryParams = {tipo:tipo};
     this.router.navigate(['/marketplace/relatorios'], { queryParams });
-    
+
   }
 
   getCategorias(){
@@ -163,7 +163,7 @@ export class AppComponent implements OnInit{
 
     if (tokenLS) {
       // Decode the JWT token and return the claims
-      
+
       this.token = jwt_decode(tokenLS) as DecodedToken;
       this.role = this.token!.role;
 
@@ -180,16 +180,16 @@ export class AppComponent implements OnInit{
         if (obj.status === 200) {
           console.log(obj.body)
           this.user = obj.body as UtilizadorDTO;
-          
+
         }
-  
+
       })
     }
-    
+
 
   }
 
-  
+
 
   logout() {
     // Remove the JWT token from the local storage

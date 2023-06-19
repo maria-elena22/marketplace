@@ -55,7 +55,7 @@ const appRoutes: Routes = [
   { path: 'marketplace/admin-fornecedor', component: AdminFornecedorComponent },
   { path: 'marketplace/consumidor-historico', component: ConsumidorHistoricoComponent},
   { path: 'marketplace/perfil-consumidor', component: PerfilConsumidorComponent},
-  { path: 'marketplace/transportes', component: TransportesComponent },  
+  { path: 'marketplace/transportes', component: TransportesComponent },
   { path: 'marketplace/pagamento', component: PagamentoComponent },
   { path: 'marketplace/welcome', component: WelcomeComponent },
   { path: 'marketplace/encomendas', component: EncomendasComponent },
@@ -65,7 +65,7 @@ const appRoutes: Routes = [
   { path: 'marketplace/produto-detalhes', component: ProdutoDetalhesComponent },
   { path: 'marketplace/utilizadores', component: AdminUtilizadoresComponent },
   { path: 'marketplace/definicoes', component: DefinicoesComponent }
-  
+
 ];
 
 @NgModule({

@@ -1,14 +1,13 @@
 @import '~@fortawesome/fontawesome-free/css/all.css';
 
-.card {
+.card{
     position: relative;
     overflow: hidden;
-    
 }
 
 .card:hover img, .card:hover .badge, .card:hover .card-body {
     visibility: hidden; /* Hide the image and card body on hover */
-    
+
 }
 
 .card-overlay {
@@ -22,16 +21,34 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: opacity 0.3s ease-in-out; 
+    transition: opacity 0.3s ease-in-out;
 }
 
 
 
 .card:hover .card-overlay {
-    opacity: 1; 
+    opacity: 1;
 }
 
 .overlay-text{
    color: #000;
    pointer-events: auto;
+}
+
+@media (max-width: 600px) {
+  .card_inicial {
+      width: 18rem; /* Adjust the width as per your requirements */
+  }
+}
+
+@media (min-width: 600px) and (max-width: 1200px) {
+  .card_inicial {
+      width: 20rem; /* Adjust the width as per your requirements */
+  }
+}
+
+@media (min-width: 1200px) {
+  .card_inicial {
+      width: 18rem;
+  }
 }

@@ -3,12 +3,12 @@
 .card {
     position: relative;
     overflow: hidden;
-    
+
 }
 
 .card:hover img, .card:hover .badge, .card:hover .card-body {
     visibility: hidden; /* Hide the image and card body on hover */
-    
+
 }
 
 .card-overlay {
@@ -22,13 +22,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: opacity 0.3s ease-in-out; 
+    transition: opacity 0.3s ease-in-out;
 }
 
 
 
  .card:hover .card-overlay {
-    opacity: 1; 
+    opacity: 1;
 }
 
 .overlay-text{
@@ -48,11 +48,11 @@
     align-items: center;
     z-index: 999;
   }
-  
+
   .modal-wrapper.visible {
     display: flex;
   }
-  
+
   .cancelar {
     position: relative;
     margin-left: 80%;
@@ -78,16 +78,16 @@ tr.different {
     overflow-y: auto; /* Add this line to enable vertical scrolling */
     max-height: 500px; /* Optional: Set a max-height to limit the scrollable area */
   }
-  
+
   .modal-title {
     font-size: 24px;
     margin-top: 0;
   }
-  
+
   .modal-content {
     margin-bottom: 20px;
   }
-  
+
   .modal-close-btn {
     margin: 10px;
     margin-right: -10px;
@@ -97,7 +97,71 @@ tr.different {
     cursor: pointer;
     margin-right: 5px;
   }
-   
+
 .cat{
   text-align: left;
+}
+
+
+
+.search-form {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.search-form .form-group {
+  margin-bottom: 10px;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+
+.search-form .form-group:nth-child(even) {
+  margin-right: 10px;
+}
+
+
+.search-form .form-group label,
+.search-form .form-group input {
+  display: block;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.search-form button {
+  display: block;
+  width: auto;
+  margin-top: 10px;
+}
+
+@media (min-width: 576px) {
+  .search-form .form-group {
+    width: calc(35% - 5px);
+    display: inline-block;
+    margin-right: 10px;
+  }
+}
+
+@media (min-width: 768px) {
+  .search-form .form-group {
+    width: calc(40% - 5px);
+    display: inline-block;
+    margin-right: 10px;
+  }
+}
+
+@media (min-width: 992px) {
+  .search-form .form-group {
+    width: calc(35% - 5px);
+    display: inline-block;
+    margin-right: 10px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .search-form .form-group {
+    width: calc(20% - 5px);
+    display: inline-block;
+    margin-right: 10px;
+  }
 }

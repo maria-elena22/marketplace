@@ -1,5 +1,5 @@
 
-<header class="bg-secondary py-5" id="title_inicial"> 
+<header class="bg-secondary py-5" id="title_inicial">
     <div class="container" id="registo">
         <div class="row justify-content-center">
             <div class="col-xl-16 col-lg-12 col-md-9">
@@ -17,15 +17,15 @@
                                     </div>
                                     <!-------------------------------- FORM ---------------------------------->
                                     <form class="user" [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
-                                        
+
                                         <div class="form-group row">
-                                            <div class="col-sm">    
-                                                <p class="d-inline-block">Quer se inscrever como: &nbsp;</p> 
+                                            <div class="col-sm">
+                                                <p class="d-inline-block">Quer se inscrever como: &nbsp;</p>
                                                 <select formControlName="role" class="form-control-user p-2 d-inline-block text-warning fw-bold w-45" id="filtraSelect" name="filtraSelect" style="border-color: #d1d3e2; background-color: white;" required >
-                                                    
+
                                                     <option selected value="consumidor">Consumidor</option>
                                                     <option value="fornecedor">Fornecedor</option>
-                                                </select>                                            
+                                                </select>
                                             </div>
                                         </div>
                                         <div id = "camposConsumidor" class="form-group row">
@@ -35,24 +35,24 @@
                                             </div>
                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <label for="idFiscal">Id Fiscal:</label>
-                                                <input (focus)="startIdFiscal= true" (input)="onIdFiscalInput($event)"  minlength="8" maxlength="8" formControlName="idFiscal" type="idFiscal" class="form-control form-control-user" id="idFiscal" placeholder="Id Fiscal" required>
+                                                <input (focus)="startIdFiscal= true" (blur)="startIdFiscal = false" (input)="onIdFiscalInput($event)"  minlength="8" maxlength="8" formControlName="idFiscal" type="idFiscal" class="form-control form-control-user" id="idFiscal" placeholder="Id Fiscal" required>
                                             </div>
-                                            <div class="idFiscalCheck" *ngIf="startIdFiscal " style="font-size:x-small;margin-left: 250px;margin-top: 10px">
+                                            <div class="idFiscalCheck" *ngIf="startIdFiscal ">
                                                 <a [style.color]="numerosId&&!letrasId ? 'green' : 'red'">O idFiscal só pode conter números</a><br>
                                                 <a [style.color]="oitoCaracteresId ? 'green' : 'red'">O idFiscal tem de conter 8 caracteres</a>
                                             </div>
-                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                            <div class="col-sm-5 mb-3 mb-sm-0">
                                                 <label for="tlmv">Contacto:</label>
-                                                <input (focus)="startContacto= true" (input)="onContactoInput($event)"  minlength="9" maxlength="9" formControlName="telemovel" type="text" class="form-control form-control-user" id="contacto" placeholder="Contacto" required>
+                                                <input (focus)="startContacto= true" (blur)="startContacto = false" (input)="onContactoInput($event)"  minlength="9" maxlength="9" formControlName="telemovel" type="text" class="form-control form-control-user" id="contacto" placeholder="Contacto" required>
                                             </div>
-                                            <div class="col-sm-6 mb-3 mb-sm-0" *ngIf="startContacto " style="font-size:x-small; margin-top: 40px;">
+                                            <div class="col-sm-7 mb-3 mb-sm-0 idContacto" *ngIf="startContacto ">
                                                 <a [style.color]="numerosContacto&&!letrasContacto ? 'green' : 'red'">O contacto só pode conter números</a><br>
                                                 <a [style.color]="oitoCaracteresContacto ? 'green' : 'red'">O contacto tem de conter 9 caracteres</a>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            
+
                                             <!-- <div class="col-sm-4 mb-3 mb-sm-0">
                                                 <label for="latitude">Latitude:</label>
                                                 <input formControlName="latitude" type="number" class="form-control form-control-user" id="exampleMorada" placeholder="Latitude" required>
@@ -61,12 +61,12 @@
                                                 <label for="longitude">Longitude:</label>
                                                 <input formControlName="longitude" type="number" class="form-control form-control-user" id="exampleMorada" placeholder="Longitude" required>
                                             </div> -->
-                                        
+
                                             <!-- <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <label for="codPostal">Código Postal:</label>
                                                 <input type="text" class="form-control form-control-user" id="exampleCódigoPostal" placeholder="Código Postal" required>
                                             </div> -->
-                                          
+
                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <label for="morada">Morada:</label>
                                                 <input formControlName="morada" type="text" class="form-control form-control-user" id="exampleMorada" placeholder="Morada" required>
@@ -75,20 +75,20 @@
                                                 <label for="morada">Código Postal:</label>
                                                 <input formControlName="codPostal" type="text" class="form-control form-control-user" id="exampleCódigoPostal" placeholder="Código Postal" required>
                                             </div>
-                                            <div class="col-sm-6 mb-3 mb-sm-0" >    
+                                            <div class="col-sm-6 mb-3 mb-sm-0" >
                                                 País: &nbsp;
                                                 <select formControlName="pais"  class="form-control-user p-2 d-inline-block text-warning fw-bold w-45" id="filtraSelect" name="filtraSelect" style="border-color: #d1d3e2; background-color: white; height: 48px; margin-top: 10px;" required >
                                                     <option *ngFor="let country of countries" [value]="country.toUpperCase()" >{{ country}}</option>
 
-                                                </select>                                            
+                                                </select>
                                             </div>
 
-                                            <!-- <div class="col-sm-6 mb-3 mb-sm-0" >    
-                                                <p class="d-inline-block">Continente: &nbsp;</p> 
+                                            <!-- <div class="col-sm-6 mb-3 mb-sm-0" >
+                                                <p class="d-inline-block">Continente: &nbsp;</p>
                                                 <select formControlName="continente"  class="form-control-user p-2 d-inline-block text-warning fw-bold w-45" id="filtraSelect" name="filtraSelect" style="border-color: #d1d3e2; background-color: white;" required >
                                                     <option *ngFor="let continente of continents" [value]="continente.toUpperCase()" >{{ continente}}</option>
 
-                                                </select>                                            
+                                                </select>
                                             </div> -->
                                         </div>
 
@@ -105,13 +105,13 @@
                                                 <label for="freguesia">Freguesia:</label>
                                                 <input formControlName="freguesia" type="text" class="form-control form-control-user" id="exampleCódigoPostal" placeholder="Freguesia" required>
                                             </div>
-                                            
+
                                         </div>
-                                        
+
                                        <div class="form-group">
                                             <label for="email">Email:</label>
-                                            <input  (focus)="startEmail = true" (input)="onEmailInput($event)" formControlName="email" type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="E-mail" required>
-                                            <div class="col-sm-6 mb-3 mb-sm-0" *ngIf="startEmail " style="font-size:x-small;margin-top: 20px;">
+                                            <input  (focus)="startEmail = true" (blur)="startEmail = false" (input)="onEmailInput($event)" formControlName="email" type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="E-mail" required>
+                                            <div class="col-sm-8 mb-3 mb-sm-0" *ngIf="startEmail " style="font-size:x-small;margin-top: 20px;">
                                                 <a style="margin-left: 20px;" [style.color]="finalEmail ? 'green' : 'red'">Email válido:</a><br>
                                                 <a style="margin-left: 20px;" [style.color]="simboloEmail ? 'green' : 'red'">Email tem @ </a><br>
                                                 <a style="margin-left: 20px;" [style.color]="pontoEmail ? 'green' : 'red'"> Email termina em .pt, .com, ou outro </a>
@@ -120,7 +120,7 @@
                                         <div class="form-group row">
                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <label for="pass">Palavra-passe:</label>
-                                                <input (focus)="startPassword = true" (input)="onPasswordInput($event)" formControlName="password" type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Palavra-passe" required>
+                                                <input (focus)="startPassword = true" (blur)="startPassword = false" (input)="onPasswordInput($event)" formControlName="password" type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Palavra-passe" required>
                                             </div>
                                             <div class="col-sm-6 mb-3 mb-sm-0" *ngIf="startPassword " style="font-size:x-small;margin-top: 20px;">
                                                 <a>Palavra passe tem de conter: </a><br>
@@ -129,12 +129,12 @@
                                                 <a style="margin-left: 20px;" [style.color]="minusculasPassw ? 'green' : 'red'"> minusculas</a><br>
                                                 <a style="margin-left: 20px;" [style.color]="oitoCaracteresPassw ? 'green' : 'red'">pelo menos 8 caracteres</a>
                                             </div>
-                                            
+
                                         </div>
                                         <button id ="submitBtn" [class.disabled]="!signUpForm.valid" class="btn btn-primary btn-user btn-block" type="submit">Criar Conta</button>
                                     </form>
                                     <hr>
-                                    
+
                                     <div class="text-center">
                                         <a style="cursor: pointer;" class="small" (click)="goToLogin()">Já tem uma conta? Faça Login!</a>
                                     </div>

@@ -4988,6 +4988,66 @@ input[type=submit].btn-block {
     margin-bottom: .75rem
 }
 
+@media (min-width: 577px) and (max-width: 1200px) {
+
+  .card-columns {
+    -moz-column-count: 3;
+    column-count: 3;
+    -moz-column-gap: 1.25rem;
+    column-gap: 1.25rem;
+    orphans: 1;
+    widows: 1
+  }
+  .card-columns .card {
+      display: inline-block;
+      width: 100%
+  }
+  .card-deck {
+    display: flex;
+    flex-flow: row wrap;
+    margin-right: -.75rem;
+    margin-left: -.75rem
+  }
+  .card-deck .card {
+      flex: 1 0 0%;
+      margin-right: .75rem;
+      margin-bottom: 0;
+      margin-left: .75rem
+  }
+  .card-group>.card {
+    flex: 1 0 0%;
+    margin-bottom: 0
+  }
+  .card-group>.card+.card {
+      margin-left: 0;
+      border-left: 0
+  }
+  .card-group>.card:not(:last-child) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0
+  }
+  .card-group>.card:not(:last-child) .card-header,
+  .card-group>.card:not(:last-child) .card-img-top {
+      border-top-right-radius: 0
+  }
+  .card-group>.card:not(:last-child) .card-footer,
+  .card-group>.card:not(:last-child) .card-img-bottom {
+      border-bottom-right-radius: 0
+  }
+  .card-group>.card:not(:first-child) {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0
+  }
+  .card-group>.card:not(:first-child) .card-header,
+  .card-group>.card:not(:first-child) .card-img-top {
+      border-top-left-radius: 0
+  }
+  .card-group>.card:not(:first-child) .card-footer,
+  .card-group>.card:not(:first-child) .card-img-bottom {
+      border-bottom-left-radius: 0
+  }
+}
+
 @media (min-width:576px) {
     .card-deck {
         display: flex;
