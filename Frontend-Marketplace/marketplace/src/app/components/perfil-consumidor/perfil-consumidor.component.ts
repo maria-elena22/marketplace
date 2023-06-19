@@ -26,6 +26,22 @@ export class PerfilConsumidorComponent implements OnInit {
   confimaRemover = false;
   updateForm: FormGroup;
 
+  //IDFISCAL
+  startIdFiscal = false;
+  oitoCaracteresId = false;
+  numerosId = false;
+  letrasId = false;  
+  IdFiscalEmpty = true;
+  idFiscalValid = false;
+  //CONTACTO
+  startContacto = false;
+  oitoCaracteresContacto = false;
+  numerosContacto = false;
+  letrasContacto = false;
+  ContactoEmpty = true;
+  contactoValid = false;  
+  formValid = false;
+
 
   countries = Object.keys(SignUpDTO.PaisEnum).filter(key => isNaN(Number(key)));
   continents = Object.keys(SignUpDTO.ContinenteEnum).filter(key => isNaN(Number(key)));
@@ -54,24 +70,6 @@ export class PerfilConsumidorComponent implements OnInit {
       });
 
       this.getCodPostal()
-
-      //TODO
-      // this.updateForm.patchValue({
-      //   idFiscal: this.utilizador!.idFiscal,
-      //   nome: this.utilizador!.nome,
-      //   telemovel: this.utilizador!.telemovel,
-      //   morada: this.utilizador!.morada,
-      //   freguesia: this.utilizador!.freguesia,
-      //   municipio: this.utilizador!.municipio,
-      //   distrito: this.utilizador!.distrito,
-      //   pais: this.utilizador!.pais,  
-      // });
-      // this.showForm=true;
-  
-      // this.updateForm.valueChanges.subscribe(() => {
-      //   this.noChanges = false;
-      // });
-
   }
 
 
@@ -195,7 +193,7 @@ export class PerfilConsumidorComponent implements OnInit {
             continente: this.getContinent(this.updateForm.value.pais),
         }
 
-          // if(this.signUpForm.valid){
+          if(this.contactoValid && this.idFiscalValid){
             const role = this.updateForm.value.role;
             if(this.role === "ROLE_FORNECEDOR"){
 
@@ -210,28 +208,28 @@ export class PerfilConsumidorComponent implements OnInit {
         
                   this.openAnswer();
           
+                } 
+              }
+              )
               } 
+              if (this.role === "ROLE_CONSUMIDOR"){
+                this.utilizadorService.updateConsumidor(updateData).subscribe(obj=>{
+                  const statusCode = obj.status
+            
+                  if (statusCode === 200) {
+                    this.answer = "Dados atualizados com sucesso!"
+                    this.success = true;
+                    this.utilizador = obj.body
+                    this.appComponent.user!.nome! =this.utilizador!.nome!
+                    this.openAnswer();
+                  } 
+                })
+              }
+            }else{
+              this.success = false
+              this.answer = "Erro! Verifique que preencheu os campos corretamente"
+              this.toggleAnswer()
             }
-            )
-            } 
-            if (this.role === "ROLE_CONSUMIDOR"){
-              this.utilizadorService.updateConsumidor(updateData).subscribe(obj=>{
-                const statusCode = obj.status
-          
-                if (statusCode === 200) {
-                  this.answer = "Dados atualizados com sucesso!"
-                  this.success = true;
-                  this.utilizador = obj.body
-                  this.appComponent.user!.nome! =this.utilizador!.nome!
-                  this.openAnswer();
-              } 
-            }
-            )          }
-          // } else{
-          //   this.success = false
-          //   this.answer = "Erro! Verifique que preencheu os campos corretamente"
-          //   this.toggleAnswer()
-          // }
         
       }
       
@@ -239,57 +237,9 @@ export class PerfilConsumidorComponent implements OnInit {
 
   }
 
-
-  // onSubmit() {
- 
-
-  //   const coords : Coordinate = {latitude:this.updateForm.value.latitude,longitude:this.updateForm.value.longitude}
-  //   const updateData: UtilizadorInputDTO = {
-  //     idFiscal: this.updateForm.value.idFiscal,
-  //     nome: this.updateForm.value.nome,
-  //     telemovel: this.updateForm.value.telemovel,
-  //     coordenadas: coords,
-  //     morada: this.updateForm.value.morada,
-  //     freguesia: this.updateForm.value.freguesia,
-  //     municipio: this.updateForm.value.municipio,
-  //     distrito: this.updateForm.value.distrito,
-  //     pais: this.updateForm.value.pais,
-  //     continente: this.getContinent(this.updateForm.value.pais),
-  //   }
-
-  //   if(this.role === "ROLE_FORNECEDOR"){
-  //     this.utilizadorService.updateFornecedor(updateData).subscribe(obj=>{
-  //       const statusCode = obj.status
-  
-  //       if (statusCode === 200) {
-  //         this.answer = "Dados atualizados com sucesso!"
-  //         this.success = true;
-  //         this.utilizador = obj.body
-  //         this.appComponent.user!.nome! =this.utilizador!.nome!
-
-  //         this.openAnswer();
-  
-  //     } 
-  //   }
-  //   )
-
-  //   } 
-  //   if (this.role === "ROLE_CONSUMIDOR"){
-  //     this.utilizadorService.updateConsumidor(updateData).subscribe(obj=>{
-  //       const statusCode = obj.status
-  
-  //       if (statusCode === 200) {
-  //         this.answer = "Dados atualizados com sucesso!"
-  //         this.success = true;
-  //         this.utilizador = obj.body
-  //         this.appComponent.user!.nome! =this.utilizador!.nome!
-  //         this.openAnswer();
-  //     } 
-  //   }
-  //   )
-  //   }
-
-  // }
+  toggleAnswer(){
+    this.showAnswer = !this.showAnswer;
+  }
 
   getContinent(pais: String){
     if(pais == "ALBANIA" || pais == "ANDORRA" || pais == "AUSTRIA" || pais == "BELGIUM" || pais == "BELARUS" || pais == "BOSNIA_HERZEGOVINA" || pais == "BULGARIA" || pais == "CROATIA" || pais == "CYPRUS" || pais == "CZECH_REPUBLIC" || pais == "DANZIG" || pais == "DENMARK" || pais == "ESTONIA" || pais == "FINLAND" || pais == "FRANCE" || pais == "GERMANY" || pais == "GREECE" || pais == "HOLY_ROMAN_EMPIRE" || pais == "HUNGARY" || pais == "ICELAND" || pais == "IRELAND" || pais == "ITALY" || pais == "KOSOVO" || pais == "LATVIA" || pais == "LIECHTENSTEIN" || pais == "LITHUANIA" || pais == "LUXEMBOURG" || pais == "MACEDONIA" || pais == "MALTA" || pais == "MOLDOVA" || pais == "MONACO" || pais == "MONTENEGRO" || pais == "MOUNT_ATHOS" || pais == "NETHERLANDS" || pais == "NORWAY" || pais == "POLAND" || pais == "PORTUGAL" || pais == "PRUSSIA" || pais == "ROMANIA" || pais == "SAN_MARINO" || pais == "SERBIA" || pais == "SLOVAKIA" || pais == "SLOVENIA" || pais == "SPAIN" || pais == "SWEDEN" || pais == "SWITZERLAND" || pais == "UNITED_KINGDOM" || pais == "UKRAINE" || pais == "VATICAN_CITY"){
@@ -323,5 +273,59 @@ export class PerfilConsumidorComponent implements OnInit {
   }
 
   
+  onIdFiscalInput(event: Event){
+    const inputElement = event.target as HTMLInputElement;
+    const idFiscalValue = inputElement.value;
+    console.log(idFiscalValue)
+    this.IdFiscalEmpty = idFiscalValue.length > 0;
+    // 8 caracteres
+    this.oitoCaracteresId = idFiscalValue.length >= 9;
 
+    // numbers
+    const numericRegex = /\d/;
+    this.numerosId = numericRegex.test(idFiscalValue);
+
+    //letras
+    const letras = /[a-zA-Z]/;    
+    this.letrasId = letras.test(idFiscalValue);
+
+    //special
+    const specialChars = /[^a-zA-Z0-9]/;
+    const hasSpecialChars = specialChars.test(idFiscalValue);
+
+    if(this.oitoCaracteresId && this.numerosId && !this.letrasId){
+      this.idFiscalValid = true;
+    } else if(this.letrasId || hasSpecialChars){
+      this.updateForm.patchValue({idFiscal:inputElement.value.replace(/\D/g, "")})
+    }
+  }
+
+  onContactoInput(event: Event){
+    
+    const inputElement = event.target as HTMLInputElement;
+    const ContactoValue = inputElement.value;
+    this.ContactoEmpty = ContactoValue.length > 0;
+    // 8 caracteres
+    this.oitoCaracteresContacto = ContactoValue.length >= 9;
+    
+    // numbers
+    const numericRegex = /\d/;
+    this.numerosContacto = numericRegex.test(ContactoValue);
+
+    //letras
+    const letras = /[a-zA-Z]/;    
+    this.letrasContacto = letras.test(ContactoValue);
+
+    //special
+    const specialChars = /[^a-zA-Z0-9]/;
+    const hasSpecialChars = specialChars.test(ContactoValue);
+
+    if(this.oitoCaracteresContacto && this.numerosContacto && !this.letrasContacto){
+      this.contactoValid = true;
+    } 
+    else if(this.letrasContacto || hasSpecialChars){
+      this.updateForm.patchValue({telemovel:inputElement.value.replace(/\D/g, "")})
+    }
+  }
+  
 }

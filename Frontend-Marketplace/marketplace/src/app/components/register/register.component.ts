@@ -120,7 +120,7 @@ export class RegisterComponent implements OnInit{
     const idFiscalValue = inputElement.value;
     this.IdFiscalEmpty = idFiscalValue.length > 0;
     // 8 caracteres
-    this.oitoCaracteresId = idFiscalValue.length >= 8;
+    this.oitoCaracteresId = idFiscalValue.length >= 9;
 
     // numbers
     const numericRegex = /\d/;
@@ -146,8 +146,8 @@ export class RegisterComponent implements OnInit{
     const inputElement = event.target as HTMLInputElement;
     const ContactoValue = inputElement.value;
     this.ContactoEmpty = ContactoValue.length > 0;
-    // 8 caracteres
-    this.oitoCaracteresContacto = ContactoValue.length >= 8;
+    //9 caracteres
+    this.oitoCaracteresContacto = ContactoValue.length >= 9;
     
     // numbers
     const numericRegex = /\d/;
@@ -188,7 +188,6 @@ export class RegisterComponent implements OnInit{
      if(this.finalEmail && this.simboloEmail && this.pontoEmail){
       this.emailValid = true;
     }
- 
   }
 
   geocodeAddress(address: string): Observable<HttpResponse<any>> {
@@ -226,7 +225,7 @@ export class RegisterComponent implements OnInit{
             continente: this.getContinent(this.signUpForm.value.pais),
         }
 
-          if(this.signUpForm.valid){
+          if(this.emailValid && this.contactoValid && this.idFiscalValid && this.passwordValid){
             const role = this.signUpForm.value.role;
             if(role === "fornecedor"){
 

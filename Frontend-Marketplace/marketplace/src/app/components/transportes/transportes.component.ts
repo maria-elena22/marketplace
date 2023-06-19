@@ -235,29 +235,23 @@ export class TransportesComponent implements OnInit{
   }
 
   nextPage(){
-    this.getProximosTransportes(this.page + 1)
-    // this.page +=1
-    // this.getTransportes(this.page)
-    // console.log(this.page)
-    // console.log(this.transportes)
-    // // if(this.transportes.length===0){
-
-    // //   console.log(this.transportes)
-      
-    // // } else{
-    //   const state = { page: 'transportes' };
-    //   const url = '/marketplace/transportes';
-    //   this.previousButtonDisabled = false
-    //   window.history.pushState(state, url);
-    
-    // //}  
+    this.getProximosTransportes(this.page + 2)
+    this.page +=1
+    this.getTransportes(this.page)
+    const state = { page: 'transportes' };
+    const url = '/marketplace/transportes';
+    this.previousButtonDisabled = false
+    window.history.pushState(state, url); 
   }
 
   previousPage(){
     this.page -=1
-    if(this.page<0){  
+    this.getProximosTransportes(this.page - 1)
+    if(this.page<=0){  
       this.page += 1
+      this.getTransportes(this.page - 1)
       this.previousButtonDisabled = true
+      this.nextButtonDisabled = false;
 
     } else{
       this.getTransportes(this.page)
@@ -284,16 +278,9 @@ export class TransportesComponent implements OnInit{
         } else{
           let transportes = obj.body as TransporteDTO[];
           this.proximosTransportes = transportes.length;
-          console.log(this.proximosTransportes)
           if(this.proximosTransportes == 0){
             this.nextButtonDisabled = true;
           }
-          // if(this.transportes.length ===0 && this.page>0){
-          //   this.page -=1
-          //   this.nextButtonDisabled = true
-          //   this.getTransportes(this.page)
-          // }
-          // console.log(this.transportes)
         }
     } else {
         this.error = obj.body as Error;

@@ -18,7 +18,7 @@
 
                     <div class="row" *ngIf="showForm">
                         <div class = "col-lg-4">
-                            <div class="card" style="height: 37em;">
+                            <div class="card" >
                                 
                                 <i class="bi bi-person-square" style="font-size: 200px; text-align: center; color: #858796;"></i>
                                 
@@ -42,14 +42,25 @@
                                             <label  for="name">Nome:</label>
                                             <input type="text" formControlName="nome" class="form-control form-control-user" id="exampleFirstName" placeholder="Nome">
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-4 idF">
                                             <label for="idFiscal">Id Fiscal:</label>
-                                            <input type="text" formControlName="idFiscal" class="form-control form-control-user" id="exampleContribuinte" placeholder="Nº de Contribuinte">
+                                            <input (focus)="startIdFiscal= true" (focus)="onIdFiscalInput($event)" (input)="onIdFiscalInput($event)" minlength="9" maxlength="9" formControlName="idFiscal" type="idFiscal" class="form-control form-control-user" id="idFiscal" placeholder="Id Fiscal" required>
                                         </div>
-                                        
-                                        <div class="col-sm-4">
+                                        <div class= "idFiscalValMedia" *ngIf="startIdFiscal">
+                                            <a [style.color]="numerosId&&!letrasId ? 'green' : 'red'">O idFiscal só pode conter números</a><br>
+                                            <a [style.color]="oitoCaracteresId ? 'green' : 'red'">O idFiscal tem de conter 9 caracteres</a>
+                                        </div>
+                                        <div class="col-sm-4 contacto">
                                             <label for="tlmv">Contacto:</label>
-                                            <input type="text" formControlName="telemovel" class="form-control form-control-user" id="exampleTelemovel" placeholder="Contacto">
+                                            <input (focus)="startContacto= true" (focus)="onContactoInput($event)" (input)="onContactoInput($event)" minlength="9" maxlength="9" formControlName="telemovel" type="text" class="form-control form-control-user" id="contacto" placeholder="Contacto" required>
+                                        </div>
+                                        <div class= "idFiscalVal" *ngIf="startIdFiscal">
+                                            <a [style.color]="numerosId&&!letrasId ? 'green' : 'red'">O idFiscal só pode conter números</a><br>
+                                            <a [style.color]="oitoCaracteresId ? 'green' : 'red'">O idFiscal tem de conter 9 caracteres</a>
+                                        </div>
+                                        <div class= "contactoVal" *ngIf="startContacto">
+                                            <a [style.color]="numerosContacto&&!letrasContacto ? 'green' : 'red'">O contacto só pode conter números</a><br>
+                                            <a [style.color]="oitoCaracteresContacto ? 'green' : 'red'">O contacto tem de conter 9 caracteres</a>
                                         </div>
                                     </div>
                                     <div class="form-group row" style="margin-top: 3%">
@@ -57,50 +68,34 @@
                                             <label for="freguesia">Freguesia:</label>
                                             <input formControlName="freguesia" type="text" class="form-control form-control-user" id="exampleFreguesia" placeholder="Freguesia">
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-4 municipio">
                                             <label for="municipio">Município:</label>
                                             <input type="text" formControlName="municipio"  class="form-control form-control-user" id="exampleMunicipio" placeholder="Município">
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-4 distrito">
                                             <label for="distrito">Distrito:</label>
                                             <input type="text" formControlName="distrito" class="form-control form-control-user" id="exampleDistrito" placeholder="Distrito">
                                         </div>
                                     </div>
-                                    <div class="form-group row">
+                                    <div class="form-group row" >
                                         <div class="col-sm-8 mb-3 mb-sm-0">
                                             <label for="morada">Morada:</label>
                                             <input type="text" formControlName="morada" class="form-control form-control-user" id="exampleMorada" placeholder="Morada">
                                         </div>
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <div class="col-sm-6 mb-3 mb-sm-0" style="margin-top:3%">
                                             <label for="morada">Código Postal:</label>
                                             <input formControlName="codPostal" type="text" class="form-control form-control-user" id="exampleCódigoPostal" placeholder="Código Postal" required>
                                         </div>
-                                        <div class="col-sm-4 mb-3 mb-sm-0">    
+                                        <div class="col-sm-4 mb-3 mb-sm-0" style="margin-top:3%">    
                                             <label for="pais" class="d-block">País:</label>
                                             <select formControlName="pais" class="form-control-user p-2 text-warning fw-bold w-45" id="filtraSelect" name="filtraSelect" style="border-color: #d1d3e2; background-color: white; height: 48px; width: 100%;" required >
-                                                <option *ngFor="let country of countries" [value]="country.toUpperCase()" >{{ country}}</option>
-
+                                                <option *ngFor="let country of countries" [value]="country.toUpperCase()">{{country}}</option>
                                             </select>                                            
                                         </div>
-                                        
                                     </div>
-
-                                    <!-- <div class="form-group row" style="margin-top: 3%">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <label for="email">Email:</label>
-                                            <input type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="E-mail">
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <label for="pass">Palavra-passe:</label>
-                                            <input type="password" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Palavra-passe">
-                                        </div>
-                                    </div> -->
                                     <br>
                                     <div style="display: flex; justify-content: center; align-items: center;">
                                         <button id ="submitBtn" [class.disabled]="noChanges" class="btn btn-primary btn-user btn-block" type="submit">Guardar Mudanças</button>
-
-                                        <!-- <a href="#" id ="finishBtn" class="btn btn-success col-sm-2">Salvar as alterações</a> &nbsp;&nbsp; -->
-                                        <!-- <a href='/marketplace/admin-consumidor' class="btn btn-secondary col-sm-2">Cancelar</a> -->
                                     </div>
                                 </form>
                             </div>
@@ -109,15 +104,11 @@
                         
                 </div>
                 <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
-
             <br>
-
         </div>
         <!-- End of Content Wrapper -->
-
     </div>
     <!-- End of Page Wrapper -->
 

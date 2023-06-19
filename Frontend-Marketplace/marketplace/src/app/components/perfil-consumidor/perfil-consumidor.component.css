@@ -53,3 +53,69 @@
   .hover-shadow:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
   }
+
+  .idFiscalVal{
+    font-size:x-small; 
+    float: left; 
+    width: 35%; 
+    margin-top: 2%; 
+    margin-left: 35%;
+  }
+
+  .contactoVal{
+    font-size:x-small;
+    float: left; 
+    width: 27%; 
+    margin-top: 2%; 
+  }
+
+  .idFiscalValMedia{
+    display: none;
+  }
+
+  .card{
+    height: 37em;
+  }
+  
+@media only screen and (max-width: 600px) {
+  .idFiscalVal{
+    display: none;
+  }
+
+  .contactoVal{
+    width: 100%;
+    margin-top: 2%; 
+    margin-left: 5%;
+  }
+
+  .idFiscalValMedia{
+    display: block;
+    font-size:x-small;
+    margin-top: 2%; 
+    margin-left: 5%;
+  }
+
+  .idF{
+    margin-top: 1%;
+  }
+
+  .contacto, .municipio, .distrito{
+    margin-top: 5%;
+  }
+
+  .card{
+    height: 30em;
+    margin-bottom: -30%;
+  }
+
+  .fw-bolder{
+    margin-top: -20%;
+  }
+
+  .bi, .bi-person-square{
+    margin-top: -10%;
+    margin-left: 3%;
+    transform: scale(0.7);
+  }
+
+}
