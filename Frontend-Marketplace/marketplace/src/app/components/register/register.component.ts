@@ -58,12 +58,6 @@ export class RegisterComponent implements OnInit{
   EmailEmpty = true;
   emailValid = false;
 
-  //CODIGO POSTAL
-  startCodPostal = false;
-  CodPostalValido = false;
-  numerosCodPostal = false;
-  CodPostalEmpty = false
-
   //anwser
   role?:string;
   error?:Error;
@@ -194,20 +188,6 @@ export class RegisterComponent implements OnInit{
      if(this.finalEmail && this.simboloEmail && this.pontoEmail){
       this.emailValid = true;
     }
-  }
-
-  onCodPostalInput(event: Event){
-    const inputElement = event.target as HTMLInputElement;
-    const codPostalValue = inputElement.value;
-    this.CodPostalEmpty = codPostalValue.length > 0;
-
-    //@
-    const numeros = /^[0-9]{4}[-][0-9]{3}$/;    
-    this.numerosCodPostal = numeros.test(codPostalValue);
-
-    if(this.numerosCodPostal){
-     this.CodPostalValido = true;
-   }
   }
 
   geocodeAddress(address: string): Observable<HttpResponse<any>> {

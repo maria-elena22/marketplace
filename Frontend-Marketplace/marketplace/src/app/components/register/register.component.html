@@ -37,15 +37,15 @@
                                                 <label for="idFiscal">Id Fiscal:</label>
                                                 <input (focus)="startIdFiscal= true" (input)="onIdFiscalInput($event)"  minlength="9" maxlength="9" formControlName="idFiscal" type="idFiscal" class="form-control form-control-user" id="idFiscal" placeholder="Id Fiscal" required>
                                             </div>
-                                            <div class="idFiscalCheck" *ngIf="startIdFiscal " style="font-size:x-small;margin-left: 250px;margin-top: 10px">
+                                            <div class="idFiscalCheck" *ngIf="startIdFiscal " style="font-size:x-small;margin-left: 250px;margin-top: 10px;margin-bottom: -5%;">
                                                 <a [style.color]="numerosId&&!letrasId ? 'green' : 'red'">O idFiscal só pode conter números</a><br>
                                                 <a [style.color]="oitoCaracteresId ? 'green' : 'red'">O idFiscal tem de conter 9 caracteres</a>
                                             </div>
-                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                            <div class="col-sm-6 mb-3 mb-sm-0" style="margin-top: 3%;">
                                                 <label for="tlmv">Contacto:</label>
                                                 <input (focus)="startContacto= true" (input)="onContactoInput($event)"  minlength="9" maxlength="9" formControlName="telemovel" type="text" class="form-control form-control-user" id="contacto" placeholder="Contacto" required>
                                             </div>
-                                            <div class="col-sm-6 mb-3 mb-sm-0" *ngIf="startContacto " style="font-size:x-small; margin-top: 40px;">
+                                            <div class="col-sm-6 mb-3 mb-sm-0" *ngIf="startContacto " style="font-size:x-small; margin-top: 53px;">
                                                 <a [style.color]="numerosContacto&&!letrasContacto ? 'green' : 'red'">O contacto só pode conter números</a><br>
                                                 <a [style.color]="oitoCaracteresContacto ? 'green' : 'red'">O contacto tem de conter 9 caracteres</a>
                                             </div>
@@ -59,26 +59,15 @@
                                             </div>
                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <label for="morada">Código Postal:</label>
-                                                <input (focus)="startCodPostal= true" (input)="onCodPostalInput($event)" maxlength="8" formControlName="codPostal" type="text" class="form-control form-control-user" id="exampleCódigoPostal" placeholder="Código Postal" required>
+                                                <input maxlength="8" formControlName="codPostal" type="text" class="form-control form-control-user" id="exampleCódigoPostal" placeholder="Código Postal" required>
                                             </div>
-                                            <div class="col-sm-6 mb-3 mb-sm-0" *ngIf="startCodPostal " style="font-size:x-small; margin-top: 20px; margin-left: 55%;">
-                                                <a [style.color]="numerosCodPostal ? 'green' : 'red'">Tem de ser na forma 2345-678</a><br>
-                                            </div>
-                                            <div class="col-sm-6 mb-3 mb-sm-0" >    
+                                            <div class="col-sm-6 mb-3 mb-sm-0" style="margin-top: 3%;">    
                                                 País: &nbsp;
                                                 <select formControlName="pais"  class="form-control-user p-2 d-inline-block text-warning fw-bold w-45" id="filtraSelect" name="filtraSelect" style="border-color: #d1d3e2; background-color: white; height: 48px; margin-top: 10px;" required >
                                                     <option *ngFor="let country of countries" [value]="country.toUpperCase()" >{{ country}}</option>
 
                                                 </select>                                            
                                             </div>
-
-                                            <!-- <div class="col-sm-6 mb-3 mb-sm-0" >    
-                                                <p class="d-inline-block">Continente: &nbsp;</p> 
-                                                <select formControlName="continente"  class="form-control-user p-2 d-inline-block text-warning fw-bold w-45" id="filtraSelect" name="filtraSelect" style="border-color: #d1d3e2; background-color: white;" required >
-                                                    <option *ngFor="let continente of continents" [value]="continente.toUpperCase()" >{{ continente}}</option>
-
-                                                </select>                                            
-                                            </div> -->
                                         </div>
 
                                         <div class="form-group row">
