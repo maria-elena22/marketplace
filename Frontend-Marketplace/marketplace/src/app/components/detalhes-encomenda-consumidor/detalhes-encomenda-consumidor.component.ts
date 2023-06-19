@@ -122,25 +122,25 @@ export class DetalhesEncomendaConsumidorComponent implements OnInit{
     return 0
   }
 
-  obterJSON(idSubEncomenda:number){
+  obterJSON(idEncomenda:number){
     
-      this.encomendasService.getSubEncomendaById(idSubEncomenda).subscribe(obj => {
+      this.encomendasService.getEncomendaById(idEncomenda).subscribe(obj => {
         const statusCode = obj.status;
         if (statusCode === 200) {
-          this.generateFile(JSON.stringify(obj.body), idSubEncomenda);
+          this.generateFile(JSON.stringify(obj.body), idEncomenda);
         
         }
       });
   }
 
 
-  generateFile(jsonContent: any, idSubEncomenda:number) {
+  generateFile(jsonContent: any, idEncomenda:number) {
     const blob = new Blob([jsonContent], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
   
     const link = document.createElement('a');
     link.href = url;
-    link.download = `encomenda${idSubEncomenda}-${this.appComponent.user?.nome}.json`;
+    link.download = `encomenda${idEncomenda}-${this.appComponent.user?.nome}.json`;
     
     document.body.appendChild(link);
     link.click();
