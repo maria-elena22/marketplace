@@ -177,7 +177,7 @@
 
 <!-- The modal -->
 <div class="notifBox" *ngIf="showNotifs">
-    <a (click)="toggleNotifs()">&times;</a>
+    <a style="cursor:pointer;" (click)="toggleNotifs()">&times;</a>
     <div *ngIf="notifs && notifs.length>0">
         <ul *ngFor="let notif of notifs">
             <li> {{notif.mensagem}}
