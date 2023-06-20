@@ -32,14 +32,14 @@ export class PerfilConsumidorComponent implements OnInit {
   numerosId = false;
   letrasId = false;  
   IdFiscalEmpty = true;
-  idFiscalValid = false;
+  idFiscalValid = true;
   //CONTACTO
   startContacto = false;
   oitoCaracteresContacto = false;
   numerosContacto = false;
   letrasContacto = false;
   ContactoEmpty = true;
-  contactoValid = false;  
+  contactoValid = true;  
   formValid = false;
 
 
@@ -193,6 +193,7 @@ export class PerfilConsumidorComponent implements OnInit {
             continente: this.getContinent(this.updateForm.value.pais),
         }
 
+
           if(this.contactoValid && this.idFiscalValid){
             const role = this.updateForm.value.role;
             if(this.role === "ROLE_FORNECEDOR"){
@@ -297,6 +298,8 @@ export class PerfilConsumidorComponent implements OnInit {
       this.idFiscalValid = true;
     } else if(this.letrasId || hasSpecialChars){
       this.updateForm.patchValue({idFiscal:inputElement.value.replace(/\D/g, "")})
+    }else{
+      this.idFiscalValid = false;
     }
   }
 
@@ -325,6 +328,8 @@ export class PerfilConsumidorComponent implements OnInit {
     } 
     else if(this.letrasContacto || hasSpecialChars){
       this.updateForm.patchValue({telemovel:inputElement.value.replace(/\D/g, "")})
+    }else {
+      this.contactoValid = false;
     }
   }
   
