@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/utilizador/login/**", "/api/utilizador/register/**").permitAll();
         //Allow swagger to be public
         http.authorizeRequests().antMatchers("/swagger-ui/**", "/swagger-ui.html", "/configuration/ui",
-                "/swagger-resources/**", "/configuration/security", "/webjars/**", "/v2/api-docs/**", "/v3/api-docs/**").permitAll();
+                "/swagger-resources/**", "/configuration/security", "/webjars/**", "/v2/api-docs/**", "/v3/api-docs/**", "/v3/api-docs.yaml").permitAll();
 
         //Allow unauthenticated to have access to certain resources
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/categoria/**").permitAll();

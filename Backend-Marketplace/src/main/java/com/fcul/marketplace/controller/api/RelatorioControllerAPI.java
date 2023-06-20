@@ -51,7 +51,7 @@ public class RelatorioControllerAPI {
     public RelatorioPorZonasDTO getRelatorioPorZonas(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                                      @RequestParam(required = false) String dataMin,
                                                      @RequestParam(required = false) String dataMax,
-                                                     @RequestParam List<Integer> categoriasIds) throws JWTTokenMissingException, ParseException {
+                                                     @RequestParam(required = false) List<Integer> categoriasIds) throws JWTTokenMissingException, ParseException {
 
         return relatorioService.generateRelatorioZonas(securityUtils.getEmailFromAuthHeader(authorizationHeader), securityUtils.getRoleFromAuthHeader(authorizationHeader), categoriasIds, dataMin,dataMax);
     }
@@ -73,7 +73,7 @@ public class RelatorioControllerAPI {
     public RelatorioPorDistanciasDTO getRelatorioPorDistancias(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
                                                                @RequestParam(required = false) String dataMin,
                                                                @RequestParam(required = false) String dataMax,
-                                                               @RequestParam List<Integer> categoriasIds) throws JWTTokenMissingException, ParseException {
+                                                               @RequestParam(required = false) List<Integer> categoriasIds) throws JWTTokenMissingException, ParseException {
         return relatorioService.generateRelatorioDistancias(securityUtils.getEmailFromAuthHeader(authorizationHeader),
                 securityUtils.getRoleFromAuthHeader(authorizationHeader), categoriasIds, dataMin,dataMax);
     }

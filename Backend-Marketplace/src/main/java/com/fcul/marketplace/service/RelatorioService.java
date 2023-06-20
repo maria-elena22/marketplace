@@ -80,7 +80,7 @@ public class RelatorioService {
     }
 
     private boolean filtraCategorias(SubEncomenda subEncomenda, List<Integer> categoriasIds) {
-        if(categoriasIds.size() != 0 ){
+        if(categoriasIds !=null && categoriasIds.size() != 0 ){
             return subEncomenda.getItems().stream().anyMatch(
                     item -> item.getProduto().getSubCategorias().stream().anyMatch(
                             subCategoria -> categoriasIds.contains(subCategoria.getCategoria().getIdCategoria())
