@@ -89,7 +89,7 @@
     </div>
     <br>
 
-    <div *ngIf="role" id="sidebarEU" style="margin-right: 0%;  text-align: center; background-color:white;border: 1px solid rgba(0, 0, 0, 0.125); border-radius: 0.25rem;">
+    <div *ngIf="role" id="sidebarEU" style="margin-right: 0%;  text-align: center; background-color:white;border: 1px solid rgba(0, 0, 0, 0.125); border-radius: 0.25rem;  overflow-y: scroll;">
         <div class="nav-item" id="content">
             <!-- *ngIf="showNotifs" [class.visible]="showNotifs && notifs" -->
 
@@ -102,9 +102,9 @@
                         <button *ngIf="role === 'ROLE_FORNECEDOR'" class="btn btn-outline-secondary" (click)="showEncomenda(notif.subEncomenda?.idSubEncomenda!)"> {{notif.subEncomenda?.idSubEncomenda}}</button>
                         <p *ngIf="role === 'ROLE_CONSUMIDOR'" class="btn btn-outline-secondary" (click)="showEncomenda(notif.subEncomenda?.encomenda!.idEncomenda!)">{{notif.subEncomenda?.encomenda!.idEncomenda}}</p>
 
-                        <a _ngcontent-gqy-c55="" style="cursor: pointer;" (click)="entregarNotif(notif.idNotificacao!)">
+                        <!-- <a _ngcontent-gqy-c55="" style="cursor: pointer;" (click)="entregarNotif(notif.idNotificacao!)">
                             <mat-icon _ngcontent-gqy-c55="" role="img" class="mat-icon notranslate material-icons mat-ligature-font mat-icon-no-color" style="vertical-align: text-bottom; color: #c91527;" aria-hidden="true" data-mat-icon-type="font">delete</mat-icon>
-                        </a>
+                        </a> -->
                     </li>
 
                 </ul>
