@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { ProdutosService } from 'src/app/service/produtos.service';
 import { AppComponent } from 'src/app/app.component';
 import { UtilizadorService } from 'src/app/service/utilizador.service';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-uni-prods',
@@ -30,14 +31,14 @@ export class UniProdsComponent implements OnInit {
   stockForm: FormGroup;
 
 
-  constructor(private uniProdService:UniProdsService,private formBuilder: FormBuilder, private produtoService:ProdutosService,private appComponent: AppComponent, private utilizadorService:UtilizadorService){
+  constructor(private uniProdService:UniProdsService,private router : Router ,private formBuilder: FormBuilder, private produtoService:ProdutosService,private appComponent: AppComponent, private utilizadorService:UtilizadorService){
     this.getUniProds()
   }
 
   ngOnInit(){
     //this.getUniProds();
     if(this.appComponent.token && this.appComponent.role !== 'ROLE_ADMIN'){
-      this.utilizadorService.getDetalhesUser().subscribe()
+      this.utilizadorService.getDetalhesUser()?.subscribe()
     }
 
     this.uniProdForm = new FormGroup({
@@ -131,7 +132,7 @@ export class UniProdsComponent implements OnInit {
       if (statusCode === 200) {
         this.toggleEditar()
         window.location.reload()
-    } else {
+      } else {
         this.error = obj.body as Error;
         //chamar pop up
     }
@@ -144,7 +145,7 @@ export class UniProdsComponent implements OnInit {
       if (statusCode === 200) {
         this.toggleRemover()
         window.location.reload()
-    } else {
+      } else {
         this.error = obj.body as Error;
         //chamar pop up
     }

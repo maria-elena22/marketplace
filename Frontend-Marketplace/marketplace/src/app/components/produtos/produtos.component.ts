@@ -433,7 +433,6 @@ export class ProdutosComponent implements OnInit {
     this.getProdutos(-1,-1);
     
     this.router.navigate(['/marketplace/produtos']);
-    //window.location.reload()
 
   }
 
@@ -838,7 +837,6 @@ export class ProdutosComponent implements OnInit {
         this.answer = "Produto criado com sucesso"
         // this.toggleModal()
         // this.verMeusProdutos(-1,-1)
-        // window.location.reload();
         this.toggleAnswer()
       } else {
         this.answer = obj.statusText

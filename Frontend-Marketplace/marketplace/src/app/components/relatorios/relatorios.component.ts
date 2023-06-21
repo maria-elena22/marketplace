@@ -44,7 +44,7 @@ export class RelatoriosComponent implements OnInit{
 
   ngOnInit(): void {
     if(this.appComponent.token && this.appComponent.role !== 'ROLE_ADMIN'){
-      this.utilizadorService.getDetalhesUser().subscribe()
+      this.utilizadorService.getDetalhesUser()?.subscribe()
     }
 
     this.getCategorias();

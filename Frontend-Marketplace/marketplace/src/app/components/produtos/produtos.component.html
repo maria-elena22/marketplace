@@ -372,7 +372,7 @@
 
         <h2 [style.color]="success ? '#1cc88a' : 'red'" class="modal-title">{{answer}}</h2>
         <br>
-        <a href="/marketplace/cesto" *ngIf="!role || role==='ROLE_CONSUMIDOR'">Ir para o cesto</a>
+        <a routerLink="/marketplace/cesto" *ngIf="!role || role==='ROLE_CONSUMIDOR'">Ir para o cesto</a>
         <br>
     </div>
 </div>

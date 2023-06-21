@@ -314,30 +314,36 @@ export class UtilizadorService {
       );
   }
 
-  getDetalhesUser(): Observable<HttpResponse<any>> {
-
+  getDetalhesUser(): Observable<HttpResponse<any>>|undefined {
     const token = localStorage.getItem('jwt_token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const url = `${this.backendUrl}/utilizador/detalhes`;
-
-    return this.http.get<any>(url, { headers, observe: 'response' })
-      .pipe(
-          catchError((error) => {
-          console.log('An error occurred:', error);
-          localStorage.removeItem('jwt_token');
+    if(token){
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      const url = `${this.backendUrl}/utilizador/detalhes`;
+  
+      return this.http.get<any>(url, { headers, observe: 'response' })
+        .pipe(
+            catchError((error) => {
+            console.log('An error occurred:', error);
+            localStorage.removeItem('jwt_token');
           const currentUrl = this.router.url;
           if(currentUrl==='/marketplace'){
             window.location.reload();
-
+  
           } else{
             this.router.navigateByUrl('');
             this.router.navigateByUrl('/marketplace');
           }
-         
-          return throwError('Something went wrong');
-        })
-      );
+           
+            return throwError('Something went wrong');
+          })
+        );
+    }
+
+    return undefined;
+    
+    
   }
+
 
 
 

@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
         <!-- <button (click)='getProdutos()' class="navbar-brand">Teste</button> -->
-        <a class="navbar-brand" href="/marketplace">Marketplace</a>
+        <a class="navbar-brand" routerLink='/marketplace'>Marketplace</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
                 class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -60,16 +60,16 @@
             <li *ngIf="!role" ngbDropdown class="nav-item dropdown d-flex">
                 <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-square"></i></a>
                 <ul ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li ngbDropdownItem><a class="dropdown-item" href="/marketplace/login">Login</a></li>
+                    <li ngbDropdownItem><a class="dropdown-item" routerLink='/marketplace/login' >Login</a></li>
                     <li>
                         <hr class="dropdown-divider" />
                     </li>
-                    <li ngbDropdownItem><a class="dropdown-item" href="/marketplace/register">Registo</a></li>
+                    <li ngbDropdownItem><a class="dropdown-item" routerLink='/marketplace/register' >Registo</a></li>
                 </ul>
             </li>
 
             <!-- <form class="d-flex"> -->
-            <a *ngIf="role !== 'ROLE_FORNECEDOR' && role !== 'ROLE_ADMIN'" class="btn btn-outline-dark" type="submit" href="/marketplace/cesto" (click)="goToCesto()">
+            <a *ngIf="role !== 'ROLE_FORNECEDOR' && role !== 'ROLE_ADMIN'" class="btn btn-outline-dark" type="submit" routerLink="/marketplace/cesto" (click)="goToCesto()">
 
 
                 <i class="bi-cart-fill me-1"></i>
@@ -132,13 +132,13 @@
                     <h6 class="text-uppercase fw-bold">links úteis</h6>
                     <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #4e73df; height: 2px" />
                     <p>
-                        <a href='/marketplace/register' class="">Crie uma conta</a>
+                        <a routerLink='/marketplace/register' class="">Crie uma conta</a>
                     </p>
                     <p>
-                        <a href='/marketplace/produtos' class="">Nossos produtos</a>
+                        <a routerLink='/marketplace/produtos' class="">Nossos produtos</a>
                     </p>
                     <p>
-                        <a href='/marketplace/termos-condicoes' class="">Termos e condições</a>
+                        <a routerLink='/marketplace/termos-condicoes' class="">Termos e condições</a>
                     </p>
                 </div>
                 <!-- Grid column -->

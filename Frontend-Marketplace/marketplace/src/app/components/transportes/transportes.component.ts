@@ -46,7 +46,7 @@ export class TransportesComponent implements OnInit{
 
   ngOnInit(){
     if(this.appComponent.token && this.appComponent.role !== 'ROLE_ADMIN'){
-      this.utilizadorService.getDetalhesUser().subscribe()
+      this.utilizadorService.getDetalhesUser()?.subscribe()
     }
 
     this.getUniProds();
@@ -198,7 +198,6 @@ export class TransportesComponent implements OnInit{
       if (statusCode === 200) {
         this.toggleModal()
         this.handleAnswer("Transporte adicionado com sucesso!",true)   
-        // window.location.reload()    
       }  else {
         this.handleAnswer(obj.statusText,false)   
         

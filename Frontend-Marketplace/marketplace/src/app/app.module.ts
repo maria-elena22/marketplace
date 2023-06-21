@@ -43,9 +43,11 @@ import { ProdutoDetalhesComponent } from './components/produto-detalhes/produto-
 import { MatIconModule } from '@angular/material/icon';
 
 
+
 const appRoutes: Routes = [
   { path: 'marketplace/login', component: LoginComponent },
   { path: 'marketplace', component: HomeComponent },
+  { path: '', component: HomeComponent },
   { path: 'marketplace/termos-condicoes', component: TermosCondicoesComponent },
   { path: 'marketplace/produtos', component: ProdutosComponent },
   { path: 'marketplace/register', component: RegisterComponent },
@@ -81,7 +83,7 @@ const appRoutes: Routes = [
     ,
     RouterModule.forRoot(
       appRoutes,
-      { enableTracing: true } // <-- debugging purposes only
+      { onSameUrlNavigation: 'reload' } //enableTracing: true, 
     ),
     NgbModule,
     BrowserAnimationsModule
