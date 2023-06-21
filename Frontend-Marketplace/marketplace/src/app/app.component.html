@@ -44,9 +44,6 @@
             <li *ngIf="role && role !== 'ROLE_ADMIN'" ngbDropdown class="nav-item dropdown d-flex">
                 <a *ngIf="role &&user" ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-square"></i>&nbsp; {{user!.nome}}</a>
                 <ul ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <!-- <li style="cursor: pointer;" ngbDropdownItem><a class="dropdown-item">Notificações</a>
-                        <p *ngIf="numNotifs > 0 " class="notifCount">{{numNotifs}}</p>
-                    </li> -->
                     <li style="cursor: pointer;" ngbDropdownItem><a class="dropdown-item" routerLink="/marketplace/perfil-consumidor" (click)="goToPerfil()">Perfil</a></li>
 
 
@@ -80,7 +77,6 @@
         </div>
     </div>
 </nav>
-
 
 <div id="wrapper">
     <div id="content-wrapper" class="d-flex flex-column">
@@ -118,8 +114,6 @@
 
 
 </div>
-<!-- Sidebar -->
-
 <!-- Footer
         <footer class="py-5 bg-dark">
             <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
@@ -128,6 +122,13 @@
 <!-- Footer -->
 <footer class="text-center text-lg-start navbar-light bg-light text-gray">
     <!-- Section: Social media -->
+    <section class="d-flex justify-content-between p-4" style="background-color: #4e73df">
+
+        <!-- Left -->
+
+
+        <!-- Right -->
+    </section>
     <!-- Section: Social media -->
 
     <!-- Section: Links  -->
@@ -207,7 +208,6 @@
 </div>
 
 <!-- The modal -->
-
 
 <div class="modal-wrapper" [class.visible]="showEncomendaModal">
     <div class="modal-container">
