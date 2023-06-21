@@ -28,6 +28,7 @@ export class TransportesComponent implements OnInit{
   error?:Error;
   showModal: boolean = false;
   showNovaViagem:boolean=false
+  showEditar: boolean = false;
   transporteForm: FormGroup;
   viagemForm:FormGroup;
   uniProds?:UniProdDTO[]
@@ -38,6 +39,9 @@ export class TransportesComponent implements OnInit{
   validado = false
   startMatricula = false;
   matriculaValida = false;
+  editarForm: FormGroup;
+  transporte: TransporteDTO;
+  estadoTransporte: string;
 
   proximosTransportes: number;
 
@@ -52,8 +56,8 @@ export class TransportesComponent implements OnInit{
     this.getUniProds();
     this.getProximosTransportes(this.page + 1)
     this.getTransportes(this.page);
-    
-    
+
+
     this.transporteForm = new FormGroup({
       matricula: new FormControl('', Validators.required),
       estadoTransporte: new FormControl('', Validators.required),
@@ -64,18 +68,21 @@ export class TransportesComponent implements OnInit{
       transporte: new FormControl('', Validators.required),
       subItems: new FormControl([], Validators.required)
     });
-    
+    this.editarForm = this.formBuilder.group({
+      estadoTransporte: ['', Validators.required]
+    });
+
   }
   ;
 
   onMatriculaInput(event: Event){
     const inputElement = event.target as HTMLInputElement;
     const matriculaValue = inputElement.value;
-    
+
     const numericRegex = /[a-zA-Z]{2}-[0-9]{2}-[a-zA-Z]{2}/;
     this.matriculaValida = numericRegex.test(matriculaValue);
   }
-  
+
 
   // Method to toggle the checkbox status
   toggleItemChecked(index: number): void {
@@ -95,7 +102,7 @@ export class TransportesComponent implements OnInit{
       this.checkedItems.push({idItem:index})
       this.itensParaEntregar.push({item:{idItem:index},quantidade: 0})
       this.validado = false
-      
+
     }
       this.viagemForm.patchValue({subItems:this.itensParaEntregar})
   }
@@ -113,7 +120,7 @@ export class TransportesComponent implements OnInit{
 
 
   addSubItem(itemId:number, event: Event): void {
-    this.validado = true 
+    this.validado = true
     const value = (event.target as HTMLInputElement).value;
 
     const quantidade: number = parseFloat(value);
@@ -127,7 +134,7 @@ export class TransportesComponent implements OnInit{
           itemE.quantidade = quantidade
 
         }
-        
+
       } else if (itemE.quantidade!<1){
         this.validado =false
       }
@@ -142,8 +149,8 @@ export class TransportesComponent implements OnInit{
     this.encomendaService.getItensNaoEntregues(Number(this.selectedTransporteId),0,1000000).subscribe(obj=>{
       const statusCode = obj.status
       if (statusCode === 200) {
-        this.itensNaoEntregues = obj.body as ItemInfoDTO[];        
-    } 
+        this.itensNaoEntregues = obj.body as ItemInfoDTO[];
+    }
     })
 
   }
@@ -168,17 +175,17 @@ export class TransportesComponent implements OnInit{
 
       if (statusCode === 200) {
         this.toggleModal()
-        this.handleAnswer("Viagem adicionada com sucesso!",true)   
-        window.location.reload()    
+        this.handleAnswer("Viagem adicionada com sucesso!",true)
+        window.location.reload()
       }  else {
-        this.handleAnswer(obj.statusText,false)   
-        
+        this.handleAnswer(obj.statusText,false)
+
       }
     },
     (error) => {
       console.log("An error occurred:", error);
       // Handle the error here, for example, you can display an error message to the user
-      this.handleAnswer("Ocorreu um erro ao adicionar a viagem.",false)   
+      this.handleAnswer("Ocorreu um erro ao adicionar a viagem.",false)
 
     }
   )
@@ -186,7 +193,7 @@ export class TransportesComponent implements OnInit{
   }
 
   onSubmit() {
-    
+
     const transporteData: TransporteInputDTO = {
       matricula: this.transporteForm.value.matricula,
       estadoTransporte: this.transporteForm.value.estadoTransporte
@@ -197,30 +204,30 @@ export class TransportesComponent implements OnInit{
 
       if (statusCode === 200) {
         this.toggleModal()
-        this.handleAnswer("Transporte adicionado com sucesso!",true)   
-        // window.location.reload()    
+        this.handleAnswer("Transporte adicionado com sucesso!",true)
+        // window.location.reload()
       }  else {
-        this.handleAnswer(obj.statusText,false)   
-        
+        this.handleAnswer(obj.statusText,false)
+
       }
     },
     (error) => {
       console.log("An error occurred:", error);
       // Handle the error here, for example, you can display an error message to the user
-      this.handleAnswer("Ocorreu um erro ao adicionar o produto.",false)   
+      this.handleAnswer("Ocorreu um erro ao adicionar o produto.",false)
 
     }
   )
 
-  } 
+  }
 
   handleAnswer(answer:string,success:boolean){
     this.answer = answer
     this.success = success
-    this.showAnswer = true 
+    this.showAnswer = true
   }
 
-    
+
   getUniProds(){
     this.uniProdService.getUniProds().subscribe(obj=>{
       const statusCode = obj.status
@@ -241,13 +248,13 @@ export class TransportesComponent implements OnInit{
     const state = { page: 'transportes' };
     const url = '/marketplace/transportes';
     this.previousButtonDisabled = false
-    window.history.pushState(state, url); 
+    window.history.pushState(state, url);
   }
 
   previousPage(){
     this.page -=1
     this.getProximosTransportes(this.page - 1)
-    if(this.page<=0){  
+    if(this.page<=0){
       this.page += 1
       this.getTransportes(this.page - 1)
       this.previousButtonDisabled = true
@@ -264,7 +271,7 @@ export class TransportesComponent implements OnInit{
   }
 
   getLocalidade():string{
-    return `${this.appComponent.user?.continente}, ${this.appComponent.user?.pais}, 
+    return `${this.appComponent.user?.continente}, ${this.appComponent.user?.pais},
           ${this.appComponent.user?.distrito}, ${this.appComponent.user?.municipio}, ${this.appComponent.user?.freguesia}`
   }
 
@@ -286,7 +293,7 @@ export class TransportesComponent implements OnInit{
         this.error = obj.body as Error;
         //chamar pop up
 
-    } 
+    }
     })
   }
 
@@ -305,7 +312,7 @@ export class TransportesComponent implements OnInit{
           }
           console.log(this.transportes)
         }
-        
+
     } else {
         this.error = obj.body as Error;
         //chamar pop up
@@ -319,7 +326,13 @@ export class TransportesComponent implements OnInit{
     this.toggleNovaViagem()
   }
 
-
+  toggleEditar() {
+    this.showEditar = !this.showEditar;
+  }
+  editarTransporte(transporte: TransporteDTO){
+    this.transporte = transporte;
+    this.showEditar = !this.showEditar;
+  }
 
   toggleModal(){
     this.showModal = !this.showModal;
@@ -332,6 +345,38 @@ export class TransportesComponent implements OnInit{
 
   toggleAnswer(){
     this.showAnswer = !this.showAnswer;
-    window.location.reload() 
+    window.location.reload()
   }
+
+  onSubmitEditar() {
+    if (this.editarForm.valid) {
+      const novoEstado = this.editarForm.value.estadoTransporte;
+
+      const transporteToUpdate = this.transportes.find(t => t.idTransporte === this.transporte.idTransporte);
+      if (transporteToUpdate) {
+        transporteToUpdate.estadoTransporte = novoEstado;
+
+      }
+
+
+      this.toggleEditar();
+
+    }
+  }
+
+
+  // onSubmitEditar(){
+
+  //   this.uniProdService.updateUniProd(this.editarForm.value,this.uniProdEscolhida.idUnidade!).subscribe(obj=>{
+  //     const statusCode = obj.status
+  //     if (statusCode === 200) {
+  //       this.toggleEditar()
+  //       window.location.reload()
+  //   } else {
+  //       this.error = obj.body as Error;
+  //       //chamar pop up
+  //   }
+  //   })
+  // }
 }
+

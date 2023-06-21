@@ -38,6 +38,9 @@
                                                     <div style="width: 80px;">
                                                         <h5 class="mb-0">{{item.preco}}€</h5>
                                                     </div>
+                                                    <div style = "width: 80px;">
+                                                        <h5 class = "mb-0">Total: {{totalProduto(item)}}€</h5>
+                                                    </div>
                                                     <a (click)="removeItem(item)" style="cursor: pointer;"><mat-icon style="color:#dc3545; vertical-align: text-bottom">delete</mat-icon></a>
                                                 </div>
                                             </div>

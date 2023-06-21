@@ -83,8 +83,14 @@
                                                 <div *ngIf="transporte.estadoTransporte=='INDISPONIVEL'" class="badge bg-danger text-white" style="top: 0.5rem; right: 0.5rem">
                                                     {{transporte.estadoTransporte}}</div>
                                         </td>
-                                        <th><a  class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 2%;"  (click)="goToViagens(transporte)" routerLink="/marketplace/viagens"> <mat-icon style="vertical-align: text-bottom; font-size: 15px; height: auto;">arrow_forward_ios</mat-icon></a>     
-                                        </th>                                    
+                                        <th><a  class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 2%;"  (click)="goToViagens(transporte)" routerLink="/marketplace/viagens"> <mat-icon style="vertical-align: text-bottom; font-size: 15px; height: auto;">arrow_forward_ios</mat-icon></a>
+                                        </th>
+                                        <th><a style="cursor: pointer;" (click)="editarTransporte(transporte)">Editar &nbsp; <mat-icon style="vertical-align: text-bottom;">edit</mat-icon>
+                                          <!-- <i class="fas fa-edit"></i> -->
+                                        </a></th>
+                                        <th><a style="cursor: pointer;">Remover &nbsp; <mat-icon style="vertical-align: text-bottom; color: #c91527;">delete</mat-icon>
+                                          <!-- <i class="fa fa-trash"></i> -->
+                                        </a></th>
                                     </tr>
                                 </tbody>
                             </table>
@@ -94,10 +100,10 @@
             </div>
             <div style="margin: auto; display:table">
 
-                <a class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 0%;" [class.disabled]="previousButtonDisabled" (click)="previousPage()"><mat-icon style="vertical-align: text-bottom; font-size: 20px; height: 5%;">arrow_back</mat-icon> </a> 
+                <a class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 0%;" [class.disabled]="previousButtonDisabled" (click)="previousPage()"><mat-icon style="vertical-align: text-bottom; font-size: 20px; height: 5%;">arrow_back</mat-icon> </a>
                 &nbsp;
-                <a class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 0%;" [class.disabled]="nextButtonDisabled" (click)="nextPage()"> <mat-icon style="vertical-align: text-bottom; font-size: 20px; height: 5%;">arrow_forward</mat-icon> </a> 
-            
+                <a class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 0%;" [class.disabled]="nextButtonDisabled" (click)="nextPage()"> <mat-icon style="vertical-align: text-bottom; font-size: 20px; height: 5%;">arrow_forward</mat-icon> </a>
+
             </div>
             <br><br>
         </div>
@@ -106,6 +112,46 @@
     <!-- End of Content Wrapper -->
 </div>
 <!-- End of Page Wrapper -->
+<!-- <div class="modal-wrapper" *ngIf="estados" [class.visible]="estados">
+  <div class="modal-container">
+      <button class="modal-close-btn" (click)="toggleModal()" style="text-align: right;">FECHAR</button>
+      <h4 style="text-align: left; margin-top: -2%">A editar: {{trans.idTransporte}}</h4>
+      <br>
+      <form>
+          <div>
+              <small>(deve ser positivo)</small>
+              <label for="stock">Novo Estado: </label> &nbsp;
+              <input type="number" id="stock" formControlName="stock" min="0" class="form-control form-control-user d-inline-block" style="width:30%;" required>
+
+          </div>
+
+      </form>
+
+  </div>
+</div> -->
+<div class="modal-wrapper" *ngIf="showEditar" [class.visible]="showEditar">
+  <div class="modal-container">
+    <h3 style="text-align: left;">A editar: {{transporte.matricula}}</h3>
+    <button class="modal-close-btn" style="text-align: right;">
+      <span (click)="toggleEditar()">FECHAR</span>
+    </button>
+    <br>
+
+    <form [formGroup]="editarForm" (ngSubmit)="onSubmitEditar()">
+      <div>
+        <label for="estadoTransporte">Novo estado:</label>
+        <select id="estadoTransporte" formControlName="estadoTransporte" class="form-control form-control-user d-inline-block" style="width:35%;"required>
+          <option value="" disabled selected>{{transporte.estadoTransporte}}</option>
+          <option *ngFor="let estado of estados" [value]="estado.toUpperCase()" >{{ estado.toString()}}</option>
+        </select>
+      </div>
+      <br>
+      <button class="btn btn-outline-dark" [disabled]="!editarForm.valid" type="submit">Submeter</button>
+      <p *ngIf="!editarForm.valid">Tem de preencher todos os campos</p>
+    </form>
+  </div>
+</div>
+
 
 <div class="modal-wrapper" [class.visible]="showModal">
     <div class="modal-container">
@@ -122,23 +168,23 @@
               <a [style.color]="matriculaValida ? 'green' : 'red'">A matrícula tem de ser no formato aa-11-aa</a><br>
               </div>
             <br>
-            <div>    
-                <p class="d-inline-block">Estado do Transporte: &nbsp;</p> 
+            <div>
+                <p class="d-inline-block">Estado do Transporte: &nbsp;</p>
                 <select formControlName="estadoTransporte" required  class="form-control form-control-user d-inline-block" style="width:35%;">
-                    <option value="" disabled selected>Escolha uma opção</option>
+                  <option value="" disabled selected>Escolha uma opção</option>
                     <option *ngFor="let estado of estados" [value]="estado.toUpperCase()" >{{ estado.toString()}}</option>
-                </select>                                            
+                </select>
             </div>
-            <div>    
-                <p class="d-inline-block">Unidade de Produção: &nbsp;</p> 
+            <div>
+                <p class="d-inline-block">Unidade de Produção: &nbsp;</p>
                 <select formControlName="uniProd" required  class="form-control form-control-user d-inline-block" style="border-color: #d1d3e2; background-color: white; width:35%;">
                     <option value="" disabled selected>Escolha uma opção</option>
                     <option *ngFor="let uniProd of uniProds" [value]="uniProd.idUnidade" >{{ uniProd.nomeUniProd}}</option>
-                </select>                                            
+                </select>
             </div>
             <button class=" btn btn-outline-dark" [disabled]="!transporteForm.valid" type="submit">Submeter</button>
             <p *ngIf="!transporteForm.valid">Tem de preencher todos os campos corretamente</p>
-        </form>          
+        </form>
     </div>
   </div>
   <div class="modal-wrapper" [class.visible]="showNovaViagem">
@@ -147,19 +193,19 @@
         <br>
         <form [formGroup]="viagemForm" (ngSubmit)="onSubmitViagem()">
             <label><h4>Agendar uma viagem </h4></label>
-            <div>    
-                <p class="d-inline-block">Escolha um transporte: &nbsp;</p> 
+            <div>
+                <p class="d-inline-block">Escolha um transporte: &nbsp;</p>
                 <select formControlName="transporte" (change)="onTransporteSelected()" [(ngModel)]="selectedTransporteId" class="form-control form-control-user d-inline-block" style="width:30%;" required >
                     <option value="" disabled selected>Escolha uma opção</option>
                     <option *ngFor="let transporte of transportesDisponiveis" [value]="transporte.idTransporte" >{{ transporte.matricula}} -- {{transporte.unidadeDeProducao?.nomeUniProd}}</option>
-                </select>                                            
+                </select>
             </div>
             <hr>
             <div  *ngIf="selectedTransporteId && itensNaoEntregues" formArrayName="subItems">
                 <div *ngFor="let item of itensNaoEntregues; let i = index" class="linha">
                   <!-- Item form control -->
                   <div >
-                    <input class="left" type="checkbox"  [value]="item.idItem" (change)="toggleItemChecked(item.idItem!)"> 
+                    <input class="left" type="checkbox"  [value]="item.idItem" (change)="toggleItemChecked(item.idItem!)">
                     {{item.idItem}} - {{item.produtoNome}}
                   </div>
                   <!-- Quantidade form control -->
@@ -174,7 +220,7 @@
             <br>
             <button class=" btn btn-outline-dark" [disabled]="!viagemForm.valid || !validado" type="submit">Submeter</button>
             <p *ngIf="!viagemForm.valid">Tem de preencher todos os campos</p>
-        </form>          
+        </form>
     </div>
   </div>
 
