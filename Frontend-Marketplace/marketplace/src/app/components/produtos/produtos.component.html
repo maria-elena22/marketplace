@@ -186,30 +186,46 @@
     <div class="modal-container" style="text-align: left;">
         <button class="modal-close-btn" (click)="toggleModal()" style="text-align: right;">FECHAR</button>
         <form [formGroup]="produtoForm" (ngSubmit)="onSubmit()">
-            <label for="nome" style="margin: auto; display:table; font-size: 25px"><b>Criar um novo produto</b></label>
-            <label for="nome"><b>Nome:</b></label> &nbsp;
-            <input type="text" id="nome" formControlName="nome" class="form-control form-control-user d-inline-block" style="width:55%;">
-            <br>
 
-            <label for="descricao"><b>Descrição:</b></label>&nbsp;
-            <input type="text" id="descricao" formControlName="descricao" class="form-control form-control-user d-inline-block" style="width:55%;">
-            <br>
 
-            <label for="iva"><b>IVA:</b></label>&nbsp;
-            <select id="iva" formControlName="iva" class="form-control form-control-user d-inline-block" style="width:55%;">
-              <option value="" disabled selected>Escolha um IVA</option>
-              <option value="IVA_6">IVA 6%</option>
-              <option value="IVA_13">IVA 13%</option>
-              <option value="IVA_23">IVA 23%</option>
-            </select>
-            <br>
-            <label for="stock"><b>Stock:</b></label>&nbsp;
-            <input type="number" id="stock" formControlName="stock" class="form-control form-control-user d-inline-block" style="width:55%;">
-            <br>
+            <label for="nome" style="margin: auto; display:table; font-size: 25px; padding-bottom: 20px;"><b>Criar um novo produto</b></label>
+            <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label for="nome"><b>Nome:</b></label> &nbsp;
+                    <input type="text" id="nome" formControlName="nome" class="form-control form-control-user d-inline-block">
+                </div>
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label for="descricao"><b>Descrição:</b></label>&nbsp;
+                    <input type="text" id="descricao" formControlName="descricao" class="form-control form-control-user d-inline-block">
+                </div>
+            </div>
 
-            <label for="preco"><b>Preço:</b></label>&nbsp;
-            <input type="number" id="preco" formControlName="preco" step="0.01" min="0" class="form-control form-control-user d-inline-block" style="width:55%;">
+            
+            <p></p>
 
+            <div class="form-group row">
+                <div class="col-sm-4 mb-3 mb-sm-0">
+                    <label for="iva"><b>IVA:</b></label>&nbsp;
+                    <select id="iva" formControlName="iva" class="form-control form-control-user d-inline-block">
+                    <option value="" disabled selected>Escolha um IVA</option>
+                    <option value="IVA_6">IVA 6%</option>
+                    <option value="IVA_13">IVA 13%</option>
+                    <option value="IVA_23">IVA 23%</option>
+                    </select>
+                </div>
+                <div class="col-sm-4 mb-3 mb-sm-0">
+                    <label for="stock"><b>Stock:</b></label>&nbsp;
+                    <input type="number" id="stock" formControlName="stock" class="form-control form-control-user d-inline-block">
+                </div>
+                <div class="col-sm-4 mb-3 mb-sm-0">
+                    <label for="preco"><b>Preço:</b></label>&nbsp;
+                    <input type="number" id="preco" formControlName="preco" step="0.01" min="0" class="form-control form-control-user d-inline-block">
+
+                </div>
+            
+            </div>
+
+            
             <p></p>
 
             <label for="uniProdsIds"><b>UniProds:</b></label>
