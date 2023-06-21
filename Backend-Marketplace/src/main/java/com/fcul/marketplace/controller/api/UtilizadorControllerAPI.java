@@ -252,7 +252,7 @@ public class UtilizadorControllerAPI {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
     @SecurityRequirement(name = "Bearer Authentication")
-    @RolesAllowed({"ADMIN"})
+    @RolesAllowed({"ADMIN","CONSUMIDOR", "FORNECEDOR"})
     @CrossOrigin("*")
     public void deactivateConsumidor(@PathVariable Integer idConsumidor) {
         utilizadorService.deactivateConsumidor(idConsumidor);
@@ -267,7 +267,7 @@ public class UtilizadorControllerAPI {
             @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
     })
     @SecurityRequirement(name = "Bearer Authentication")
-    @RolesAllowed({"ADMIN"})
+    @RolesAllowed({"ADMIN","CONSUMIDOR", "FORNECEDOR"})
     @CrossOrigin("*")
     public void deactivateFornecedor(@PathVariable Integer idFornecedor) {
         utilizadorService.deactivateFornecedor(idFornecedor);

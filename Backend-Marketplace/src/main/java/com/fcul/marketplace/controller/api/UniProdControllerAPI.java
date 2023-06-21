@@ -105,6 +105,21 @@ public class UniProdControllerAPI {
         return modelMapper.map(uniProdService.updateUniProd(securityUtils.getEmailFromAuthHeader(authorizationHeader), idUniProd, uniProd), UniProdDTO.class);
     }
 
+    @PutMapping("/deactivate/{idUniProd}")
+    @Operation(summary = "deactivateUniProd",
+            description = "Remove uma Unidade de Produção")
+    @Parameters(value = {
+            @Parameter(name = "idUniProd", description = "ID da Unidade a remover")})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
+    })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
+    public void deactivateUniProd(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
+                                    @PathVariable Integer idUniProd) throws JWTTokenMissingException, ForbiddenActionException {
+        uniProdService.deactivateUniProd(securityUtils.getEmailFromAuthHeader(authorizationHeader), idUniProd);
+    }
 
     //===========================DELETE===========================
 

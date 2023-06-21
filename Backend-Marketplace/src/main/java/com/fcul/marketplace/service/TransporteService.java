@@ -80,6 +80,16 @@ public class TransporteService {
         return transporteRepository.save(transporteBD);
     }
 
+    public Transporte deactivateTransporte(String fornecedorEmail, Integer transporteId) throws ForbiddenActionException {
+        Fornecedor fornecedor = utilizadorService.findFornecedorByEmail(fornecedorEmail);
+        Transporte transporteBD = transporteRepository.findById(transporteId).orElseThrow(EntityNotFoundException::new);
+        if (!transporteBD.getUnidadeDeProducao().getFornecedor().getIdUtilizador().equals(fornecedor.getIdUtilizador())) {
+            throw new ForbiddenActionException("Você não pode remover transportes nesta Unidade de Produção");
+        }
+        transporteBD.setActive(false);
+        return transporteRepository.save(transporteBD);
+    }
+
     //===========================DELETE===========================
 
     public void deleteTransporte(String fornecedorEmail, Integer transporteId) throws ForbiddenActionException {

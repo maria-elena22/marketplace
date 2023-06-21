@@ -107,6 +107,22 @@ public class TransporteControllerAPI {
         return modelMapper.map(transporteService.updateTransporte(securityUtils.getEmailFromAuthHeader(authorizationHeader), idTransporte, transporte), TransporteDTO.class);
     }
 
+    @PutMapping("/deactivate/{idTransporte}")
+    @Operation(summary = "deactivateTransporte",
+            description = "Remove um Transporte")
+    @Parameters(value = {
+            @Parameter(name = "idTransporte", description = "ID do Transporte a remover")})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação realizada com sucesso")
+    })
+    @SecurityRequirement(name = "Bearer Authentication")
+    @RolesAllowed({"FORNECEDOR"})
+    @CrossOrigin("*")
+    public void deactivateTransporte(@Parameter(hidden = true) @RequestHeader("Authorization") String authorizationHeader,
+                                          @PathVariable Integer idTransporte) throws JWTTokenMissingException, ForbiddenActionException {
+        transporteService.deactivateTransporte(securityUtils.getEmailFromAuthHeader(authorizationHeader), idTransporte);
+    }
+
     //===========================DELETE===========================
 
     @DeleteMapping("/{idTransporte}")

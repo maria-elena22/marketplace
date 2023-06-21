@@ -62,6 +62,16 @@ public class UniProdService {
         return uniProdRepository.save(uniProdBD);
     }
 
+    public UniProd deactivateUniProd(String fornecedorEmail, Integer idUniProd) throws ForbiddenActionException {
+        Fornecedor fornecedor = utilizadorService.findFornecedorByEmail(fornecedorEmail);
+        UniProd uniProdBD = uniProdRepository.findById(idUniProd).orElseThrow(EntityNotFoundException::new);
+        if (!uniProdBD.getFornecedor().getIdUtilizador().equals(fornecedor.getIdUtilizador())) {
+            throw new ForbiddenActionException("Você não é o dono desta unidade de produção");
+        }
+        uniProdBD.setActive(false);
+        return uniProdRepository.save(uniProdBD);
+    }
+
     public UniProd updateUniProdStock(String fornecedorEmail, Integer idUniProd, UniProd uniProd) throws ForbiddenActionException {
         Fornecedor fornecedor = utilizadorService.findFornecedorByEmail(fornecedorEmail);
         UniProd uniProdBD = uniProdRepository.findById(idUniProd).orElseThrow(EntityNotFoundException::new);

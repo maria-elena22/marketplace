@@ -1,6 +1,11 @@
 package com.fcul.marketplace.service;
 
+import com.fcul.marketplace.dto.categoria.SubCategoriaDTO;
+import com.fcul.marketplace.dto.produto.FullProdutoDTO;
+import com.fcul.marketplace.dto.uniProd.UniProdDTO;
 import com.fcul.marketplace.exceptions.ForbiddenActionException;
+import com.fcul.marketplace.exceptions.MissingPropertiesException;
+import com.fcul.marketplace.exceptions.TooMuchPropertiesException;
 import com.fcul.marketplace.model.*;
 import com.fcul.marketplace.repository.EncomendaRepository;
 import com.fcul.marketplace.repository.ProdutoRepository;
@@ -15,9 +20,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -36,12 +39,6 @@ public class ProdutoServiceTest {
     @Mock
     UtilizadorService utilizadorService;
 
-    @Mock
-    CategoriaService categoriaService;
-
-    @Mock
-    ModelMapper modelMapper;
-
     @InjectMocks
     ProdutoService produtoService;
 
@@ -55,54 +52,66 @@ public class ProdutoServiceTest {
     }
 
     @Test
-    public void testAddProduto() {
+    public void testUpdateUniProdStock() throws ForbiddenActionException {
         Fornecedor fornecedor = new Fornecedor();
         fornecedor.setIdUtilizador(1);
-        when(utilizadorService.findFornecedorByEmail(anyString())).thenReturn(fornecedor);
-
-        Categoria categoria = new Categoria();
-        SubCategoria subCategoria = new SubCategoria();
-        when(categoriaService.getSubCategoriaByID(anyInt())).thenReturn(subCategoria);
-
         UniProd uniProd = new UniProd();
         uniProd.setFornecedor(fornecedor);
-        when(uniProdService.getUniProdByID(anyInt())).thenReturn(uniProd);
-
-        Propriedade propriedade = new Propriedade();
-        when(categoriaService.getPropriedadeByID(anyInt())).thenReturn(propriedade);
-
-
         Produto produto = new Produto();
-        produto.setIdProduto(1);
+        produto.setIdProduto(4);
+
+        Stock stock = new Stock(produto,1);
+        List<Stock> stocks = new ArrayList<>();
+        stocks.add(stock);
+        uniProd.setStocks(stocks);
+
+        List<ProdutoFornecedorInfo> produtoFornecedorInfos = new ArrayList<>();
+        ProdutoFornecedorInfo produtoFornecedorInfo = new ProdutoFornecedorInfo(fornecedor, 1.0);
+        produtoFornecedorInfos.add(produtoFornecedorInfo);
+        produto.setPrecoFornecedores(produtoFornecedorInfos);
+
+        List<Produto> produtos = new ArrayList<>();
+        produtos.add(produto);
+        uniProd.setProdutos(produtos);
+
+
+        when(utilizadorService.findFornecedorByEmail(anyString())).thenReturn(fornecedor);
+        when(uniProdService.getUniProdByID(anyInt())).thenReturn(uniProd);
+        when(produtoRepository.findById(anyInt())).thenReturn(Optional.of(produto));
 
         when(produtoRepository.save(any())).thenReturn(produto);
 
-        when(produtoRepository.findById(anyInt())).thenReturn(Optional.of(produto));
-        assertEquals(produto,produtoService.getProdutoByID(1));
+        assertEquals(produto,produtoService.updateUniProdStock("test@test.com",2,10,4));
     }
 
-
-
-
     @Test
-    public void testGetSubItemByIdException() {
-        Fornecedor fornecedor1 = new Fornecedor();
-        fornecedor1.setActive(true);
-        Fornecedor fornecedor2 = new Fornecedor();
+    public void testUpdateUniProdStockException() throws ForbiddenActionException {
+        Fornecedor fornecedor = new Fornecedor();
+        fornecedor.setIdUtilizador(1);
+        UniProd uniProd = new UniProd();
+        uniProd.setFornecedor(fornecedor);
+        Produto produto = new Produto();
+        produto.setIdProduto(4);
 
-        SubEncomenda subEncomenda = new SubEncomenda();
-        SubItem subItem = new SubItem();
-        Item item = new Item();
+        Stock stock = new Stock(produto,1);
+        List<Stock> stocks = new ArrayList<>();
+        stocks.add(stock);
+        uniProd.setStocks(stocks);
 
-        subEncomenda.setFornecedor(fornecedor2);
-        item.setSubEncomenda(subEncomenda);
-        subItem.setItem(item);
+        List<ProdutoFornecedorInfo> produtoFornecedorInfos = new ArrayList<>();
+        produto.setPrecoFornecedores(produtoFornecedorInfos);
 
-//        when(utilizadorService.findFornecedorByEmail(anyString())).thenReturn(fornecedor1);
-//        when(subItemRepository.findById(anyInt())).thenReturn(Optional.of(subItem));
-//
-//        assertThrows(ForbiddenActionException.class, ()->encomendaService.getSubItemById("test@test.com",2));
+        List<Produto> produtos = new ArrayList<>();
+        produtos.add(produto);
+        uniProd.setProdutos(produtos);
 
+
+        when(utilizadorService.findFornecedorByEmail(anyString())).thenReturn(fornecedor);
+        when(uniProdService.getUniProdByID(anyInt())).thenReturn(uniProd);
+        when(produtoRepository.findById(anyInt())).thenReturn(Optional.of(produto));
+
+
+        assertThrows(ForbiddenActionException.class,()->produtoService.updateUniProdStock("test@test.com",2,10,4));
     }
 
 }

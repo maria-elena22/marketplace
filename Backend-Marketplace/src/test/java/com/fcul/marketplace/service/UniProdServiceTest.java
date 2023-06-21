@@ -5,6 +5,7 @@ import com.fcul.marketplace.model.*;
 import com.fcul.marketplace.repository.EncomendaRepository;
 import com.fcul.marketplace.repository.SubEncomendaRepository;
 import com.fcul.marketplace.repository.SubItemRepository;
+import com.fcul.marketplace.repository.UniProdRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,208 +27,80 @@ import static org.mockito.Mockito.when;
 public class UniProdServiceTest {
 
     @Mock
-    EncomendaRepository encomendaRepository;
-
-    @Mock
-    SubEncomendaRepository subEncomendaRepository;
-
-    @Mock
-    SubItemRepository subItemRepository;
+    UniProdRepository uniProdRepository;
 
     @Mock
     UtilizadorService utilizadorService;
 
-
     @InjectMocks
-    EncomendaService encomendaService;
+    UniProdService uniProdService;
 
     @Test
-    public void testGetSubEncomendaById() throws ForbiddenActionException {
-        Fornecedor fornecedor = new Fornecedor();
-        SubEncomenda subEncomenda = new SubEncomenda();
-        subEncomenda.setFornecedor(fornecedor);
-
-        when(utilizadorService.findFornecedorByEmail(anyString())).thenReturn(fornecedor);
-        when(subEncomendaRepository.findById(anyInt())).thenReturn(Optional.of(subEncomenda));
-
-        assertEquals(subEncomenda,encomendaService.getSubEncomendaById("test@test.com",2));
-    }
-
-
-    @Test
-    public void testGetSubEncomendaByIdException(){
-        Fornecedor fornecedor1 = new Fornecedor();
-        fornecedor1.setActive(true);
-        SubEncomenda subEncomenda =new SubEncomenda();
-        Fornecedor fornecedor2 = new Fornecedor();
-        fornecedor2.setActive(false);
-        subEncomenda.setFornecedor(fornecedor2);
-
-        when(utilizadorService.findFornecedorByEmail(anyString())).thenReturn(fornecedor1);
-        when(subEncomendaRepository.findById(anyInt())).thenReturn(Optional.of(subEncomenda));
-
-        assertThrows(ForbiddenActionException.class, ()->encomendaService.getSubEncomendaById("test@test.com",2));
-    }
-
-
-    @Test
-    public void testGetEncomendas(){
-        Consumidor consumidor = new Consumidor();
-        consumidor.setIdUtilizador(1);
-        List<Encomenda> encomendas = new ArrayList<>();
-        Encomenda encomenda = new Encomenda();
-        encomendas.add(encomenda);
-
-        when(utilizadorService.findConsumidorByEmail(anyString())).thenReturn(consumidor);
-        when(encomendaRepository.findAllOpt(anyInt(),anyDouble(),anyDouble(),any(),any(),any(),any())).thenReturn(encomendas);
-
-        assertEquals(encomendas,encomendaService.getEncomendas("test@test.com",1.0,1.0, null,null,null,null, null, null,null));
-    }
-
-
-    @Test
-    public void testGetAllSubEncomendas(){
-        List<SubEncomenda> subEncomendas = new ArrayList<>();
-        SubEncomenda subEncomenda = new SubEncomenda();
-        subEncomendas.add(subEncomenda);
-
-        when(subEncomendaRepository.findAll()).thenReturn(subEncomendas);
-
-        assertEquals(subEncomendas,encomendaService.getAllSubEncomendas());
-    }
-
-    @Test
-    public void testGetEncomendaById() throws ForbiddenActionException {
-        Consumidor consumidor = new Consumidor();
-
-        Encomenda encomenda = new Encomenda();
-        List<Encomenda> encomendas = new ArrayList<>();
-        encomendas.add(encomenda);
-        consumidor.setEncomendas(encomendas);
-
-        when(utilizadorService.findConsumidorByEmail(anyString())).thenReturn(consumidor);
-        when(encomendaRepository.findById(anyInt())).thenReturn(Optional.of(encomenda));
-
-        assertEquals(encomenda,encomendaService.getEncomendaById("test@test.com",2));
-    }
-
-
-    @Test
-    public void testGetEncomendaByIdException(){
-        Consumidor consumidor1 = new Consumidor();
-        Encomenda encomenda =new Encomenda();
-        List<Encomenda> encomendas = new ArrayList<>();
-        consumidor1.setEncomendas(encomendas);
-
-        Consumidor consumidor2 = new Consumidor();
-        encomenda.setConsumidor(consumidor2);
-
-        when(utilizadorService.findConsumidorByEmail(anyString())).thenReturn(consumidor1);
-        when(encomendaRepository.findById(anyInt())).thenReturn(Optional.of(encomenda));
-
-        assertThrows(ForbiddenActionException.class, ()->encomendaService.getEncomendaById("test@test.com",2));
-    }
-
-
-    @Test
-    public void testGetSubItemById() throws ForbiddenActionException {
-        Fornecedor fornecedor = new Fornecedor();
-
-        SubItem subItem = new SubItem();
-        Item item = new Item();
-        SubEncomenda subEncomenda = new SubEncomenda();
-        subEncomenda.setFornecedor(fornecedor);
-        item.setSubEncomenda(subEncomenda);
-        subItem.setItem(item);
-
-
-        when(utilizadorService.findFornecedorByEmail(anyString())).thenReturn(fornecedor);
-        when(subItemRepository.findById(anyInt())).thenReturn(Optional.of(subItem));
-
-        assertEquals(subItem,encomendaService.getSubItemById("test@test.com",2));
-    }
-
-
-    @Test
-    public void testGetSubItemByIdException(){
-        Fornecedor fornecedor1 = new Fornecedor();
-        fornecedor1.setActive(true);
-        Fornecedor fornecedor2 = new Fornecedor();
-
-        SubEncomenda subEncomenda = new SubEncomenda();
-        SubItem subItem = new SubItem();
-        Item item = new Item();
-
-        subEncomenda.setFornecedor(fornecedor2);
-        item.setSubEncomenda(subEncomenda);
-        subItem.setItem(item);
-
-        when(utilizadorService.findFornecedorByEmail(anyString())).thenReturn(fornecedor1);
-        when(subItemRepository.findById(anyInt())).thenReturn(Optional.of(subItem));
-
-        assertThrows(ForbiddenActionException.class, ()->encomendaService.getSubItemById("test@test.com",2));
-    }
-
-
-    @Test
-    public void testGetSubEncomendas(){
-        Fornecedor fornecedor = new Fornecedor();
-        fornecedor.setIdUtilizador(1);
-
-        List<SubEncomenda> subEncomendas = new ArrayList<>();
-        SubEncomenda subEncomenda = new SubEncomenda();
-        subEncomendas.add(subEncomenda);
-
-        when(utilizadorService.findFornecedorByEmail(anyString())).thenReturn(fornecedor);
-        when(subEncomendaRepository.findAllOpt(anyInt(),anyDouble(),anyDouble(),any(),any(),any(),any())).thenReturn(subEncomendas);
-
-        assertEquals(subEncomendas,encomendaService.getSubEncomendas("test@test.com",1.0,1.0, null,null,null,null, null, null,null));
-    }
-
-    @Test
-    public void testGetSubEncomendasByFornecedorEmail(){
+    public void testGetUniProds() {
         Fornecedor fornecedor = new Fornecedor();
         fornecedor.setEmail("test@test.com");
 
-        List<SubEncomenda> subEncomendas = new ArrayList<>();
-        SubEncomenda subEncomenda = new SubEncomenda();
-        subEncomenda.setFornecedor(fornecedor);
-        subEncomendas.add(subEncomenda);
-
-        when(subEncomendaRepository.findByFornecedorEmail(anyString())).thenReturn(subEncomendas);
-
-        assertEquals(subEncomendas,encomendaService.getSubEncomendasByFornecedorEmail("test@test.com"));
-    }
-
-    @Test
-    public void testGetSubEncomendasByConsumidorEmail(){
-        Consumidor consumidor = new Consumidor();
-        consumidor.setEmail("test@test.com");
-
-        List<SubEncomenda> subEncomendas = new ArrayList<>();
-        SubEncomenda subEncomenda = new SubEncomenda();
-        Encomenda encomenda = new Encomenda();
-        encomenda.setConsumidor(consumidor);
-        subEncomenda.setEncomenda(encomenda);
-        subEncomendas.add(subEncomenda);
-
-        when(subEncomendaRepository.findByEncomendaConsumidorEmail(anyString())).thenReturn(subEncomendas);
-
-        assertEquals(subEncomendas,encomendaService.getSubEncomendasByConsumidorEmail("test@test.com"));
-    }
-
-    @Test
-    public void testGetSubItensNaoEntregues(){
-        Fornecedor fornecedor = new Fornecedor();
-        fornecedor.setIdUtilizador(1);
-
-        Page<SubItem> subItems = new PageImpl<>(new ArrayList<>());
+        List<UniProd> uniProds = new ArrayList<>();
+        UniProd uniProd = new UniProd();
+        uniProds.add(uniProd);
+        Page<UniProd> uniProdPage = new PageImpl<>(uniProds);
 
         when(utilizadorService.findFornecedorByEmail(anyString())).thenReturn(fornecedor);
-        when(subItemRepository.getSubItensNaoEntregues(anyInt(),any())).thenReturn(subItems);
+        when(uniProdRepository.findByOpt(any(),anyString(),any())).thenReturn(uniProdPage);
 
-        assertEquals(subItems.getContent(),encomendaService.getSubItensNaoEntregues("test@test.com",null,null,null,null));
+        assertEquals(uniProds,uniProdService.getUniProds("test@test.com","",null, null,null,null));
     }
 
+    @Test
+    public void testGetUniProdById() {
+        UniProd uniProd = new UniProd();
+        uniProd.setIdUnidade(1);
+
+        when(uniProdRepository.findById(anyInt())).thenReturn(Optional.of(uniProd));
+
+        assertEquals(uniProd,uniProdService.getUniProdByID(1));
+    }
+
+    @Test
+    public void testAddUniProd() {
+        Fornecedor fornecedor = new Fornecedor();
+        fornecedor.setIdUtilizador(1);
+        fornecedor.setEmail("test@test.com");
+
+
+        UniProd uniProd = new UniProd();
+        UniProd uniProdBD = new UniProd();
+        uniProdBD.setFornecedor(fornecedor);
+        uniProdBD.setActive(true);
+
+        when(utilizadorService.findFornecedorByEmail(anyString())).thenReturn(fornecedor);
+        when(uniProdRepository.save(any())).thenReturn(uniProdBD);
+
+        assertEquals(uniProdBD,uniProdService.addUniProd("test@test.com",uniProd));
+
+    }
+
+    @Test
+    public void testUpdateUniProd() throws ForbiddenActionException {
+        Fornecedor fornecedor = new Fornecedor();
+        fornecedor.setIdUtilizador(1);
+        fornecedor.setEmail("test@test.com");
+
+        UniProd uniProdNova = new UniProd();
+        uniProdNova.setNomeUniProd("u1");
+
+        UniProd uniProdAntiga = new UniProd();
+        uniProdAntiga.setFornecedor(fornecedor);
+        uniProdAntiga.setNomeUniProd("u2");
+        UniProd uniProdAtualizada = new UniProd();
+        uniProdAtualizada.setNomeUniProd("u1");
+
+        when(uniProdRepository.findById(any())).thenReturn(Optional.of(uniProdAntiga));
+        when(utilizadorService.findFornecedorByEmail(anyString())).thenReturn(fornecedor);
+        when(uniProdRepository.save(any())).thenReturn(uniProdAtualizada);
+
+        assertEquals(uniProdAtualizada,uniProdService.updateUniProd("test@test.com",1,uniProdNova));
+
+    }
 
 }
