@@ -10306,20 +10306,14 @@ a:focus {
     display: flex
 }
 
-#wrapper #sidebarEU {
-    width: 20%;
-    margin-right: 0%;
-    padding: 0%;
-}
-
 #wrapper #content-wrapper {
-    background-color: #f8f9fc;
+    background-color: white;
     width: 100%;
     overflow-x: hidden
 }
 
 #wrapper #content-wrapper #content {
-    flex: 1
+    flex: 1 0 auto
 }
 
 .container,
@@ -11945,4 +11939,10 @@ p {
     background-color: #1cc88a;
     border-color: #1cc88a;
     border-radius: 1px
+}
+
+#wrapper #sidebarEU {
+    width: 20%;
+    margin-right: 0%;
+    padding: 0%;
 }
