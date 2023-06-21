@@ -47,6 +47,7 @@ export class AppComponent implements OnInit{
   ngOnInit(): void {
     this.getDecodedToken()
     this.getDetalhesUser()
+    this.toggleNotifs()
     if(this.user){
       this.utilizadorService.getNotificacoesNum().subscribe(obj=>{
         const statusCode = obj.status

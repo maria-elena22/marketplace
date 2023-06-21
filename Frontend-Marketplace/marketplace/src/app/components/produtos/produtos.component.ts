@@ -856,7 +856,7 @@ export class ProdutosComponent implements OnInit {
     }
   );
 
-  
+  this.produtoForm.reset();
 
   } 
 
