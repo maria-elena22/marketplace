@@ -31,8 +31,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="d-flex flex-row align-items-center">
-                                                    <div style="width: 50px;">
+                                                    <div style="width: 120px; margin-right: 50px;">
                                                         <h5 class="fw-normal mb-0">{{item.quantidade}}x</h5>
+                                                        <!-- <input style="width: 50%;" min="0" max="100" step="1" type="number" id="quantidade" formControlName="quantidade" required value={{item.quantidade}}> &nbsp;<h5 style="display: inline-block">x</h5> -->
                                                     </div>
                                                     <div style="width: 80px;">
                                                         <h5 class="mb-0">{{item.preco}}€</h5>
@@ -88,7 +89,7 @@
     <div class="modal-container">
         <button class="modal-close-btn" (click)="toggleAnswer()">Close</button>
         <br>
-        
+
       <h2 [style.color]="success ? 'green' : 'red'" class="modal-title">{{answer}}</h2>
       <a href="/marketplace/login" style="margin-right: 45%;">Faça Login!</a>
     </div>
