@@ -35,7 +35,8 @@
                                             </div>
                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <label for="idFiscal">Id Fiscal:</label>
-                                                <input (focus)="startIdFiscal= true" (blur)="startIdFiscal = false" (input)="onIdFiscalInput($event)"  minlength="9" maxlength="9" formControlName="idFiscal" type="idFiscal" class="form-control form-control-user" id="idFiscal" placeholder="Id Fiscal" required>
+                                                <!-- (blur)="startIdFiscal = false" -->
+                                                <input (focus)="startIdFiscal= true" (input)="onIdFiscalInput($event)"  minlength="9" maxlength="9" formControlName="idFiscal" type="idFiscal" class="form-control form-control-user" id="idFiscal" placeholder="Id Fiscal" required>
                                             </div>
                                             <div class="idFiscalCheck" *ngIf="startIdFiscal ">
                                                 <a [style.color]="numerosId&&!letrasId ? 'green' : 'red'">O idFiscal só pode conter números</a><br>
@@ -43,7 +44,8 @@
                                             </div>
                                             <div class="col-sm-5 mb-3 mb-sm-0" style="margin-top:3%">
                                                 <label for="tlmv">Contacto:</label>
-                                                <input (focus)="startContacto= true" (blur)="startContacto = false" (input)="onContactoInput($event)"  minlength="9" maxlength="9" formControlName="telemovel" type="text" class="form-control form-control-user" id="contacto" placeholder="Contacto" required>
+                                                <!-- (blur)="startContacto = false" -->
+                                                <input (focus)="startContacto= true" (input)="onContactoInput($event)"  minlength="9" maxlength="9" formControlName="telemovel" type="text" class="form-control form-control-user" id="contacto" placeholder="Contacto" required>
                                             </div>
                                             <div class="col-sm-7 mb-3 mb-sm-0 idContacto" *ngIf="startContacto ">
                                                 <a [style.color]="numerosContacto&&!letrasContacto ? 'green' : 'red'">O contacto só pode conter números</a><br>
@@ -87,7 +89,8 @@
 
                                        <div class="form-group">
                                             <label for="email">Email:</label>
-                                            <input  (focus)="startEmail = true" (blur)="startEmail = false" (input)="onEmailInput($event)" formControlName="email" type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="E-mail" required>
+                                            <!-- (blur)="startEmail = false" -->
+                                            <input  (focus)="startEmail = true" (input)="onEmailInput($event)" formControlName="email" type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="E-mail" required>
                                             <div class="col-sm-8 mb-3 mb-sm-0" *ngIf="startEmail " style="font-size:x-small;margin-top: 20px;">
                                                 <a style="margin-left: 20px;" [style.color]="finalEmail ? 'green' : 'red'">Email válido:</a><br>
                                                 <a style="margin-left: 20px;" [style.color]="simboloEmail ? 'green' : 'red'">Email tem @ </a><br>
@@ -97,7 +100,8 @@
                                         <div class="form-group row">
                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <label for="pass">Palavra-passe:</label>
-                                                <input (focus)="startPassword = true" (blur)="startPassword = false" (input)="onPasswordInput($event)" formControlName="password" type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Palavra-passe" required>
+                                                <!-- (blur)="startPassword = false"  -->
+                                                <input (focus)="startPassword = true" (input)="onPasswordInput($event)" formControlName="password" type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Palavra-passe" required>
                                             </div>
                                             <div class="col-sm-6 mb-3 mb-sm-0" *ngIf="startPassword " style="font-size:x-small;margin-top: 20px;">
                                                 <a>Palavra passe tem de conter: </a><br>
