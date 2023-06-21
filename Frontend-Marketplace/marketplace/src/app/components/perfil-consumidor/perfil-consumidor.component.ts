@@ -109,6 +109,10 @@ export class PerfilConsumidorComponent implements OnInit {
     return this.http.get<any>(url, { headers, observe: 'response' });
   }
 
+  getLetra(){
+    return this.utilizador.nome?.charAt(0);
+  }
+
   onPageRefresh(event: BeforeUnloadEvent): void {
     this.refresh();
   }

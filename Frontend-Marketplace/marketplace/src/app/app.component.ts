@@ -81,6 +81,10 @@ export class AppComponent implements OnInit{
 
   showNotifs=false
 
+  abreNotif(){
+    this.showNotifs = true;
+  }
+
   toggleNotifs() {
     if(!this.showNotifs){
       //fazer get das notificacoes
