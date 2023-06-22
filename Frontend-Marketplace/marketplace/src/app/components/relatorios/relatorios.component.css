@@ -80,46 +80,102 @@
 }
 
 
+@media (min-width:374px) and (max-width:450px){
+  .sidebar{
+    width: 50%;
 
+  }
+  .caixa{
+
+    width: 90%;
+    max-width: 100%;
+    position: relative;
+    display: block;
+    top:85%;
+    right: 60%;
+    transform: scale(0.8);
+
+  }
+  .grafico{
+    position: relative;
+    right: 28%;
+    width: 150%;
+    max-width: 576px;
+  }
+  .tab-container{
+    transform: scale(0.7);
+    left: 10%;
+    margin: 0;
+
+  }
+
+}
 
 @media (max-width: 576px) {
-  .modal-container {
 
-  background-color: #fff;
+  .sidebar{
+    width: 50%;
 
-  border-radius: 5px;
-  width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 20px;
-
-  text-align: center;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow-y: auto; /* Add this line to enable vertical scrolling */
-  max-height: 100%; /* Optional: Set a max-height to limit the scrollable area */
   }
+  .caixa{
+
+    width: 90%;
+    max-width: 100%;
+    position: relative;
+    display: block;
+    top:77%;
+    right: 60%;
+    transform: scale(0.8);
+
+  }
+  .grafico{
+    position: relative;
+    right: 28%;
+    width: 150%;
+    max-width: 576px;
+  }
+  .tab-container{
+    transform: scale(0.7);
+    left: 10%;
+    margin: 0;
+
+  }
+
 }
 
 @media (min-width:576px) and (max-width: 768px) {
-  .modal-container {
+  .sidebar{
+    width: 50%;
 
-    background-color: #fff;
+  }
+  .caixa{
 
-    border-radius: 5px;
+    width: 90%;
+    max-width: 100%;
+    position: relative;
+    display: block;
+    top:90%;
+    right: 50%;
+    transform: scale(0.7);
+
+  }
+  .grafico{
+    position: relative;
+    right: 25%;
+    width: 150%;
+    max-width: 400px;
+  }
+  .tab-container{
+    transform: scale(0.7);
+    left: 10%;
+    margin: 0;
+
+  }
+  /* #wrapper{
     width: 100%;
     max-width: 100%;
-    margin: 0 auto;
-    padding: 20px;
-
-    text-align: center;
-    position: relative;
     display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow-y: auto; /* Add this line to enable vertical scrolling */
-    max-height: 100%; /* Optional: Set a max-height to limit the scrollable area */
-    }
+
+  } */
+
 }
