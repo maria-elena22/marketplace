@@ -318,7 +318,6 @@ export class TransportesComponent implements OnInit{
             this.nextButtonDisabled = true
             this.getTransportes(this.page)
           }
-          console.log(this.transportes)
         }
 
     } else {

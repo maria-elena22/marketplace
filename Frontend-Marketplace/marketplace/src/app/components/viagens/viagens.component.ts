@@ -35,8 +35,9 @@ export class ViagensComponent implements OnInit{
   showAnswer = false
   answer:string
   success:boolean
+  viagemId: number;
 
-
+  proximasViagens: number;
 
   constructor(private uniProdService:UniProdsService,private formBuilder: FormBuilder, private appComponent:AppComponent,
               private route: ActivatedRoute, private viagemService:ViagemService, private router:Router, private utilizadorService:UtilizadorService){}
@@ -45,10 +46,11 @@ export class ViagensComponent implements OnInit{
     if(this.appComponent.token && this.appComponent.role !== 'ROLE_ADMIN'){
       this.utilizadorService.getDetalhesUser()?.subscribe()
     }
-
     this.route.params.subscribe(params => {
+      this.viagemId = JSON.parse(params['id']);
       this.getTransporte(JSON.parse(params['id']))!
-      this.getViagens(JSON.parse(params['id']))
+      this.getProximasViagens(JSON.parse(params['id']), this.page + 1);
+      this.getViagens(JSON.parse(params['id']), this.page)
       
     });
     
@@ -61,7 +63,7 @@ export class ViagensComponent implements OnInit{
 
 
   getTransporte(id:number){
-    this.uniProdService.getTransportes(undefined,undefined,this.page).subscribe(obj=>{
+    this.uniProdService.getTransportes(undefined,undefined,0,999999999).subscribe(obj=>{
       const statusCode = obj.status
       if (statusCode === 200) {
         const transportes = obj.body as TransporteDTO[];
@@ -120,13 +122,33 @@ export class ViagensComponent implements OnInit{
     this.showAnswer = true 
   }
 
+  getProximasViagens(idTransporte:number, page: number){
+    this.viagemService.getViagens(idTransporte, page).subscribe(obj=>{
+      const statusCode = obj.status
+      if (statusCode === 200) {
+        let viagens = obj.body as ViagemDTO[];
+        this.proximasViagens = viagens.length
+        if(this.proximasViagens == 0){
+          this.nextButtonDisabled = true;
+        }
+    } else {
+        this.error = obj.body as Error;
+        //chamar pop up
+    }
+    })
+  }
     
-  getViagens(idTransporte:number){
-    this.viagemService.getViagens(idTransporte).subscribe(obj=>{
+  getViagens(idTransporte:number, page:number){
+    this.viagemService.getViagens(idTransporte, 0, 999999999).subscribe(obj=>{
       const statusCode = obj.status
       if (statusCode === 200) {
         this.viagens = obj.body as ViagemDTO[];
         this.getSubItemsNaoEntregues()
+        if(this.viagens.length ===0 && this.page>0){
+          this.page -=1
+          this.nextButtonDisabled = true
+          this.getViagens(this.viagemId,this.page)
+        }
     } else {
         this.error = obj.body as Error;
         //chamar pop up
@@ -192,40 +214,37 @@ export class ViagensComponent implements OnInit{
   }
 
   terminarViagem(){
-
-
     for(let subItem of this.viagemDestaque?.subItems!){
       if(this.subItemEstaEntregue(subItem.idSubItem!) === "Por Entregar"){
         this.entregarSubItem(subItem.idSubItem!)
       }
     }
 
-    
-
   }
 
   nextPage(){
     this.page +=1
-    this.getTransportes()
-      const state = { page: 'transportes' };
-      const url = '/marketplace/transportes';
-      this.previousButtonDisabled = false
-      window.history.pushState(state, url);
-      
-
-    //}
-    
+    this.getProximasViagens(this.viagemId, this.page + 1)
+    this.getViagens(this.viagemId,this.page)
+    const state = { page: 'viagens' };
+    const url = '/marketplace/viagens';
+    this.previousButtonDisabled = false
+    window.history.pushState(state, url);
   }
+
   previousPage(){
     this.page -=1
-    if(this.page<0){  
+    this.getProximasViagens(this.viagemId, this.page - 1)
+    if(this.page<=0){  
       this.page += 1
+      this.getViagens(this.viagemId, this.page - 1)
       this.previousButtonDisabled = true
+      this.nextButtonDisabled = false;
 
     } else{
-      this.getTransportes()
-      const state = { page: 'transportes' };
-      const url = '/marketplace/transportes';
+      this.getViagens(this.viagemId, this.page)
+      const state = { page: 'viagens' };
+      const url = '/marketplace/viagens';
       this.nextButtonDisabled = false
       window.history.pushState(state, url);
 
@@ -241,7 +260,6 @@ export class ViagensComponent implements OnInit{
           ${this.appComponent.user?.distrito}, ${this.appComponent.user?.municipio}, ${this.appComponent.user?.freguesia}`
   }
     
-
 
   getTransportes(){
     this.uniProdService.getTransportes(undefined,undefined,this.page).subscribe(obj=>{
