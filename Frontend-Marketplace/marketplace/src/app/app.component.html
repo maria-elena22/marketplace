@@ -34,7 +34,7 @@
 
 
             <li *ngIf="role === 'ROLE_ADMIN'" ngbDropdown class="nav-item dropdown d-flex">
-                <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding-right: 2%;"><i class="bi bi-person-square"></i>&nbsp; Admin</a>
+                <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding:0 20px 3px 0;"><i class="bi bi-person-square"></i>&nbsp; Admin</a>
                 <ul ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
 
                     <li style="cursor: pointer;" ngbDropdownItem><a class="dropdown-item" (click)="logout()">Logout</a></li>
@@ -45,7 +45,7 @@
                 <a *ngIf="role &&user" ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding:0 20px 3px 0;"><i class="bi bi-person-square"></i>&nbsp; {{user!.nome}}</a>
                 <ul ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <li style="cursor: pointer;" ngbDropdownItem><a class="dropdown-item" routerLink="/marketplace/perfil-consumidor" (click)="goToPerfil()">Perfil</a></li>
-                        <li style="cursor: pointer;" ngbDropdownItem><a class="dropdown-item" (click)="abreNotif()">Notificações</a>
+                    <li style="cursor: pointer;" ngbDropdownItem><a class="dropdown-item" (click)="abreNotif()">Notificações</a>
                         <p *ngIf="numNotifs > 0 " class="notifCount">{{numNotifs}}</p>
                     </li>
 
@@ -57,13 +57,13 @@
             </li>
 
             <li *ngIf="!role" ngbDropdown class="nav-item dropdown d-flex">
-                <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding-right: 2%;"><i class="bi bi-person-square" ></i></a>
+                <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding:0 20px 3px 0;"><i class="bi bi-person-square" ></i></a>
                 <ul ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li ngbDropdownItem><a class="dropdown-item" routerLink='/marketplace/login' >Login</a></li>
+                    <li ngbDropdownItem><a class="dropdown-item" routerLink='/marketplace/login'>Login</a></li>
                     <li>
                         <hr class="dropdown-divider" />
                     </li>
-                    <li ngbDropdownItem><a class="dropdown-item" routerLink='/marketplace/register' >Registo</a></li>
+                    <li ngbDropdownItem><a class="dropdown-item" routerLink='/marketplace/register'>Registo</a></li>
                 </ul>
             </li>
             &nbsp; &nbsp;
@@ -183,7 +183,9 @@
             <li> {{notif.mensagem}}
                 <button *ngIf="role === 'ROLE_FORNECEDOR'" class="btn btn-outline-secondary" (click)="showEncomenda(notif.subEncomenda?.idSubEncomenda!)"> {{notif.subEncomenda?.idSubEncomenda}}</button>
                 <button *ngIf="role === 'ROLE_CONSUMIDOR'" class="btn btn-outline-secondary" (click)="showEncomenda(notif.subEncomenda?.encomenda!.idEncomenda!)">{{notif.subEncomenda?.encomenda!.idEncomenda}}</button> &nbsp;
-                <a (click)="entregarNotif(notif.idNotificacao!)" style="cursor: pointer;"><mat-icon style="vertical-align: text-bottom; color: #c91527;">delete</mat-icon></a>
+                <a (click)="entregarNotif(notif.idNotificacao!)" style="cursor: pointer;">
+                    <mat-icon style="vertical-align: text-bottom; color: #c91527;">delete</mat-icon>
+                </a>
             </li>
 
         </ul>

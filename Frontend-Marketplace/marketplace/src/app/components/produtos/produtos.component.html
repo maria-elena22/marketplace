@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 
-<div *ngIf="role === 'ROLE_FORNECEDOR'" style="margin-left: 70%;" class="mt-3">
+<div *ngIf="role === 'ROLE_FORNECEDOR'" style=" margin:0px 10px;" class="mt-3">
 
-    <button class=" btn btn-outline-dark" *ngIf="meusProdutos.length>0" (click)="verTodosProdutos()">Todos os produtos</button> &nbsp;
-    <button class=" btn btn-outline-dark" *ngIf="meusProdutos.length===0" (click)="verMeusProdutos(-1,-1)">Meus produtos</button> &nbsp;
-    <button class=" btn btn-outline-dark" (click)="toggleModal()">Adicionar Produto</button>
+    <button class=" btn btn-outline-dark" *ngIf="meusProdutos.length>0" (click)="verTodosProdutos()" style="display: inline-block;">Todos os produtos</button> &nbsp;
+    <button class=" btn btn-outline-dark" *ngIf="meusProdutos.length===0" (click)="verMeusProdutos(-1,-1)" style="display: inline-block;">Meus produtos</button> &nbsp;
+    <button class=" btn btn-outline-dark" (click)="toggleModal()" style="display: inline-block;">Adicionar Produto</button>
 
 </div>
 
@@ -16,7 +16,7 @@
         <div class="mt0">
             <b><p style="font-size: 25px; margin-left: 0.5%;">Pesquisar por:</p></b> &nbsp; &nbsp;&nbsp;
             <label for="fornecedor"><b>Nome do Produto:</b></label> &nbsp;
-            <input type="text" formControlName="nomeProduto" class="form-control form-control-user d-inline-block" style="width:15%;"> &nbsp; <label for="precoMin"><b>Preço Mínimo:</b></label> &nbsp;
+            <input type="text" formControlName="nomeProduto" class="form-control form-control-user d-inline-block" style="width:10%;"> &nbsp; <label for="precoMin"><b>Preço Mínimo:</b></label> &nbsp;
             <input type="number" id="precoMin" formControlName="precoMin" step="0.01" min="0" class="form-control form-control-user d-inline-block" style="width:10%;"> &nbsp; <label for="precoMax"><b>Preço Máximo:</b></label> &nbsp;
             <input type="number" id="precoMax" formControlName="precoMax" step="0.01" min="0" class="form-control form-control-user d-inline-block" style="width:10%;"> &nbsp;&nbsp; <label for="fornecedor"><b>Propriedade:</b></label> &nbsp;
             <input type="text" formControlName="propriedade" class="form-control form-control-user d-inline-block" style="width:10%;"> &nbsp;
@@ -32,22 +32,22 @@
 
 
 <div class="deus" *ngIf="prodComparar1||prodComparar2">
-  <div class="comparison-container">
+    <div class="comparison-container">
 
-    <p>Produtos a comparar:</p>
-    <div *ngIf="prodComparar1">
-        {{prodComparar1.nome}}
-        <a (click)="removeComparar(1)"><i style="padding: 1%;cursor: pointer;" class="fa fa-times" aria-hidden="true"></i></a>
+        <p>Produtos a comparar:</p>
+        <div *ngIf="prodComparar1">
+            {{prodComparar1.nome}}
+            <a (click)="removeComparar(1)"><i style="padding: 1%;cursor: pointer;" class="fa fa-times" aria-hidden="true"></i></a>
 
+        </div>
+        <div *ngIf="prodComparar2">
+            {{prodComparar2.nome}}
+            <a (click)="removeComparar(2)"><i style="padding: 1%;cursor: pointer;" class="fa fa-times" aria-hidden="true"></i></a>
+
+        </div>
+        <button (click)="removeDivComparar()" class="btn btn-secondary mt-1">FECHAR</button> &nbsp;&nbsp;
+        <button *ngIf="prodComparar1&&prodComparar2" (click)="comparar()" class="btn btn-warning mt-1">Ver Comparação</button>
     </div>
-    <div *ngIf="prodComparar2">
-        {{prodComparar2.nome}}
-        <a (click)="removeComparar(2)"><i style="padding: 1%;cursor: pointer;" class="fa fa-times" aria-hidden="true"></i></a>
-
-    </div>
-    <button (click)="removeDivComparar()" class="btn btn-secondary mt-1">FECHAR</button> &nbsp;&nbsp;
-    <button *ngIf="prodComparar1&&prodComparar2" (click)="comparar()" class="btn btn-warning mt-1">Ver Comparação</button>
-  </div>
 </div>
 
 
@@ -78,14 +78,14 @@
                     </div>
                     <!-- Carrinho -->
                     <div [class.disabled]="!produto.precoFornecedores" *ngIf="role!=='ROLE_FORNECEDOR' && role!=='ROLE_ADMIN'" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                      <div class="text-center row">
-                        <div class="col-sm-6 mb-3">
-                          <a class="btn btn-outline-info mt-auto btn-responsive" (click)="showAddCarrinho(produto)">Carrinho</a>
+                        <div class="text-center row">
+                            <div class="col-sm-6 mb-3">
+                                <a class="btn btn-outline-info mt-auto btn-responsive" (click)="showAddCarrinho(produto)">Carrinho</a>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <a (click)="showDetalheProduto(produto.idProduto!)" routerLink="/marketplace/produto-detalhes" routerLinkActive="active" ariaCurrentWhenActive="page" class="btn btn-outline-primary mt-auto btn-responsive">Ver mais</a>
+                            </div>
                         </div>
-                        <div class="col-sm-6 mb-3">
-                          <a (click)="showDetalheProduto(produto.idProduto!)" routerLink="/marketplace/produto-detalhes" routerLinkActive="active" ariaCurrentWhenActive="page" class="btn btn-outline-primary mt-auto btn-responsive">Ver mais</a>
-                        </div>
-                      </div>
                     </div>
 
                     <div *ngIf="role==='ROLE_FORNECEDOR'" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
@@ -97,19 +97,19 @@
 
                     <div class="card-overlay">
 
-                      <div class="overlay-text text-center">
-                        <h5>Fornecedores: &nbsp;</h5>
-                        <div class="fornecedores" *ngIf="produto.precoFornecedores && produto.precoFornecedores.length > 0">
-                          <div class="text-center" *ngFor="let pf of produto.precoFornecedores; let i = index">
-                            <ng-container *ngIf="i < 2 || produto.precoFornecedores.length <= 2">
-                              <p>{{ pf.fornecedor?.nome }} - {{ pf.preco?.toFixed(2) }}€</p>
-                            </ng-container>
-                          </div>
-                          <div *ngIf="produto.precoFornecedores.length > 2">
-                            <p>Mais fornecedores em <a (click)="showDetalheProduto(produto.idProduto!)" routerLink="/marketplace/produto-detalhes" class="active" style="display: inline;">ver mais</a></p>
-                          </div>
+                        <div class="overlay-text text-center">
+                            <h5>Fornecedores: &nbsp;</h5>
+                            <div class="fornecedores" *ngIf="produto.precoFornecedores && produto.precoFornecedores.length > 0">
+                                <div class="text-center" *ngFor="let pf of produto.precoFornecedores; let i = index">
+                                    <ng-container *ngIf="i < 2 || produto.precoFornecedores.length <= 2">
+                                        <p>{{ pf.fornecedor?.nome }} - {{ pf.preco?.toFixed(2) }}€</p>
+                                    </ng-container>
+                                </div>
+                                <div *ngIf="produto.precoFornecedores.length > 2">
+                                    <p>Mais fornecedores em <a (click)="showDetalheProduto(produto.idProduto!)" routerLink="/marketplace/produto-detalhes" class="active" style="display: inline;">ver mais</a></p>
+                                </div>
+                            </div>
                         </div>
-                      </div>
 
                     </div>
                 </div>
