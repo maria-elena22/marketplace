@@ -164,9 +164,9 @@ tr.different {
 
 @media (max-width: 576px) {
   .modal-container {
-    width: 75%;
+    width: 100%;
 
-    padding: 15px; /* Adjust the padding for smaller screens */
+    padding: 10px;
   }
 
   .butoes{
@@ -175,7 +175,7 @@ tr.different {
   }
 
   .comparison-container {
-    width: 80%;
+    width: 100%;
     padding: 2%;
     left: 50%;
     top: 50%;
