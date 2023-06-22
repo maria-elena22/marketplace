@@ -20,9 +20,8 @@ export class TransportesComponent implements OnInit{
   selectedTransporteId?: string;
   itensNaoEntregues?: ItemInfoDTO[];
   itensParaEntregar:SubItemViagemDTO[] = [];
-  checkedItems: ItemViagemDTO[] = []
-  transporteEscolhido :TransporteDTO;
-  editarForm: FormGroup;
+  checkedItems: ItemViagemDTO[] = [];
+  trans: TransporteDTO
 
   page = 0
   previousButtonDisabled = true
@@ -30,6 +29,7 @@ export class TransportesComponent implements OnInit{
   error?:Error;
   showModal: boolean = false;
   showNovaViagem:boolean=false
+  showEditar: boolean = false;
   transporteForm: FormGroup;
   viagemForm:FormGroup;
   uniProds?:UniProdDTO[]
@@ -38,11 +38,9 @@ export class TransportesComponent implements OnInit{
   answer:string
   success:boolean
   validado = false
-  showConfirmar = false
-  showEditar = false
-  showRemover = false
   startMatricula = false;
   matriculaValida = false;
+  editarForm: FormGroup;
   transporte: TransporteDTO;
   estadoTransporte: string;
 
@@ -53,7 +51,7 @@ export class TransportesComponent implements OnInit{
 
   ngOnInit(){
     if(this.appComponent.token && this.appComponent.role !== 'ROLE_ADMIN'){
-      this.utilizadorService.getDetalhesUser()?.subscribe()
+      this.utilizadorService.getDetalhesUser()?.subscribe()    
     }
 
     this.getUniProds();
@@ -67,16 +65,13 @@ export class TransportesComponent implements OnInit{
       uniProd: new FormControl('', Validators.required)
 
     });
-
-    this.editarForm = new FormGroup({
-      matricula: new FormControl('', Validators.required),
-      estadoTransporte: new FormControl('', Validators.required),
-    });
     this.viagemForm = new FormGroup({
       transporte: new FormControl('', Validators.required),
       subItems: new FormControl([], Validators.required)
     });
-
+    this.editarForm = this.formBuilder.group({
+      estadoTransporte: ['', Validators.required]
+    });
 
   }
   ;
@@ -210,7 +205,8 @@ export class TransportesComponent implements OnInit{
 
       if (statusCode === 200) {
         this.toggleModal()
-        this.handleAnswer("Transporte adicionado com sucesso!",true)   
+        this.handleAnswer("Transporte adicionado com sucesso!",true)
+        // window.location.reload()
       }  else {
         this.handleAnswer(obj.statusText,false)
 
@@ -301,9 +297,6 @@ export class TransportesComponent implements OnInit{
     }
     })
   }
-  toggleRemover(){
-    this.showRemover = !this.showRemover
-  }
 
   getTransportes(page:number,unidadeProducaoId?:number,estadoTransporte?:TransporteDTO.EstadoTransporteEnum, size?:number){
     this.uniProdService.getTransportes(unidadeProducaoId,estadoTransporte,page,size).subscribe(obj=>{
@@ -329,55 +322,17 @@ export class TransportesComponent implements OnInit{
     })
   }
 
-  removerTransporte(transporte : TransporteDTO){
-    this.uniProdService.removeTransporte(transporte.idTransporte!).subscribe(obj=>{
-      const statusCode = obj.status
-      if (statusCode === 200) {
-        this.toggleRemover()
-        window.location.reload()
-      } else {
-        this.error = obj.body as Error;
-        //chamar pop up
-    }
-    })
-  }
-
-  onSubmitEditar(){
-    this.uniProdService.updateTransporte(this.editarForm.value,this.transporteEscolhido.idTransporte!).subscribe(obj=>{
-      const statusCode = obj.status
-      if (statusCode === 200) {
-        this.toggleEditar()
-        window.location.reload()
-      } else {
-        this.error = obj.body as Error;
-        //chamar pop up
-    }
-    })
-  }
-
   showModalNovaViagem(){
     this.getTransportes(0,undefined,TransporteDTO.EstadoTransporteEnum.Disponivel,1000000)
     this.toggleNovaViagem()
   }
 
-
-
-  confirmarRemoverTransporte(transporte:TransporteDTO){
-    this.transporteEscolhido = transporte
-    this.toggleConfirmar()
+  toggleEditar() {
+    this.showEditar = !this.showEditar;
   }
-
-  editarTransporte(transporte:TransporteDTO){
-    this.transporteEscolhido = transporte
-    this.toggleEditar()
-
-  }
-
-  toggleEditar(){
-    this.showEditar = !this.showEditar
-  }
-  toggleConfirmar(){
-    this.showConfirmar = !this.showConfirmar
+  editarTransporte(transporte: TransporteDTO){
+    this.transporte = transporte;
+    this.showEditar = !this.showEditar;
   }
 
   toggleModal(){
@@ -394,7 +349,35 @@ export class TransportesComponent implements OnInit{
     window.location.reload()
   }
 
-  
+  onSubmitEditar() {
+    if (this.editarForm.valid) {
+      const novoEstado = this.editarForm.value.estadoTransporte;
 
+      const transporteToUpdate = this.transportes.find(t => t.idTransporte === this.transporte.idTransporte);
+      if (transporteToUpdate) {
+        transporteToUpdate.estadoTransporte = novoEstado;
+
+      }
+
+
+      this.toggleEditar();
+
+    }
+  }
+
+
+  // onSubmitEditar(){
+
+  //   this.uniProdService.updateUniProd(this.editarForm.value,this.uniProdEscolhida.idUnidade!).subscribe(obj=>{
+  //     const statusCode = obj.status
+  //     if (statusCode === 200) {
+  //       this.toggleEditar()
+  //       window.location.reload()
+  //   } else {
+  //       this.error = obj.body as Error;
+  //       //chamar pop up
+  //   }
+  //   })
+  // }
 }
 
