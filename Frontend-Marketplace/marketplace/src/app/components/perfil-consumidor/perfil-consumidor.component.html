@@ -19,12 +19,12 @@
                     <div class="row" *ngIf="showForm">
                         <div class = "col-lg-4">
                             <div class="card" >
-                                
-                                <i class="bi bi-person-square" style="font-size: 200px; text-align: center; color: #858796;"></i>
-                                
+                                <br>
+
+                                <h1 style="margin-top:10%;margin-left:32%;font-family: 'Nunito', sans-serif;; font-size: 200px; color:#777886" class="fw-bolder">{{getLetra()}}</h1>
                                 <div class="card-body py-1">
                                     <div class=" text-center">
-                                        
+
                                         <h5 class="fw-bolder">{{utilizador.nome}}</h5>
                                         <p *ngIf="role === 'ROLE_CONSUMIDOR'">Consumidor</p>
                                         <p *ngIf="role === 'ROLE_FORNECEDOR'">Fornecedor</p>
@@ -34,7 +34,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-8" style="background-color: #fff; border:1px solid #e3e6f0;">
+                        <div class="col-lg-8 secCollumn" style="background-color: #fff; border:1px solid #e3e6f0;">
                             <div class="p-5">
                                 <form id="formEdit" class="user" [formGroup]="updateForm" (ngSubmit)="onSubmit()">
                                     <div class="form-group row">
@@ -86,11 +86,11 @@
                                             <label for="morada">Código Postal:</label>
                                             <input formControlName="codPostal" type="text" class="form-control form-control-user" id="exampleCódigoPostal" placeholder="Código Postal" required>
                                         </div>
-                                        <div class="col-sm-4 mb-3 mb-sm-0" style="margin-top:3%">    
+                                        <div class="col-sm-4 mb-3 mb-sm-0" style="margin-top:3%">
                                             <label for="pais" class="d-block">País:</label>
                                             <select formControlName="pais" class="form-control-user p-2 text-warning fw-bold w-45" id="filtraSelect" name="filtraSelect" style="border-color: #d1d3e2; background-color: white; height: 48px; width: 100%;" required >
                                                 <option *ngFor="let country of countries" [value]="country.toUpperCase()">{{country}}</option>
-                                            </select>                                            
+                                            </select>
                                         </div>
                                     </div>
                                     <br>
@@ -100,8 +100,8 @@
                                 </form>
                             </div>
                         </div>
-                    </div>  
-                        
+                    </div>
+
                 </div>
                 <!-- /.container-fluid -->
             </div>
@@ -125,15 +125,15 @@
           <h2 [style.color]="success ? 'green' : 'red'" class="modal-title">{{answer}}</h2>
         </div>
       </div>
-    
+
       <div class="modal-wrapper" *ngIf="confimaRemover" [class.visible]="confimaRemover">
         <div class="modal-container">
-                  
+
             <b style="font-size: 150%;">Tem a certeza que quer eliminar a sua conta {{utilizador.nome}}?</b> <p></p>
             <button class=" btn btn-outline-danger" (click)="removerConta()" style="width:30%; margin:auto; display:inline-block">Sim</button>
             <p></p>
             <button class=" btn btn-outline-dark" (click)="closeConfirmar()" style="width:30%; margin:auto; display:inline-block">Cancelar</button>
-            <br>  
-          
+            <br>
+
         </div>
       </div>

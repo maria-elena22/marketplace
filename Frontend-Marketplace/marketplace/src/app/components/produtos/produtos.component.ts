@@ -96,6 +96,7 @@ export class ProdutosComponent implements OnInit {
 
   ngOnInit(): void {
     this.refresh()
+    this.getProximosProdutos(this.page + 1);
     this.role = this.appComponent.role;
     if(this.role ==="ROLE_FORNECEDOR"){
       this.minhasUniProds()
@@ -438,7 +439,7 @@ export class ProdutosComponent implements OnInit {
 
   nextPage(){
     this.page +=1
-    this.getProximosProdutos(this.idCategoria,this.idSubCategoria, this.page + 1)
+    this.getProximosProdutos(this.page + 1)
     if(this.produtos.length >0){
       this.getProdutos(this.idCategoria,this.idSubCategoria);
     }
@@ -451,7 +452,7 @@ export class ProdutosComponent implements OnInit {
 
   previousPage(){
     this.page -=1
-    this.getProximosProdutos(this.idCategoria,this.idSubCategoria, this.page -1)
+    this.getProximosProdutos(this.page -1)
     if(this.produtos.length >0){
       this.getProdutos(this.idCategoria,this.idSubCategoria);
     }
@@ -461,14 +462,16 @@ export class ProdutosComponent implements OnInit {
     this.nextButtonDisabled = false  
   }
 
-  getProximosProdutos(idCategoria:number, idSubCategoria:number, page:number){
-    this.produtosService.getProdutos(idCategoria,idSubCategoria,undefined,undefined,undefined,page).subscribe(obj=>{
+  getProximosProdutos(page:number){
+    this.produtosService.getProdutos(this.idCategoria, this.idSubCategoria,undefined,undefined,undefined,page).subscribe(obj=>{
       const statusCode = obj.status
       if (statusCode === 200) {
         let produtos = obj.body as FullProdutoDTO[];
         console.log(obj.body)
         this.proximosProdutos = produtos.length
-        console.log(this.proximosProdutos)
+        if(this.proximosProdutos == 0){
+          this.nextButtonDisabled = true;
+        }
         
     } else {
         this.error = obj.body as Error;
@@ -851,7 +854,7 @@ export class ProdutosComponent implements OnInit {
     }
   );
 
-  
+  this.produtoForm.reset();
 
   } 
 
@@ -925,6 +928,10 @@ export class ProdutosComponent implements OnInit {
     const distance = earthRadius * c;
 
     return distance;
+  }
+
+  getStock(){
+    console.log(this.produtoAadicionar.precoFornecedores)
   }
 
 }

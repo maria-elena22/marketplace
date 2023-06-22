@@ -102,8 +102,6 @@ tr.different {
   text-align: left;
 }
 
-
-
 .search-form {
   margin-top: 10px;
   text-align: center;
@@ -133,12 +131,23 @@ tr.different {
   width: auto;
   margin-top: 10px;
 }
+@media (max-width: 576px) {
 
+  .butoes{
+    position: relative;
+    left: 30%;
+  }
+}
 @media (min-width: 576px) {
   .search-form .form-group {
     width: calc(35% - 5px);
     display: inline-block;
     margin-right: 10px;
+
+  }
+  .butoes{
+    position: relative;
+    left: 45%;
   }
 }
 
@@ -148,6 +157,11 @@ tr.different {
     display: inline-block;
     margin-right: 10px;
   }
+
+  .butoes{
+    position: relative;
+    left: 60%;
+  }
 }
 
 @media (min-width: 992px) {
@@ -156,6 +170,11 @@ tr.different {
     display: inline-block;
     margin-right: 10px;
   }
+
+  .butoes{
+    position: relative;
+    left: 65%;
+  }
 }
 
 @media (min-width: 1200px) {
@@ -163,5 +182,9 @@ tr.different {
     width: calc(20% - 5px);
     display: inline-block;
     margin-right: 10px;
+  }
+  .butoes{
+    position: relative;
+    left: 70%;
   }
 }

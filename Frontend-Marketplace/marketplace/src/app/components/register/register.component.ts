@@ -224,7 +224,7 @@ export class RegisterComponent implements OnInit{
             pais: this.signUpForm.value.pais,
             continente: this.getContinent(this.signUpForm.value.pais),
         }
-
+        
           if(this.emailValid && this.contactoValid && this.idFiscalValid && this.passwordValid){
             const role = this.signUpForm.value.role;
             if(role === "fornecedor"){

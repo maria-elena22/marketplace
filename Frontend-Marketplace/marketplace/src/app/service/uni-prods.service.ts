@@ -111,6 +111,22 @@ export class UniProdsService {
       );
   }
 
+  updateTransporte(transporte :TransporteInputDTO,idTransporte :number){
+    const token = localStorage.getItem('jwt_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+
+    const url = `${this.backendUrl}/transporte/${idTransporte}`;
+  
+    return this.http.put<any>(url, transporte,{ headers, observe: 'response' })
+      .pipe(
+          catchError((error) => {
+          console.log('An error occurred:', error);
+          return throwError('Something went wrong');
+        })
+      );
+  }
+
 
   updateUniProdStock(idUniProd :number,stock:number, produtoId:number){
     const token = localStorage.getItem('jwt_token');
@@ -136,9 +152,25 @@ export class UniProdsService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
 
-    const url = `${this.backendUrl}/uniProd/${idUniProd}`;
+    const url = `${this.backendUrl}/uniProd/deactivate/${idUniProd}`;
 
-    return this.http.delete<any>(url,{ headers, observe: 'response' })
+    return this.http.put<any>(url,{},{ headers, observe: 'response' })
+      .pipe(
+          catchError((error) => {
+          console.log('An error occurred:', error);
+          return throwError('Something went wrong');
+        })
+      );
+  }
+
+  removeTransporte(idTransporte :number){
+    const token = localStorage.getItem('jwt_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+
+    const url = `${this.backendUrl}/transporte/deactivate/${idTransporte}`;
+
+    return this.http.put<any>(url,{},{ headers, observe: 'response' })
       .pipe(
           catchError((error) => {
           console.log('An error occurred:', error);

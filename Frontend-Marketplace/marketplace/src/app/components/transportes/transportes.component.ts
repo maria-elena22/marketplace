@@ -21,6 +21,8 @@ export class TransportesComponent implements OnInit{
   itensNaoEntregues?: ItemInfoDTO[];
   itensParaEntregar:SubItemViagemDTO[] = [];
   checkedItems: ItemViagemDTO[] = []
+  transporteEscolhido :TransporteDTO;
+  editarForm: FormGroup;
 
   page = 0
   previousButtonDisabled = true
@@ -36,6 +38,9 @@ export class TransportesComponent implements OnInit{
   answer:string
   success:boolean
   validado = false
+  showConfirmar = false
+  showEditar = false
+  showRemover = false
   startMatricula = false;
   matriculaValida = false;
 
@@ -59,6 +64,11 @@ export class TransportesComponent implements OnInit{
       estadoTransporte: new FormControl('', Validators.required),
       uniProd: new FormControl('', Validators.required)
 
+    });
+
+    this.editarForm = new FormGroup({
+      matricula: new FormControl('', Validators.required),
+      estadoTransporte: new FormControl('', Validators.required),
     });
     this.viagemForm = new FormGroup({
       transporte: new FormControl('', Validators.required),
@@ -288,6 +298,9 @@ export class TransportesComponent implements OnInit{
     } 
     })
   }
+  toggleRemover(){
+    this.showRemover = !this.showRemover
+  }
 
   getTransportes(page:number,unidadeProducaoId?:number,estadoTransporte?:TransporteDTO.EstadoTransporteEnum, size?:number){
     this.uniProdService.getTransportes(unidadeProducaoId,estadoTransporte,page,size).subscribe(obj=>{
@@ -313,12 +326,56 @@ export class TransportesComponent implements OnInit{
     })
   }
 
+  removerTransporte(transporte : TransporteDTO){
+    this.uniProdService.removeTransporte(transporte.idTransporte!).subscribe(obj=>{
+      const statusCode = obj.status
+      if (statusCode === 200) {
+        this.toggleRemover()
+        window.location.reload()
+      } else {
+        this.error = obj.body as Error;
+        //chamar pop up
+    }
+    })
+  }
+
+  onSubmitEditar(){
+    
+    this.uniProdService.updateTransporte(this.editarForm.value,this.transporteEscolhido.idTransporte!).subscribe(obj=>{
+      const statusCode = obj.status
+      if (statusCode === 200) {
+        this.toggleEditar()
+        window.location.reload()
+      } else {
+        this.error = obj.body as Error;
+        //chamar pop up
+    }
+    })
+  }
+
   showModalNovaViagem(){
     this.getTransportes(0,undefined,TransporteDTO.EstadoTransporteEnum.Disponivel,1000000)
     this.toggleNovaViagem()
   }
 
 
+  confirmarRemoverTransporte(transporte:TransporteDTO){
+    this.transporteEscolhido = transporte
+    this.toggleConfirmar()
+  }
+
+  editarTransporte(transporte:TransporteDTO){
+    this.transporteEscolhido = transporte
+    this.toggleEditar()
+
+  }
+
+  toggleEditar(){
+    this.showEditar = !this.showEditar
+  }
+  toggleConfirmar(){
+    this.showConfirmar = !this.showConfirmar
+  }
 
   toggleModal(){
     this.showModal = !this.showModal;

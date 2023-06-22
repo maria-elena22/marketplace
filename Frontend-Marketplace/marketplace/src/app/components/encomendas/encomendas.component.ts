@@ -173,6 +173,9 @@ generateFile(jsonContent: any) {
       if (statusCode === 200) {
         let subencomendas = obj.body as FullSubEncomendaDTO[];
         this.proximasEncomendas = subencomendas.length;
+        if(this.proximasEncomendas == 0){
+          this.nextButtonDisabled = true;
+        }
     } else {
         this.error = obj.body as Error;
     }

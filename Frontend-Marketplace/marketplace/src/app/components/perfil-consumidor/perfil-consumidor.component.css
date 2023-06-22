@@ -12,11 +12,11 @@
     align-items: center;
     z-index: 999;
   }
-  
+
   .modal-wrapper.visible {
     display: flex;
   }
-  
+
   .modal-container {
     background-color: #fff;
     padding: 20px;
@@ -30,16 +30,16 @@
     overflow-y: auto; /* Add this line to enable vertical scrolling */
     max-height: 500px; /* Optional: Set a max-height to limit the scrollable area */
   }
-  
+
   .modal-title {
     font-size: 24px;
     margin-top: 0;
   }
-  
+
   .modal-content {
     margin-bottom: 20px;
   }
-  
+
   .modal-close-btn {
     margin-top: -10px;
     margin-right: -10px;
@@ -48,25 +48,25 @@
     font-size: 16px;
     cursor: pointer;
   }
-  
+
 
   .hover-shadow:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
   }
 
   .idFiscalVal{
-    font-size:x-small; 
-    float: left; 
-    width: 35%; 
-    margin-top: 2%; 
+    font-size:x-small;
+    float: left;
+    width: 35%;
+    margin-top: 2%;
     margin-left: 35%;
   }
 
   .contactoVal{
     font-size:x-small;
-    float: left; 
-    width: 27%; 
-    margin-top: 2%; 
+    float: left;
+    width: 27%;
+    margin-top: 2%;
   }
 
   .idFiscalValMedia{
@@ -76,7 +76,13 @@
   .card{
     height: 37em;
   }
-  
+
+@media (max-width:991px) {
+  .secCollumn{
+    margin-top: 10px;
+
+  }
+}
 @media only screen and (max-width: 600px) {
   .idFiscalVal{
     display: none;
@@ -84,14 +90,14 @@
 
   .contactoVal{
     width: 100%;
-    margin-top: 2%; 
+    margin-top: 2%;
     margin-left: 5%;
   }
 
   .idFiscalValMedia{
     display: block;
     font-size:x-small;
-    margin-top: 2%; 
+    margin-top: 2%;
     margin-left: 5%;
   }
 
@@ -104,7 +110,7 @@
   }
 
   .card{
-    height: 30em;
+    height: 25em;
     margin-bottom: -30%;
   }
 
@@ -118,4 +124,8 @@
     transform: scale(0.7);
   }
 
+  .secCollumn{
+    margin-top: 30%;
+  }
 }
+

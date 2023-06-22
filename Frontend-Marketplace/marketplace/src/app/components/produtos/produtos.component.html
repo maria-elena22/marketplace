@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<div *ngIf="role === 'ROLE_FORNECEDOR'" style="position: relative; left: 70%;" class="mt-3">
+
+<div *ngIf="role === 'ROLE_FORNECEDOR'" style="margin-left: 70%;" class="mt-3">
+
     <button class=" btn btn-outline-dark" *ngIf="meusProdutos.length>0" (click)="verTodosProdutos()">Todos os produtos</button> &nbsp;
     <button class=" btn btn-outline-dark" *ngIf="meusProdutos.length===0" (click)="verMeusProdutos(-1,-1)">Meus produtos</button> &nbsp;
     <button class=" btn btn-outline-dark" (click)="toggleModal()">Adicionar Produto</button>
@@ -10,33 +12,33 @@
 <div *ngIf="showFilter" style="padding: 1%;">
     <br>
     <form [formGroup]="searchProdutoForm" (ngSubmit)="onSubmitSearch()">
-        <div class="mt0" >
-          <div class="search-form">
-            <div class="form-group">
-            <!-- <b><p style="font-size: 25px; margin-left: 0.5%;">Pesquisar por:</p></b> &nbsp; &nbsp;&nbsp; -->
-              <label for="fornecedor"><b>Nome do Produto:</b></label> &nbsp;
-              <input type="text" formControlName="nomeProduto" class="form-control form-control-user "> &nbsp;
-            </div>
+        <div class="mt0">
+            <div class="search-form">
+                <div class="form-group">
+                    <!-- <b><p style="font-size: 25px; margin-left: 0.5%;">Pesquisar por:</p></b> &nbsp; &nbsp;&nbsp; -->
+                    <label for="fornecedor"><b>Nome do Produto:</b></label> &nbsp;
+                    <input type="text" formControlName="nomeProduto" class="form-control form-control-user "> &nbsp;
+                </div>
 
-            <div class="form-group">
-              <label for="precoMin"><b>Preço Mínimo:</b></label> &nbsp;
-              <input type="number" id="precoMin" formControlName="precoMin" step="0.01" min="0" class="form-control form-control-user " > &nbsp;
-            </div>
+                <div class="form-group">
+                    <label for="precoMin"><b>Preço Mínimo:</b></label> &nbsp;
+                    <input type="number" id="precoMin" formControlName="precoMin" step="0.01" min="0" class="form-control form-control-user "> &nbsp;
+                </div>
 
-            <div class="form-group">
-              <label for="precoMax"><b>Preço Máximo:</b></label> &nbsp;
-              <input type="number" id="precoMax" formControlName="precoMax" step="0.01" min="0" class="form-control form-control-user"> &nbsp;&nbsp;
-            </div>
+                <div class="form-group">
+                    <label for="precoMax"><b>Preço Máximo:</b></label> &nbsp;
+                    <input type="number" id="precoMax" formControlName="precoMax" step="0.01" min="0" class="form-control form-control-user"> &nbsp;&nbsp;
+                </div>
 
-            <div class="form-group">
-              <label for="fornecedor"><b>Propriedade:</b></label> &nbsp;
-              <input type="text" formControlName="propriedade" class="form-control form-control-user"> &nbsp;
-            </div>
+                <div class="form-group">
+                    <label for="fornecedor"><b>Propriedade:</b></label> &nbsp;
+                    <input type="text" formControlName="propriedade" class="form-control form-control-user"> &nbsp;
+                </div>
 
-            <button class="btn btn-primary d-block" type="submit"><i class="bi bi-search"></i>Pesquisar</button>
-          </div>
+                <button class="btn btn-primary d-block" type="submit"><i class="bi bi-search"></i>Pesquisar</button>
+            </div>
         </div>
-<br>
+        <br>
 
 
     </form>
@@ -100,7 +102,8 @@
                     <div *ngIf="role==='ROLE_FORNECEDOR'" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                         <div class="text-center" *ngIf="forneco(produto)"><a class="btn btn-outline-dark mt-auto" (click)="toggleRemoverProduto(produto)">Deixar de fornecer</a></div>
                         <div class="text-center" *ngIf="!forneco(produto)"><a class="btn btn-outline-dark mt-auto" (click)="toggleAddProduto(produto)">Passar a fornecer</a></div>
-                        <p></p><div class="text-center"><a (click)="showDetalheProduto(produto.idProduto!)" routerLink="/marketplace/produto-detalhes" class="nav-link active" class="btn btn-outline-primary mt-auto">Ver mais</a></div>
+                        <p></p>
+                        <div class="text-center"><a (click)="showDetalheProduto(produto.idProduto!)" routerLink="/marketplace/produto-detalhes" class="nav-link active" class="btn btn-outline-primary mt-auto">Ver mais</a></div>
                     </div>
 
                     <div class="card-overlay">
@@ -122,7 +125,7 @@
 
 <!---------------------------------- PRODUTOS FORNECEDOR ---------------------------------->
 
-<section *ngIf="meusProdutos.length>0" class="py-5" >
+<section *ngIf="meusProdutos.length>0" class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
             <div *ngFor="let produto of meusProdutos" class="col mb-5">
@@ -185,29 +188,45 @@
     <div class="modal-container" style="text-align: left;">
         <button class="modal-close-btn" (click)="toggleModal()" style="text-align: right;">FECHAR</button>
         <form [formGroup]="produtoForm" (ngSubmit)="onSubmit()">
-            <label for="nome" style="margin: auto; display:table; font-size: 25px"><b>Criar um novo produto</b></label>
-            <label for="nome"><b>Nome:</b></label> &nbsp;
-            <input type="text" id="nome" formControlName="nome" class="form-control form-control-user d-inline-block" style="width:55%;">
-            <br>
 
-            <label for="descricao"><b>Descrição:</b></label>&nbsp;
-            <input type="text" id="descricao" formControlName="descricao" class="form-control form-control-user d-inline-block" style="width:55%;">
-            <br>
 
-            <label for="iva"><b>IVA:</b></label>&nbsp;
-            <select id="iva" formControlName="iva" class="form-control form-control-user d-inline-block" style="width:55%;">
-              <option value="" disabled selected>Escolha um IVA</option>
-              <option value="IVA_6">IVA 6%</option>
-              <option value="IVA_13">IVA 13%</option>
-              <option value="IVA_23">IVA 23%</option>
-            </select>
-            <br>
-            <label for="stock"><b>Stock:</b></label>&nbsp;
-            <input type="number" id="stock" formControlName="stock" class="form-control form-control-user d-inline-block" style="width:55%;">
-            <br>
+            <label for="nome" style="margin: auto; display:table; font-size: 25px; padding-bottom: 20px;"><b>Criar um novo produto</b></label>
+            <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label for="nome"><b>Nome:</b></label> &nbsp;
+                    <input type="text" id="nome" formControlName="nome" class="form-control form-control-user d-inline-block">
+                </div>
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label for="descricao"><b>Descrição:</b></label>&nbsp;
+                    <input type="text" id="descricao" formControlName="descricao" class="form-control form-control-user d-inline-block">
+                </div>
+            </div>
 
-            <label for="preco"><b>Preço:</b></label>&nbsp;
-            <input type="number" id="preco" formControlName="preco" step="0.01" min="0" class="form-control form-control-user d-inline-block" style="width:55%;">
+
+            <p></p>
+
+            <div class="form-group row">
+                <div class="col-sm-4 mb-3 mb-sm-0">
+                    <label for="iva"><b>IVA:</b></label>&nbsp;
+                    <select id="iva" formControlName="iva" class="form-control form-control-user d-inline-block">
+                    <option value="" disabled selected>Escolha um IVA</option>
+                    <option value="IVA_6">IVA 6%</option>
+                    <option value="IVA_13">IVA 13%</option>
+                    <option value="IVA_23">IVA 23%</option>
+                    </select>
+                </div>
+                <div class="col-sm-4 mb-3 mb-sm-0">
+                    <label for="stock"><b>Stock:</b></label>&nbsp;
+                    <input type="number" id="stock" formControlName="stock" class="form-control form-control-user d-inline-block">
+                </div>
+                <div class="col-sm-4 mb-3 mb-sm-0">
+                    <label for="preco"><b>Preço:</b></label>&nbsp;
+                    <input type="number" id="preco" formControlName="preco" step="0.01" min="0" class="form-control form-control-user d-inline-block">
+
+                </div>
+
+            </div>
+
 
             <p></p>
 
@@ -387,15 +406,15 @@
         <h4><b>Adicionar {{produtoAadicionar.nome}} ao carrinho</b></h4>
         <p></p>
         <form [formGroup]="addCarrinhoForm" (ngSubmit)="onSubmitProduto()">
-            <div style="float: left; width: 65%;">
+            <!-- <div style="float: left; width: 65%;"> -->
+            <div>
                 <label for="quantidade"><b>Quantidade:</b> &nbsp;</label>
 
-                <input min="0" max="100" step="1" type="number" id="quantidade" formControlName="quantidade" required>  &nbsp;
+                <input min="0" max="100" step="1" type="number" id="quantidade" formControlName="quantidade" required> &nbsp;
             </div>
             <!-- <div style="float: right; width: 30%; text-align: left; margin-right: 5%;">
                 <label for="quantidade"><b>Stock:</b> &nbsp;</label>
             </div> -->
-            <br>
             <br>
             <label for="fornecedor"><b>Escolha um dos fornecedores:</b> <p>(de forma a ajudar os négocios locais, escolha um perto de si)</p></label>
             <div>
@@ -519,7 +538,7 @@
                 </tr>
                 <tr>
                     <td><b>Subcategorias</b></td>
-                    <td >
+                    <td>
                         <p *ngFor="let c of prodComparar1?.subCategorias" class="d-inline-block">
                             {{c.nomeSubCategoria}};&nbsp;
                         </p>

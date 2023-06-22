@@ -34,7 +34,6 @@ import { UniProdsComponent } from './components/uni-prods/uni-prods.component';
 import { EncomendasComponent } from './components/encomendas/encomendas.component';
 import { RelatoriosComponent } from './components/relatorios/relatorios.component';
 import { ViagensComponent } from './components/viagens/viagens.component';
-import { NotificacoesComponent } from './components/notificacoes/notificacoes.component';
 import { DefinicoesComponent } from './components/definicoes/definicoes.component';
 import { AdminUtilizadoresComponent } from './components/admin-utilizadores/admin-utilizadores.component';
 import { DetalhesUtilizadorAdminComponent } from './components/detalhes-utilizador-admin/detalhes-utilizador-admin.component';
@@ -114,7 +113,6 @@ const appRoutes: Routes = [
     EncomendasComponent,
     RelatoriosComponent,
     ViagensComponent,
-    NotificacoesComponent,
     ProdutoDetalhesComponent,
     DefinicoesComponent,
     AdminUtilizadoresComponent,

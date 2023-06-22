@@ -32,14 +32,14 @@ export class PerfilConsumidorComponent implements OnInit {
   numerosId = false;
   letrasId = false;  
   IdFiscalEmpty = true;
-  idFiscalValid = false;
+  idFiscalValid = true;
   //CONTACTO
   startContacto = false;
   oitoCaracteresContacto = false;
   numerosContacto = false;
   letrasContacto = false;
   ContactoEmpty = true;
-  contactoValid = false;  
+  contactoValid = true;  
   formValid = false;
 
 
@@ -109,6 +109,10 @@ export class PerfilConsumidorComponent implements OnInit {
     return this.http.get<any>(url, { headers, observe: 'response' });
   }
 
+  getLetra(){
+    return this.utilizador.nome?.charAt(0);
+  }
+
   onPageRefresh(event: BeforeUnloadEvent): void {
     this.refresh();
   }
@@ -129,7 +133,7 @@ export class PerfilConsumidorComponent implements OnInit {
           this.answer = "Conta removida com sucesso"
           this.success = true;
           this.utilizador = obj.body
-          this.appComponent.user!.nome! =this.utilizador!.nome!
+          this.appComponent.logout()
   
           this.openAnswer();
   
@@ -146,7 +150,7 @@ export class PerfilConsumidorComponent implements OnInit {
           this.answer = "Conta removida com sucesso"
           this.success = true;
           this.utilizador = obj.body
-          this.appComponent.user!.nome! =this.utilizador!.nome!
+          this.appComponent.logout()          
           this.openAnswer();
   
       } 
@@ -191,6 +195,7 @@ export class PerfilConsumidorComponent implements OnInit {
             pais: this.updateForm.value.pais,
             continente: this.getContinent(this.updateForm.value.pais),
         }
+
 
           if(this.contactoValid && this.idFiscalValid){
             const role = this.updateForm.value.role;
@@ -296,6 +301,8 @@ export class PerfilConsumidorComponent implements OnInit {
       this.idFiscalValid = true;
     } else if(this.letrasId || hasSpecialChars){
       this.updateForm.patchValue({idFiscal:inputElement.value.replace(/\D/g, "")})
+    }else{
+      this.idFiscalValid = false;
     }
   }
 
@@ -324,6 +331,8 @@ export class PerfilConsumidorComponent implements OnInit {
     } 
     else if(this.letrasContacto || hasSpecialChars){
       this.updateForm.patchValue({telemovel:inputElement.value.replace(/\D/g, "")})
+    }else {
+      this.contactoValid = false;
     }
   }
   

@@ -1,10 +1,12 @@
-body{
+body {
     background-color: #edf1f5;
-    margin-top:20px;
+    margin-top: 20px;
 }
+
 .card {
     margin-bottom: 30px;
 }
+
 .card {
     position: relative;
     display: flex;
@@ -16,15 +18,18 @@ body{
     border: 0 solid transparent;
     border-radius: 0;
 }
+
 .card .card-subtitle {
     font-weight: 300;
     margin-bottom: 10px;
     color: #8898aa;
 }
+
 .table-product.table-striped tbody tr:nth-of-type(odd) {
     background-color: #f3f8fa!important
 }
-.table-product td{
+
+.table-product td {
     border-top: 0px solid #dee2e6 !important;
     color: #728299!important;
 }
@@ -40,14 +45,13 @@ body{
     justify-content: center;
     align-items: center;
     z-index: 999;
-  }
-  
-  .modal-wrapper.visible {
-    display: flex;
-  }
-  
+}
 
-  .modal-container {
+.modal-wrapper.visible {
+    display: flex;
+}
+
+.modal-container {
     align-items: right;
     width: 40%;
     background-color: #fff;
@@ -60,20 +64,22 @@ body{
     flex-direction: column;
     /* align-items: flex-end; */
     position: relative;
-    overflow-y: auto; /* Add this line to enable vertical scrolling */
-    max-height: 500px; /* Optional: Set a max-height to limit the scrollable area */
-  }
-  
-  .modal-title {
+    overflow-y: auto;
+    /* Add this line to enable vertical scrolling */
+    max-height: 500px;
+    /* Optional: Set a max-height to limit the scrollable area */
+}
+
+.modal-title {
     font-size: 24px;
     margin-top: 0;
-  }
-  
-  .modal-content {
+}
+
+.modal-content {
     margin-bottom: 20px;
-  }
-  
-  .modal-close-btn {
+}
+
+.modal-close-btn {
     margin: 10px;
     margin-right: -10px;
     background-color: transparent;
@@ -81,5 +87,4 @@ body{
     font-size: 16px;
     cursor: pointer;
     margin-right: 5px;
-  }
-   
+}
