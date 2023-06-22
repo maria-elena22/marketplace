@@ -1,10 +1,37 @@
 @import '~@fortawesome/fontawesome-free/css/all.css';
 
+@import '~@fortawesome/fontawesome-free/css/all.css';
+
 ul.eu {
-    position: absolute;
-    top: 18%;
-    left: 100%;
-    padding: 10%;
+  position: absolute;
+  top: 18%;
+  left: 100%;
+  padding: 10%;
+  margin: 0;
+  color: #212529;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.25rem;
+  margin-top: 0.125rem;
+  min-width: 100%;
+  cursor: pointer;
+}
+
+.subs {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+@media (max-width: 991px) {
+  ul.eu {
+    position: static;
+    padding: 0;
     margin: 0;
     color: #212529;
     text-align: left;
@@ -16,36 +43,14 @@ ul.eu {
     margin-top: 0.125rem;
     min-width: 100%;
     cursor: pointer;
-}
+  }
 
-/* ul.eu > li {
-    white-space: nowrap;
-}
-*/
-
-.subs{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    white-space: normal;
-    word-wrap: break-word;
-}
-@media (max-width:576px){
-  ul.eu{
+  .dropdown-item.media:hover > ul.eu {
+    display: block;
+    margin-top: 0.125rem;
     position: relative;
-    top: 0%;
-    left: 0%;
-    padding: 0%;
-    margin: 0;
-    color: #212529;
-    text-align: left;
-    list-style: none;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    border-radius: 0.25rem;
-    margin-top: 0.125rem;
-    min-width: 100%;
-    cursor: pointer;
+    left: 0;
+    top: 0;
+    width: 100%;
   }
 }
