@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
 import { FullCategoriaDTO, FullProdutoDTO, ProdutoFornecedorDTO, PropriedadeDTO, SimpleItemDTO, SimpleSubCategoriaDTO, SubCategoriaDTO, UniProdDTO } from 'src/app/model/models';
 import { UtilizadorCoordsDTO } from 'src/app/model/utilizador/utilizadorCoordsDTO';
@@ -46,7 +46,7 @@ export class ProdutoDetalhesComponent implements OnInit{
   addProdutoForm:FormGroup;
   removerProdutoForm:FormGroup;
 
-  constructor(private route: ActivatedRoute, private produtosService: ProdutosService, private router : Router,private categoriaService: CategoriaService, 
+  constructor(private route: ActivatedRoute, private produtosService: ProdutosService, private categoriaService: CategoriaService, 
     private cestoService: CestoService, private appComponent: AppComponent, private uniProdService: UniProdsService, private utilizadorService:UtilizadorService){}
   
   ngOnInit(): void {
@@ -328,10 +328,14 @@ export class ProdutoDetalhesComponent implements OnInit{
 
     this.produtosService.removeProduto(produtoId,uniProdsIds).subscribe(obj=>{
       const statusCode = obj
+      // if (statusCode === 200) {
         this.toggleRemoverProduto()
         window.location.reload()
         this.removerProdutoForm.patchValue({uniProdsIds:[]})
-
+    // } else {
+        // this.error = obj.body as Error;
+        //chamar pop up
+    // }
     })
   }
 
@@ -372,6 +376,10 @@ export class ProdutoDetalhesComponent implements OnInit{
     }
     this.addProdutoForm.get('uniProdsIds')!.patchValue(this.uniProdsIdsA);
 
+  }
+
+  getLetra(){
+    return this.produto.nome?.charAt(0);
   }
 
   onUniProdRemove(target1:any, idUniProd: number): void {
