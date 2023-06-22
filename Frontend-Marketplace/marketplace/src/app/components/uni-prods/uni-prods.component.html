@@ -125,7 +125,7 @@
 
 <div class="modal-wrapper" *ngIf="showProdutos" [class.visible]="showProdutos && uniProds">
     <div class="modal-container">
-        <button class="modal-close-btn m-2" (click)="toggleModal()" style="text-align: right; margin-top: 1%;">FECHAR</button>
+        <button class="modal-close-btn m-2" (click)="toggleProdutos()" style="text-align: right; margin-top: 1%;">FECHAR</button>
         <h4 style="text-align: left; margin-top: -4.8%; width: 60%;"> A ver: {{uniProdEscolhida.nomeUniProd}}</h4>
         <br>
         <div *ngIf="!produtosUP || produtosUP.length === 0"> Ainda não tem produtos associados a esta Unidade <br> <a routerLink='/marketplace/produtos'>Ver Produtos</a></div>
