@@ -199,6 +199,7 @@
                     <option value="" disabled selected>Escolha uma opção</option>
                     <option *ngFor="let transporte of transportesDisponiveis" [value]="transporte.idTransporte" >{{ transporte.matricula}} -- {{transporte.unidadeDeProducao?.nomeUniProd}}</option>
                 </select>
+                <p (click)="toggleModal()" (click)="toggleNovaViagem()" style="cursor: pointer;">Se não têm nenhum transporte disponível, <u>crie um</u>, para entregar as suas encomendas!</p>
             </div>
             <hr>
             <div  *ngIf="selectedTransporteId && itensNaoEntregues" formArrayName="subItems">
