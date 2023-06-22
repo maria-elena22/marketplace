@@ -181,7 +181,7 @@
                 <div *ngFor="let item of itensNaoEntregues; let i = index" class="linha" style="margin-bottom: 1%;">
 
                     <div> 
-                        <input class="left" type="checkbox" [value]="item.idItem" (change)="toggleItemChecked(item.idItem!)"> Encomenda #{{item.idItem}} - {{item.produtoNome}}
+                        <input class="left" type="checkbox" [value]="item.idItem" (change)="toggleItemChecked(item.idItem!)"> Item #{{item.idItem}} - {{item.produtoNome}}
                     </div>
                     
                     <!-- Quantidade form control -->
