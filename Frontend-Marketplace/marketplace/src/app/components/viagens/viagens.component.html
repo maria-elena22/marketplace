@@ -55,7 +55,7 @@
                                         <th>Inicio</th>
                                         <th>Fim</th>
                                         <th>Estado</th>
-                                        <th></th>
+                                        <th>Atualizar estado</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -64,7 +64,7 @@
                                         <th>Inicio</th>
                                         <th>Fim</th>
                                         <th>Estado</th>
-                                        <th></th>
+                                        <th>Atualizar estado</th>
                                     </tr>
                                 </tfoot>
 
@@ -84,8 +84,7 @@
                                                 <div *ngIf="viagem.estadoViagem=='FINALIZADA'" class="badge bg-success text-white" style="top: 0.5rem; right: 0.5rem">
                                                     {{viagem.estadoViagem}}</div>
                                         </td>
-                                        <th><a style="cursor: pointer" (click)="showDetalhesViagem(viagem)"><i
-                                                    class="fa fa-search"></i></a></th>
+                                        <th><a style="cursor: pointer" (click)="showDetalhesViagem(viagem)"><i class="fas fa-truck fa-2x"></i></a></th>
                                     </tr>
                                 </tbody>
                             </table>
