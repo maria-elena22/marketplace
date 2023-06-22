@@ -1,11 +1,9 @@
 package com.fcul.marketplace.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonRawValue;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -18,7 +16,12 @@ public class SubCategoria {
     private String nomeSubCategoria;
 
     @ManyToOne
-    @JoinColumn(name="categoriaId")
     private Categoria categoria;
+
+    @ManyToOne
+    private SubCategoria subCategoriaPai;
+
+    @OneToMany(mappedBy = "subCategoriaPai")
+    private List<SubCategoria> subCategoriasFilhos;
 
 }

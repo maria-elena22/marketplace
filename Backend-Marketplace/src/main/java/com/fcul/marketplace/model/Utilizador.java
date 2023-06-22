@@ -1,15 +1,21 @@
 package com.fcul.marketplace.model;
 
+import com.fcul.marketplace.model.annotations.Unique;
+import com.fcul.marketplace.model.enums.Continente;
+import com.fcul.marketplace.model.enums.Pais;
+import com.fcul.marketplace.model.utils.Coordinate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.util.List;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-@MappedSuperclass
+
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,23 +26,42 @@ public class Utilizador {
     private Integer idUtilizador;
 
     @Column(unique = true)
+    @Unique(message = "O id fiscal já se encontra no sistema", parameterName = "idFiscal", className = "Utilizador")
     private Integer idFiscal;
 
+    @NotBlank
     private String nome;
+
+    @NotBlank
+    @Unique(message = "O email já se encontra no sistema", parameterName = "email", className = "Utilizador")
+    private String email;
+
 
     private Integer telemovel;
 
-    private String coordenadas;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "latitude", column = @Column(name = "latitude")),
+            @AttributeOverride(name = "longitude", column = @Column(name = "longitude"))
+    })
+    private Coordinate coordenadas;
 
+    @NotBlank
     private String morada;
 
+    @NotBlank
     private String freguesia;
 
+    @NotBlank
     private String municipio;
 
+    @NotBlank
     private String distrito;
 
-    private String pais;
+    private Pais pais;
 
-    private String continente;
+    @NotNull
+    private Continente continente;
+
+    private boolean active;
 }
