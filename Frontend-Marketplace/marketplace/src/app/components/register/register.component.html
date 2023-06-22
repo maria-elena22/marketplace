@@ -47,7 +47,7 @@
                                                 <!-- (blur)="startContacto = false" -->
                                                 <input (focus)="startContacto= true" (input)="onContactoInput($event)"  minlength="9" maxlength="9" formControlName="telemovel" type="text" class="form-control form-control-user" id="contacto" placeholder="Contacto" required>
                                             </div>
-                                            <div class="col-sm-7 mb-3 mb-sm-0 idContacto" *ngIf="startContacto ">
+                                            <div class="col-sm-7 mb-3 mb-sm-0 idContacto" style="margin-top:12%" *ngIf="startContacto ">
                                                 <a [style.color]="numerosContacto&&!letrasContacto ? 'green' : 'red'">O contacto só pode conter números</a><br>
                                                 <a [style.color]="oitoCaracteresContacto ? 'green' : 'red'">O contacto tem de conter 9 caracteres</a>
                                             </div>

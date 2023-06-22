@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Inject, OnInit, SimpleChanges } from '@angular/core';
 import { ProdutosService } from './service/produtos.service';
 import {DecodedToken} from './model/utilizador/decodedToken'
 import jwt_decode from 'jwt-decode';
 import { UtilizadorService } from './service/utilizador.service';
 import { FullEncomendaDTO, FullSubEncomendaDTO, NotificacaoDTO, UtilizadorDTO } from './model/models';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { DOCUMENT, Location } from '@angular/common';
 import { CestoService } from './service/cesto.service';
 import { EncomendasService } from './service/encomendas.service';
 
@@ -39,7 +39,7 @@ export class AppComponent implements OnInit{
 
   // products: this.getCategorias();
 
-  constructor(private http: HttpClient,private location: Location,private router: Router, public cestoService:CestoService,
+  constructor(@Inject(DOCUMENT) document: Document,private http: HttpClient,private location: Location,private router: Router, public cestoService:CestoService,
     private produtosService: ProdutosService, private utilizadorService : UtilizadorService, private encomendaService: EncomendasService){
 
   }
@@ -117,6 +117,8 @@ export class AppComponent implements OnInit{
     })
   }
 
+
+
   showEncomenda(id:number){
 
     if(this.role! === "ROLE_FORNECEDOR"){
@@ -160,6 +162,7 @@ export class AppComponent implements OnInit{
   getCategorias(){
     return this.produtosService.getCategorias();
   }
+
 
   getDecodedToken() {
     // Get the JWT token from the local storage

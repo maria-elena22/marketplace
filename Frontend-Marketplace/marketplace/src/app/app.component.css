@@ -11963,3 +11963,21 @@ p {
     padding: 15px; /* Adjust the padding for smaller screens */
   }
 }
+/* 
+.dropdownWithoutMedia{
+    display: block;
+} */
+
+.dropdownMedia{
+  display: none;
+}
+
+@media (min-width:576px){
+    .dropdownMedia{
+        display: block;
+    }
+
+    /* .withoutMedia{
+        display: none;
+    } */
+  }
