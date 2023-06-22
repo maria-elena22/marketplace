@@ -33,7 +33,7 @@
 .overlay-text {
     color: #000;
     pointer-events: auto;
-    font-size:14px;
+    font-size: 14px;
     z-index: 0;
 }
 
@@ -64,17 +64,16 @@ tr.different {
 }
 
 .modal-container {
-    align-items: right;
-    width: 40%;
     background-color: #fff;
-    padding: 20px;
     border-radius: 5px;
-    /* max-width: 500px; */
+    width: 60%;
+    max-width: 576px;
+    margin: 0 auto;
+    padding: 20px;
     text-align: center;
     position: relative;
     display: flex;
     flex-direction: column;
-    /* align-items: flex-end; */
     position: relative;
     overflow-y: auto;
     /* Add this line to enable vertical scrolling */
@@ -145,6 +144,27 @@ tr.different {
     width: 17%;
 }
 
+ul {
+    list-style-type: none;
+    padding-left: 5px;
+}
+
+@media (max-width: 576px) {
+    .modal-container {
+        width: 78%;
+        padding: 15px;
+        /* Adjust the padding for smaller screens */
+    }
+}
+
+@media (min-width:576px) and (max-width: 768px) {
+    .modal-container {
+        width: 68%;
+        padding: 15px;
+        /* Adjust the padding for smaller screens */
+    }
+}
+
 @media (max-width: 576px) {
     .deus {
         position: flex;
@@ -176,12 +196,11 @@ tr.different {
         left: 30%;
     }
     .overlay-text {
-      font-size: 10px;
-      color: #000;
-      pointer-events: auto;
-
-      z-index: 0;
-  }
+        font-size: 10px;
+        color: #000;
+        pointer-events: auto;
+        z-index: 0;
+    }
 }
 
 @media (min-width: 576px) {
@@ -214,7 +233,6 @@ tr.different {
         position: relative;
         left: 60%;
     }
-
 }
 
 @media (min-width: 992px) {

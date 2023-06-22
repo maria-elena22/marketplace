@@ -177,8 +177,9 @@
 
 <div class="modal-wrapper" *ngIf="showEditar" [class.visible]="showEditar">
     <div class="modal-container">
-        <h3 style="text-align: left;">A editar: {{uniProdEscolhida.nomeUniProd}}</h3>
         <button class="modal-close-btn" (click)="toggleEditar()" style="text-align: right;">FECHAR</button>
+        <h3 style="text-align: left;">A editar: {{uniProdEscolhida.nomeUniProd}}</h3>
+
         <br>
 
         <form [formGroup]="editarForm" (ngSubmit)="onSubmitEditar()">
