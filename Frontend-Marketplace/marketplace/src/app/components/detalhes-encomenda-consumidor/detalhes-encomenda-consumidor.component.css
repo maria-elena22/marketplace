@@ -19,9 +19,13 @@
 
 .modal-container {
   background-color: #fff;
-  padding: 20px;
+
   border-radius: 5px;
-  width: 40%;
+  width: 60%;
+  max-width: 576px;
+  margin: 0 auto;
+  padding: 20px;
+
   text-align: center;
   position: relative;
   display: flex;
@@ -52,4 +56,20 @@
 
 .hover-shadow:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
+}
+
+@media (max-width: 576px) {
+  .modal-container {
+    width: 78%;
+
+    padding: 15px; /* Adjust the padding for smaller screens */
+  }
+}
+
+@media (min-width:576px) and (max-width: 768px) {
+  .modal-container {
+    width: 68%;
+
+    padding: 15px; /* Adjust the padding for smaller screens */
+  }
 }

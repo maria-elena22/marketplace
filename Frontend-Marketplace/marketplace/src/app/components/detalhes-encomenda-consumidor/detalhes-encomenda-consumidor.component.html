@@ -19,7 +19,7 @@
                     <button  class="btn btn-outline-dark" (click)="obterJSON(encomenda.idEncomenda!)"><i class="fa fa-download"></i>Download Dados da Encomenda</button>
                 </h1>
 
-                <div class="container" *ngIf="role === 'ROLE_CONSUMIDOR'">
+                <div class="container" style = "max-width: 100%; width: 100%;" *ngIf="role === 'ROLE_CONSUMIDOR'">
                     <article class="card  mt-4">
                         <!-- <header class="card-header"> Detalhes </header> -->
                         <div class="card-body">
@@ -39,9 +39,10 @@
                                             {{encomenda.estadoEncomenda}}</div>
                                         <div *ngIf="encomenda.estadoEncomenda=='CANCELADA'" class="badge bg-danger text-white" style="top: 0.5rem; right: 0.5rem">
                                             {{encomenda.estadoEncomenda}}</div>
-                                        <a *ngIf="porPagar()" style="margin-top: 4%;" (click)="pagarEncomenda()" class="btn btn-info">Pagar encomenda</a>
+                                        <a *ngIf="porPagar()" style="margin-top: 4%; font-size: 15px;" (click)="pagarEncomenda()" class="btn btn-info">Pagar encomenda</a>
+                                        <a *ngIf="porPagar()" style="margin-top: 8px; font-size: 15px;" (click)="cancelarEncomenda()" class="btn btn-danger">Cancelar encomenda</a>
                                     </div>
-                                    <div class="col" *ngIf="porPagar()"><a (click)="cancelarEncomenda()" class="btn btn-danger" style="font-size: 15px;">Cancelar encomenda</a></div>
+                                    <!-- <div class="col" *ngIf="porPagar()"><a (click)="cancelarEncomenda()" class="btn btn-danger" style="font-size: 15px;">Cancelar encomenda</a></div> -->
                                 </div>
                             </article>
 
@@ -151,7 +152,7 @@
                 <div class="card">
                     <br>
                     <!-- <h5 style="text-align: left;">&nbsp;&nbsp;{{subencomenda.fornecedor!.nome}}</h5> -->
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-bordered table-responsive" id="dataTable" width="100%" cellspacing="0">
                         <tbody>
                             <th>Produtos</th>
                             <th>Quantidades</th>

@@ -19,14 +19,17 @@
 
 .modal-container {
   background-color: #fff;
-  padding: 20px;
+
   border-radius: 5px;
-  max-width: 90%;
+  width: 60%;
+  max-width: 576px;
+  margin: 0 auto;
+  padding: 20px;
+
   text-align: center;
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
   position: relative;
   overflow-y: auto; /* Add this line to enable vertical scrolling */
   max-height: 500px; /* Optional: Set a max-height to limit the scrollable area */
@@ -49,7 +52,23 @@
   font-size: 16px;
   cursor: pointer;
 }
- 
+
 .cat{
 text-align: left;
+}
+
+@media (max-width: 576px) {
+  .modal-container {
+    width: 78%;
+
+    padding: 15px; /* Adjust the padding for smaller screens */
+  }
+}
+
+@media (min-width:576px) and (max-width: 768px) {
+  .modal-container {
+    width: 68%;
+
+    padding: 15px; /* Adjust the padding for smaller screens */
+  }
 }
