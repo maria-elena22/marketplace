@@ -216,7 +216,7 @@
         <ul *ngFor="let notif of notifs">
             <li> {{notif.mensagem}}
                 <button *ngIf="role === 'ROLE_FORNECEDOR'" class="btn btn-outline-secondary" (click)="showEncomenda(notif.subEncomenda?.idSubEncomenda!)"> {{notif.subEncomenda?.idSubEncomenda}}</button>
-                <p *ngIf="role === 'ROLE_CONSUMIDOR'" class="btn btn-outline-secondary" (click)="showEncomenda(notif.subEncomenda?.encomenda!.idEncomenda!)">{{notif.subEncomenda?.encomenda!.idEncomenda}}</p> &nbsp;
+                <button *ngIf="role === 'ROLE_CONSUMIDOR'" class="btn btn-outline-secondary" (click)="showEncomenda(notif.subEncomenda?.encomenda!.idEncomenda!)">{{notif.subEncomenda?.encomenda!.idEncomenda}}</button> &nbsp;
                 <a (click)="entregarNotif(notif.idNotificacao!)" style="cursor: pointer;"><mat-icon style="vertical-align: text-bottom; color: #c91527;">delete</mat-icon></a>
             </li>
 
