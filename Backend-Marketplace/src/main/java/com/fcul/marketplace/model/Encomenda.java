@@ -1,11 +1,12 @@
 package com.fcul.marketplace.model;
 
 import com.fcul.marketplace.model.enums.EstadoEncomenda;
-import com.fcul.marketplace.model.enums.Pagamento;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Date;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -16,23 +17,20 @@ public class Encomenda {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idEncomenda;
 
-    private Integer quantidade;
-
+    @Min(value = 0, message = "O preço tem de ser positivo")
     private Double preco;
 
-    private Date dataEntrega;
-
+    @NotNull(message = "O estado da encomenda é obrigatório ")
     private EstadoEncomenda estadoEncomenda;
 
-    private Pagamento tipoPagamento;
+    @NotNull(message = "A data da encomenda é obrigatória ")
+    private Timestamp dataEncomenda;
 
     @ManyToOne
+    @JoinColumn(name = "consumidor_id")
     private Consumidor consumidor;
 
-    @ManyToMany
-    private List<Fornecedor> fornecedores;
-
-    @OneToMany
-    private List<Produto> produtos;
+    @OneToMany(mappedBy = "encomenda", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SubEncomenda> subEncomendas;
 
 }

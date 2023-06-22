@@ -1,10 +1,11 @@
 package com.fcul.marketplace.model;
 
 
+import com.fcul.marketplace.model.enums.EstadoViagem;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -15,14 +16,16 @@ public class Viagem {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idViagem;
 
+    private Timestamp dataInicio;
+
+    private Timestamp dataFim;
+
+    private EstadoViagem estadoViagem;
+
     @ManyToOne
     private Transporte transporte;
 
-    private Date dataInicio;
-
-    private Date dataFim;
-
-    @OneToMany
-    private List<Encomenda> encomendas;
+    @OneToMany(mappedBy = "viagem")
+    private List<SubItem> subItems;
 
 }
