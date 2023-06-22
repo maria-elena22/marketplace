@@ -97,12 +97,19 @@
 
                     <div class="card-overlay">
 
-                        <div class="overlay-text text-center">
-                            <h5>Fornecedores: &nbsp;</h5>
-                            <div class="text-center" *ngFor="let pf of produto.precoFornecedores">
-                                <p>{{pf.fornecedor?.nome}} - {{pf.preco?.toFixed(2)}}€</p>
-                            </div>
+                      <div class="overlay-text text-center">
+                        <h5>Fornecedores: &nbsp;</h5>
+                        <div class="fornecedores" *ngIf="produto.precoFornecedores && produto.precoFornecedores.length > 0">
+                          <div class="text-center" *ngFor="let pf of produto.precoFornecedores; let i = index">
+                            <ng-container *ngIf="i < 2 || produto.precoFornecedores.length <= 2">
+                              <p>{{ pf.fornecedor?.nome }} - {{ pf.preco?.toFixed(2) }}€</p>
+                            </ng-container>
+                          </div>
+                          <div *ngIf="produto.precoFornecedores.length > 2">
+                            <p>Mais fornecedores em <a (click)="showDetalheProduto(produto.idProduto!)" routerLink="/marketplace/produto-detalhes" class="active" style="display: inline;">ver mais</a></p>
+                          </div>
                         </div>
+                      </div>
 
                     </div>
                 </div>

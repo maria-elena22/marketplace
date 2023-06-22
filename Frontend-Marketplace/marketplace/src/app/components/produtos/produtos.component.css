@@ -33,7 +33,7 @@
 .overlay-text {
     color: #000;
     pointer-events: auto;
-
+    font-size:14px;
     z-index: 0;
 }
 
