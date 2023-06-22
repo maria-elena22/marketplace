@@ -31,15 +31,15 @@ jobs:
     - name: Build with Maven
       run:  mvn -B package --file Backend-Marketplace/pom.xml    
       
-    - name: Push Docker GCR
+    - name: Push Docker Image to GCR
   # You may pin to the exact commit or the version.
-  # uses: RaccoonDev/push-docker-gcr@cbff6c0d9f259694f4c6bd036866eb63e1630712
-      uses: RaccoonDev/push-docker-gcr@v1
+  # uses: kurkop/push-docker-gcr@4ee82fa6b080179896960dd11b04c766be5ba39d
+      uses: kurkop/push-docker-gcr@v1.2.2
       with:
-        # Google Container Registry Host
-        gcr_host: gcr.io/sapient-stacker-380223
-        # Docker Image Name
-        image_name: backend
-        # Docker Image Tag
-        image_tag: lat
-      
+        docker_image_name: backend
+        docker_image_tag: lat
+        docker_context: Backend-Marketplace
+        dockerfile: Dockerfile
+        gcr_host: gcr.io
+        gcr_project_id: sapient-stacker-380223 
+        gcr_service_key: ${{ secrets.ACCESS_KEY }}
