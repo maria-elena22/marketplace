@@ -28,7 +28,7 @@ export class CestoComponent implements OnInit{
 
   ngOnInit(): void {
     if(this.appComponent.token && this.appComponent.role !== 'ROLE_ADMIN'){
-      this.utilizadorService.getDetalhesUser().subscribe()
+      this.utilizadorService.getDetalhesUser()?.subscribe()
     }
 
     this.getProdutos(-1,-1)
@@ -155,14 +155,9 @@ export class CestoComponent implements OnInit{
           localStorage.setItem("cartItems",JSON.stringify([]))
 
           this.router.navigate(['/marketplace/pagamento'], { queryParams });
-
-
-          // const state = { page: 'cesto' };
-          // const url = '/cesto';
-
-          // window.history.pushState(state, url);
-
-      }
+  
+  
+      } 
       })
     } else{
       this.success = false;

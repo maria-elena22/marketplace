@@ -51,7 +51,7 @@ export class PerfilConsumidorComponent implements OnInit {
   
   ngOnInit(): void {
     if(this.appComponent.token && this.appComponent.role !== 'ROLE_ADMIN'){
-      this.utilizadorService.getDetalhesUser().subscribe()
+      this.utilizadorService.getDetalhesUser()?.subscribe()
     }
 
       this.refresh();
@@ -133,7 +133,7 @@ export class PerfilConsumidorComponent implements OnInit {
           this.answer = "Conta removida com sucesso"
           this.success = true;
           this.utilizador = obj.body
-          this.appComponent.user!.nome! =this.utilizador!.nome!
+          this.appComponent.logout()
   
           this.openAnswer();
   
@@ -150,9 +150,8 @@ export class PerfilConsumidorComponent implements OnInit {
           this.answer = "Conta removida com sucesso"
           this.success = true;
           this.utilizador = obj.body
-          this.appComponent.user!.nome! =this.utilizador!.nome!
+          this.appComponent.logout()          
           this.openAnswer();
-          //window.location.reload(); 
   
       } 
     }

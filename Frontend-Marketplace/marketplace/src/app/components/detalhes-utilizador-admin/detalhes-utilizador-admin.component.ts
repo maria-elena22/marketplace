@@ -66,7 +66,6 @@ export class DetalhesUtilizadorAdminComponent implements OnInit{
           this.answer = "Conta removida com sucesso"
           this.success = true;
           this.getUser();
-          //window.location.reload(); 
   
       } 
     }
@@ -99,7 +98,6 @@ export class DetalhesUtilizadorAdminComponent implements OnInit{
           this.success = true;
 
           this.getUser();
-          //window.location.reload(); 
   
       } 
     }
@@ -147,6 +145,7 @@ export class DetalhesUtilizadorAdminComponent implements OnInit{
     
     this.showAnswer=false;
     window.location.reload()
+
     //this.router.navigate(['/marketplace/utilizadores']);
   }
 

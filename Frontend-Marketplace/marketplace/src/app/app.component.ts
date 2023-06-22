@@ -45,6 +45,7 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    
     this.getDecodedToken()
     this.getDetalhesUser()
     this.toggleNotifs()
@@ -181,10 +182,10 @@ export class AppComponent implements OnInit{
 
   getDetalhesUser(){
     if(this.token && this.role !== 'ROLE_ADMIN'){
-      this.utilizadorService.getDetalhesUser().subscribe(obj=>{
-        if (obj.status === 200) {
+      this.utilizadorService.getDetalhesUser()?.subscribe(obj=>{
+        if (obj && obj.status === 200) {
           console.log(obj.body)
-          this.user = obj.body as UtilizadorDTO;
+          this.user = obj.body as UtilizadorDTO ?? undefined;
 
         }
 
@@ -197,10 +198,17 @@ export class AppComponent implements OnInit{
 
 
   logout() {
-    // Remove the JWT token from the local storage
     localStorage.removeItem(this.tokenKey);
     this.location.go('/marketplace');
     window.location.reload();
+    // this.router.navigateByUrl('/marketplace');
+    //this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {  this.router.navigate(['/marketplace' ]);})
+    // const currentUrl = this.router.url; // Get the current route's URL
+    // this.router.navigate([currentUrl])
+    //   .then(() => {
+    //     this.location.replaceState(currentUrl); // Update the browser's URL without triggering a navigation
+    //     window.location.reload(); // Reload the page
+    //   });
 
   }
 

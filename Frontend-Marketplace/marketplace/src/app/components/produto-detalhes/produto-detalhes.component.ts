@@ -51,7 +51,7 @@ export class ProdutoDetalhesComponent implements OnInit{
   
   ngOnInit(): void {
     if(this.appComponent.token && this.appComponent.role !== 'ROLE_ADMIN'){
-      this.utilizadorService.getDetalhesUser().subscribe()
+      this.utilizadorService.getDetalhesUser()?.subscribe()
     }
 
     this.getProduto();
@@ -376,6 +376,10 @@ export class ProdutoDetalhesComponent implements OnInit{
     }
     this.addProdutoForm.get('uniProdsIds')!.patchValue(this.uniProdsIdsA);
 
+  }
+
+  getLetra(){
+    return this.produto.nome?.charAt(0);
   }
 
   onUniProdRemove(target1:any, idUniProd: number): void {

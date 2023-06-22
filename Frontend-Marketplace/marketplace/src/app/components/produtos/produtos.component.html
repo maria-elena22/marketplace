@@ -12,31 +12,17 @@
 <div *ngIf="showFilter" style="padding: 1%;">
     <br>
     <form [formGroup]="searchProdutoForm" (ngSubmit)="onSubmitSearch()">
+
         <div class="mt0">
-            <div class="search-form">
-                <div class="form-group">
-                    <!-- <b><p style="font-size: 25px; margin-left: 0.5%;">Pesquisar por:</p></b> &nbsp; &nbsp;&nbsp; -->
-                    <label for="fornecedor"><b>Nome do Produto:</b></label> &nbsp;
-                    <input type="text" formControlName="nomeProduto" class="form-control form-control-user "> &nbsp;
-                </div>
+            <b><p style="font-size: 25px; margin-left: 0.5%;">Pesquisar por:</p></b> &nbsp; &nbsp;&nbsp;
+            <label for="fornecedor"><b>Nome do Produto:</b></label> &nbsp;
+            <input type="text" formControlName="nomeProduto" class="form-control form-control-user d-inline-block" style="width:15%;"> &nbsp; <label for="precoMin"><b>Preço Mínimo:</b></label> &nbsp;
+            <input type="number" id="precoMin" formControlName="precoMin" step="0.01" min="0" class="form-control form-control-user d-inline-block" style="width:10%;"> &nbsp; <label for="precoMax"><b>Preço Máximo:</b></label> &nbsp;
+            <input type="number" id="precoMax" formControlName="precoMax" step="0.01" min="0" class="form-control form-control-user d-inline-block" style="width:10%;"> &nbsp;&nbsp; <label for="fornecedor"><b>Propriedade:</b></label> &nbsp;
+            <input type="text" formControlName="propriedade" class="form-control form-control-user d-inline-block" style="width:10%;"> &nbsp;
 
-                <div class="form-group">
-                    <label for="precoMin"><b>Preço Mínimo:</b></label> &nbsp;
-                    <input type="number" id="precoMin" formControlName="precoMin" step="0.01" min="0" class="form-control form-control-user "> &nbsp;
-                </div>
+            <button class="btn btn-primary d-inline-block" type="submit"><i class="bi bi-search"></i>   Pesquisar</button>
 
-                <div class="form-group">
-                    <label for="precoMax"><b>Preço Máximo:</b></label> &nbsp;
-                    <input type="number" id="precoMax" formControlName="precoMax" step="0.01" min="0" class="form-control form-control-user"> &nbsp;&nbsp;
-                </div>
-
-                <div class="form-group">
-                    <label for="fornecedor"><b>Propriedade:</b></label> &nbsp;
-                    <input type="text" formControlName="propriedade" class="form-control form-control-user"> &nbsp;
-                </div>
-
-                <button class="btn btn-primary d-block" type="submit"><i class="bi bi-search"></i>Pesquisar</button>
-            </div>
         </div>
         <br>
 
@@ -45,7 +31,7 @@
 </div>
 
 
-<!-- <div style="border: solid 2px; display: inline-block; padding: 1%; margin-top: 15px; position: fixed; z-index: 14; background-color: white; width:17%;" *ngIf="prodComparar1||prodComparar2">
+<div class="deus" *ngIf="prodComparar1||prodComparar2">
 
 
     <p>Produtos a comparar:</p>
@@ -62,22 +48,6 @@
     <button (click)="removeDivComparar()" class="btn btn-secondary mt-1">FECHAR</button> &nbsp;&nbsp;
     <button *ngIf="prodComparar1&&prodComparar2" (click)="comparar()" class="btn btn-warning mt-1">Ver Comparação</button>
 
-</div> -->
-
-<div class="comparison-container" *ngIf="prodComparar1 || prodComparar2">
-    <p>Produtos a comparar:</p>
-    <div *ngIf="prodComparar1">
-      {{prodComparar1.nome}}
-      <a (click)="removeComparar(1)"><i class="fa fa-times" aria-hidden="true"></i></a>
-    </div>
-
-    <div *ngIf="prodComparar2">
-      {{prodComparar2.nome}}
-      <a (click)="removeComparar(2)"><i class="fa fa-times" aria-hidden="true"></i></a>
-    </div>
-
-    <button (click)="removeDivComparar()" class="btn btn-secondary mt-1">FECHAR</button>&nbsp;&nbsp;
-    <button *ngIf="prodComparar1 && prodComparar2" (click)="comparar()" class="btn btn-warning mt-1">Ver Comparação</button>
 </div>
 
 
@@ -100,36 +70,21 @@
                         <div class="text-center">
                             <!-- Product name-->
                             <h5 class="fw-bolder">{{produto.nome}}</h5>
+                            <h6>{{produto.descricao}}</h6>
                             <!-- Product price-->
                             {{getIntervaloPrecos(produto)}}
-                            <p>{{produto.descricao}}</p>
+                            
                         </div>
                     </div>
                     <!-- Carrinho -->
                     <div [class.disabled]="!produto.precoFornecedores" *ngIf="role!=='ROLE_FORNECEDOR' && role!=='ROLE_ADMIN'" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center row ">
-                          <div class="col-sm-6 mb-2 mb-sm-0">
-                            <a class="btn btn-outline-info mt-auto" (click)="showAddCarrinho(produto)">Carrinho</a>
-                          </div>
-                            <!-- <a class="btn btn-outline-info mt-auto" (click)="showAddCarrinho(produto)">Carrinho</a> &nbsp;&nbsp; -->
+                        <div class="text-center">
+                            <a class="btn btn-outline-info mt-auto" (click)="showAddCarrinho(produto)">Carrinho</a> &nbsp;&nbsp;
 
-                            <div class="col-sm-6 mb-2 mb-sm-0">
-                              <a (click)="showDetalheProduto(produto.idProduto!)" routerLink="/marketplace/produto-detalhes" routerLinkActive="active" ariaCurrentWhenActive="page" class="btn btn-outline-primary mt-auto">Ver mais</a>
-                            </div>
-                            <!-- <a (click)="showDetalheProduto(produto.idProduto!)" routerLink="/marketplace/produto-detalhes" routerLinkActive="active" ariaCurrentWhenActive="page" class="nav-link active" aria-current="page" class="btn btn-outline-primary mt-auto">Ver mais</a> -->
+
+                            <a (click)="showDetalheProduto(produto.idProduto!)" routerLink="/marketplace/produto-detalhes" routerLinkActive="active" ariaCurrentWhenActive="page" class="nav-link active" aria-current="page" class="btn btn-outline-primary mt-auto">Ver mais</a>
                         </div>
                     </div>
-
-                    <!-- <div [class.disabled]="!produto.precoFornecedores" *ngIf="role!=='ROLE_FORNECEDOR' && role!=='ROLE_ADMIN'" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                      <div class="text-center row">
-                        <div class="col-sm-6 mb-2 mb-sm-0">
-                          <a class="btn btn-outline-info" (click)="showAddCarrinho(produto)">Carrinho</a>
-                        </div>
-                        <div class="col-sm-6">
-                          <a (click)="showDetalheProduto(produto.idProduto!)" routerLink="/marketplace/produto-detalhes" routerLinkActive="active" ariaCurrentWhenActive="page" class="nav-link active btn btn-outline-primary">Ver mais</a>
-                        </div>
-                      </div>
-                    </div> -->
 
                     <div *ngIf="role==='ROLE_FORNECEDOR'" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                         <div class="text-center" *ngIf="forneco(produto)"><a class="btn btn-outline-dark mt-auto" (click)="toggleRemoverProduto(produto)">Deixar de fornecer</a></div>
@@ -169,9 +124,10 @@
                         <div class="text-center">
                             <!-- Product name-->
                             <h5 class="fw-bolder">{{produto.nome}}</h5>
+                            <h6>{{produto.descricao}}</h6>
                             <!-- Product price-->
                             {{getMeuPreco(produto)}}€
-                            <p>{{produto.descricao}}</p>
+                            
 
                         </div>
                     </div>
@@ -262,7 +218,9 @@
 
             <p></p>
 
-            <label for="uniProdsIds"><b>UniProds:</b></label>
+            <label for="uniProdsIds"><b>Unidades de produção:</b></label>
+            <p style="margin-bottom: 0;">Escolha pelo menos uma unidade de produção</p>
+            <p style="cursor: pointer;" (click)="goToUniProd()">&nbsp;&nbsp;&nbsp; Caso não haja, <u>crie uma</u> unidade de produção</p>
             <div formArrayName="uniProdsIds">
 
                 <label style="border: solid 1px; padding: 2%; margin:1%;" *ngFor="let uniprod of getFirstThird(uniProdsP)">
@@ -423,7 +381,7 @@
 
         <h2 [style.color]="success ? '#1cc88a' : 'red'" class="modal-title">{{answer}}</h2>
         <br>
-        <a href="/marketplace/cesto" *ngIf="!role || role==='ROLE_CONSUMIDOR'">Ir para o cesto</a>
+        <a routerLink="/marketplace/cesto" *ngIf="!role || role==='ROLE_CONSUMIDOR'">Ir para o cesto</a>
         <br>
     </div>
 </div>
@@ -544,9 +502,9 @@
 
 
 <div class="modal-wrapper" *ngIf="showComparar" [class.visible]="showComparar">
-    <div class="modal-container">
-        <button class="modal-close-btn" (click)="showComparar=false" style="text-align: right;">FECHAR</button>
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+    <div class="modal-container jesus">
+        <button class="modal-close-btn babyjj" (click)="showComparar=false" style="text-align: right;">FECHAR</button>
+        <table class="table table-bordered babyj" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <td><b>Nome</b></td>
                 <th>{{prodComparar1?.nome}}</th>

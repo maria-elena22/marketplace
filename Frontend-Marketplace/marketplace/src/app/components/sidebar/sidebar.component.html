@@ -10,7 +10,7 @@
 
         <div  id="collapseLogin" class="collapse" aria-labelledby="collapseLogin" data-parent="#accordionSidebar"></div>
             <div ngbDropdownMenu class="bg-white py-2 collapse-inner rounded">
-                <a ngbDropdownItem class="dropdown-item" href='/marketplace/perfil-consumidor'>
+                <a ngbDropdownItem class="dropdown-item" routerLink='/marketplace/perfil-consumidor'>
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Perfil
                 </a>
@@ -31,24 +31,22 @@
   <!-- Divider -->
   <hr class="sidebar-divider my-0">
 
-  <!-- Nav Item - Dashboard -->
-  <li class="nav-item active">
-      <a class="nav-link" href='/marketplace/admin-consumidor'>
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span>
-      </a>
-  </li>
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item active">
+        <a class="nav-link" routerLink='/marketplace/admin-consumidor'>
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span></a>
+    </li>
 
   <!-- Divider -->
   <hr class="sidebar-divider">
 
-  <!-- Nav Item - Tables -->
-  <li class="nav-item">
-      <a class="nav-link" href='/marketplace/consumidor-historico'>
-          <i class="fas fa-fw fa-table"></i>
-          <span>Encomendas</span>
-      </a>
-  </li>
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+        <a class="nav-link" routerLink='/marketplace/consumidor-historico'>
+            <i class="fas fa-fw fa-table"></i>
+            <span>Encomendas</span></a>
+    </li>
 
   <!-- Divider -->
   <hr class="sidebar-divider d-none d-md-block">

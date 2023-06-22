@@ -257,10 +257,10 @@ export class RegisterComponent implements OnInit{
         const token = jwt_decode(obj.body['token']) as DecodedToken;
         localStorage.setItem('jwt_token', obj.body['token']);
         this.appComponent.token = token;
-        
+    
         this.location.go('/marketplace');
         window.location.reload(); 
-
+        
       }
       }, (error) => {
         // Handle error here

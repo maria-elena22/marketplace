@@ -32,7 +32,7 @@ export class EncomendasComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.appComponent.token && this.appComponent.role !== 'ROLE_ADMIN'){
-      this.utilizadorService.getDetalhesUser().subscribe()
+      this.utilizadorService.getDetalhesUser()?.subscribe()
     }
     if(this.appComponent.role === "ROLE_CONSUMIDOR"){
       this.getProximasEncomendas(this.page + 1);

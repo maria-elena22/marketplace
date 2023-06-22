@@ -135,26 +135,3 @@
 
         </div>
       </div>
-
-    <script>
-        let form = document.getElementById('formEdit');
-        let formFields = form.querySelectorAll('input, textarea, select, button[type="submit"]');
-
-        function noPermissionToEdit(){
-            for (let i = 0; i < formFields.length; i++) {
-                formFields[i].disabled = true;
-            }
-        }
-
-        function grantPermissionToEditForm() {
-
-
-            for (let j = 0; j < formFields.length; j++) {
-                formFields[j].disabled = false;
-            }
-        }
-
-        window.onload = noPermissionToEdit;
-        document.getElementById('finishBtn').addEventListener('click', noPermissionToEdit);
-        document.getElementById('editBtn').addEventListener('click', grantPermissionToEditForm);
-    </script>

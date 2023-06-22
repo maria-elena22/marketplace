@@ -40,7 +40,7 @@ export class DefinicoesComponent implements OnInit{
 
   ngOnInit() {
     if(this.appComponent.token && this.appComponent.role !== 'ROLE_ADMIN'){
-      this.utilizadorService.getDetalhesUser().subscribe()
+      this.utilizadorService.getDetalhesUser()?.subscribe()
     }
 
   
@@ -119,7 +119,6 @@ removerConta(){
         this.utilizador = obj.body
         this.appComponent.user!.nome! =this.utilizador!.nome!
         this.openAnswer();
-        //window.location.reload(); 
 
     } 
   }
