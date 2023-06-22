@@ -1,14 +1,14 @@
 @import '~@fortawesome/fontawesome-free/css/all.css';
-
 .card {
     position: relative;
     overflow: hidden;
-
 }
 
-.card:hover img, .card:hover .badge, .card:hover .card-body {
-    visibility: hidden; /* Hide the image and card body on hover */
-
+.card:hover img,
+.card:hover .badge,
+.card:hover .card-body {
+    visibility: hidden;
+    /* Hide the image and card body on hover */
 }
 
 .card-overlay {
@@ -25,15 +25,13 @@
     transition: opacity 0.3s ease-in-out;
 }
 
-
-
- .card:hover .card-overlay {
+.card:hover .card-overlay {
     opacity: 1;
 }
 
-.overlay-text{
-   color: #000;
-   pointer-events: auto;
+.overlay-text {
+    color: #000;
+    pointer-events: auto;
 }
 
 .modal-wrapper {
@@ -47,22 +45,22 @@
     justify-content: center;
     align-items: center;
     z-index: 999;
-  }
+}
 
-  .modal-wrapper.visible {
+.modal-wrapper.visible {
     display: flex;
-  }
+}
 
-  .cancelar {
+.cancelar {
     position: relative;
     margin-left: 80%;
 }
 
 tr.different {
-  border: 2px solid red;
+    border: 2px solid red;
 }
 
-  .modal-container {
+.modal-container {
     align-items: right;
     width: 40%;
     background-color: #fff;
@@ -75,20 +73,22 @@ tr.different {
     flex-direction: column;
     /* align-items: flex-end; */
     position: relative;
-    overflow-y: auto; /* Add this line to enable vertical scrolling */
-    max-height: 500px; /* Optional: Set a max-height to limit the scrollable area */
-  }
+    overflow-y: auto;
+    /* Add this line to enable vertical scrolling */
+    max-height: 500px;
+    /* Optional: Set a max-height to limit the scrollable area */
+}
 
-  .modal-title {
+.modal-title {
     font-size: 24px;
     margin-top: 0;
-  }
+}
 
-  .modal-content {
+.modal-content {
     margin-bottom: 20px;
-  }
+}
 
-  .modal-close-btn {
+.modal-close-btn {
     margin: 10px;
     margin-right: -10px;
     background-color: transparent;
@@ -96,95 +96,136 @@ tr.different {
     font-size: 16px;
     cursor: pointer;
     margin-right: 5px;
-  }
+}
 
-.cat{
-  text-align: left;
+.cat {
+    text-align: left;
 }
 
 .search-form {
-  margin-top: 10px;
-  text-align: center;
+    margin-top: 10px;
+    text-align: center;
 }
 
 .search-form .form-group {
-  margin-bottom: 10px;
-  display: inline-block;
-  width: 100%;
-  text-align: center;
+    margin-bottom: 10px;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
 }
 
 .search-form .form-group:nth-child(even) {
-  margin-right: 10px;
+    margin-right: 10px;
 }
-
 
 .search-form .form-group label,
 .search-form .form-group input {
-  display: block;
-  width: 50%;
-  margin: 0 auto;
+    display: block;
+    width: 50%;
+    margin: 0 auto;
 }
 
 .search-form button {
-  display: block;
-  width: auto;
-  margin-top: 10px;
+    display: block;
+    width: auto;
+    margin-top: 10px;
 }
-@media (max-width: 576px) {
 
-  .butoes{
-    position: relative;
-    left: 30%;
-  }
-}
-@media (min-width: 576px) {
-  .search-form .form-group {
-    width: calc(35% - 5px);
+.deus {
+    border: solid 2px;
     display: inline-block;
-    margin-right: 10px;
+    padding: 1%;
+    margin-top: 15px;
+    position: fixed;
+    z-index: 14;
+    background-color: white;
+    width: 17%;
+}
 
-  }
-  .butoes{
-    position: relative;
-    left: 45%;
-  }
+@media (max-width: 576px) {
+    .deus {
+        position: flex;
+        display: inline;
+        width: 35%;
+        margin-top: 1%;
+        margin-bottom: 5%;
+        bottom: 5%;
+    }
+    .jesus {
+        transform: scale(1);
+        padding: 0%;
+    }
+    .babyj {
+        transform: scale(0.8);
+        padding: 0%;
+    }
+    .babyjj {
+        transform: scale(0.8);
+        padding: 5%;
+        position: fixed;
+        right: -3%;
+        text-align: right;
+        display: inline-block;
+        top: -3%;
+    }
+    .butoes {
+        position: relative;
+        left: 30%;
+    }
+}
+
+@media (min-width: 576px) {
+    .search-form .form-group {
+        width: calc(35% - 5px);
+        display: inline-block;
+        margin-right: 10px;
+    }
+    .butoes {
+        position: relative;
+        left: 45%;
+    }
+    .deus {
+        position: flex;
+        display: inline;
+        width: 22%;
+        margin-top: 1%;
+        margin-bottom: 5%;
+        bottom: 5%;
+    }
 }
 
 @media (min-width: 768px) {
-  .search-form .form-group {
-    width: calc(40% - 5px);
-    display: inline-block;
-    margin-right: 10px;
-  }
-
-  .butoes{
-    position: relative;
-    left: 60%;
-  }
+    .search-form .form-group {
+        width: calc(40% - 5px);
+        display: inline-block;
+        margin-right: 10px;
+    }
+    .butoes {
+        position: relative;
+        left: 60%;
+    }
 }
 
 @media (min-width: 992px) {
-  .search-form .form-group {
-    width: calc(35% - 5px);
-    display: inline-block;
-    margin-right: 10px;
-  }
-
-  .butoes{
-    position: relative;
-    left: 65%;
-  }
+    .search-form .form-group {
+        width: calc(35% - 5px);
+        display: inline-block;
+        margin-right: 10px;
+    }
+    .butoes {
+        position: relative;
+        left: 65%;
+    }
 }
 
 @media (min-width: 1200px) {
-  .search-form .form-group {
-    width: calc(20% - 5px);
-    display: inline-block;
-    margin-right: 10px;
-  }
-  .butoes{
-    position: relative;
-    left: 70%;
-  }
+    .search-form .form-group {
+        width: calc(20% - 5px);
+        display: inline-block;
+        margin-right: 10px;
+    }
+    .butoes {
+        position: relative;
+        left: 70%;
+    }
 }

@@ -20,7 +20,8 @@ export class TransportesComponent implements OnInit{
   selectedTransporteId?: string;
   itensNaoEntregues?: ItemInfoDTO[];
   itensParaEntregar:SubItemViagemDTO[] = [];
-  checkedItems: ItemViagemDTO[] = []
+  checkedItems: ItemViagemDTO[] = [];
+  trans: TransporteDTO
 
   page = 0
   previousButtonDisabled = true
