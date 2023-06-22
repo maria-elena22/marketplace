@@ -125,7 +125,6 @@ export class AppComponent implements OnInit{
         if (statusCode === 200) {
           this.subencomendaDestaque = obj.body as FullSubEncomendaDTO;
           this.showEncomendaModal = true
-          this.showNotifs =false
         }
       })
     } else{
@@ -134,7 +133,6 @@ export class AppComponent implements OnInit{
         if (statusCode === 200) {
           this.encomendaDestaque = obj.body as FullEncomendaDTO;
           this.showEncomendaModal = true
-          this.showNotifs =false
         }
 
       })

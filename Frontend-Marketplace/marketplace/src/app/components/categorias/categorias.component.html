@@ -13,8 +13,6 @@
             Ver Todos
         </li>
         <div class="dropdown-divider"></div>
-<div class="godzilla">
-            <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Doces')" (click)="goToProdutos('Merceria','Doces')">Doces </li>
 
             <li class="dropdown-item media d-flex align-items-center" style="cursor: default;" (mouseover)="selectSubCategoria('Frutas')">Frutas </li>
             <li *ngIf="subcategoriaEscolhida && (subcategoriaEscolhida.nomeSubCategoria=== 'Frutas' || subcategoriaEscolhida.nomeSubCategoria=== 'Estrangeiro' || subcategoriaEscolhida.nomeSubCategoria=== 'Nacional')" >
@@ -47,7 +45,7 @@
                 </ul>
             </li>
 
-          </div>
+
     </ul>
 
 
@@ -320,47 +318,6 @@
         </li>
         </div>
     </ul>
-
-    <ul *ngIf="categoriaEscolhida && categoriaEscolhida?.nomeCategoria === 'Beleza'" class="eu">
-        <li class="dropdown-item media d-flex align-items-center"   (click)="goToProdutos('Beleza')" (mouseenter)="showCategoria(categoriaEscolhida)">
-            Ver Todos
-        </li>
-        <div class="dropdown-divider"></div>
-        <div class=".godzilla">
-            <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Maquilhagem')" (click)="goToProdutos('Beleza','Maquilhagem')">Maquilhagem </li>
-        </div>
-          </ul>
-
-    <ul *ngIf="categoriaEscolhida && categoriaEscolhida?.nomeCategoria === 'Conservas'" class="eu">
-        <li class="dropdown-item media d-flex align-items-center"   (click)="goToProdutos('Conservas')" (mouseenter)="showCategoria(categoriaEscolhida)">
-            Ver Todos
-        </li>
-        <div class="dropdown-divider"></div>
-        <div class=".godzilla">
-            <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Atum enlatado')" (click)="goToProdutos('Conservas','Atum enlatado')">Atum enlatado </li>
-        </div>
-          </ul>
-
-    <ul *ngIf="categoriaEscolhida && categoriaEscolhida?.nomeCategoria === 'Casa'" class="eu">
-        <li class="dropdown-item media d-flex align-items-center"   (click)="goToProdutos('Casa')" (mouseenter)="showCategoria(categoriaEscolhida)">
-            Ver Todos
-        </li>
-        <div class="dropdown-divider"></div>
-        <div class=".godzilla">
-            <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Almofadas')" (click)="goToProdutos('Casa','Almofadas')">Almofadas </li>
-        </div>
-          </ul>
-
-    <ul *ngIf="categoriaEscolhida && categoriaEscolhida?.nomeCategoria === 'Animais'" class="eu">
-        <li class="dropdown-item media d-flex align-items-center"   (click)="goToProdutos('Animais')" (mouseenter)="showCategoria(categoriaEscolhida)">
-            Ver Todos
-        </li>
-        <div class="dropdown-divider"></div>
-        <div class=".godzilla">
-            <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Gatos')" (click)="goToProdutos('Animais','Gatos')">Gatos </li>
-        </div>
-          </ul>
-
 
 </ul>
 

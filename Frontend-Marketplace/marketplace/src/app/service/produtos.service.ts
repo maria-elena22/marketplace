@@ -95,7 +95,6 @@ export class ProdutosService{
         const token = localStorage.getItem('jwt_token');
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
         const url = `${this.backendUrl}/produto`;
-    
         if(uniProdsIds.length === 0){
             return throwError("Deve associar pelo menos uma unidade de produção");
         }
@@ -104,9 +103,11 @@ export class ProdutosService{
         }
 
         let params = new HttpParams()
-            .set('uniProdsIds',uniProdsIds.toString())
-            .set('subCategoriasIds', subCategoriasIds.toString())
-            .set('preco',preco)
+        params = params.set('uniProdsIds',uniProdsIds.toString())
+        params = params.set('subCategoriasIds', subCategoriasIds.toString())
+        params = params.set('preco',preco)
+
+
         return this.http.post<any>(url, produto,{ headers, params ,observe: 'response' })
           .pipe(
               catchError((error) => {

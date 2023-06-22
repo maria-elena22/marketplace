@@ -86,50 +86,15 @@
 
     </div>
     <br>
-<!--
-    <div *ngIf="role" id="sidebarEU" style="margin-right: 0%;  text-align: center; background-color:white;border: 1px solid rgba(0, 0, 0, 0.125); border-radius: 0.25rem;  overflow-y: scroll;">
-        <div class="nav-item" id="content">
-            *ngIf="showNotifs" [class.visible]="showNotifs && notifs"
-
-            <div style="color:  rgb(59, 59, 59);border-style: outset ;border: 1px solid rgba(0, 0, 0, 0.125); border-radius: 0.25rem;">Notificações</div>
-
-            <br>
-            <div *ngIf=" notifs && notifs.length>0">
-                <ul *ngFor="let notif of notifs" style="list-style-type: none;text-align: center;padding: 0%;">
-                    <li> {{notif.mensagem}}
-                        <button *ngIf="role === 'ROLE_FORNECEDOR'" class="btn btn-outline-secondary" (click)="showEncomenda(notif.subEncomenda?.idSubEncomenda!)"> {{notif.subEncomenda?.idSubEncomenda}}</button>
-                        <p *ngIf="role === 'ROLE_CONSUMIDOR'" class="btn btn-outline-secondary" (click)="showEncomenda(notif.subEncomenda?.encomenda!.idEncomenda!)">{{notif.subEncomenda?.encomenda!.idEncomenda}}</p>
-
-                         <a _ngcontent-gqy-c55="" style="cursor: pointer;" (click)="entregarNotif(notif.idNotificacao!)">
-                            <mat-icon _ngcontent-gqy-c55="" role="img" class="mat-icon notranslate material-icons mat-ligature-font mat-icon-no-color" style="vertical-align: text-bottom; color: #c91527;" aria-hidden="true" data-mat-icon-type="font">delete</mat-icon>
-                        </a>
-                    </li>
-
-                </ul>
-            </div>
-            <div *ngIf="notifs === null||(notifs && notifs.length===0)">
-                <h3 style="color: rgb(59, 59, 59);">Não tem Notificações</h3>
-            </div>
-        </div>
-    </div> -->
-
-
 
 </div>
-<!-- Footer
-        <footer class="py-5 bg-dark">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
-        </footer>-->
+
 
 <!-- Footer -->
 <footer class="text-center text-lg-start navbar-light bg-light text-gray">
     <!-- Section: Social media -->
     <section class="d-flex justify-content-between p-4" style="background-color: #4e73df">
 
-        <!-- Left -->
-
-
-        <!-- Right -->
     </section>
     <!-- Section: Social media -->
 
@@ -216,8 +181,8 @@
         <ul *ngFor="let notif of notifs">
             <li> {{notif.mensagem}}
                 <button *ngIf="role === 'ROLE_FORNECEDOR'" class="btn btn-outline-secondary" (click)="showEncomenda(notif.subEncomenda?.idSubEncomenda!)"> {{notif.subEncomenda?.idSubEncomenda}}</button>
-                <p *ngIf="role === 'ROLE_CONSUMIDOR'" class="btn btn-outline-secondary" (click)="showEncomenda(notif.subEncomenda?.encomenda!.idEncomenda!)">{{notif.subEncomenda?.encomenda!.idEncomenda}}</p>
-                <button (click)="entregarNotif(notif.idNotificacao!)"><i class="fa fa-trash"></i></button>
+                <button *ngIf="role === 'ROLE_CONSUMIDOR'" class="btn btn-outline-secondary" (click)="showEncomenda(notif.subEncomenda?.encomenda!.idEncomenda!)">{{notif.subEncomenda?.encomenda!.idEncomenda}}</button> &nbsp;
+                <a (click)="entregarNotif(notif.idNotificacao!)" style="cursor: pointer;"><mat-icon style="vertical-align: text-bottom; color: #c91527;">delete</mat-icon></a>
             </li>
 
         </ul>

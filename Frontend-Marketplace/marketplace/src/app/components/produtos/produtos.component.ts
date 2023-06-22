@@ -412,9 +412,15 @@ export class ProdutosComponent implements OnInit {
           
           this.produtos = []
           for(let p of ps){
-            let props = Object.values(p.propriedades!);
-            for(let prop of props){
+            let propsV = Object.values(p.propriedades!);
+            let propsK = Object.keys(p.propriedades!);
+            for(let prop of propsV){
               if(prop.includes(this.searchProdutoForm.value.propriedade)){
+                this.produtos.push(p)
+              }
+            }
+            for(let prop of propsK){
+              if(prop.includes(this.searchProdutoForm.value.propriedade) && this.produtos.filter(prod=>prod.idProduto===p.idProduto).length===0){
                 this.produtos.push(p)
               }
             }
@@ -904,6 +910,7 @@ export class ProdutosComponent implements OnInit {
       
     }else{
       this.showAnswer = false
+      window.location.reload();
     }
   }
 
