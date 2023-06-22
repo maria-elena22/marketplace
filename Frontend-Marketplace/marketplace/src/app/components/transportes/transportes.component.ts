@@ -51,7 +51,7 @@ export class TransportesComponent implements OnInit{
 
   ngOnInit(){
     if(this.appComponent.token && this.appComponent.role !== 'ROLE_ADMIN'){
-      this.utilizadorService.getDetalhesUser().subscribe()
+      this.utilizadorService.getDetalhesUser()?.subscribe()    
     }
 
     this.getUniProds();
