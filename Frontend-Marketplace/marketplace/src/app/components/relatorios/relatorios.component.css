@@ -78,3 +78,48 @@
   color: #ebedf6;
 
 }
+
+
+
+
+@media (max-width: 576px) {
+  .modal-container {
+
+  background-color: #fff;
+
+  border-radius: 5px;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+
+  text-align: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-y: auto; /* Add this line to enable vertical scrolling */
+  max-height: 100%; /* Optional: Set a max-height to limit the scrollable area */
+  }
+}
+
+@media (min-width:576px) and (max-width: 768px) {
+  .modal-container {
+
+    background-color: #fff;
+
+    border-radius: 5px;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow-y: auto; /* Add this line to enable vertical scrolling */
+    max-height: 100%; /* Optional: Set a max-height to limit the scrollable area */
+    }
+}

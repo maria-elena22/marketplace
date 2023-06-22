@@ -1,5 +1,5 @@
 
-<div id="wrapper" >
+<div id="wrapper" style="overflow-x: scroll;">
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
         <!-- Main Content -->
@@ -39,37 +39,37 @@
 
 
             </div>
+
             <div class = "caixa">
-            <div class="grafico">
 
-                <div class="tab-container" *ngIf="relatorioZonas" >
-                    <div class="tab">
+                <div class="grafico">
 
-                        <h5 class="tab-button title" [class.selected]="zonaVisivel==='Continentes'" (click)="abreTab('Continentes')"> Continentes</h5>
-                        <h5 class="tab-button title" [class.selected]="zonaVisivel==='Países'" (click)="abreTab('Países')"> Países</h5>
-                        <h5 class="tab-button title" [class.selected]="zonaVisivel==='Distritos'" (click)="abreTab('Distritos')"> Distritos</h5>
-                        <h5 class="tab-button title" [class.selected]="zonaVisivel==='Municípios'" (click)="abreTab('Municípios')"> Municípios</h5>
-                        <h5 class="tab-button title" [class.selected]="zonaVisivel==='Freguesias'" (click)="abreTab('Freguesias')"> Freguesias</h5>
+                  <div class="tab-container" *ngIf="relatorioZonas" >
+                      <div class="tab table-responsive">
 
-                    </div>
+                          <h5 class="tab-button title" [class.selected]="zonaVisivel==='Continentes'" (click)="abreTab('Continentes')"> Continentes</h5>
+                          <h5 class="tab-button title" [class.selected]="zonaVisivel==='Países'" (click)="abreTab('Países')"> Países</h5>
+                          <h5 class="tab-button title" [class.selected]="zonaVisivel==='Distritos'" (click)="abreTab('Distritos')"> Distritos</h5>
+                          <h5 class="tab-button title" [class.selected]="zonaVisivel==='Municípios'" (click)="abreTab('Municípios')"> Municípios</h5>
+                          <h5 class="tab-button title" [class.selected]="zonaVisivel==='Freguesias'" (click)="abreTab('Freguesias')"> Freguesias</h5>
 
+                      </div>
+
+
+                  </div>
+
+                  <app-grafico style="margin-right: 0;" [dadosHist]="dados" [labelsHist]="labels" ></app-grafico>
 
                 </div>
-                <app-grafico style="margin-right: 0;" [dadosHist]="dados" [labelsHist]="labels" ></app-grafico>
-
-
-
-
-
-            </div>
           </div>
+        </div>
+        </div>
 
 
 
 
         </div>
-    </div>
-</div>
+
 
 <script>
     document.getElementsByClassName("tab-button")[0].click();

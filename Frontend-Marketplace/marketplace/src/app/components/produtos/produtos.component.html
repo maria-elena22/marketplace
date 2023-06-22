@@ -90,7 +90,7 @@
 
                     <div *ngIf="role==='ROLE_FORNECEDOR'" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                         <div class="text-center" *ngIf="forneco(produto)"><a class="btn btn-outline-dark mt-auto" (click)="toggleRemoverProduto(produto)">Deixar de fornecer</a></div>
-                        <div class="text-center" *ngIf="!forneco(produto)"><a class="btn btn-outline-dark mt-auto" (click)="toggleAddProduto(produto)">Passar a fornecer</a></div>
+                        <div class="text-center" *ngIf="!forneco(produto)"><a class="btn btn-outline-dark mt-auto" style="z-index:-1;" (click)="toggleAddProduto(produto)">Passar a fornecer</a></div>
                         <p></p>
                         <div class="text-center"><a (click)="showDetalheProduto(produto.idProduto!)" routerLink="/marketplace/produto-detalhes" class="nav-link active" class="btn btn-outline-primary mt-auto">Ver mais</a></div>
                     </div>
