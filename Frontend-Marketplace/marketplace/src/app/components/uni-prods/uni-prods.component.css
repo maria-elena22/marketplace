@@ -12,16 +12,21 @@
     align-items: center;
     z-index: 999;
   }
-  
+
   .modal-wrapper.visible {
     display: flex;
   }
-  
+
+
   .modal-container {
     background-color: #fff;
-    padding: 20px;
+
     border-radius: 5px;
-    width: 40%;    
+    width: 60%;
+    max-width: 576px;
+    margin: 0 auto;
+    padding: 20px;
+
     text-align: center;
     position: relative;
     display: flex;
@@ -29,18 +34,17 @@
     position: relative;
     overflow-y: auto; /* Add this line to enable vertical scrolling */
     max-height: 500px; /* Optional: Set a max-height to limit the scrollable area */
-  
   }
-  
+
   .modal-title {
     font-size: 24px;
     margin-top: 0;
   }
-  
+
   .modal-content {
     margin-bottom: 20px;
   }
-  
+
   .modal-close-btn {
     margin-top: -10px;
     margin-right: -10px;
@@ -49,4 +53,19 @@
     font-size: 16px;
     cursor: pointer;
   }
-  
+
+@media (max-width: 576px) {
+  .modal-container {
+    width: 75%;
+
+    padding: 15px; /* Adjust the padding for smaller screens */
+  }
+}
+
+@media (min-width:576px) and (max-width: 768px) {
+  .modal-container {
+    width: 65%;
+
+    padding: 15px; /* Adjust the padding for smaller screens */
+  }
+}

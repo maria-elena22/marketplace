@@ -21,7 +21,7 @@ export class CestoComponent implements OnInit{
   showAnswer = false
   success? : boolean
   answer?:string
-  error?: Error  
+  error?: Error
 
   constructor(private appComponent:AppComponent,public cestoService:CestoService, private produtosService:ProdutosService,
     private router: Router,private route: ActivatedRoute, private utilizadorService:UtilizadorService){}
@@ -34,7 +34,7 @@ export class CestoComponent implements OnInit{
     this.getProdutos(-1,-1)
 
 
-      
+
   }
 
   goToProdutos(){
@@ -59,8 +59,8 @@ export class CestoComponent implements OnInit{
           this.items = []
           this.getProdutos(-1,-1)
         }
-       
-      } 
+
+      }
     }
   }
 
@@ -75,12 +75,18 @@ export class CestoComponent implements OnInit{
     for(let pf of produto.precoFornecedores!){
       const preco = pf.preco;
       if(pf.fornecedor?.idUtilizador === fornecedor.idUtilizador){
-        return preco!.toFixed(2); 
+        return preco!.toFixed(2);
       }
     }
     return '0';
   }
+  totalProduto(item: { produto: FullProdutoDTO, fornecedor: SimpleUtilizadorDTO, quantidade: number, preco: string }): string {
+    const quantidade = item.quantidade;
+    const preco = parseFloat(item.preco);
+    const produtoTotal = quantidade * preco;
 
+    return produtoTotal.toFixed(2);
+  }
   totalCarrinho():string{
     let total = 0;
     for(let item of this.items){
@@ -115,7 +121,7 @@ export class CestoComponent implements OnInit{
         this.produtos =  obj.body as FullProdutoDTO[];
         this.carrinho = this.cestoService.getItems();
         this.handleItems();
-    } 
+    }
     })
   }
 
@@ -137,7 +143,7 @@ export class CestoComponent implements OnInit{
       const compraData : CompraDTO = {
         items: this.carrinho,
         preco: parseFloat(this.totalCarrinho())
-      } 
+      }
       this.cestoService.addEncomenda(compraData).subscribe(obj=>{
         const statusCode = obj.status
         if (statusCode === 200) {
@@ -147,16 +153,16 @@ export class CestoComponent implements OnInit{
           const body = obj.body as EncomendaPaymentDTO;
           let queryParams = { encomenda: body.encomendaDTO?.idEncomenda};
           localStorage.setItem("cartItems",JSON.stringify([]))
-  
+
           this.router.navigate(['/marketplace/pagamento'], { queryParams });
-  
-  
+
+
           // const state = { page: 'cesto' };
           // const url = '/cesto';
-  
+
           // window.history.pushState(state, url);
-  
-      } 
+
+      }
       })
     } else{
       this.success = false;

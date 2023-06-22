@@ -109,23 +109,9 @@
     margin-top: 5%;
   }
 
-  .card{
-    height: 25em;
-    margin-bottom: -30%;
-  }
-
-  .fw-bolder{
-    margin-top: -20%;
-  }
-
-  .bi, .bi-person-square{
-    margin-top: -10%;
-    margin-left: 3%;
-    transform: scale(0.7);
-  }
 
   .secCollumn{
-    margin-top: 30%;
+    margin-top: 3%;
   }
 }
 

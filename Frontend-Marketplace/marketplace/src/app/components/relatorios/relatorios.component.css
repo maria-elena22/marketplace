@@ -9,16 +9,16 @@
     width: 300px; /* Largura desejada para a barra lateral */
     padding: 20px; /* Espaçamento interno da barra lateral */
   }
-  
+
   .sidebar form {
     margin-bottom: 20px; /* Espaçamento inferior entre o formulário e outros elementos da barra lateral */
   }
-  
+
   .sidebar label {
     display: block; /* Exibe os rótulos em uma nova linha */
     margin-bottom: 10px; /* Espaçamento inferior entre os rótulos */
   }
-  
+
   .sidebar input[type="date"],
   .sidebar input[type="checkbox"] {
     margin-right: 5px; /* Espaçamento direito entre os campos de entrada */
@@ -38,35 +38,35 @@
   .tab-container {
     border: 1px solid #ccc;
   }
-  
+
   .tab {
     display: flex;
   }
-  
+
   .tab-button {
     border: none;
     outline: none;
     cursor: pointer;
     padding: 10px 20px;
     flex: 1;
-    
+
     border: solid rgba(78, 115, 223, 0.2);
     font-weight: bold;
 
     background-color: rgba(78, 115, 223, 0.2);
 
   }
-  
+
   .tab-button:hover {
     border: solid rgba(78, 115, 223, 1);
 
   }
-  
+
   .tab-content {
     display: none;
     padding: 20px;
   }
-  
+
   .tab-content h2 {
     margin-top: 0;
   }

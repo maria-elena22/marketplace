@@ -62,16 +62,16 @@ tr.different {
 
 .modal-container {
     align-items: right;
-    width: 40%;
     background-color: #fff;
-    padding: 20px;
     border-radius: 5px;
-    /* max-width: 500px; */
+    width: 60%;
+    max-width: 576px;
+    margin: 0 auto;
+    padding: 20px;
     text-align: center;
     position: relative;
     display: flex;
     flex-direction: column;
-    /* align-items: flex-end; */
     position: relative;
     overflow-y: auto;
     /* Add this line to enable vertical scrolling */
@@ -131,7 +131,34 @@ tr.different {
     margin-top: 10px;
 }
 
-.deus {
+.comparison-container {
+    border: solid 2px;
+    display: inline-block;
+    padding: 1%;
+    margin-top: 15px;
+    position: fixed;
+    z-index: 14;
+    background-color: white;
+    width: 100%;
+    max-width: 200px;
+    /* Adjust the max-width as per your needs */
+}
+
+.comparison-container p {
+    margin-top: 0;
+}
+
+.comparison-container div {
+    margin-bottom: 10px;
+}
+
+.comparison-container a {
+    padding: 1%;
+    cursor: pointer;
+}
+
+
+/* .deus {
     border: solid 2px;
     display: inline-block;
     padding: 1%;
@@ -140,10 +167,34 @@ tr.different {
     z-index: 14;
     background-color: white;
     width: 17%;
-}
+} */
 
 @media (max-width: 576px) {
-    .deus {
+    .modal-container {
+        width: 75%;
+        padding: 15px;
+        /* Adjust the padding for smaller screens */
+    }
+    .butoes {
+        position: relative;
+        left: 30%;
+    }
+    .comparison-container {
+        width: 80%;
+        padding: 2%;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+@media (min-width:576px) and (max-width: 768px) {
+    .modal-container {
+        width: 65%;
+        padding: 15px;
+        /* Adjust the padding for smaller screens */
+    }
+    /* .deus {
         position: flex;
         display: inline;
         width: 35%;
@@ -167,7 +218,7 @@ tr.different {
         text-align: right;
         display: inline-block;
         top: -3%;
-    }
+    } */
     .butoes {
         position: relative;
         left: 30%;
@@ -184,14 +235,26 @@ tr.different {
         position: relative;
         left: 45%;
     }
-    .deus {
+    .comparison-container {
+        width: 90%;
+    }
+    .search-form .form-group {
+        width: calc(35% - 5px);
+        display: inline-block;
+        margin-right: 10px;
+    }
+    .butoes {
+        position: relative;
+        left: 45%;
+    }
+    /* .deus {
         position: flex;
         display: inline;
         width: 22%;
         margin-top: 1%;
         margin-bottom: 5%;
         bottom: 5%;
-    }
+    } */
 }
 
 @media (min-width: 768px) {

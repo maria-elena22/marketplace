@@ -18,9 +18,11 @@
 
 .modal-container {
     background-color: #fff;
-    padding: 20px;
     border-radius: 5px;
-    width: 40%;
+    width: 60%;
+    max-width: 576px;
+    margin: 0 auto;
+    padding: 20px;
     text-align: center;
     position: relative;
     display: flex;
