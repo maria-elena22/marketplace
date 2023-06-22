@@ -31,7 +31,7 @@
 </div>
 
 
-<div class="deus" *ngIf="prodComparar1||prodComparar2">
+<div style="border: solid 2px; display: inline-block; padding: 1%; margin-top: 15px; position: fixed; z-index: 14; background-color: white; width:17%;" *ngIf="prodComparar1||prodComparar2">
 
 
     <p>Produtos a comparar:</p>
@@ -500,9 +500,9 @@
 
 
 <div class="modal-wrapper" *ngIf="showComparar" [class.visible]="showComparar">
-    <div class="modal-container jesus">
-        <button class="modal-close-btn babyjj" (click)="showComparar=false" style="text-align: right;">FECHAR</button>
-        <table class="table table-bordered babyj" id="dataTable" width="100%" cellspacing="0">
+    <div class="modal-container">
+        <button class="modal-close-btn" (click)="showComparar=false" style="text-align: right;">FECHAR</button>
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <td><b>Nome</b></td>
                 <th>{{prodComparar1?.nome}}</th>
