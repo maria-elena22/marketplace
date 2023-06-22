@@ -12,31 +12,17 @@
 <div *ngIf="showFilter" style="padding: 1%;">
     <br>
     <form [formGroup]="searchProdutoForm" (ngSubmit)="onSubmitSearch()">
+
         <div class="mt0">
-            <div class="search-form">
-                <div class="form-group">
-                    <!-- <b><p style="font-size: 25px; margin-left: 0.5%;">Pesquisar por:</p></b> &nbsp; &nbsp;&nbsp; -->
-                    <label for="fornecedor"><b>Nome do Produto:</b></label> &nbsp;
-                    <input type="text" formControlName="nomeProduto" class="form-control form-control-user "> &nbsp;
-                </div>
+            <b><p style="font-size: 25px; margin-left: 0.5%;">Pesquisar por:</p></b> &nbsp; &nbsp;&nbsp;
+            <label for="fornecedor"><b>Nome do Produto:</b></label> &nbsp;
+            <input type="text" formControlName="nomeProduto" class="form-control form-control-user d-inline-block" style="width:15%;"> &nbsp; <label for="precoMin"><b>Preço Mínimo:</b></label> &nbsp;
+            <input type="number" id="precoMin" formControlName="precoMin" step="0.01" min="0" class="form-control form-control-user d-inline-block" style="width:10%;"> &nbsp; <label for="precoMax"><b>Preço Máximo:</b></label> &nbsp;
+            <input type="number" id="precoMax" formControlName="precoMax" step="0.01" min="0" class="form-control form-control-user d-inline-block" style="width:10%;"> &nbsp;&nbsp; <label for="fornecedor"><b>Propriedade:</b></label> &nbsp;
+            <input type="text" formControlName="propriedade" class="form-control form-control-user d-inline-block" style="width:10%;"> &nbsp;
 
-                <div class="form-group">
-                    <label for="precoMin"><b>Preço Mínimo:</b></label> &nbsp;
-                    <input type="number" id="precoMin" formControlName="precoMin" step="0.01" min="0" class="form-control form-control-user "> &nbsp;
-                </div>
+            <button class="btn btn-primary d-inline-block" type="submit"><i class="bi bi-search"></i>   Pesquisar</button>
 
-                <div class="form-group">
-                    <label for="precoMax"><b>Preço Máximo:</b></label> &nbsp;
-                    <input type="number" id="precoMax" formControlName="precoMax" step="0.01" min="0" class="form-control form-control-user"> &nbsp;&nbsp;
-                </div>
-
-                <div class="form-group">
-                    <label for="fornecedor"><b>Propriedade:</b></label> &nbsp;
-                    <input type="text" formControlName="propriedade" class="form-control form-control-user"> &nbsp;
-                </div>
-
-                <button class="btn btn-primary d-block" type="submit"><i class="bi bi-search"></i>Pesquisar</button>
-            </div>
         </div>
         <br>
 
