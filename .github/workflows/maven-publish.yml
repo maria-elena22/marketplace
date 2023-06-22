@@ -38,7 +38,7 @@ jobs:
       with:
         docker_image_name: backend
         docker_image_tag: lat
-        docker_context: ./Backend-Marketplace/
+        docker_context: ./Backend-Marketplace
         dockerfile: Dockerfile
         gcr_host: gcr.io
         gcr_project_id: sapient-stacker-380223 
