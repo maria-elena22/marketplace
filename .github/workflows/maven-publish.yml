@@ -33,6 +33,7 @@ jobs:
       
     - name: test
       run: ls
+      
     - name: Push Docker Image to GCR
   # You may pin to the exact commit or the version.
   # uses: kurkop/push-docker-gcr@4ee82fa6b080179896960dd11b04c766be5ba39d
@@ -41,7 +42,7 @@ jobs:
         docker_image_name: backend
         docker_image_tag: lat
         docker_context: ./Backend-Marketplace
-        dockerfile: Dockerfile
+        dockerfile: ./Backend-Marketplace/Dockerfile
         gcr_host: gcr.io
         gcr_project_id: sapient-stacker-380223 
         gcr_service_key: ${{ secrets.ACCESS_KEY }}
