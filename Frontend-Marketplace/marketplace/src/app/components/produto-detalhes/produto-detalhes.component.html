@@ -4,12 +4,12 @@
 
 <br>
 <div class="container">
-    <a routerLink="/marketplace/produtos" style="cursor: pointer;"><i class="bi bi-arrow-bar-left"></i> Ver outros produtos</a>
+    <a href="/marketplace/produtos" style="cursor: pointer;"><i class="bi bi-arrow-bar-left"></i> Ver outros produtos</a>
     <div class="card">
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-5 col-md-5 col-sm-6">
-                    <div class="white-box text-center"><img src="https://www.bootdey.com/image/350x350/00CED1/000000" class="img-responsive"></div>
+                    <h1 style="text-align:center; font-family: 'Nunito', sans-serif; font-size: 200px; color:#777886" class="fw-bolder">{{getLetra()}}</h1>
                 </div>
                 <div class="col-lg-7 col-md-7 col-sm-6" *ngIf="produto">
                     <div *ngIf="role==='ROLE_FORNECEDOR'"></div>
@@ -288,13 +288,13 @@
     <div class="modal-container">
         <button class="modal-close-btn" (click)="toggleAnswer()" style="text-align: right;">FECHAR</button>
         <br>
-        
-      <h2 [style.color]="success ? '#1cc88a' : 'red'" class="modal-title">{{answer}}</h2>
-      <br>      
-      <a routerLink="marketplace/produtos">Ir para todos os produtos</a>
-      <p></p>
-      <a routerLink="marketplace/cesto">Ir para o cesto</a>
-      <br>
+
+        <h2 [style.color]="success ? '#1cc88a' : 'red'" class="modal-title">{{answer}}</h2>
+        <br>
+        <a href="marketplace/produtos">Ir para todos os produtos</a>
+        <p></p>
+        <a href="marketplace/cesto">Ir para o cesto</a>
+        <br>
     </div>
 </div>
 
