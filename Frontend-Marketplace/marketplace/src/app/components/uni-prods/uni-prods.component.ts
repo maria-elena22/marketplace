@@ -55,11 +55,11 @@ export class UniProdsComponent implements OnInit {
       stock: new FormControl('', Validators.required)
 
     });
-    
-    
+
+
   }
 
-  
+
   alterarStock(produto:ProdutoFornecedorDTO){
     this.showAlteraStock = true
     this.produtoStock = produto
@@ -73,34 +73,34 @@ export class UniProdsComponent implements OnInit {
       const statusCode = obj.status
 
       if (statusCode === 200) {
-  
+
         this.toggleAlteraStock()
         window.location.reload()
 
-      } 
+      }
     }
   )
   }
 
   onSubmit() {
-    
+
     const uniProdData: UniProdInputDTO = {
       nomeUniProd: this.uniProdForm.value.nomeUniProd
     }
-  
+
     this.uniProdService.insertUniProd(uniProdData).subscribe(obj=>{
       const statusCode = obj.status
 
       if (statusCode === 200) {
         this.toggleModal()
-        window.location.reload(); 
+        window.location.reload();
 
 
-      } 
+      }
     }
   )
 
-  } 
+  }
   toggleProdutos(){
     this.showProdutos = !this.showProdutos
   }
@@ -118,7 +118,7 @@ export class UniProdsComponent implements OnInit {
     this.showAlteraStock = !this.showAlteraStock
   }
 
-    
+
   editarUniProd(uniProd:UniProdDTO){
     this.uniProdEscolhida = uniProd
     this.toggleEditar()
@@ -126,7 +126,7 @@ export class UniProdsComponent implements OnInit {
   }
 
   onSubmitEditar(){
-    
+
     this.uniProdService.updateUniProd(this.editarForm.value,this.uniProdEscolhida.idUnidade!).subscribe(obj=>{
       const statusCode = obj.status
       if (statusCode === 200) {
@@ -169,11 +169,11 @@ export class UniProdsComponent implements OnInit {
         this.error = obj.body as Error;
     }
     })
-    
+
   }
 
   stockProduto(produto:ProdutoFornecedorDTO) : number{
-    
+
     const uniProdsP = produto.uniProds
     if(uniProdsP){
       for(let uniProd of uniProdsP){
@@ -183,9 +183,9 @@ export class UniProdsComponent implements OnInit {
       }
     }
     return 0
-    
+
   }
-    
+
 
 
   getUniProds(){

@@ -12,31 +12,17 @@
 <div *ngIf="showFilter" style="padding: 1%;">
     <br>
     <form [formGroup]="searchProdutoForm" (ngSubmit)="onSubmitSearch()">
+
         <div class="mt0">
-            <div class="search-form">
-                <div class="form-group">
-                    <!-- <b><p style="font-size: 25px; margin-left: 0.5%;">Pesquisar por:</p></b> &nbsp; &nbsp;&nbsp; -->
-                    <label for="fornecedor"><b>Nome do Produto:</b></label> &nbsp;
-                    <input type="text" formControlName="nomeProduto" class="form-control form-control-user "> &nbsp;
-                </div>
+            <b><p style="font-size: 25px; margin-left: 0.5%;">Pesquisar por:</p></b> &nbsp; &nbsp;&nbsp;
+            <label for="fornecedor"><b>Nome do Produto:</b></label> &nbsp;
+            <input type="text" formControlName="nomeProduto" class="form-control form-control-user d-inline-block" style="width:15%;"> &nbsp; <label for="precoMin"><b>Preço Mínimo:</b></label> &nbsp;
+            <input type="number" id="precoMin" formControlName="precoMin" step="0.01" min="0" class="form-control form-control-user d-inline-block" style="width:10%;"> &nbsp; <label for="precoMax"><b>Preço Máximo:</b></label> &nbsp;
+            <input type="number" id="precoMax" formControlName="precoMax" step="0.01" min="0" class="form-control form-control-user d-inline-block" style="width:10%;"> &nbsp;&nbsp; <label for="fornecedor"><b>Propriedade:</b></label> &nbsp;
+            <input type="text" formControlName="propriedade" class="form-control form-control-user d-inline-block" style="width:10%;"> &nbsp;
 
-                <div class="form-group">
-                    <label for="precoMin"><b>Preço Mínimo:</b></label> &nbsp;
-                    <input type="number" id="precoMin" formControlName="precoMin" step="0.01" min="0" class="form-control form-control-user "> &nbsp;
-                </div>
+            <button class="btn btn-primary d-inline-block" type="submit"><i class="bi bi-search"></i>   Pesquisar</button>
 
-                <div class="form-group">
-                    <label for="precoMax"><b>Preço Máximo:</b></label> &nbsp;
-                    <input type="number" id="precoMax" formControlName="precoMax" step="0.01" min="0" class="form-control form-control-user"> &nbsp;&nbsp;
-                </div>
-
-                <div class="form-group">
-                    <label for="fornecedor"><b>Propriedade:</b></label> &nbsp;
-                    <input type="text" formControlName="propriedade" class="form-control form-control-user"> &nbsp;
-                </div>
-
-                <button class="btn btn-primary d-block" type="submit"><i class="bi bi-search"></i>Pesquisar</button>
-            </div>
         </div>
         <br>
 
@@ -45,7 +31,7 @@
 </div>
 
 
-<div style="border: solid 2px; display: inline-block; padding: 1%; margin-top: 15px; position: fixed; z-index: 14; background-color: white; width:17%;" *ngIf="prodComparar1||prodComparar2">
+<div class="deus" *ngIf="prodComparar1||prodComparar2">
 
 
     <p>Produtos a comparar:</p>
@@ -84,9 +70,10 @@
                         <div class="text-center">
                             <!-- Product name-->
                             <h5 class="fw-bolder">{{produto.nome}}</h5>
+                            <h6>{{produto.descricao}}</h6>
                             <!-- Product price-->
                             {{getIntervaloPrecos(produto)}}
-                            <p>{{produto.descricao}}</p>
+                            
                         </div>
                     </div>
                     <!-- Carrinho -->
@@ -137,9 +124,10 @@
                         <div class="text-center">
                             <!-- Product name-->
                             <h5 class="fw-bolder">{{produto.nome}}</h5>
+                            <h6>{{produto.descricao}}</h6>
                             <!-- Product price-->
                             {{getMeuPreco(produto)}}€
-                            <p>{{produto.descricao}}</p>
+                            
 
                         </div>
                     </div>
@@ -512,9 +500,9 @@
 
 
 <div class="modal-wrapper" *ngIf="showComparar" [class.visible]="showComparar">
-    <div class="modal-container">
-        <button class="modal-close-btn" (click)="showComparar=false" style="text-align: right;">FECHAR</button>
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+    <div class="modal-container jesus">
+        <button class="modal-close-btn babyjj" (click)="showComparar=false" style="text-align: right;">FECHAR</button>
+        <table class="table table-bordered babyj" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <td><b>Nome</b></td>
                 <th>{{prodComparar1?.nome}}</th>

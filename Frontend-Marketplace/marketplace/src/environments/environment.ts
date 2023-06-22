@@ -5,5 +5,5 @@ export const environment = {
     mapsUrl:'https://www.mapquestapi.com/geocoding/v1/',
     mapsKey:'4dECMgeEmaQa3FARZw2qIOuVQxm5XCkA',
     //backendUrl: 'https://grupo12.pt:8081/api' 
-    backendUrl: 'https://localhost:8080/api'
+     backendUrl: 'https://localhost:8080/api'
   };
