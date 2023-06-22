@@ -161,7 +161,7 @@
                             <th>Preço Total</th>
                             <tr *ngFor="let item of subencomenda.items">
 
-                                <td>{{item.produtoId!}}</td>
+                                <td>{{item.idItem!}}</td>
                                 <td>{{getProduto(item.produtoId!)!.nome}}</td>
                                 <td>{{item.quantidade}}x</td>
                                 <td>{{getPrecoProduto(item.produtoId!,subencomenda.fornecedor!).toFixed(2)}}€</td>
