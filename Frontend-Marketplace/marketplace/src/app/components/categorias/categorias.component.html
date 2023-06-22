@@ -13,7 +13,7 @@
             Ver Todos
         </li>
         <div class="dropdown-divider"></div>
-
+<div class="godzilla">
             <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Doces')" (click)="goToProdutos('Merceria','Doces')">Doces </li>
 
             <li class="dropdown-item media d-flex align-items-center" style="cursor: default;" (mouseover)="selectSubCategoria('Frutas')">Frutas </li>
@@ -47,7 +47,7 @@
                 </ul>
             </li>
 
-
+          </div>
     </ul>
 
 
@@ -56,7 +56,7 @@
             Ver Todos
         </li>
         <div class="dropdown-divider"></div>
-
+        <div class=".godzilla">
 
             <li class="dropdown-item media d-flex align-items-center"  style="cursor: default;" (mouseover)="selectSubCategoria('Marisco')">Marisco </li>
             <li *ngIf="subcategoriaEscolhida && (subcategoriaEscolhida.nomeSubCategoria=== 'Marisco' || subcategoriaEscolhida.nomeSubCategoria=== 'Camarão' || subcategoriaEscolhida.nomeSubCategoria=== 'Outro Marisco')" >
@@ -95,7 +95,7 @@
             </li>
 
             <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Bacalhau')" (click)="goToProdutos('Peixaria','Bacalhau')">Bacalhau </li>
-
+        </div>
     </ul>
 
     <ul *ngIf="categoriaEscolhida && categoriaEscolhida?.nomeCategoria === 'Talho'" class="eu">
@@ -103,7 +103,7 @@
             Ver Todos
         </li>
         <div class="dropdown-divider"></div>
-
+        <div class=".godzilla">
 
             <li class="dropdown-item media d-flex align-items-center"  style="cursor: default;" (mouseover)="selectSubCategoria('Novilho, Vitela e Vitelão')">Novilho, Vitela e Vitelão </li>
             <li *ngIf="subcategoriaEscolhida && (subcategoriaEscolhida.nomeSubCategoria=== 'Novilho, Vitela e Vitelão' || subcategoriaEscolhida.nomeSubCategoria=== 'Novilho' || subcategoriaEscolhida.nomeSubCategoria=== 'Vitela' || subcategoriaEscolhida.nomeSubCategoria=== 'Vitelão')" >
@@ -149,7 +149,7 @@
                     <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Cabrito e Borrego','Borrego')" (click)="goToProdutos('Talho','Cabrito e Borrego','Borrego')">Borrego</li>
                 </ul>
             </li>
-
+        </div>
     </ul>
 
 
@@ -158,7 +158,7 @@
             Ver Todos
         </li>
         <div class="dropdown-divider"></div>
-
+        <div class=".godzilla">
             <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Gelados')" (click)="goToProdutos('Congelados','Gelados')">Gelados </li>
 
 
@@ -206,7 +206,7 @@
 
             <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Peixe e Marisco Congelado')" (click)="goToProdutos('Congelados','Peixe e Marisco Congelado')">Peixe e Marisco Congelado </li>
 
-
+        </div>
 
     </ul>
 
@@ -216,7 +216,7 @@
             Ver Todos
         </li>
         <div class="dropdown-divider"></div>
-
+        <div class=".godzilla">
             <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Limpeza Geral')" (click)="goToProdutos('Limpeza','Limpeza Geral')">Gelados </li>
 
             <li class="dropdown-item media d-flex align-items-center" style="cursor: default;"  (mouseover)="selectSubCategoria('Limpeza da Cozinha')">Limpeza da Cozinha </li>
@@ -271,7 +271,7 @@
 
             <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Desinfetantes e Proteção')" (click)="goToProdutos('Limpeza','Desinfetantes e Proteção')">Desinfetantes e Proteção </li>
 
-
+        </div>
 
     </ul>
 
@@ -281,7 +281,7 @@
             Ver Todos
         </li>
         <div class="dropdown-divider"></div>
-
+        <div class=".godzilla">
         <li class="dropdown-item media d-flex align-items-center" style="cursor: default;"  (mouseover)="selectSubCategoria('Cozinha')">Cozinha </li>
         <li *ngIf="subcategoriaEscolhida && (subcategoriaEscolhida.nomeSubCategoria=== 'Cozinha' || subcategoriaEscolhida.nomeSubCategoria=== 'Frigoríficos' || subcategoriaEscolhida.nomeSubCategoria=== 'Microondas e fogões' || subcategoriaEscolhida.nomeSubCategoria=== 'Máquinas de café')" >
             <ul class="eu">
@@ -318,7 +318,7 @@
 
             </ul>
         </li>
-
+        </div>
     </ul>
 
     <ul *ngIf="categoriaEscolhida && categoriaEscolhida?.nomeCategoria === 'Beleza'" class="eu">
@@ -326,36 +326,40 @@
             Ver Todos
         </li>
         <div class="dropdown-divider"></div>
-
+        <div class=".godzilla">
             <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Maquilhagem')" (click)="goToProdutos('Beleza','Maquilhagem')">Maquilhagem </li>
-    </ul>
+        </div>
+          </ul>
 
     <ul *ngIf="categoriaEscolhida && categoriaEscolhida?.nomeCategoria === 'Conservas'" class="eu">
         <li class="dropdown-item media d-flex align-items-center"   (click)="goToProdutos('Conservas')" (mouseenter)="showCategoria(categoriaEscolhida)">
             Ver Todos
         </li>
         <div class="dropdown-divider"></div>
-
+        <div class=".godzilla">
             <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Atum enlatado')" (click)="goToProdutos('Conservas','Atum enlatado')">Atum enlatado </li>
-    </ul>
+        </div>
+          </ul>
 
     <ul *ngIf="categoriaEscolhida && categoriaEscolhida?.nomeCategoria === 'Casa'" class="eu">
         <li class="dropdown-item media d-flex align-items-center"   (click)="goToProdutos('Casa')" (mouseenter)="showCategoria(categoriaEscolhida)">
             Ver Todos
         </li>
         <div class="dropdown-divider"></div>
-
+        <div class=".godzilla">
             <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Almofadas')" (click)="goToProdutos('Casa','Almofadas')">Almofadas </li>
-    </ul>
+        </div>
+          </ul>
 
     <ul *ngIf="categoriaEscolhida && categoriaEscolhida?.nomeCategoria === 'Animais'" class="eu">
         <li class="dropdown-item media d-flex align-items-center"   (click)="goToProdutos('Animais')" (mouseenter)="showCategoria(categoriaEscolhida)">
             Ver Todos
         </li>
         <div class="dropdown-divider"></div>
-
+        <div class=".godzilla">
             <li class="dropdown-item media d-flex align-items-center" (mouseover)="selectSubCategoria('Gatos')" (click)="goToProdutos('Animais','Gatos')">Gatos </li>
-    </ul>
+        </div>
+          </ul>
 
 
 </ul>
