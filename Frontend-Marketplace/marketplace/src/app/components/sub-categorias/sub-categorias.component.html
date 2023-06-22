@@ -1,0 +1,9 @@
+<li class="dropdown-item" (mouseover)="selectSubCategoria(subCategoria)" >
+    <a style="padding: 3%; width: max-content;cursor: pointer; "  class="media d-flex align-items-center" >
+       
+    {{ subCategoria.nomeSubCategoria }}</a>
+    <ul  class="eu" *ngIf="subCategoria.subCategoriasFilhos?.length && subcategoriaEscolhida === subCategoria">
+        <a style="cursor: pointer;" (click)="goToProdutos(subCategoria)">Ver Todos</a>
+        <app-sub-categorias *ngFor="let subCategoriaFilho of subCategoria.subCategoriasFilhos" [subCategoria]="subCategoriaFilho" ></app-sub-categorias>
+    </ul>
+</li>

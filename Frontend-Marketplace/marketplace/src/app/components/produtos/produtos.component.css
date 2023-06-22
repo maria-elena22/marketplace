@@ -1,0 +1,260 @@
+@import '~@fortawesome/fontawesome-free/css/all.css';
+.card {
+    position: relative;
+    overflow: hidden;
+}
+
+.card:hover img,
+.card:hover .badge,
+.card:hover .card-body {
+    visibility: hidden;
+    /* Hide the image and card body on hover */
+}
+
+.card-overlay {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease-in-out;
+    margin-bottom: 75px;
+}
+
+.card:hover .card-overlay {
+    opacity: 1;
+}
+
+.overlay-text {
+    color: #000;
+    pointer-events: auto;
+    font-size: 14px;
+    z-index: 0;
+}
+
+.modal-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-wrapper.visible {
+    display: flex;
+}
+
+.cancelar {
+    position: relative;
+    margin-left: 80%;
+}
+
+tr.different {
+    border: 2px solid red;
+}
+
+.modal-container {
+    background-color: #fff;
+    border-radius: 5px;
+    width: 60%;
+    max-width: 576px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow-y: auto;
+    /* Add this line to enable vertical scrolling */
+    max-height: 500px;
+    /* Optional: Set a max-height to limit the scrollable area */
+}
+
+.modal-title {
+    font-size: 24px;
+    margin-top: 0;
+}
+
+.modal-content {
+    margin-bottom: 20px;
+}
+
+.modal-close-btn {
+    margin: 10px;
+    margin-right: -10px;
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.cat {
+    text-align: left;
+}
+
+.search-form {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.search-form .form-group {
+    margin-bottom: 10px;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+.search-form .form-group:nth-child(even) {
+    margin-right: 10px;
+}
+
+.search-form .form-group label,
+.search-form .form-group input {
+    display: block;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.search-form button {
+    display: block;
+    width: auto;
+    margin-top: 10px;
+}
+
+.deus {
+    border: solid 2px;
+    display: inline-block;
+    padding: 1%;
+    margin-top: 15px;
+    position: fixed;
+    z-index: 14;
+    background-color: white;
+    width: 17%;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 5px;
+}
+
+@media (max-width: 576px) {
+    .modal-container {
+        width: 78%;
+        padding: 15px;
+        /* Adjust the padding for smaller screens */
+    }
+}
+
+@media (min-width:576px) and (max-width: 768px) {
+    .modal-container {
+        width: 68%;
+        padding: 15px;
+        /* Adjust the padding for smaller screens */
+    }
+}
+
+@media (max-width: 576px) {
+    .deus {
+        position: flex;
+        display: inline;
+        width: 35%;
+        margin-top: 1%;
+        margin-bottom: 5%;
+        bottom: 5%;
+    }
+    .jesus {
+        transform: scale(1);
+        padding: 0%;
+    }
+    .babyj {
+        transform: scale(0.8);
+        padding: 0%;
+    }
+    .babyjj {
+        transform: scale(0.8);
+        padding: 5%;
+        position: fixed;
+        right: -3%;
+        text-align: right;
+        display: inline-block;
+        top: -3%;
+    }
+    .butoes {
+        position: relative;
+        left: 30%;
+    }
+    .overlay-text {
+        font-size: 10px;
+        color: #000;
+        pointer-events: auto;
+        z-index: 0;
+    }
+}
+
+@media (min-width: 576px) {
+    .search-form .form-group {
+        width: calc(35% - 5px);
+        display: inline-block;
+        margin-right: 10px;
+    }
+    .butoes {
+        position: relative;
+        left: 45%;
+    }
+    .deus {
+        position: flex;
+        display: inline;
+        width: 22%;
+        margin-top: 1%;
+        margin-bottom: 5%;
+        bottom: 5%;
+    }
+}
+
+@media (min-width: 768px) {
+    .search-form .form-group {
+        width: calc(40% - 5px);
+        display: inline-block;
+        margin-right: 10px;
+    }
+    .butoes {
+        position: relative;
+        left: 60%;
+    }
+}
+
+@media (min-width: 992px) {
+    .search-form .form-group {
+        width: calc(35% - 5px);
+        display: inline-block;
+        margin-right: 10px;
+    }
+    .butoes {
+        position: relative;
+        left: 65%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .search-form .form-group {
+        width: calc(20% - 5px);
+        display: inline-block;
+        margin-right: 10px;
+    }
+    .butoes {
+        position: relative;
+        left: 70%;
+    }
+}

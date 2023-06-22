@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<div id="wrapper">
+    <!-- <app-sidebar></app-sidebar> -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-3">
+                    <h1 class="h3 mb-0 text-gray-800 mt-4"> Encomendas</h1>
+                    <button *ngIf="appComponent.role === 'ROLE_CONSUMIDOR'" class="btn btn-outline-dark" (click)="obterJSON()"><i class="fa fa-download"></i>&nbsp; Download Dados das Encomendas</button>
+                </div>
+                <div class="card shadow mb-4 mt-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Número</th>
+                                        <th>Data de Encomenda</th>
+                                        <th>Total</th>
+                                        <th>Estado da Encomenda</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>Número</th>
+                                        <th>Data de Encomenda</th>
+                                        <th>Total</th>
+                                        <th>Estado da Encomenda</th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+
+                                <tbody *ngIf="encomendas">
+
+                                    <tr *ngFor="let encomenda of encomendas">
+                                        <td>{{encomenda.idEncomenda}}</td>
+                                        <td>{{encomenda.dataEncomenda}}</td>
+                                        <td>{{encomenda.preco!.toFixed(2)}}€</td>
+                                        <td>
+                                            <div *ngIf="encomenda.estadoEncomenda=='A_PROCESSAR'" class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
+                                                {{encomenda.estadoEncomenda}}</div>
+                                            <div *ngIf="encomenda.estadoEncomenda=='POR_PAGAR'" class="badge bg-warning text-white" style="top: 0.5rem; right: 0.5rem">
+                                                {{encomenda.estadoEncomenda}}</div>
+                                            <div *ngIf="encomenda.estadoEncomenda=='PROCESSADA'" class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
+                                                {{encomenda.estadoEncomenda}}</div>
+                                            <div *ngIf="encomenda.estadoEncomenda=='EM_DISTRIBUICAO'" class="badge bg-primary text-white" style="top: 0.5rem; right: 0.5rem">
+                                                {{encomenda.estadoEncomenda}}</div>
+                                            <div *ngIf="encomenda.estadoEncomenda=='ENTREGUE'" class="badge bg-success text-white" style="top: 0.5rem; right: 0.5rem">
+                                                {{encomenda.estadoEncomenda}}</div>
+                                            <div *ngIf="encomenda.estadoEncomenda=='CANCELADA'" class="badge bg-danger text-white" style="top: 0.5rem; right: 0.5rem">
+                                                {{encomenda.estadoEncomenda}}</div>
+                                        </td>
+                                        <th><a class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 2%;" (click)="showEncomenda(encomenda,undefined)"> <mat-icon style="vertical-align: text-bottom; font-size: 15px; height: auto;">arrow_forward_ios</mat-icon> </a>
+                                        </th>
+                                    </tr>
+                                </tbody>
+
+                                <tbody *ngIf="subencomendas">
+
+                                    <tr *ngFor="let subencomenda of subencomendas">
+                                        <td>{{subencomenda.idSubEncomenda}}</td>
+                                        <td>{{subencomenda.dataEncomenda}}</td>
+                                        <td>{{subencomenda.preco!.toFixed(2)}}€</td>
+                                        <td>
+
+
+                                                <div *ngIf="subencomenda.estadoEncomenda=='A_PROCESSAR'" class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
+                                                    {{subencomenda.estadoEncomenda}}</div>
+                                                <div *ngIf="subencomenda.estadoEncomenda=='POR_PAGAR'" class="badge bg-warning text-white" style="top: 0.5rem; right: 0.5rem">
+                                                    {{subencomenda.estadoEncomenda}}</div>
+                                                <div *ngIf="subencomenda.estadoEncomenda=='PROCESSADA'" class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
+                                                    {{subencomenda.estadoEncomenda}}</div>
+                                                <div *ngIf="subencomenda.estadoEncomenda=='EM_DISTRIBUICAO'" class="badge bg-primary text-white" style="top: 0.5rem; right: 0.5rem">
+                                                    {{subencomenda.estadoEncomenda}}</div>
+                                                <div *ngIf="subencomenda.estadoEncomenda=='ENTREGUE'" class="badge bg-success text-white" style="top: 0.5rem; right: 0.5rem">
+                                                    {{subencomenda.estadoEncomenda}}</div>
+                                                <div *ngIf="subencomenda.estadoEncomenda=='CANCELADA'" class="badge bg-danger text-white" style="top: 0.5rem; right: 0.5rem">
+                                                    {{subencomenda.estadoEncomenda}}</div>
+                                        </td>
+                                        <th>
+                                            <a class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 2%;" (click)="showEncomenda(undefined,subencomenda)"> <mat-icon style="vertical-align: text-bottom; font-size: 15px; height: auto;">arrow_forward_ios</mat-icon> </a>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="margin: auto; display:table">
+
+                <a class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 0%;" [class.disabled]="previousButtonDisabled" (click)="previousPage()"> <mat-icon style="vertical-align: text-bottom; font-size: 20px; height: 5%;">arrow_back</mat-icon> </a>
+                &nbsp;
+                <a class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 0%;" [class.disabled]="nextButtonDisabled" (click)="nextPage()"> <mat-icon style="vertical-align: text-bottom; font-size: 20px; height: 5%;">arrow_forward</mat-icon> </a>
+            </div>
+            <br><br>
+        </div>
+        <!-- End of Main Content -->
+    </div>
+    <!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+
+<div class="modal-wrapper" [class.visible]="showModal">
+    <div class="modal-container">
+        <button class="modal-close-btn m-2" style="position: fixed; z-index: 3;" (click)="toggleModal()" style="text-align: right;">FECHAR</button>
+        <br>
+        <app-detalhes-encomenda-consumidor [showDetalhes]=true [subencomenda]=subencomendaDestaque [encomenda]=encomendaDestaque!></app-detalhes-encomenda-consumidor>
+    </div>
+</div>
+
+<div class="modal-wrapper" [class.visible]="showAnswer">
+    <div class="modal-container">
+        <button class="modal-close-btn" (click)="toggleAnswer()">Close</button>
+        <br>
+        <h2 [style.color]="success ? 'green' : 'red'" class="modal-title">{{answer}}</h2>
+    </div>
+</div>

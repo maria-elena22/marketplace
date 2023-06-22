@@ -1,0 +1,181 @@
+@import '~@fortawesome/fontawesome-free/css/all.css';
+.title{
+    text-align: center;
+    margin: auto;
+}
+
+.sidebar {
+    position: relative;
+    width: 300px; /* Largura desejada para a barra lateral */
+    padding: 20px; /* Espaçamento interno da barra lateral */
+  }
+
+  .sidebar form {
+    margin-bottom: 20px; /* Espaçamento inferior entre o formulário e outros elementos da barra lateral */
+  }
+
+  .sidebar label {
+    display: block; /* Exibe os rótulos em uma nova linha */
+    margin-bottom: 10px; /* Espaçamento inferior entre os rótulos */
+  }
+
+  .sidebar input[type="date"],
+  .sidebar input[type="checkbox"] {
+    margin-right: 5px; /* Espaçamento direito entre os campos de entrada */
+  }
+
+  #content{
+    display: flex; /* Cria um container flexível */
+
+  }
+
+  .grafico {
+    flex: 1; /* Expande o conteúdo para ocupar o espaço restante */
+    padding: 20px; /* Espaçamento interno do conteúdo */
+  }
+
+
+  .tab-container {
+    border: 1px solid #ccc;
+  }
+
+  .tab {
+    display: flex;
+  }
+
+  .tab-button {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    flex: 1;
+
+    border: solid rgba(78, 115, 223, 0.2);
+    font-weight: bold;
+
+    background-color: rgba(78, 115, 223, 0.2);
+
+  }
+
+  .tab-button:hover {
+    border: solid rgba(78, 115, 223, 1);
+
+  }
+
+  .tab-content {
+    display: none;
+    padding: 20px;
+  }
+
+  .tab-content h2 {
+    margin-top: 0;
+  }
+
+.selected{
+  font-weight: bold;
+  border: solid rgba(78, 115, 223, 1);
+  background-color: #4e73df;
+  color: #ebedf6;
+
+}
+
+
+@media (min-width:374px) and (max-width:450px){
+  .sidebar{
+    width: 50%;
+
+  }
+  .caixa{
+
+    width: 90%;
+    max-width: 100%;
+    position: relative;
+    display: block;
+    top:85%;
+    right: 60%;
+    transform: scale(0.8);
+
+  }
+  .grafico{
+    position: relative;
+    right: 28%;
+    width: 150%;
+    max-width: 576px;
+  }
+  .tab-container{
+    transform: scale(0.7);
+    left: 10%;
+    margin: 0;
+
+  }
+
+}
+
+@media (max-width: 576px) {
+
+  .sidebar{
+    width: 50%;
+
+  }
+  .caixa{
+
+    width: 90%;
+    max-width: 100%;
+    position: relative;
+    display: block;
+    top:77%;
+    right: 60%;
+    transform: scale(0.8);
+
+  }
+  .grafico{
+    position: relative;
+    right: 28%;
+    width: 150%;
+    max-width: 576px;
+  }
+  .tab-container{
+    transform: scale(0.7);
+    left: 10%;
+    margin: 0;
+
+  }
+
+}
+
+@media (min-width:576px) and (max-width: 768px) {
+  .sidebar{
+    width: 50%;
+
+  }
+  .caixa{
+
+    width: 90%;
+    max-width: 100%;
+    position: relative;
+    display: block;
+    top:90%;
+    right: 50%;
+    transform: scale(0.7);
+
+  }
+  .grafico{
+    position: relative;
+    right: 25%;
+    width: 150%;
+    max-width: 400px;
+  }
+  .tab-container{
+    transform: scale(0.7);
+    left: 10%;
+    margin: 0;
+
+  }
+  /* #wrapper{
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+
+  } */
+
+}
