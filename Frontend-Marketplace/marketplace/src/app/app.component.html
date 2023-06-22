@@ -34,7 +34,7 @@
 
 
             <li *ngIf="role === 'ROLE_ADMIN'" ngbDropdown class="nav-item dropdown d-flex">
-                <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-square"></i>&nbsp; Admin</a>
+                <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 0%;"><i class="bi bi-person-square"></i>&nbsp; Admin</a>
                 <ul ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
 
                     <li style="cursor: pointer;" ngbDropdownItem><a class="dropdown-item" (click)="logout()">Logout</a></li>
@@ -42,7 +42,7 @@
             </li>
 
             <li *ngIf="role && role !== 'ROLE_ADMIN'" ngbDropdown class="nav-item dropdown d-flex">
-                <a *ngIf="role &&user" ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-square"></i>&nbsp; {{user!.nome}}</a>
+                <a *ngIf="role &&user" ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 0%;"><i class="bi bi-person-square"></i>&nbsp; {{user!.nome}}</a>
                 <ul ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <li style="cursor: pointer;" ngbDropdownItem><a class="dropdown-item" routerLink="/marketplace/perfil-consumidor" (click)="goToPerfil()">Perfil</a></li>
                         <li style="cursor: pointer;" ngbDropdownItem><a class="dropdown-item" (click)="abreNotif()">Notificações</a>
@@ -57,7 +57,7 @@
             </li>
 
             <li *ngIf="!role" ngbDropdown class="nav-item dropdown d-flex">
-                <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-square"></i></a>
+                <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 0%;"><i class="bi bi-person-square" ></i></a>
                 <ul ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <li ngbDropdownItem><a class="dropdown-item" routerLink='/marketplace/login' >Login</a></li>
                     <li>
