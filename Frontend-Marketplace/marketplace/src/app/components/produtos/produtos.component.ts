@@ -910,6 +910,7 @@ export class ProdutosComponent implements OnInit {
       
     }else{
       this.showAnswer = false
+      window.location.reload();
     }
   }
 
