@@ -13,11 +13,11 @@
     align-items: center;
     z-index: 999;
   }
-  
+
   .modal-wrapper.visible {
     display: flex;
   }
-  
+
   .modal-container {
     background-color: #fff;
     padding: 20px;
@@ -32,16 +32,16 @@
     overflow-y: auto; /* Add this line to enable vertical scrolling */
     max-height: 500px; /* Optional: Set a max-height to limit the scrollable area */
   }
-  
+
   .modal-title {
     font-size: 24px;
     margin-top: 0;
   }
-  
+
   .modal-content {
     margin-bottom: 20px;
   }
-  
+
   .modal-close-btn {
     margin-top: -10px;
     margin-right: -10px;
@@ -50,7 +50,35 @@
     font-size: 16px;
     cursor: pointer;
   }
-   
+
 .cat{
   text-align: left;
+}
+
+.quantity-wrapper {
+  width: 120px;
+  margin-right: 50px;
+}
+
+.price-wrapper,
+.total-wrapper {
+  width: 80px;
+}
+
+/* Responsive Styles */
+@media only screen and (max-width: 800px) {
+  .d-flex {
+    flex-wrap: wrap;
+  }
+
+  .quantity-wrapper,
+  .price-wrapper,
+  .total-wrapper {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .quantity-wrapper {
+    margin-right: 0;
+  }
 }

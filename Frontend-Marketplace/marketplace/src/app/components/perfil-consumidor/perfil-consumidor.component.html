@@ -17,24 +17,22 @@
                     <p>Pode alterar qualquer um dos campos abaixo.</p>
 
                     <div class="row" *ngIf="showForm">
-                        <div class = "col-lg-4">
-                            <div class="card" >
-                                <br>
-
-                                <h1 style="margin-top:10%;margin-left:32%;font-family: 'Nunito', sans-serif;; font-size: 200px; color:#777886" class="fw-bolder">{{getLetra()}}</h1>
-                                <div class="card-body py-1">
-                                    <div class=" text-center">
-
-                                        <h5 class="fw-bolder">{{utilizador.nome}}</h5>
-                                        <p *ngIf="role === 'ROLE_CONSUMIDOR'">Consumidor</p>
-                                        <p *ngIf="role === 'ROLE_FORNECEDOR'">Fornecedor</p>
-                                    </div>
-                                <br>
-                                <div class="col" ><a (click)="openConfirmar()"  class="btn btn-danger" style="font-size: 15px; display: table; margin: auto;">Eliminar Conta</a></div>
-                                </div>
+                        <div class="col-lg-4 col-sm-12">
+                          <div class="card">
+                            <br>
+                            <h1 style="text-align:center; font-family: 'Nunito', sans-serif; font-size: 200px; color:#777886" class="fw-bolder">{{getLetra()}}</h1>
+                            <div class="card-body py-1">
+                              <div class="text-center">
+                                <h5 class="fw-bolder">{{utilizador.nome}}</h5>
+                                <p *ngIf="role === 'ROLE_CONSUMIDOR'">Consumidor</p>
+                                <p *ngIf="role === 'ROLE_FORNECEDOR'">Fornecedor</p>
+                              </div>
+                              <br>
+                              <div class="col"><a (click)="openConfirmar()" class="btn btn-danger" style="font-size: 15px; display: table; margin: auto;">Eliminar Conta</a></div>
                             </div>
+                          </div>
                         </div>
-                        <div class="col-lg-8 secCollumn" style="background-color: #fff; border:1px solid #e3e6f0;">
+                        <div class="col-lg-8 col-sm-12 secCollumn" style="background-color: #fff; border:1px solid #e3e6f0;">
                             <div class="p-5">
                                 <form id="formEdit" class="user" [formGroup]="updateForm" (ngSubmit)="onSubmit()">
                                     <div class="form-group row">

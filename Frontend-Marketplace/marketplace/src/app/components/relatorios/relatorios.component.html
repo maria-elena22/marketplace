@@ -1,6 +1,4 @@
 
-
-
 <div id="wrapper" >
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -17,9 +15,9 @@
                 <form [formGroup]="filtrosForm" (ngSubmit)="onSubmit()">
 
                     <label><h4>Ver por: </h4></label>
-                
+
                     <br>
-                
+
                     <label for="startDate">Data de Início:</label>
                     <input type="date" id="startDate" formControlName="startDate" name="startDate">
                     &nbsp;&nbsp;
@@ -28,12 +26,12 @@
                     <br><br>
                     <label for="categoriasIds"><b>Categorias:</b></label>
                     <div formArrayName="categoriasIds">
-                    
+
                     <label style="padding: 1%; margin:1%;" *ngFor="let categoria of categorias">
-                        <input type="checkbox" [value]="categoria.idCategoria" (change)="onCategoriaAdd($event.target,categoria.idCategoria!)"> {{ categoria.nomeCategoria }} 
+                        <input type="checkbox" [value]="categoria.idCategoria" (change)="onCategoriaAdd($event.target,categoria.idCategoria!)"> {{ categoria.nomeCategoria }}
                     </label>
                     </div>
-                
+
                     <br>
                     <button class=" btn btn-outline-dark" type="submit">Filtrar</button>
                 </form>
@@ -41,6 +39,7 @@
 
 
             </div>
+            <div class = "caixa">
             <div class="grafico">
 
                 <div class="tab-container" *ngIf="relatorioZonas" >
@@ -54,18 +53,19 @@
 
                     </div>
 
-            
+
                 </div>
                 <app-grafico style="margin-right: 0;" [dadosHist]="dados" [labelsHist]="labels" ></app-grafico>
 
 
 
-                
-            
+
+
             </div>
+          </div>
 
 
-            
+
 
         </div>
     </div>
@@ -77,4 +77,3 @@
 
 
 
-  
