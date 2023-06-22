@@ -178,11 +178,12 @@
             </div>
             <hr>
             <div *ngIf="selectedTransporteId && itensNaoEntregues" formArrayName="subItems">
-                <div *ngFor="let item of itensNaoEntregues; let i = index" class="linha">
+                <div *ngFor="let item of itensNaoEntregues; let i = index" class="linha" style="margin-bottom: 1%;">
 
                     <div> 
-                        <input class="left" type="checkbox" [value]="item.idItem" (change)="toggleItemChecked(item.idItem!)"> {{item.idItem}} - {{item.produtoNome}}
+                        <input class="left" type="checkbox" [value]="item.idItem" (change)="toggleItemChecked(item.idItem!)"> Encomenda #{{item.idItem}} - {{item.produtoNome}}
                     </div>
+                    
                     <!-- Quantidade form control -->
                     <div *ngIf="isItemChecked(item.idItem!) !== null">
                         <input class="right" type="number" (input)="addSubItem(item.idItem!, $event)" min="0" [max]="item.quantidade! - item.quantidadeDespachada!" required>
