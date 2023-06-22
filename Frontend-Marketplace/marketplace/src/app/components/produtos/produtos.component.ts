@@ -586,6 +586,11 @@ export class ProdutosComponent implements OnInit {
 
     return precos;
   }
+  
+
+  goToUniProd(){
+    this.router.navigate(['/marketplace/uniProds'])
+  }
 
 
   // ---------------------- NOVO PRODUTO  (rever remover propriedades) ----------------------

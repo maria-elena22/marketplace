@@ -218,7 +218,9 @@
 
             <p></p>
 
-            <label for="uniProdsIds"><b>UniProds:</b></label>
+            <label for="uniProdsIds"><b>Unidades de produção:</b></label>
+            <p style="margin-bottom: 0;">Escolha pelo menos uma unidade de produção</p>
+            <p style="cursor: pointer;" (click)="goToUniProd()">&nbsp;&nbsp;&nbsp; Caso não haja, <u>crie uma</u> unidade de produção</p>
             <div formArrayName="uniProdsIds">
 
                 <label style="border: solid 1px; padding: 2%; margin:1%;" *ngFor="let uniprod of getFirstThird(uniProdsP)">

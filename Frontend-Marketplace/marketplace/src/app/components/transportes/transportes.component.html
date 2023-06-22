@@ -1,4 +1,4 @@
-<div id="wrapper">
+<div id="wrapper" >
     <!-- <app-sidebar></app-sidebar> -->
     <div id="content-wrapper" class="d-flex flex-column">
         <!-- Main Content -->
@@ -11,7 +11,7 @@
                 </div>
                 <!-- Content Row -->
                 <div class="row" style="display: flex; justify-content: space-between;">
-                    <div class="col-xl-3 col-md-6 mb-4 " style="cursor: pointer">
+                    <div class="col-xl-3 col-md-6 mb-4 " style="cursor: pointer" >
                         <div (click)="toggleModal()" class="card border-left-success hover-shadow h-100 py-2">
                             <div class="card-body ">
                                 <div class="row no-gutters align-items-center">
@@ -29,7 +29,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-md-6 mb-4 " style="cursor: pointer">
+                    <div class="col-xl-3 col-md-6 mb-4 " style="cursor: pointer" >
                         <div (click)="showModalNovaViagem()" class="card border-left-success hover-shadow h-100 py-2">
                             <div class="card-body ">
                                 <div class="row no-gutters align-items-center">
@@ -80,12 +80,12 @@
                                         <td>{{transporte.matricula}}</td>
                                         <td>{{transporte.unidadeDeProducao?.nomeUniProd}}</td>
                                         <td>
-                                            <div *ngIf="transporte.estadoTransporte=='DISPONIVEL'" class="badge bg-success text-white" style="top: 0.5rem; right: 0.5rem">
-                                                {{transporte.estadoTransporte}}</div>
-                                            <div *ngIf="transporte.estadoTransporte=='EM_ENTREGA'" class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
-                                                {{transporte.estadoTransporte}}</div>
-                                            <div *ngIf="transporte.estadoTransporte=='INDISPONIVEL'" class="badge bg-danger text-white" style="top: 0.5rem; right: 0.5rem">
-                                                {{transporte.estadoTransporte}}</div>
+                                                <div *ngIf="transporte.estadoTransporte=='DISPONIVEL'" class="badge bg-success text-white" style="top: 0.5rem; right: 0.5rem">
+                                                    {{transporte.estadoTransporte}}</div>
+                                                <div *ngIf="transporte.estadoTransporte=='EM_ENTREGA'" class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">
+                                                    {{transporte.estadoTransporte}}</div>
+                                                <div *ngIf="transporte.estadoTransporte=='INDISPONIVEL'" class="badge bg-danger text-white" style="top: 0.5rem; right: 0.5rem">
+                                                    {{transporte.estadoTransporte}}</div>
                                         </td>
                                         
                                         <th><a style="cursor: pointer;" (click)="editarTransporte(transporte)">Editar &nbsp; <mat-icon style="vertical-align: text-bottom;">edit</mat-icon>
@@ -105,6 +105,9 @@
             </div>
             <div style="margin: auto; display:table">
 
+                <a class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 0%;" [class.disabled]="previousButtonDisabled" (click)="previousPage()"><mat-icon style="vertical-align: text-bottom; font-size: 20px; height: 5%;">arrow_back</mat-icon> </a>
+                &nbsp;
+                <a class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 0%;" [class.disabled]="nextButtonDisabled" (click)="nextPage()"> <mat-icon style="vertical-align: text-bottom; font-size: 20px; height: 5%;">arrow_forward</mat-icon> </a>
                 <a class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 0%;" [class.disabled]="previousButtonDisabled" (click)="previousPage()">
                     <mat-icon style="vertical-align: text-bottom; font-size: 20px; height: 5%;">arrow_back</mat-icon>
                 </a> 
@@ -160,8 +163,8 @@
             <p *ngIf="!transporteForm.valid">Tem de preencher todos os campos corretamente</p>
         </form>
     </div>
-</div>
-<div class="modal-wrapper" [class.visible]="showNovaViagem">
+  </div>
+  <div class="modal-wrapper" [class.visible]="showNovaViagem">
     <div class="modal-container bigger">
         <button class="modal-close-btn" (click)="toggleNovaViagem()" style="text-align: right;">FECHAR</button>
         <br>
@@ -174,10 +177,9 @@
                     <option value="" disabled selected>Escolha uma opção</option>
                     <option *ngFor="let transporte of transportesDisponiveis" [value]="transporte.idTransporte" >{{ transporte.matricula}} -- {{transporte.unidadeDeProducao?.nomeUniProd}}</option>
                 </select>
-                <p (click)="toggleModal()" (click)="toggleNovaViagem()" style="cursor: pointer;">Se não têm nenhum transporte disponível, <u>crie um</u>, para entregar as suas encomendas!</p>
             </div>
             <hr>
-            <div *ngIf="selectedTransporteId && itensNaoEntregues" formArrayName="subItems">
+            <div  *ngIf="selectedTransporteId && itensNaoEntregues" formArrayName="subItems">
                 <div *ngFor="let item of itensNaoEntregues; let i = index" class="linha">
 
                     <div> 
@@ -191,16 +193,15 @@
                     <hr>
 
                 </div>
-            </div>
+              </div>
             <br>
             <button class=" btn btn-outline-dark" [disabled]="!viagemForm.valid || !validado" type="submit">Submeter</button>
             <p *ngIf="!viagemForm.valid">Tem de preencher todos os campos</p>
         </form>
     </div>
-</div>
+  </div>
 
-
-<div class="modal-wrapper" [class.visible]="showAnswer">
+  <div class="modal-wrapper" [class.visible]="showAnswer">
     <div class="modal-container">
         <button class="modal-close-btn" (click)="toggleAnswer()">Close</button>
         <br>
