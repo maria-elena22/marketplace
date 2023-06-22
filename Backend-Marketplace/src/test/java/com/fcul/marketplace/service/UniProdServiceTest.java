@@ -99,7 +99,8 @@ public class UniProdServiceTest {
         when(utilizadorService.findFornecedorByEmail(anyString())).thenReturn(fornecedor);
         when(uniProdRepository.save(any())).thenReturn(uniProdAtualizada);
 
-        assertEquals(uniProdAtualizada,uniProdService.updateUniProd("test@test.com",1,uniProdNova));
+        assertEquals(uniProdAtualizada,uniProdService.updateUniProd("test@test.com",
+                1,uniProdNova));
 
     }
 

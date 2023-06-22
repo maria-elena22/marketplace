@@ -74,7 +74,8 @@ public class TransporteServiceTest {
         when(utilizadorService.findFornecedorByEmail(anyString())).thenReturn(fornecedor);
         when(transporteRepository.findByFornecedorId(any(),any(),any())).thenReturn(transportePage);
 
-        assertEquals(transportes,transporteService.getTransportesFornecedor("test@test.com",null,null, null,null,null,null));
+        assertEquals(transportes,transporteService.getTransportesFornecedor("test@test.com",
+                null, null, null,null,null,null));
     }
 
     @Test
@@ -93,7 +94,9 @@ public class TransporteServiceTest {
         when(uniProdService.getUniProdByID(anyInt())).thenReturn(uniProd);
         when(utilizadorService.findFornecedorByEmail(anyString())).thenReturn(fornecedor1);
 
-        assertThrows(ForbiddenActionException.class,()->transporteService.getTransportesFornecedor("test@test.com",3,null, null,null,null,null));
+        assertThrows(ForbiddenActionException.class,()->transporteService.getTransportesFornecedor(
+                "test@test.com",3,null, null,null,null,
+                null));
 
     }
 
@@ -115,7 +118,8 @@ public class TransporteServiceTest {
         when(utilizadorService.findFornecedorByEmail(anyString())).thenReturn(fornecedor);
         when(transporteRepository.save(any())).thenReturn(transporteBD);
 
-        assertEquals(transporteBD,transporteService.addTransporte("test@test.com",3,transporte));
+        assertEquals(transporteBD,transporteService.addTransporte("test@test.com",
+                3,transporte));
 
     }
 
@@ -136,7 +140,8 @@ public class TransporteServiceTest {
         when(uniProdService.getUniProdByID(anyInt())).thenReturn(uniProd);
         when(utilizadorService.findFornecedorByEmail(anyString())).thenReturn(fornecedor);
 
-        assertThrows(ForbiddenActionException.class,()->transporteService.addTransporte("test@test.com",3,transporte));
+        assertThrows(ForbiddenActionException.class,()->transporteService.addTransporte(
+                "test@test.com", 3,transporte));
 
     }
 
