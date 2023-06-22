@@ -108,13 +108,11 @@ public class NotificacaoService {
         Utilizador utilizador = utilizadorService.getUtilizadorByEmail(userEmail);
         List<Notificacao> notificacaos = notificacaoRepository.findByDestinatarioIdUtilizadorAndEntregueFalse(utilizador.getIdUtilizador());
 
-        Optional<Notificacao> notificacao = notificacaos.stream()
-                .filter(notif -> notif.getIdNotificacao() == idNotificacao)
-                .findFirst();
-
-        notificacao.ifPresent(notif -> {
-            notif.setEntregue(true);
-            notificacaoRepository.save(notif);
-        });
+        for (Notificacao notif : notificacaos){
+            if (notif.getIdNotificacao().equals(idNotificacao)){
+                notif.setEntregue(true);
+                notificacaoRepository.save(notif);
+            }
+        }
     }
 }
