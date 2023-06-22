@@ -1,0 +1,79 @@
+
+<div id="wrapper">
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+                <!-- Page Heading -->
+                <h1 *ngIf="relatorioZonas" class="h3 mb-2 text-gray-800 mt-4"><strong>Relatório Por Zonas</strong></h1>
+
+                <h1 *ngIf="relatorioDistancias" class="h3 mb-2 text-gray-800 mt-4"><strong>Relatório Por Distâncias</strong></h1>
+                <aside class="sidebar">
+
+                <form [formGroup]="filtrosForm" (ngSubmit)="onSubmit()">
+
+                    <label><h4>Ver por: </h4></label>
+
+                    <br>
+
+                    <label for="startDate">Data de Início:</label>
+                    <input type="date" id="startDate" formControlName="startDate" name="startDate">
+                    &nbsp;&nbsp;
+                    <label for="endDate">Data de Fim:</label>
+                    <input type="date" id="endDate" formControlName="endDate" name="endDate">
+                    <br><br>
+                    <label for="categoriasIds"><b>Categorias:</b></label>
+                    <div formArrayName="categoriasIds">
+
+                    <label style="padding: 1%; margin:1%;" *ngFor="let categoria of categorias">
+                        <input type="checkbox" [value]="categoria.idCategoria" (change)="onCategoriaAdd($event.target,categoria.idCategoria!)"> {{ categoria.nomeCategoria }}
+                    </label>
+                    </div>
+
+                    <br>
+                    <button class=" btn btn-outline-dark" type="submit">Filtrar</button>
+                </form>
+                </aside>
+
+
+            </div>
+
+            <div class = "caixa" >
+
+                <div class="grafico" >
+
+                  <div class="tab-container" *ngIf="relatorioZonas" >
+                      <div class="tab table-responsive">
+
+                          <h5 class="tab-button title" [class.selected]="zonaVisivel==='Continentes'" (click)="abreTab('Continentes')"> Continentes</h5>
+                          <h5 class="tab-button title" [class.selected]="zonaVisivel==='Países'" (click)="abreTab('Países')"> Países</h5>
+                          <h5 class="tab-button title" [class.selected]="zonaVisivel==='Distritos'" (click)="abreTab('Distritos')"> Distritos</h5>
+                          <h5 class="tab-button title" [class.selected]="zonaVisivel==='Municípios'" (click)="abreTab('Municípios')"> Municípios</h5>
+                          <h5 class="tab-button title" [class.selected]="zonaVisivel==='Freguesias'" (click)="abreTab('Freguesias')"> Freguesias</h5>
+
+                      </div>
+
+
+                  </div>
+
+                  <app-grafico style="margin-right: 0;" [dadosHist]="dados" [labelsHist]="labels" ></app-grafico>
+
+                </div>
+            </div>
+        </div>
+        </div>
+
+
+
+
+        </div>
+
+
+<script>
+    document.getElementsByClassName("tab-button")[0].click();
+</script>
+
+
+

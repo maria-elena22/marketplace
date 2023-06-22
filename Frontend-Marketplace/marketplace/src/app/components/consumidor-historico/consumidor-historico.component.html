@@ -1,0 +1,169 @@
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLogin"
+                    aria-expanded="true" aria-controls="collapseLogin">
+                    <span class="mr-2 d-none d-lg-inline text-white" style="font-size: 18px;"><i class="bi bi-person"
+                            style="font-size: 20px;"></i> Catarina Nunes</span>
+                </a>
+                <div id="collapseLogin" class="collapse" aria-labelledby="collapseLogin"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="dropdown-item" routerLink='/marketplace/perfil-consumidor'>
+                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Perfil
+                        </a>
+                        <div class="collapse-divider"></div>
+                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400" ></i>
+                            Terminar sessão
+                        </a>
+                        <div class="collapse-divider"></div>
+                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal1" style="color:red">
+                            <i class="fas fa-trash fa-sm fa-fw mr-2 text-gray-400" ></i>
+                            Eliminar conta
+                        </a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" routerLink='/marketplace/admin-consumidor'>
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Nav Item - Tables -->
+            <li class="nav-item active">
+                <a class="nav-link" routerLink='/marketplace/consumidor-historico'>
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Encomendas</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Begin Page Content -->
+
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800 mt-4">Histórico de Encomendas</h1>
+            
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4 mt-4">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Número</th>
+                                            <th>Data</th>
+                                            <th>Hora de entrega</th>
+                                            <th>Total</th>
+                                            <th>Estado da Encomenda</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Número</th>
+                                            <th>Data</th>
+                                            <th>Hora de entrega</th>
+                                            <th>Total</th>
+                                            <th>Estado da Encomenda</th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <tr>
+                                            <td>0005</td>
+                                            <td>17-03-2023</td>
+                                            <td>12:00-22:00</td>
+                                            <td>61,99€</td>
+                                            <td><div class="badge bg-warning text-white" style="top: 0.5rem; right: 0.5rem">PAGAMENTO</div></td>
+                                            <th><a routerLink="/marketplace/detalhes-encomenda-consumidor"><i class="fas fa-arrow-right"></i></a></th>
+                                        </tr>
+                                        <tr>
+                                            <td>0004</td>
+                                            <td>22-02-2023</td>
+                                            <td>08:00-13:00</td>
+                                            <td>23€</td>
+                                            <td><div class="badge bg-info text-white" style="top: 0.5rem; right: 0.5rem">EM DISTRIBUIÇÃO</div></td>
+                                            <th><a routerLink="/marketplace/detalhes-encomenda-consumidor"><i class="fas fa-arrow-right"></i></a></th>
+                                        </tr>
+                                        <tr>
+                                            <td>0003</td>
+                                            <td>16-12-2022</td>
+                                            <td>16:00-22:00</td>
+                                            <td>180,21€</td>
+                                            <td><div class="badge bg-success text-white" style="top: 0.5rem; right: 0.5rem">ENTREGUE</div></td>
+                                            <th><a routerLink="/marketplace/detalhes-encomenda-consumidor"><i class="fas fa-arrow-right"></i></a></th>
+                                        </tr>
+                                        <tr>
+                                            <td>0002</td>
+                                            <td>6-12-2022</td>
+                                            <td>16:00-22:00</td>
+                                            <td>47,56€</td>
+                                            <td><div class="badge bg-success text-white" style="top: 0.5rem; right: 0.5rem">ENTREGUE</div></td>
+                                            <th><a routerLink="/marketplace/detalhes-encomenda-consumidor"><i class="fas fa-arrow-right"></i></a></th>
+                                        </tr>
+                                        <tr>
+                                            <td>0001</td>
+                                            <td>6-12-2022</td>
+                                            <td>16:00-22:00</td>
+                                            <td>100,99€</td>
+                                            <td><div class="badge bg-danger text-white" style="top: 0.5rem; right: 0.5rem">CANCELADA</div></td>
+                                            <th><a routerLink="/marketplace/detalhes-encomenda-consumidor"><i class="fas fa-arrow-right"></i></a></th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+    
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>

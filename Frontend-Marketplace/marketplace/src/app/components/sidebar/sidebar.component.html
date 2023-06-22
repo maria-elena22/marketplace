@@ -1,0 +1,60 @@
+<!--por enquanto está só para o consumidor -- fazer javascript para alterar consoante consumidor ou fornecedor -->
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <li class="nav-item">
+        <a ngbDropdown ngbDropdownToggle class="nav-link collapsed" data-toggle="collapse" data-target="#collapseLogin" aria-expanded="true"
+            aria-controls="collapseLogin">
+            <span  class="mr-2 d-lg-inline d-sm-inline-block text-white" style="font-size: 18px;"><i class="bi bi-person"
+                    style="font-size: 20px;"></i> Catarina Nunes</span>
+
+        <div  id="collapseLogin" class="collapse" aria-labelledby="collapseLogin" data-parent="#accordionSidebar"></div>
+            <div ngbDropdownMenu class="bg-white py-2 collapse-inner rounded">
+                <a ngbDropdownItem class="dropdown-item" routerLink='/marketplace/perfil-consumidor'>
+                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Perfil
+                </a>
+                <div class="collapse-divider"></div>
+                <a ngbDropdownItem class="dropdown-item" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Terminar sessão
+                </a>
+                <div class="collapse-divider"></div>
+                <a ngbDropdownItem class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal1" style="color:red">
+                    <i class="fas fa-trash fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Eliminar conta
+                </a>
+            </div>
+        </a>
+    </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item active">
+        <a class="nav-link" routerLink='/marketplace/admin-consumidor'>
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span></a>
+    </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+        <a class="nav-link" routerLink='/marketplace/consumidor-historico'>
+            <i class="fas fa-fw fa-table"></i>
+            <span>Encomendas</span></a>
+    </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider d-none d-md-block">
+
+  <!-- Sidebar Toggler (Sidebar) -->
+  <div class="text-center d-none d-md-inline">
+      <button class="rounded-circle border-0" id="sidebarToggle"></button>
+  </div>
+
+</ul>
+<!-- End of Sidebar -->

@@ -1,0 +1,61 @@
+<header class="bg-secondary py-5" id="title_inicial">
+<div class="container">
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+        <div class="col-xl-10 col-lg-12 col-md-9">
+
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-6 d-none d-lg-block bg-login"><img
+                                style="width: inherit; height: -webkit-fill-available;" src="assets/market.png">
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">Vamos às compras?</h1>
+                                </div>
+                                <form class="user" method="post" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                                    <div class="form-group">
+                                        <label for="email">Email:</label>
+                                        <input formControlName="email" type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="E-mail" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pass">Palavra-Passe:</label>
+                                        <input formControlName="password" type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Palavra-passe" required>
+                                    </div>
+                                    <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary btn-user btn-block">
+                                        Entrar</button>
+                                    <!-- <hr>
+                                    <a href='/marketplace/admin-consumidor' class="btn btn-google btn-user btn-block">
+                                        <i class="fab fa-google fa-fw"></i> Entrar com o Google
+                                    </a> -->
+                                </form>
+                                <hr>
+                                <!-- <div class="text-center">
+                                    <a class="small" href='/marketplace/forgot-password'>Esqueceu-se da palavra-passe?</a>
+                                </div> -->
+                                <div class="text-center">
+                                    <a style="cursor: pointer;" class="small" (click)="goToRegister()">Ainda não tens conta? Regista-te!</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+</header>
+
+<div class="modal-wrapper" [class.visible]="showAnswer">
+    <div class="modal-container">
+        <button class="modal-close-btn" (click)="toggleAnswer()">Close</button>
+        <br>
+      <h2 [style.color]="success ? 'green' : 'red'" class="modal-title">{{answer}}</h2>
+    </div>
+  </div>

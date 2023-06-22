@@ -1,0 +1,106 @@
+<div class="container mt-4">
+
+    <h1 class="h3 mb-4 text-gray-800 mt-4">Carrinho de compras</h1>
+
+    <section class="h-100 h-custom" style="background-color: #eee; border-radius: 15px;">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <div class="row">
+
+                                <h5 style="cursor: pointer;" class="mb-3"><a (click)="goToProdutos()" class="text-body"><i
+                                                class="fas fa-long-arrow-alt-left me-2"></i>Continuar compras</a>
+                                </h5>
+                                <hr>
+                                <div *ngIf="carrinho" class="d-flex justify-content-between align-items-center mb-4">
+                                    <div>
+                                        <p class="mb-0">Tem {{carrinho.length}} artigos no seu carrinho</p>
+
+                                    </div>
+                                </div>
+                                <div class="container col-lg-6" style="float: left;">
+                                    <div class="card" *ngFor="let item of items">
+                                        <br>
+                                        <h5 style="text-align: left;">&nbsp;&nbsp;{{item.produto.nome}}</h5>
+                                        <table class="table table-bordered table-responsive" id="dataTable">
+                                            <tbody>
+                                                <th>Produtos</th>
+                                                <th>Quantidades</th>
+                                                <th>Preço Uni.</th>
+                                                <th>Preço Final</th>
+                                                <th>Remover Item</th>
+                                                <tr>
+                                                    <td>{{item.produto.nome}}</td>
+                                                    <td>{{item.quantidade}}x</td>
+                                                    <td>{{item.preco}}€</td>
+                                                    <td>{{totalProduto(item)}}€</td>
+                                                    <td>
+                                                        <a (click)="removeItem(item)" style="cursor: pointer;">
+                                                            <mat-icon style="color:#dc3545; vertical-align: text-bottom">delete</mat-icon>
+                                                        </a>
+                                                    </td>
+
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+
+
+
+
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-5">
+
+                                    <div class="card bg-primary text-white rounded-3">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                                <h5 class="mb-0">Detalhes do carrinho</h5>
+                                            </div>
+
+                                            <hr class="my-4">
+
+                                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                                <div>
+                                                    <p class="mb-0"><i class="fas fa-home"></i>&nbsp;&nbsp;&nbsp;</p>
+                                                </div>
+                                                <div class="col"> <strong>Morada para entrega:</strong> <br> {{getMinhaMorada()}}
+                                                </div>
+                                            </div>
+
+                                            <a [class.disabled]="carrinho && carrinho.length === 0" type="button" class="btn btn-info btn-block btn-lg" (click)="criaEncomenda()">
+                                                <div class="d-flex justify-content-between">
+                                                    <span>{{totalCarrinho()}}€</span>
+                                                    <span>Comprar <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<br>
+
+
+<!---------------------------------- RESPOSTA ---------------------------------->
+
+<div class="modal-wrapper" [class.visible]="showAnswer">
+    <div class="modal-container">
+        <button class="modal-close-btn" (click)="toggleAnswer()">Close</button>
+        <br>
+
+        <h2 [style.color]="success ? 'green' : 'red'" class="modal-title">{{answer}}</h2>
+        <a routerLink="/marketplace/login" style="margin-right: 45%;">Faça Login!</a>
+    </div>
+</div>

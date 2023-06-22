@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+
+<div *ngIf="role === 'ROLE_FORNECEDOR'" style=" margin:0px 10px;" class="mt-3">
+
+    <button class=" btn btn-outline-dark" *ngIf="meusProdutos.length>0" (click)="verTodosProdutos()" style="display: inline-block;">Todos os produtos</button> &nbsp;
+    <button class=" btn btn-outline-dark" *ngIf="meusProdutos.length===0" (click)="verMeusProdutos(-1,-1)" style="display: inline-block;">Meus produtos</button> &nbsp;
+    <button class=" btn btn-outline-dark" (click)="toggleModal()" style="display: inline-block;">Adicionar Produto</button>
+
+</div>
+
+<h3 *ngIf="titulo" style="padding: 1%;"><strong>{{titulo}}</strong></h3>
+<div *ngIf="showFilter" style="padding: 1%;">
+    <br>
+    <form [formGroup]="searchProdutoForm" (ngSubmit)="onSubmitSearch()">
+
+        <div class="mt0">
+            <b><p style="font-size: 25px; margin-left: 0.5%;">Pesquisar por:</p></b> &nbsp; &nbsp;&nbsp;
+            <label for="fornecedor"><b>Nome do Produto:</b></label> &nbsp;
+            <input type="text" formControlName="nomeProduto" class="form-control form-control-user d-inline-block" style="width:10%;"> &nbsp; <label for="precoMin"><b>Preço Mínimo:</b></label> &nbsp;
+            <input type="number" id="precoMin" formControlName="precoMin" step="0.01" min="0" class="form-control form-control-user d-inline-block" style="width:10%;"> &nbsp; <label for="precoMax"><b>Preço Máximo:</b></label> &nbsp;
+            <input type="number" id="precoMax" formControlName="precoMax" step="0.01" min="0" class="form-control form-control-user d-inline-block" style="width:10%;"> &nbsp;&nbsp; <label for="fornecedor"><b>Propriedade:</b></label> &nbsp;
+            <input type="text" formControlName="propriedade" class="form-control form-control-user d-inline-block" style="width:10%;"> &nbsp;
+
+            <button class="btn btn-primary d-inline-block btn-responsive" type="submit"><i class="bi bi-search"></i>Pesquisar</button>
+
+        </div>
+        <br>
+
+
+    </form>
+</div>
+
+
+<div class="deus" *ngIf="prodComparar1||prodComparar2">
+    <div class="comparison-container">
+
+        <p>Produtos a comparar:</p>
+        <div *ngIf="prodComparar1">
+            {{prodComparar1.nome}}
+            <a (click)="removeComparar(1)"><i style="padding: 1%;cursor: pointer;" class="fa fa-times" aria-hidden="true"></i></a>
+
+        </div>
+        <div *ngIf="prodComparar2">
+            {{prodComparar2.nome}}
+            <a (click)="removeComparar(2)"><i style="padding: 1%;cursor: pointer;" class="fa fa-times" aria-hidden="true"></i></a>
+
+        </div>
+        <button (click)="removeDivComparar()" class="btn btn-secondary mt-1">FECHAR</button> &nbsp;&nbsp;
+        <button *ngIf="prodComparar1&&prodComparar2" (click)="comparar()" class="btn btn-warning mt-1">Ver Comparação</button>
+    </div>
+</div>
+
+
+
+<!---------------------------------- PRODUTOS USERS ---------------------------------->
+<div *ngIf="noProdutos">
+    <p style="font-size: 25px; text-align:center; margin: 10% 15%">Não foram encontrados nenhuns produtos</p>
+
+</div>
+<section *ngIf="produtos.length>0 && meusProdutos.length===0">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            <div *ngFor="let produto of produtos" class="col mb-5">
+                <div class="card h-100">
+                    <!-- Product image-->
+                    <!-- <img class="card-img-top" style="padding: 45px;" src="assets/banana.jpg" alt="..." /> -->
+                    <button [disabled]="prodComparar1&&prodComparar2" (click)="addComparar(produto)" class="btn btn-outline-secondary">Comparar</button>
+                    <!-- Product details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <!-- Product name-->
+                            <h5 class="fw-bolder">{{produto.nome}}</h5>
+                            <h6>{{produto.descricao}}</h6>
+                            <!-- Product price-->
+                            {{getIntervaloPrecos(produto)}}
+
+                        </div>
+                    </div>
+                    <!-- Carrinho -->
+                    <div [class.disabled]="!produto.precoFornecedores" *ngIf="role!=='ROLE_FORNECEDOR' && role!=='ROLE_ADMIN'" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center row">
+                            <div class="col-sm-6 mb-3">
+                                <a class="btn btn-outline-info mt-auto btn-responsive" (click)="showAddCarrinho(produto)">Carrinho</a>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <a (click)="showDetalheProduto(produto.idProduto!)" routerLink="/marketplace/produto-detalhes" routerLinkActive="active" ariaCurrentWhenActive="page" class="btn btn-outline-primary mt-auto btn-responsive">Ver mais</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="role==='ROLE_FORNECEDOR'" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center" style="margin-bottom:2px" *ngIf="forneco(produto)"><a class="btn btn-outline-dark mt-auto" (click)="toggleRemoverProduto(produto)">Deixar de fornecer</a></div>
+                        <div class="text-center" *ngIf="!forneco(produto)"><a class="btn btn-outline-dark mt-auto" style="z-index:-1;" (click)="toggleAddProduto(produto)">Passar a fornecer</a></div>
+                        <p></p>
+                        <div class="text-center"><a (click)="showDetalheProduto(produto.idProduto!)" routerLink="/marketplace/produto-detalhes" class="nav-link active" class="btn btn-outline-primary mt-auto">Ver mais</a></div>
+                    </div>
+
+                    <div class="card-overlay">
+
+                        <div class="overlay-text text-center">
+                            <h5>Fornecedores: &nbsp;</h5>
+                            <div class="fornecedores" *ngIf="produto.precoFornecedores && produto.precoFornecedores.length > 0">
+                                <div class="text-center" *ngFor="let pf of produto.precoFornecedores; let i = index">
+                                    <ng-container *ngIf="i < 2 || produto.precoFornecedores.length <= 2">
+                                        <p>{{ pf.fornecedor?.nome }} - {{ pf.preco?.toFixed(2) }}€</p>
+                                    </ng-container>
+                                </div>
+                                <div *ngIf="produto.precoFornecedores.length > 2">
+                                    <p>Mais fornecedores em <a (click)="showDetalheProduto(produto.idProduto!)" routerLink="/marketplace/produto-detalhes" class="active" style="display: inline;">ver mais</a></p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!---------------------------------- PRODUTOS FORNECEDOR ---------------------------------->
+
+<section *ngIf="meusProdutos.length>0" class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            <div *ngFor="let produto of meusProdutos" class="col mb-5">
+                <div class="card h-100">
+                    <!-- Product image-->
+                    <!-- <img class="card-img-top" style="padding: 45px;" src="assets/banana.jpg" alt="..." /> -->
+                    <!-- Product details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <!-- Product name-->
+                            <h5 class="fw-bolder">{{produto.nome}}</h5>
+                            <h6>{{produto.descricao}}</h6>
+                            <!-- Product price-->
+                            {{getMeuPreco(produto)}}€
+
+
+                        </div>
+                    </div>
+                    <!-- Product actions-->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" (click)="toggleRemoverProduto(produto)">Deixar de Fornecer</a></div>
+                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" (click)="toggleAddUniProds(produto)">Adicionar UniProds</a></div>
+
+                    </div>
+
+
+                    <div class="card-overlay">
+                        <div class="overlay-text text-center">
+                            <h5>Unidades de Produção: &nbsp;</h5>
+                            <div *ngFor="let uniProd of produto.uniProds">
+
+                                <p>{{uniProd.nomeUniProd}} - {{uniProd.stock}}</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<div style="margin: auto; display:table">
+
+    <a class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 0%;" [class.disabled]="previousButtonDisabled" (click)="previousPage()">
+        <mat-icon style="vertical-align: text-bottom; font-size: 20px; height: 5%;">arrow_back</mat-icon>
+    </a>
+    &nbsp;
+    <a class="btn btn-outline-dark" style="padding-top: 0%; padding-bottom: 0%;" [class.disabled]="nextButtonDisabled" (click)="nextPage()">
+        <mat-icon style="vertical-align: text-bottom; font-size: 20px; height: 5%;">arrow_forward</mat-icon>
+    </a>
+
+</div>
+
+
+<br><br>
+
+<!-------------------------------- CRIA PRODUTO --------style="width: 60%;"-------------------------->
+<div class="modal-wrapper" *ngIf="role==='ROLE_FORNECEDOR'" [class.visible]="showModal">
+    <div class="modal-container" style="text-align: left;">
+        <button class="modal-close-btn" (click)="toggleModal()" style="text-align: right;">FECHAR</button>
+        <form [formGroup]="produtoForm" (ngSubmit)="onSubmit()">
+
+
+            <label for="nome" style="margin: auto; display:table; font-size: 25px; padding-bottom: 20px;"><b>Criar um novo produto</b></label>
+            <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label for="nome"><b>Nome:</b></label> &nbsp;
+                    <input type="text" id="nome" formControlName="nome" class="form-control form-control-user d-inline-block">
+                </div>
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label for="descricao"><b>Descrição:</b></label>&nbsp;
+                    <input type="text" id="descricao" formControlName="descricao" class="form-control form-control-user d-inline-block">
+                </div>
+            </div>
+
+
+            <p></p>
+
+            <div class="form-group row">
+                <div class="col-sm-4 mb-3 mb-sm-0">
+                    <label for="iva"><b>IVA:</b></label>&nbsp;
+                    <select id="iva" formControlName="iva" class="form-control form-control-user d-inline-block">
+                    <option value="" disabled selected>Escolha um IVA</option>
+                    <option value="IVA_6">IVA 6%</option>
+                    <option value="IVA_13">IVA 13%</option>
+                    <option value="IVA_23">IVA 23%</option>
+                    </select>
+                </div>
+                <div class="col-sm-4 mb-3 mb-sm-0">
+                    <label for="stock"><b>Stock:</b></label>&nbsp;
+                    <input type="number" id="stock" formControlName="stock" class="form-control form-control-user d-inline-block">
+                </div>
+                <div class="col-sm-4 mb-3 mb-sm-0">
+                    <label for="preco"><b>Preço:</b></label>&nbsp;
+                    <input type="number" id="preco" formControlName="preco" step="0.01" min="0" class="form-control form-control-user d-inline-block">
+
+                </div>
+
+            </div>
+
+
+            <p></p>
+
+            <label for="uniProdsIds"><b>Unidades de produção:</b></label>
+            <p style="margin-bottom: 0;">Escolha pelo menos uma unidade de produção</p>
+            <p style="cursor: pointer;" (click)="goToUniProd()">&nbsp;&nbsp;&nbsp; Caso não haja, <u>crie uma</u> unidade de produção</p>
+            <div formArrayName="uniProdsIds">
+
+                <label style="border: solid 1px; padding: 2%; margin:1%;" *ngFor="let uniprod of getFirstThird(uniProdsP)">
+                <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdChange($event.target,uniprod.idUnidade!)"> {{ uniprod.nomeUniProd }}
+            </label>
+                <br>
+                <label style="border: solid 1px; padding: 2%; margin:1%;" *ngFor="let uniprod of getSecondThird(uniProdsP)">
+                <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdChange($event.target,uniprod.idUnidade!)"> {{ uniprod.nomeUniProd }}
+            </label>
+                <br>
+                <label style="border: solid 1px; padding: 2%; margin:1%;" *ngFor="let uniprod of getLastThird(uniProdsP)">
+                <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdChange($event.target,uniprod.idUnidade!)"> {{ uniprod.nomeUniProd }}
+            </label>
+            </div>
+
+            <p></p>
+
+            <div class="cat"> <b>Categorias</b>
+                <p>Escolha pelo menos uma subcategoria</p>
+
+                <ul *ngFor="let categoria of categorias">
+                    <li (click)="showCategorias(categoria)">
+                        <h4>{{categoria.nomeCategoria}}</h4>
+                    </li>
+
+                    <ul *ngFor="let subcategoria of categoria.subCategoriaList">
+                        <div *ngIf="isCategoriaExpanded(categoria)">
+                            <li>
+                                <h5>{{subcategoria.nomeSubCategoria}}
+                                    <ng-container *ngIf="!subcategoria.subCategoriasFilhos || subcategoria.subCategoriasFilhos.length === 0">
+                                        <input type="checkbox" [checked]="isSubCategoriaChecked(subcategoria.idSubCategoria)" [value]="subcategoria.idSubCategoria" (change)="onSubcategoriaChange($event.target, subcategoria,categoria)">
+                                    </ng-container>
+                                </h5>
+                            </li>
+                            <div *ngIf="subcategoria.subCategoriasFilhos">
+                                <ul *ngFor="let subcategoriaFilho1 of subcategoria.subCategoriasFilhos">
+                                    <li>
+                                        <h6>{{subcategoriaFilho1.nomeSubCategoria}}
+                                            <ng-container *ngIf="!subcategoriaFilho1.subCategoriasFilhos || subcategoriaFilho1.subCategoriasFilhos.length === 0">
+                                                <input type="checkbox" [checked]="isSubCategoriaChecked(subcategoriaFilho1.idSubCategoria)" [value]="subcategoriaFilho1.idSubCategoria" (change)="onSubcategoriaChange($event.target, subcategoriaFilho1,categoria)">
+                                            </ng-container>
+                                        </h6>
+                                    </li>
+                                    <div *ngIf="subcategoriaFilho1.subCategoriasFilhos">
+                                        <ul *ngFor="let subcategoriaFilho2 of subcategoriaFilho1.subCategoriasFilhos">
+                                            <li>
+                                                <h6>{{subcategoriaFilho2.nomeSubCategoria}}
+                                                    <ng-container *ngIf="!subcategoriaFilho2.subCategoriasFilhos || subcategoriaFilho2.subCategoriasFilhos.length === 0">
+                                                        <input type="checkbox" [checked]="isSubCategoriaChecked(subcategoriaFilho2.idSubCategoria)" [value]="subcategoriaFilho2.idSubCategoria" (change)="onSubcategoriaChange($event.target, subcategoriaFilho2,categoria)">
+                                                    </ng-container>
+                                                </h6>
+                                            </li>
+                                            <div *ngIf="subcategoriaFilho2.subCategoriasFilhos">
+                                                <ul *ngFor="let subcategoriaFilho3 of subcategoriaFilho2.subCategoriasFilhos">
+                                                    <li>
+                                                        <h6>{{subcategoriaFilho3.nomeSubCategoria}}
+                                                            <ng-container *ngIf="!subcategoriaFilho3.subCategoriasFilhos || subcategoriaFilho3.subCategoriasFilhos.length === 0">
+                                                                <input type="checkbox" [checked]="isSubCategoriaChecked(subcategoriaFilho3.idSubCategoria)" [value]="subcategoriaFilho3.idSubCategoria" (change)="onSubcategoriaChange($event.target, subcategoriaFilho3,categoria)">
+                                                            </ng-container>
+                                                        </h6>
+                                                    </li>
+                                                    <div *ngIf="subcategoriaFilho3.subCategoriasFilhos">
+                                                        <ul *ngFor="let subcategoriaFilho4 of subcategoriaFilho3.subCategoriasFilhos">
+                                                            <li>
+                                                                <h6>{{subcategoriaFilho4.nomeSubCategoria}}
+                                                                    <ng-container *ngIf="!subcategoriaFilho4.subCategoriasFilhos || subcategoriaFilho4.subCategoriasFilhos.length === 0">
+                                                                        <input type="checkbox" [checked]="isSubCategoriaChecked(subcategoriaFilho4.idSubCategoria)" [value]="subcategoriaFilho4.idSubCategoria" (change)="onSubcategoriaChange($event.target, subcategoriaFilho4,categoria)">
+                                                                    </ng-container>
+                                                                </h6>
+                                                            </li>
+                                                            <div *ngIf="subcategoriaFilho4.subCategoriasFilhos">
+                                                                <ul *ngFor="let subcategoriaFilho5 of subcategoriaFilho4.subCategoriasFilhos">
+                                                                    <li>
+                                                                        <h6>{{subcategoriaFilho5.nomeSubCategoria}}
+                                                                            <ng-container *ngIf="!subcategoriaFilho5.subCategoriasFilhos || subcategoriaFilho5.subCategoriasFilhos.length === 0">
+                                                                                <input type="checkbox" [checked]="isSubCategoriaChecked(subcategoriaFilho5.idSubCategoria)" [value]="subcategoriaFilho5.idSubCategoria" (change)="onSubcategoriaChange($event.target, subcategoriaFilho5,categoria)">
+                                                                            </ng-container>
+                                                                        </h6>
+                                                                    </li>
+                                                                    <div *ngIf="subcategoriaFilho5.subCategoriasFilhos">
+                                                                        <ul *ngFor="let subcategoriaFilho6 of subcategoriaFilho5.subCategoriasFilhos">
+                                                                            <li>
+                                                                                <h6>{{subcategoriaFilho6.nomeSubCategoria}}
+                                                                                    <ng-container *ngIf="!subcategoriaFilho6.subCategoriasFilhos || subcategoriaFilho6.subCategoriasFilhos.length === 0">
+                                                                                        <input type="checkbox" [checked]="isSubCategoriaChecked(subcategoriaFilho6.idSubCategoria)" [value]="subcategoriaFilho6.idSubCategoria" (change)="onSubcategoriaChange($event.target, subcategoriaFilho6,categoria)">
+                                                                                    </ng-container>
+                                                                                </h6>
+                                                                            </li>
+                                                                            <div *ngIf="subcategoriaFilho6.subCategoriasFilhos">
+                                                                                <ul *ngFor="let subcategoriaFilho7 of subcategoriaFilho6.subCategoriasFilhos">
+                                                                                    <li>
+                                                                                        <h6>{{subcategoriaFilho7.nomeSubCategoria}}
+                                                                                            <ng-container *ngIf="!subcategoriaFilho7.subCategoriasFilhos || subcategoriaFilho7.subCategoriasFilhos.length === 0">
+                                                                                                <input type="checkbox" [checked]="isSubCategoriaChecked(subcategoriaFilho7.idSubCategoria)" [value]="subcategoriaFilho7.idSubCategoria" (change)="onSubcategoriaChange($event.target, subcategoriaFilho7,categoria)">
+                                                                                            </ng-container>
+                                                                                        </h6>
+                                                                                    </li>
+                                                                                    <div *ngIf="subcategoriaFilho7.subCategoriasFilhos">
+                                                                                        <ul *ngFor="let subcategoriaFilho8 of subcategoriaFilho7.subCategoriasFilhos">
+                                                                                            <li>
+                                                                                                <h6>{{subcategoriaFilho8.nomeSubCategoria}}
+                                                                                                    <ng-container *ngIf="!subcategoriaFilho8.subCategoriasFilhos || subcategoriaFilho8.subCategoriasFilhos.length === 0">
+                                                                                                        <input type="checkbox" [checked]="isSubCategoriaChecked(subcategoriaFilho8.idSubCategoria)" [value]="subcategoriaFilho8.idSubCategoria" (change)="onSubcategoriaChange($event.target, subcategoriaFilho8,categoria)">
+                                                                                                    </ng-container>
+                                                                                                </h6>
+                                                                                            </li>
+
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </ul>
+                                                                    </div>
+                                                                </ul>
+                                                            </div>
+                                                        </ul>
+                                                    </div>
+                                                </ul>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </ul>
+
+                    --------------------------------
+                </ul>
+
+            </div>
+
+            <p></p>
+
+            <label for="myControl"><b>Propriedades:</b></label>
+            <div formGroupName="propriedades">
+                <label for="myControl" *ngFor="let prop of propriedadesToComplete"> {{prop.nomePropriedade}}:
+                <input id="myControl" (input)="onPropChange(prop,$event)" type="text" formControlName="myControl" class="form-control form-control-user d-inline-block" style="width:55%;" placeholder=" " required>
+            </label>
+            </div>
+
+            <br>
+
+
+            <button class=" btn btn-outline-dark" [disabled]="!produtoForm.valid" type="submit" style="margin:auto; display:table;">Submeter</button>
+            <p *ngIf="!produtoForm.valid" style="margin:auto; display:table;">Tem de preencher todos os campos</p>
+        </form>
+
+    </div>
+</div>
+
+<!---------------------------------- RESPOSTA ---------------------------------->
+
+<div class="modal-wrapper" [class.visible]="showAnswer">
+    <div class="modal-container">
+        <button class="modal-close-btn" (click)="toggleAnswer()" style="text-align: right;">FECHAR</button>
+        <br>
+
+        <h2 [style.color]="success ? '#1cc88a' : 'red'" class="modal-title">{{answer}}</h2>
+        <br>
+        <a routerLink="/marketplace/cesto" *ngIf="!role || role==='ROLE_CONSUMIDOR'">Ir para o cesto</a>
+        <br>
+    </div>
+</div>
+
+<!---------------------------------- ADD CARRINHO ---------------------------------->
+
+<div class="modal-wrapper" [class.visible]="showModalCarrinho">
+    <div class="modal-container" *ngIf="produtoAadicionar">
+        <button class="modal-close-btn" (click)="toggleModalCarrinho()" style="text-align: right;">FECHAR</button>
+
+
+        <h4><b>Adicionar {{produtoAadicionar.nome}} ao carrinho</b></h4>
+        <p></p>
+        <form [formGroup]="addCarrinhoForm" (ngSubmit)="onSubmitProduto()">
+            <!-- <div style="float: left; width: 65%;"> -->
+            <div>
+                <label for="quantidade"><b>Quantidade:</b> &nbsp;</label>
+
+                <input min="0" max="100" step="1" type="number" id="quantidade" formControlName="quantidade" required> &nbsp;
+            </div>
+            <!-- <div style="float: right; width: 30%; text-align: left; margin-right: 5%;">
+                <label for="quantidade"><b>Stock:</b> &nbsp;</label>
+            </div> -->
+            <br>
+            <label for="fornecedor"><b>Escolha um dos fornecedores:</b> <p>(de forma a ajudar os négocios locais, escolha um perto de si)</p></label>
+            <div>
+                <label *ngFor="let precoFornecedor of produtoAadicionar.precoFornecedores">
+                        <input  required formControlName="fornecedor" type="radio" [value]="precoFornecedor.fornecedor!.idUtilizador!">
+                        {{precoFornecedor.fornecedor!.nome}} - {{precoFornecedor.preco}}€ - Distância: {{getDistancia(precoFornecedor.fornecedor!).toFixed(2)}} km &nbsp;
+                        <br>
+
+                    </label>
+            </div>
+            <br>
+
+            <button class=" btn btn-outline-dark" [disabled]="!addCarrinhoForm.valid" type="submit">Submeter</button>
+            <p *ngIf="!addCarrinhoForm.valid">Tem de preencher todos os campos</p>
+        </form>
+
+    </div>
+</div>
+
+
+<!---------------------------------- ADD PRODUTO ---------------------------------->
+
+<div class="modal-wrapper" [class.visible]="showAddProduto">
+    <div class="modal-container" *ngIf="produtoAfornecer">
+        <button class="modal-close-btn" (click)="toggleAddProduto(undefined)" style="text-align: right;">FECHAR</button>
+
+        <h3 style="text-align: left; margin-top: -4%; margin-left: 5%">Produto: {{produtoAfornecer.nome}}</h3>
+        <br>
+
+        <form [formGroup]="addProdutoForm" (ngSubmit)="onSubmitFornecer()">
+
+
+            <label for="stock"><b>Stock: </b></label>
+            <input type="number" id="stock" formControlName="stock" min="0" class="form-control form-control-user d-inline-block" style="width:45%;">
+            <br>
+
+            <label for="preco"><b>Preço: </b></label>
+            <input type="number" id="preco" formControlName="preco" step="0.01" min="0" class="form-control form-control-user d-inline-block" style="width:45%;">
+
+            <p></p>
+
+            <label for="uniProdsIds"><b>Unidades de produção:</b></label>
+            <div formArrayName="uniProdsIds" *ngIf="!addUnis">
+                <div *ngIf="!uniProdsP || uniProdsP.length === 0">Deve ter pelo menos uma Unidade de Produção para poder fornecer um produto <br> <a routerLink='/marketplace/uniProds'>Ir para Unidades de produção</a></div>
+                <label *ngFor="let uniprod of uniProdsP">
+                <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdAdd($event.target,uniprod.idUnidade!)"> {{ uniprod.nomeUniProd }} &nbsp;| &nbsp;
+            </label>
+            </div>
+
+            <div formArrayName="uniProdsIds" *ngIf="addUnis">
+                <div *ngIf="!uniProdsA || uniProdsA.length === 0">Já fornece este produto em todas as suas Unidades de produção<br></div>
+                <label *ngFor="let uniprod of uniProdsA">
+                    <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdAdd($event.target,uniprod.idUnidade!)"> {{ uniprod.nomeUniProd }} &nbsp;| &nbsp;
+                </label>
+            </div>
+
+            <p></p>
+
+            <button class=" btn btn-outline-dark" [disabled]="!addProdutoForm.valid" type="submit">Submit</button>
+            <p *ngIf="!addProdutoForm.valid">Tem de preencher todos os campos</p>
+        </form>
+
+    </div>
+</div>
+
+
+<!---------------------------------- REMOVE PRODUTO ---------------------------------->
+
+<div class="modal-wrapper" [class.visible]="showRemoverProduto">
+    <div class="modal-container" *ngIf="produtoAremover && produtoAremover.uniProds">
+        <button class="modal-close-btn" (click)="closeRemoveForm()" style="text-align: right;">FECHAR</button>
+
+        <h3 style="text-align: left; margin-top: -4%; margin-left: 5%">Produto: {{produtoAremover.nome}}</h3>
+        <br>
+
+        <form [formGroup]="removerProdutoForm" (ngSubmit)="onSubmitRemover()">
+            <b>Unidades de Produção:</b>
+            <br>
+            <input type="checkbox" (change)="onSelectAllChange()"><label> Selecionar todas</label>
+            <hr>
+            <div formArrayName="uniProdsIds" *ngFor="let uniprod of produtoAremover?.uniProds">
+                <label for="uniProdsIds">{{ uniprod.nomeUniProd }} &nbsp;</label>
+                <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdRemove($event.target,uniprod.idUnidade!)" [checked]="selectAll">
+
+
+            </div>
+            <br>
+            <button class="btn btn-outline-dark" [disabled]="!removerProdutoForm.valid" type="submit">Submit</button>
+            <p *ngIf="!removerProdutoForm.valid">Tem de preencher todos os campos</p>
+        </form>
+
+
+    </div>
+</div>
+
+
+<div class="modal-wrapper" *ngIf="showComparar" [class.visible]="showComparar">
+    <div class="modal-container jesus">
+        <button class="modal-close-btn babyjj" (click)="showComparar=false" style="text-align: right;">FECHAR</button>
+        <table class="table table-bordered babyj" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <td><b>Nome</b></td>
+                <th>{{prodComparar1?.nome}}</th>
+                <th>{{prodComparar2?.nome}}</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Descrição</b></td>
+                    <td>{{prodComparar1?.descricao}}</td>
+                    <td>{{prodComparar2?.descricao}}</td>
+                </tr>
+                <tr [class.different]="prodComparar1?.iva !== prodComparar2?.iva">
+                    <td><b>IVA</b></td>
+                    <td>{{prodComparar1?.iva}}</td>
+                    <td>{{prodComparar2?.iva}}</td>
+                </tr>
+                <tr [class.different]="getIntervaloPrecos(prodComparar1!) !== getIntervaloPrecos(prodComparar2!)">
+                    <td><b>Preço</b></td>
+                    <td>{{getIntervaloPrecos(prodComparar1!)}}</td>
+                    <td>{{getIntervaloPrecos(prodComparar2!)}}</td>
+                </tr>
+                <tr>
+                    <td><b>Subcategorias</b></td>
+                    <td>
+                        <p *ngFor="let c of prodComparar1?.subCategorias" class="d-inline-block">
+                            {{c.nomeSubCategoria}};&nbsp;
+                        </p>
+                    </td>
+                    <td>
+                        <p *ngFor="let c of prodComparar2?.subCategorias" class="d-inline-block">
+                            {{c.nomeSubCategoria}};&nbsp;
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+</div>

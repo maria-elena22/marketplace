@@ -1,0 +1,55 @@
+@import '~@fortawesome/fontawesome-free/css/all.css';
+
+.modal-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  .modal-wrapper.visible {
+    display: flex;
+  }
+  
+  .modal-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    width: 40%;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow-y: auto; /* Add this line to enable vertical scrolling */
+    max-height: 500px; /* Optional: Set a max-height to limit the scrollable area */
+  }
+  
+  .modal-title {
+    font-size: 24px;
+    margin-top: 0;
+  }
+  
+  .modal-content {
+    margin-bottom: 20px;
+  }
+  
+  .modal-close-btn {
+    margin-top: -10px;
+    margin-right: -10px;
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+
+  .hover-shadow:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
+  }

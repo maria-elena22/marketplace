@@ -1,0 +1,366 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<br>
+
+<br>
+<div class="container">
+    <a href="/marketplace/produtos" style="cursor: pointer;"><i class="bi bi-arrow-bar-left"></i> Ver outros produtos</a>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-5 col-md-5 col-sm-6">
+                    <h1 style="text-align:center; font-family: 'Nunito', sans-serif; font-size: 200px; color:#777886" class="fw-bolder">{{getLetra()}}</h1>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-6" *ngIf="produto">
+                    <div *ngIf="role==='ROLE_FORNECEDOR'"></div>
+                    <h3 class="box-title"><b>{{produto.nome}}</b></h3>
+                    <h5 class="box-title" style="color: #858796;"><b>Descrição: </b> {{produto.descricao}}</h5>
+                    <p></p>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm">
+                                <h5 class="box-title">Categorias</h5>
+                                <ul class="list-unstyled" *ngFor="let categoria of categorias">
+                                    <li><i class="bi bi-caret-right-fill text-primary"></i> {{categoria?.nomeCategoria}}</li>
+                                </ul>
+                            </div>
+                            <div class="col-sm">
+                                <h5 class="box-title">Subcategorias</h5>
+                                <ul class="list-unstyled">
+                                    <!-- Mercearia -->
+                                    <li *ngIf="mostrar('Frutas')"><i class="bi bi-caret-right-fill text-primary"></i>Frutas </li>
+                                    <li *ngIf="mostrar('Frutas')">
+                                        <ul>
+                                            <li *ngIf="mostrar('Estrangeiro')">Estrangeiro</li>
+                                            <li *ngIf="mostrar('Nacional')">Nacional</li>
+                                        </ul>
+                                    </li>
+
+
+                                    <li *ngIf="mostrar('Legumes')"><i class="bi bi-caret-right-fill text-primary"></i>Legumes </li>
+                                    <li *ngIf="mostrar('Legumes')">
+                                        <ul>
+                                            <li *ngIf="mostrar('Estrangeiro')">Estrangeiro</li>
+                                            <li *ngIf="mostrar('Nacional')">Nacional</li>
+                                        </ul>
+                                    </li>
+                                    <li *ngIf="mostrar('Laticínios e Ovos')"><i class="bi bi-caret-right-fill text-primary"></i>Laticínios e Ovos </li>
+                                    <li *ngIf="mostrar('Laticínios e Ovos')">
+                                        <ul>
+                                            <li *ngIf="mostrar('Laticínios')">Laticínios</li>
+                                            <li *ngIf="mostrar('Ovos')">Ovos</li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- Peixaria -->
+                                    <li *ngIf="mostrar('Marisco')"><i class="bi bi-caret-right-fill text-primary"></i>Marisco </li>
+                                    <li *ngIf="mostrar('Marisco')">
+                                        <ul>
+                                            <li *ngIf="mostrar('Camarão')">Camarão</li>
+                                            <li *ngIf="mostrar('Outro marisco')">Outro Marisco</li>
+                                        </ul>
+                                    </li>
+
+
+                                    <li *ngIf="mostrar('Polvo, Lulas e Chocos')"><i class="bi bi-caret-right-fill text-primary"></i>Polvo, Lulas e Chocos </li>
+                                    <li *ngIf="mostrar('Polvo, Lulas e Chocos')">
+                                        <ul>
+                                            <li *ngIf="mostrar('Polvo')">Polvo</li>
+                                            <li *ngIf="mostrar('Lulas')">Lulas</li>
+                                            <li *ngIf="mostrar('Chocos')">Chocos</li>
+                                        </ul>
+                                    </li>
+
+                                    <li *ngIf="mostrar('Peixe Congelado')"><i class="bi bi-caret-right-fill text-primary"></i>Peixe Congelado </li>
+
+                                    <li *ngIf="mostrar('Peixe Fresco')"><i class="bi bi-caret-right-fill text-primary"></i>Peixe Fresco </li>
+                                    <li *ngIf="mostrar('Peixe Fresco')">
+                                        <ul>
+                                            <li *ngIf="mostrar('Estrangeiro')">Estrangeiro</li>
+                                            <li *ngIf="mostrar('Nacional')">Nacional</li>
+                                        </ul>
+                                    </li>
+
+                                    <li *ngIf="mostrar('Bacalhau')"><i class="bi bi-caret-right-fill text-primary"></i>Bacalhau </li>
+
+                                    <!-- Talho -->
+                                    <li *ngIf="mostrar('Novilho, Vitela e Vitelão')"><i class="bi bi-caret-right-fill text-primary"></i>Novilho, Vitela e Vitelão </li>
+                                    <li *ngIf="mostrar('Novilho, Vitela e Vitelão')">
+                                        <ul>
+                                            <li *ngIf="mostrar('Novilho')">Novilho</li>
+                                            <li *ngIf="mostrar('Vitela')">Vitela</li>
+                                            <li *ngIf="mostrar('Vitelão')">Vitelão</li>
+                                        </ul>
+                                    </li>
+
+
+                                    <li *ngIf="mostrar('Frango e Peru')"><i class="bi bi-caret-right-fill text-primary"></i>Frango e Peru </li>
+                                    <li *ngIf="mostrar('Frango e Peru')">
+                                        <ul>
+                                            <li *ngIf="mostrar('Frango')">Frango</li>
+                                            <li *ngIf="mostrar('Peru')">Peru</li>
+                                        </ul>
+                                    </li>
+
+                                    <li *ngIf="mostrar('Porco')"><i class="bi bi-caret-right-fill text-primary"></i>Porco </li>
+
+                                    <li *ngIf="mostrar('Pato e Coelho')"><i class="bi bi-caret-right-fill text-primary"></i>Pato e Coelho </li>
+                                    <li *ngIf="mostrar('Pato e Coelho')">
+                                        <ul>
+                                            <li *ngIf="mostrar('Pato')">Pato</li>
+                                            <li *ngIf="mostrar('Coelho')">Coelho</li>
+                                        </ul>
+                                    </li>
+
+                                    <li *ngIf="mostrar('Cabrito e Borrego')"><i class="bi bi-caret-right-fill text-primary"></i>Cabrito e Borrego </li>
+                                    <li *ngIf="mostrar('Cabrito e Borrego')">
+                                        <ul>
+                                            <li *ngIf="mostrar('Cabrito')">Cabrito</li>
+                                            <li *ngIf="mostrar('Borrego')">Borrego</li>
+                                        </ul>
+                                    </li>
+
+                                    <!-- Congelados -->
+                                    <li *ngIf="mostrar('Gelados')"><i class="bi bi-caret-right-fill text-primary"></i>Gelados </li>
+
+                                    <li *ngIf="mostrar('Frutas e Legumes')"><i class="bi bi-caret-right-fill text-primary"></i>Frutas e Legumes </li>
+                                    <li *ngIf="mostrar('Frutas e Legumes')">
+                                        <ul>
+                                            <li *ngIf="mostrar('Fruta')">Fruta</li>
+                                            <li *ngIf="mostrar('Legumes')">Legumes</li>
+                                        </ul>
+                                    </li>
+
+                                    <li *ngIf="mostrar('Batatas Congeladas')"><i class="bi bi-caret-right-fill text-primary"></i>Batatas Congeladas </li>
+
+
+                                    <li *ngIf="mostrar('Salgados e Aperitivos')"><i class="bi bi-caret-right-fill text-primary"></i>Salgados e Aperitivos </li>
+                                    <li *ngIf="mostrar('Salgados e Aperitivos')">
+                                        <ul>
+                                            <li *ngIf="mostrar('Salgados')">Salgados</li>
+                                            <li *ngIf="mostrar('Aperitivos')">Aperitivos</li>
+                                        </ul>
+                                    </li>
+                                    <li *ngIf="mostrar('Pizza')"><i class="bi bi-caret-right-fill text-primary"></i>Pizza </li>
+
+                                    <li *ngIf="mostrar('Hambúrgueres e Refeições')"><i class="bi bi-caret-right-fill text-primary"></i>Hambúrgueres e Refeições </li>
+                                    <li *ngIf="mostrar('Hambúrgueres e Refeições')">
+                                        <ul>
+                                            <li *ngIf="mostrar('Hambúrgueres')">Hambúrgueres</li>
+                                            <li *ngIf="mostrar('Refeições')">Refeições</li>
+                                        </ul>
+                                    </li>
+                                    <li *ngIf="mostrar('Carne Congelada')"><i class="bi bi-caret-right-fill text-primary"></i>Carne Congelada </li>
+
+                                    <li *ngIf="mostrar('Peixe e Marisco Congelado')"><i class="bi bi-caret-right-fill text-primary"></i>Peixe e Marisco Congelado </li>
+
+                                    <!-- Limpeza -->
+                                    <li *ngIf="mostrar('Limpeza Geral')"><i class="bi bi-caret-right-fill text-primary"></i>Limpeza Geral </li>
+
+                                    <li *ngIf="mostrar('Limpeza da Cozinha')"><i class="bi bi-caret-right-fill text-primary"></i>Limpeza da Cozinha </li>
+                                    <li *ngIf="mostrar('Limpeza da Cozinha')">
+                                        <ul>
+                                            <li *ngIf="mostrar('Detergente Loiça')">Detergente Loiça</li>
+                                            <li *ngIf="mostrar('Limpeza Fogão, Forno e Frigorífico')">Limpeza Fogão, Forno e Frigorífico</li>
+                                        </ul>
+                                    </li>
+
+                                    <li *ngIf="mostrar('Limpeza Casa de Banho')"><i class="bi bi-caret-right-fill text-primary"></i>Limpeza Casa de Banho </li>
+                                    <li *ngIf="mostrar('Limpeza Casa de Banho')">
+                                        <ul>
+                                            <li *ngIf="mostrar('Lava Tudo')">Lava Tudo</li>
+                                            <li *ngIf="mostrar('Desentupidores')">Desentupidores</li>
+                                            <li *ngIf="mostrar('Blocos Sanitários')">Blocos Sanitários</li>
+
+                                        </ul>
+                                    </li>
+                                    <li *ngIf="mostrar('Ambientadores')"><i class="bi bi-caret-right-fill text-primary"></i>Ambientadores </li>
+                                    <li *ngIf="mostrar('Ambientadores')">
+                                        <ul>
+                                            <li *ngIf="mostrar('Ambientadores automáticos e manuais')">Ambientadores automáticos e manuais</li>
+                                            <li *ngIf="mostrar('Ambientadores automáticos e manuais')">
+                                                <ul>
+                                                    <li *ngIf="mostrar('Ambientadores automáticos')">Ambientadores automáticos</li>
+                                                    <li *ngIf="mostrar('Ambientadores manuais')">Ambientadores manuais</li>
+
+                                                </ul>
+                                            </li>
+                                            <li *ngIf="mostrar('Velas')">Velas</li>
+                                            <li *ngIf="mostrar('Sprays')">Sprays</li>
+
+                                        </ul>
+                                    </li>
+
+                                    <li *ngIf="mostrar('Guardanapos, Rolos e Películas')"><i class="bi bi-caret-right-fill text-primary"></i>Guardanapos, Rolos e Películas </li>
+
+                                    <li *ngIf="mostrar('Desinfetantes e Proteção')"><i class="bi bi-caret-right-fill text-primary"></i>Desinfetantes e Proteção </li>
+
+
+                                    <!-- Eletrodomésticos -->
+
+                                    <li *ngIf="mostrar('Cozinha')"><i class="bi bi-caret-right-fill text-primary"></i>Cozinha </li>
+                                    <li *ngIf="mostrar('Cozinha')">
+                                        <ul>
+                                            <li *ngIf="mostrar('Frigoríficos')">Frigoríficos</li>
+                                            <li *ngIf="mostrar('Microondas e fogões')">Microondas e fogões</li>
+                                            <li *ngIf="mostrar('Máquinas de café')">Máquinas de café</li>
+
+                                        </ul>
+                                    </li>
+                                    <li *ngIf="mostrar('Sala')"><i class="bi bi-caret-right-fill text-primary"></i>Sala </li>
+                                    <li *ngIf="mostrar('Sala')">
+                                        <ul>
+                                            <li *ngIf="mostrar('Ar Condicionado')">Ar Condicionado</li>
+                                            <li *ngIf="mostrar('Ventoinhas')">Ventoinhas</li>
+                                            <li *ngIf="mostrar('Televisões')">Televisões</li>
+
+                                        </ul>
+                                    </li>
+
+                                    <li *ngIf="mostrar('Casa de Banho')"><i class="bi bi-caret-right-fill text-primary"></i>Casa de Banho </li>
+                                    <li *ngIf="mostrar('Casa de Banho')">
+                                        <ul>
+                                            <li *ngIf="mostrar('Secador de Cabelo')">Secador de Cabelo</li>
+                                            <li *ngIf="mostrar('Máquinas de barbear')">Máquinas de barbear</li>
+                                            <li *ngIf="mostrar('Escovas de dentes')">Escovas de dentes</li>
+
+                                        </ul>
+                                    </li>
+
+
+                                </ul>
+                            </div>
+                            <div class="col-sm">
+                                <h5 class="box-title">Propriedades</h5>
+                                <ul class="list-unstyled" *ngFor="let prop of props">
+                                    <li><i class="bi bi-caret-right-fill text-primary"></i> {{prop[0]}} : {{prop[1]}}</li>
+                                </ul>
+                                <!-- <ul class="list-unstyled">
+                                    <li><i class="bi bi-caret-right-fill text-primary"></i> {{categoria.categoria?.nomeCategoria}}</li>
+                                    <li><i class="bi bi-caret-right-fill text-primary"></i> {{categoria.nomeSubCategoria}}</li>
+                                </ul> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="role==='ROLE_FORNECEDOR'">
+                        <br>
+                        <h5 class="box-title">Fornecedores</h5>
+                        <div *ngFor="let precoFornecedor of this.produto?.precoFornecedores">
+                            <li>{{precoFornecedor.fornecedor!.nome}} - {{precoFornecedor.preco}} € - Distância: {{getDistancia(precoFornecedor.fornecedor!).toFixed(2)}} km &nbsp;</li>
+                        </div>
+                        <br>
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div *ngIf="forneco(produto)"><a class="btn btn-outline-dark mt-auto" (click)="toggleRemoverProduto(produto)">Deixar de fornecer</a></div>
+                            <div *ngIf="!forneco(produto)"><a class="btn btn-outline-dark mt-auto" (click)="toggleAddProduto(produto)">Passar a fornecer</a></div>
+                        </div>
+                    </div>
+                    <form *ngIf="role!=='ROLE_FORNECEDOR'" [formGroup]="addCarrinhoForm" (ngSubmit)="onSubmitProduto()">
+                        <div>
+                            <br>
+                            <label for="quantidade"><b>Quantidade:</b> &nbsp;</label>
+
+                            <input min="0" max="100" step="1" type="number" id="quantidade" formControlName="quantidade" required>
+                        </div>
+                        <br>
+
+                        <label for="fornecedor"><b>Escolha um dos fornecedores:</b> <p>(de forma a ajudar os négocios locais, escolha um perto de si)</p></label>
+                        <div>
+                            <label *ngFor="let precoFornecedor of this.produto.precoFornecedores">
+                                <input  required formControlName="fornecedor" type="radio" [value]="precoFornecedor.fornecedor!.idUtilizador!"> 
+                                {{precoFornecedor.fornecedor!.nome}} - {{precoFornecedor.preco}}€ - Distância: {{getDistancia(precoFornecedor.fornecedor!).toFixed(2)}} km &nbsp;
+                                <br>
+                            </label>
+                        </div>
+                        <br>
+
+                        <button [disabled]="!addCarrinhoForm.valid" class="btn btn-outline-info mt-auto" style="margin-left: 10%;">Carrinho</button> &nbsp; <a style="color: #dc3545" *ngIf="!addCarrinhoForm.valid">Tem de preencher todos os campos</a>
+                    </form>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-wrapper" [class.visible]="showAnswer">
+    <div class="modal-container">
+        <button class="modal-close-btn" (click)="toggleAnswer()" style="text-align: right;">FECHAR</button>
+        <br>
+
+        <h2 [style.color]="success ? '#1cc88a' : 'red'" class="modal-title">{{answer}}</h2>
+        <br>
+        <a href="marketplace/produtos">Ir para todos os produtos</a>
+        <p></p>
+        <a href="marketplace/cesto">Ir para o cesto</a>
+        <br>
+    </div>
+</div>
+
+<!---------------------------------- ADD PRODUTO ---------------------------------->
+
+<div class="modal-wrapper" [class.visible]="showAddProduto">
+    <div class="modal-container" *ngIf="produtoAfornecer">
+        <button class="modal-close-btn" (click)="toggleAddProduto(undefined)" style="text-align: right;">FECHAR</button>
+        <br>
+
+        <form [formGroup]="addProdutoForm" (ngSubmit)="onSubmitFornecer()">
+
+
+            <label for="stock"><b>Stock: </b></label>
+            <input type="number" id="stock" formControlName="stock" min="0" class="form-control form-control-user d-inline-block" style="width:45%;">
+            <br>
+
+            <label for="preco"><b>Preço: </b></label>
+            <input type="number" id="preco" formControlName="preco" step="0.01" min="0" class="form-control form-control-user d-inline-block" style="width:45%;">
+
+            <p></p>
+
+            <label for="uniProdsIds"><b>Uniades de produção:</b></label>
+            <div formArrayName="uniProdsIds" *ngIf="!addUnis">
+                <div *ngIf="!uniProdsP || uniProdsP.length === 0">Deve ter pelo menos uma Unidade de Produção para poder fornecer um produto <br> <a routerLink='/marketplace/uniProds'>Ir para Unidades de produção</a></div>
+                <label *ngFor="let uniprod of uniProdsP">
+                <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdAdd($event.target,uniprod.idUnidade!)"> {{ uniprod.nomeUniProd }} &nbsp;| &nbsp;
+            </label>
+            </div>
+
+            <div formArrayName="uniProdsIds" *ngIf="addUnis">
+                <div *ngIf="!uniProdsA || uniProdsA.length === 0">Já fornece este produto em todas as suas Unidades de produção<br></div>
+                <label *ngFor="let uniprod of uniProdsA">
+                    <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdAdd($event.target,uniprod.idUnidade!)"> {{ uniprod.nomeUniProd }} &nbsp;| &nbsp;
+                </label>
+            </div>
+
+            <p></p>
+
+            <button class=" btn btn-outline-dark" [disabled]="!addProdutoForm.valid" type="submit">Submit</button>
+            <p *ngIf="!addProdutoForm.valid">Tem de preencher todos os campos</p>
+        </form>
+
+    </div>
+</div>
+
+
+<!---------------------------------- REMOVE PRODUTO ---------------------------------->
+
+<div class="modal-wrapper" [class.visible]="showRemoverProduto">
+    <div class="modal-container" *ngIf="produtoAremover && produtoAremover.uniProds">
+        <button class="modal-close-btn" (click)="closeRemoveForm()" style="text-align: right;">FECHAR</button>
+        <br>
+
+        <form [formGroup]="removerProdutoForm" (ngSubmit)="onSubmitRemover()">
+            <b>Unidades de Produção:</b>
+            <br>
+            <input type="checkbox" (change)="onSelectAllChange()"><label> Selecionar todas</label>
+            <hr>
+            <div formArrayName="uniProdsIds" *ngFor="let uniprod of produtoAremover?.uniProds">
+                <label for="uniProdsIds">{{ uniprod.nomeUniProd }} &nbsp;</label>
+                <input type="checkbox" [value]="uniprod.idUnidade" (change)="onUniProdRemove($event.target,uniprod.idUnidade!)" [checked]="selectAll">
+            </div>
+            <br>
+            <button class="btn btn-outline-dark" [disabled]="!removerProdutoForm.valid" type="submit">Submit</button>
+            <p *ngIf="!removerProdutoForm.valid">Tem de preencher todos os campos</p>
+        </form>
+    </div>
+</div>

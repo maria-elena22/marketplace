@@ -1,0 +1,130 @@
+
+<header class="bg-secondary py-5" id="title_inicial"> 
+    <div class="container" id="registo">
+        <div class="row justify-content-center">
+            <div class="col-xl-16 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row" *ngIf="showForm">
+                         
+ 
+                            <div class="col-lg-6">
+                                <div class="p-5" >
+                                    <!-- <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Vamos criar uma conta?</h1>
+                                    </div> -->
+                                    <!-------------------------------- FORM ---------------------------------->
+                                    <form class="user" [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+                                        
+                                        <div class="form-group row">
+                                            <div class="col-sm">    
+                                                <p class="d-inline-block">{{role}} &nbsp;</p> 
+                                                                                      
+                                            </div>
+                                        </div>
+                                        <div id = "camposConsumidor" class="form-group row">
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <label  for="name">Nome:</label>
+                                                <input formControlName="nome" type="text" class="form-control form-control-user" id="nome" required>
+                                            </div>
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <label  for="idFiscal">Id Fiscal:</label>
+                                                <input formControlName="idFiscal" type="text" class="form-control form-control-user" id="idFiscal" required>
+                                            </div>
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <label for="tlmv">Contacto:</label>
+                                                <input formControlName="telemovel" type="number" class="form-control form-control-user" id="contacto" required>
+                                            </div>
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <label for="morada">Morada:</label>
+                                                <input formControlName="morada" type="text" class="form-control form-control-user" id="exampleMorada" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            
+                                            <div class="col-sm-4 mb-3 mb-sm-0">
+                                                <label for="latitude">Latitude:</label>
+                                                <input formControlName="latitude" type="number" class="form-control form-control-user" id="exampleMorada" required>
+                                            </div>
+                                            <div class="col-sm-4 mb-3 mb-sm-0">
+                                                <label for="longitude">Longitude:</label>
+                                                <input formControlName="longitude" type="number" class="form-control form-control-user" id="exampleMorada" required>
+                                            </div>
+                                        
+                                          
+                                            <div class="col-sm-6 mb-3 mb-sm-0" >    
+                                                <p class="d-inline-block">País: &nbsp;</p> 
+                                                <select formControlName="pais"  class="form-control-user p-2 d-inline-block text-warning fw-bold w-45" id="filtraSelect" name="filtraSelect" style="border-color: #d1d3e2; background-color: white;" required >
+                                                    <option *ngFor="let country of countries" [value]="country.toUpperCase()" >{{ country}}</option>
+
+                                                </select>                                            
+                                            </div>
+<br>
+                                            <div class="col-sm-6 mb-3 mb-sm-0" >    
+                                                <p class="d-inline-block">Continente: &nbsp;</p> 
+                                                <select formControlName="continente"  class="form-control-user p-2 d-inline-block text-warning fw-bold w-45" id="filtraSelect" name="filtraSelect" style="border-color: #d1d3e2; background-color: white;" required >
+                                                    <option *ngFor="let continente of continents" [value]="continente.toUpperCase()">{{ continente}}</option>
+
+                                                </select>                                            
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-sm-4 mb-3 mb-sm-0">
+                                                <label for="distrito">Distrito:</label>
+                                                <input formControlName="distrito" type="text" class="form-control form-control-user" id="exampleMorada" required>
+                                            </div>
+                                            <div class="col-sm-4 mb-3 mb-sm-0">
+                                                <label for="municipio">Município:</label>
+                                                <input formControlName="municipio" type="text" class="form-control form-control-user" id="exampleCódigoPostal" required>
+                                            </div>
+                                            <div class="col-sm-4 mb-3 mb-sm-0">
+                                                <label for="freguesia">Freguesia:</label>
+                                                <input formControlName="freguesia" type="text" class="form-control form-control-user" id="exampleCódigoPostal" required>
+                                            </div>
+                                            
+                                        </div>
+                                    
+                                        
+                                        <button id ="submitBtn" [class.disabled]="noChanges" class="btn btn-primary btn-user btn-block" type="submit">Guardar Mudanças</button>
+
+                                    
+                                    </form>
+                                
+        
+                                    <br>
+                                    <button id ="submitBtn" (click)="openConfirmar()" class="btn btn-danger btn-user btn-block">Remover a minha conta</button>
+                                      
+                                                                
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="modal-wrapper" [class.visible]="showAnswer">
+    <div class="modal-container">
+        <button class="modal-close-btn" (click)="closeAnswer()">Close</button>
+        <br>
+      <h2 [style.color]="success ? 'green' : 'red'" class="modal-title">{{answer}}</h2>
+    </div>
+  </div>
+
+  <div class="modal-wrapper" *ngIf="confimaRemover" [class.visible]="confimaRemover">
+    <div class="modal-container">
+              
+        <b style="font-size: 150%;">Tem a certeza que quer eliminar a sua conta {{utilizador?.nome}}?</b> <p></p>
+        <button class=" btn btn-outline-danger" (click)="removerConta()" style="width:30%; margin:auto; display:inline-block">Sim</button>
+        <p></p>
+        <button class=" btn btn-outline-dark" (click)="closeConfirmar()" style="width:30%; margin:auto; display:inline-block">Cancelar</button>
+        <br>  
+      
+    </div>
+  </div>
