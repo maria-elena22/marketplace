@@ -32,7 +32,7 @@
 
 
 <div class="deus" *ngIf="prodComparar1||prodComparar2">
-
+  <div class="comparison-container">
 
     <p>Produtos a comparar:</p>
     <div *ngIf="prodComparar1">
@@ -47,7 +47,7 @@
     </div>
     <button (click)="removeDivComparar()" class="btn btn-secondary mt-1">FECHAR</button> &nbsp;&nbsp;
     <button *ngIf="prodComparar1&&prodComparar2" (click)="comparar()" class="btn btn-warning mt-1">Ver Comparação</button>
-
+  </div>
 </div>
 
 
@@ -73,17 +73,19 @@
                             <h6>{{produto.descricao}}</h6>
                             <!-- Product price-->
                             {{getIntervaloPrecos(produto)}}
-                            
+
                         </div>
                     </div>
                     <!-- Carrinho -->
                     <div [class.disabled]="!produto.precoFornecedores" *ngIf="role!=='ROLE_FORNECEDOR' && role!=='ROLE_ADMIN'" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center">
-                            <a class="btn btn-outline-info mt-auto" (click)="showAddCarrinho(produto)">Carrinho</a> &nbsp;&nbsp;
-
-
-                            <a (click)="showDetalheProduto(produto.idProduto!)" routerLink="/marketplace/produto-detalhes" routerLinkActive="active" ariaCurrentWhenActive="page" class="nav-link active" aria-current="page" class="btn btn-outline-primary mt-auto">Ver mais</a>
+                      <div class="text-center row">
+                        <div class="col-sm-6 mb-3">
+                          <a class="btn btn-outline-info mt-auto btn-responsive" (click)="showAddCarrinho(produto)">Carrinho</a>
                         </div>
+                        <div class="col-sm-6 mb-3">
+                          <a (click)="showDetalheProduto(produto.idProduto!)" routerLink="/marketplace/produto-detalhes" routerLinkActive="active" ariaCurrentWhenActive="page" class="btn btn-outline-primary mt-auto btn-responsive">Ver mais</a>
+                        </div>
+                      </div>
                     </div>
 
                     <div *ngIf="role==='ROLE_FORNECEDOR'" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
@@ -127,7 +129,7 @@
                             <h6>{{produto.descricao}}</h6>
                             <!-- Product price-->
                             {{getMeuPreco(produto)}}€
-                            
+
 
                         </div>
                     </div>

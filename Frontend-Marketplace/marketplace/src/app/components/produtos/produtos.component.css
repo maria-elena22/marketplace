@@ -34,6 +34,9 @@
 .overlay-text{
    color: #000;
    pointer-events: auto;
+   display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .modal-wrapper {
