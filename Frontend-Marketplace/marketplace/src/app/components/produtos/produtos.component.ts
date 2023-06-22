@@ -386,8 +386,8 @@ export class ProdutosComponent implements OnInit {
     
     this.nextButtonDisabled = false;
     this.previousButtonDisabled = false;
-    
     if(this.searchProdutoForm.value.propriedade === ''){
+      
         this.produtosService.getProdutos(this.idCategoria,this.idSubCategoria,
           this.searchProdutoForm.value.nomeProduto,this.searchProdutoForm.value.precoMin,this.searchProdutoForm.value.precoMax).subscribe(obj=>{
         const statusCode = obj.status
@@ -409,11 +409,16 @@ export class ProdutosComponent implements OnInit {
         const statusCode = obj.status
         if (statusCode === 200) {
           let ps = obj.body as FullProdutoDTO[];
+          
           this.produtos = []
           for(let p of ps){
-            if(Object.values(p.propriedades!).includes(this.searchProdutoForm.value.propriedade)){
-              this.produtos.push(p)
+            let props = Object.values(p.propriedades!);
+            for(let prop of props){
+              if(prop.includes(this.searchProdutoForm.value.propriedade)){
+                this.produtos.push(p)
+              }
             }
+            
           }
 
           this.nextButtonDisabled = true;
@@ -593,7 +598,7 @@ export class ProdutosComponent implements OnInit {
   }
 
 
-  // ---------------------- NOVO PRODUTO  (rever remover propriedades) ----------------------
+  // ---------------------- NOVO PRODUTO  ----------------------
 
   onPropChange(prop:PropriedadeDTO,event:any){
     
