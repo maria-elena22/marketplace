@@ -31,9 +31,9 @@ jobs:
     - name: Build with Maven
       run:  mvn -B package --file Backend-Marketplace/pom.xml    
       
-    - name: test
-      run: ls
-      
+    - name: Change wrapper permissions
+      run: chmod +x ./Backend-Marketplace/mvnw
+
     - name: Push Docker Image to GCR
   # You may pin to the exact commit or the version.
   # uses: kurkop/push-docker-gcr@4ee82fa6b080179896960dd11b04c766be5ba39d
